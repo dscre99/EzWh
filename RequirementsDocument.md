@@ -50,7 +50,22 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-|   Stakeholder x..     |             | 
+| Supplier | External entity in charge of supply items ordered by a Warehouse |
+| Company | Entity that has to follow normal accepted business practices and operates in order to make a profit |
+| Organizational Unit (OU) | Sub-unit of a Company with a specific action domain |
+| Administrator | Person in charge of supervise and manage a specific area of a company |
+| Retailer | Company that buys products from a manufacturer or wholesaler and sells them to end users or customers |
+| Item Manufacturer | Company that owns or runs a manufacturing plant of a certain kind of item |
+| Warehouse Manager | In a company, person in charge of supervising the warehouse of a company |
+| Consultant Agent | In a company, person who helps a warehouse manager in finding best suppliers/retailers on the marketplace |
+| Quality Inspector | In a company, person in charge of testing products |
+| Barcode System | Device able to scan optical machine-readable representation of item codes and to communicate through API	|
+| Company Server/Database | Machine hosting the core of EZWH application |
+| Internet Provider | Company that provides access to the Internet to both personal and business customers |
+| Delivery Company | Company which offers transports of goods in a given geographical area or globally |
+| Software House | Company that primarily provides software products |
+| Competitors | Software houses which develop applications with the same purpose of EZWH |
+|  |  |
 
 # Context Diagram and interfaces
 
