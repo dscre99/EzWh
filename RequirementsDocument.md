@@ -1,4 +1,3 @@
-
  #Requirements Document 
 
 Date: 22 march 2022
@@ -81,7 +80,17 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
-|   Actor x..     |  |  |
+|   Supplier    | API | Internet connection |
+| Warehouse manager| GUI | Screen, keyboard |
+| Employee | GUI | Screen, barcode reader |
+| Product | Barcode | Laser beam, camera |
+| Quality inspector | GUI | Screen, keyboard, testing machine, barcode reader |
+| Organizational Unit | GUI | Screen, keyboard |
+| Barcode scanner | Wireless connection or USB | Laser beam, camera |
+| Testing machine | API | USB or Wireless connection |
+| Administrator | GUI | Screen, keyboard |
+| Delivery company | API | Internet connection |
+| Database | API | Internet connection |
 
 # Stories and personas
 \<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
@@ -101,9 +110,51 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | ID        | Description  |
 | ------------- |:-------------:| 
-|  FR1     |  |
-|  FR2     |   |
-| FRx..  | | 
+|  FR1     | Authorize and authenticate |
+|   FR1.1  | Login (username, password) |
+|   FR1.2  | Log out  |
+|  FR2     | Account management |
+|   FR2.1  | Create new account(name, surname, password, type)| 
+|   FR2.2  | Delete account |
+|   FR2.3  | Reset password |
+|   FR2.4  | Modify account information |
+|  FR3     | Manage external orders |
+|   FR3.1  | Select product from the inventory |
+|   FR3.2  | Choose one of the possible suppliers available for the product selected |
+|   FR3.3  | Define quantity and some other constraints |
+|   FR3.4  | Issue order |
+|   FR3.5  | Delete order |
+|   FR3.6  | Check order status |
+|   FR3.7  | Orders history |
+|   FR3.8  | Check space availability |
+|   FR3.9  | Reject item in case of defects |
+|  FR4     | Manage internal orders |
+|   FR4.1  | Select product from the inventory |
+|   FR4.2  | Define quantity and pick-up date |
+|   FR4.3  | Issue order |
+|   FR4.4  | Delete order |
+|   FR4.5  | Check order status |
+|   FR4.6  | Check pick-up space |
+|   FR4.7  | Orders history |
+|  FR5     | Manage inventory |
+|   FR5.1  | Select product from the inventory |
+|   FR5.2  | Display product properties and number in stock |
+|   FR5.3  | Alert when number of certain product runs under a certain threshold |
+|   FR5.4  | Locate product (shelf number, etc.) |
+|   FR5.5  | Add product into the inventory |
+|   FR5.6  | Remove product from the inventory |
+|   FR5.7  | Add quality test results |
+|   FR5.8  | Find product location by ID |
+|   FR5.9  | Show product description by scan |
+|  FR6     | Handle product |
+|   FR6.1  | Create new product (name, description, category, supplier, barcode, order) |
+|   FR6.2  | Modify product |
+|   FR6.3  | Delete product |
+|  FR7     | Handle catalogue |
+|   FR7.1  | Create new product (name, description, category, supplier) |
+|   FR7.2  | Add product into catalogue |
+|   FR7.3  | Remove product from catalogue |
+
 
 ## Non Functional Requirements
 
