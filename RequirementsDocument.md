@@ -74,9 +74,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<actors are a subset of stakeholders>
 
 ## Interfaces
-\<describe here each interface in the context diagram>
-
-\<GUIs will be described graphically in a separate document>
 
 | Actor | Logical Interface | Physical Interface  |
 | ------------- |:-------------:| -----:|
@@ -103,10 +100,6 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Functional and non functional requirements
 
 ## Functional Requirements
-
-\<In the form DO SOMETHING, or VERB NOUN, describe high level capabilities of the system>
-
-\<they match to high level use cases>
 
 | ID        | Description  |
 | ------------- |:-------------:| 
