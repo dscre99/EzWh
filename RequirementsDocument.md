@@ -155,10 +155,21 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
-|  NFR1     |   |  | |
-|  NFR2     | |  | |
-|  NFR3     | | | |
-| NFRx .. | | | | 
+| NFR1 | Usability | Average time spent in hours by workers to learn using the software product | All FR |
+| NFR2 | Response time | Response time less than 0.5s | All FR |
+| NFR3 | Efficiency | Bandwidth required to work | All FR |
+| NFR4 | Efficiency | CPU and memory required to work without problems | All FR |
+| NFR5 | Reliability | Number of defects per hour | All FR |
+| NFR6 | Availability | Time in hours/day the software is up and running | All FR |
+| NFR7 | Robustness | Time required to restart after a failure | All FR |
+| NFR8 | Maintainability | Effort (in working hours) required to customize, add, or delete a software funciton | All FR |
+| NFR9 | Portability | Effort (in working hours) required to deploy the software onto another platform | All FR |
+| NFR10 | Deployment | Time required to implement the software application | All FR |
+| NFR11 | Deployment | Time required to deliver the software application | All FR |
+| NFR12 | Compliance | Conformity with european standards (ISO, IEEE, ...) |  All FR |
+| NFR13 | Security | Access granted only to authorized users | FR1 |
+| NFR14 | Interoperability | Interoperable with suppliers' proprietary ordering system | FR3.4, FR3.4, FR3.6, FR3.7 |
+| NFR15 | Compliance | Conformity to European units of measurements (e.g. prices in Euro) | FR3.4 |
 
 
 # Use case diagram and use cases
