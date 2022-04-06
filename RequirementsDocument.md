@@ -58,6 +58,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Warehouse Manager | In a company, person in charge of supervising the warehouse of a company |
 | Consultant Agent | In a company, person who helps a warehouse manager in finding best suppliers/retailers on the marketplace |
 | Quality Inspector | In a company, person in charge of testing Item |
+| Employee | In a company, person in charge of storing the orders received and retrieving items in the warehouse |
 | Barcode System | Device able to scan optical machine-readable representation of item codes and to communicate through API	|
 | Company Server/Database | Machine hosting the core of EZWH application |
 | Internet Provider | Company that provides access to the Internet to both personal and business customers |
