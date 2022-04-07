@@ -147,10 +147,10 @@ Randomly selects products within orders and carries out tests, reporting the res
 | ID        | Description  |
 | ------------- |:-------------:| 
 |  FR1     | Authorize and authenticate |
-|   FR1.1  | Login (username, password) |
+|   FR1.1  | Login |
 |   FR1.2  | Log out  |
 |  FR2     | Account management |
-|   FR2.1  | Create new account(name, surname, password, type)| 
+|   FR2.1  | Create new account| 
 |   FR2.2  | Delete account |
 |   FR2.3  | Reset password |
 |   FR2.4  | Modify account information |
@@ -176,18 +176,18 @@ Randomly selects products within orders and carries out tests, reporting the res
 |   FR5.1  | Select product from the inventory |
 |   FR5.2  | Display product properties and number in stock |
 |   FR5.3  | Alert when number of certain product runs under a certain threshold |
-|   FR5.4  | Locate product (shelf number, etc.) |
+|   FR5.4  | Locate product |
 |   FR5.5  | Add product into the inventory |
 |   FR5.6  | Remove product from the inventory |
 |   FR5.7  | Add quality test results |
 |   FR5.8  | Find product location by ID |
 |   FR5.9  | Show product description by scan |
 |  FR6     | Handle product |
-|   FR6.1  | Create new product (name, description, category, supplier, barcode, order) |
+|   FR6.1  | Create new product  |
 |   FR6.2  | Modify product |
 |   FR6.3  | Delete product |
 |  FR7     | Handle catalogue |
-|   FR7.1  | Create new product (name, description, category, supplier) |
+|   FR7.1  | Create new product |
 |   FR7.2  | Add product into catalogue |
 |   FR7.3  | Remove product from catalogue |
 
