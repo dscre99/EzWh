@@ -52,7 +52,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Supplier | External entity in charge of supply items ordered by a Warehouse |
 | Company | Entity that has to follow normal accepted business practices and operates in order to make a profit |
 | Organizational Unit (OU) | Sub-unit of a Company with a specific action domain |
-| Administrator | Person in charge of supervise and manage a specific area of a company |
+| IT Administrator | Person in charge of supervise and manage a specific area of a company |
 | Retailer | Company that buys Item from a manufacturer or wholesaler and sells them to end users or customers |
 | Item Manufacturer | Company that owns or runs a manufacturing plant of a certain kind of item |
 | Warehouse Manager | In a company, person in charge of supervising the warehouse of a company |
