@@ -65,7 +65,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Delivery Company | Company which offers transports of goods in a given geographical area or globally |
 | Software House | Company that primarily provides software Item |
 | Competitors | Software houses which develop applications with the same purpose of EZWH |
-|  |  |
+
 
 # Context Diagram and interfaces
 
@@ -96,6 +96,48 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 \<Persona is-an-instance-of actor>
 
 \<stories will be formalized later as scenarios in use cases>
+
+## Persona 1 - Employee
+Employee: male/female,  age between 40 and 60 years old, low income, has been working in the company for a long time, specialized in management of orders received by the supplier  
+
+### Story
+Must dispatch and finds the right location for the products received by the supplier. Since has been working in the company for a long time, knows exactly the place of where products need to be stored. He/she is not into technology, needs a very user-friendly and easy to use software. 
+
+## Persona 2 - Employee
+Employee: male/female, age under 30, low income, new employee with no industry experience, specialized in internal orders management 
+
+### Story
+Has to find products inside the warehouse and then bring them to the right location for pick up. Since is new in the company, he/she doesn’t know well the right location of the products inside the warehouse. Needs a software that shows exactly where the product is inside the warehouse, with some map of the right location. 
+
+## Persona 3 - WH Manager
+WH manager: male/female, age between 40 to 60 years old, high income, has been working in the company for a long time 
+
+### Story
+Checks the stocks of the products into the warehouse and performs orders to suppliers when product quantity runs under some threshold. Needs to be warn when the quantity of some products decreases, and the list of orders carried out for each supplier.  
+
+## Persona 4 - Consultant agent
+Consultant agent: male/female, age under 40, high income, specialized in marketing and data analysis 
+
+### Story
+Checks the history of the orders, the quantity of products in stock and their prices for each supplier. Is skilled in using technology. Needs software that shows the products that are replenished most often, and which indicates for each product which supplier has the best price. Needs support in data analysis through some indicators about the actual and past condition of the warehouse. 
+
+## Persona 5 - IT Administrator
+IT Administrator: male/female, from 25 to 60 years old, average income 
+
+### Story
+Responds to the WH manager indications, tests the application, checks if the database is up to date and performs management actions related to employee's account. Needs software that is compatible with the equipment already owned by the company, capable of running on different OSs and platforms. 
+
+## Persona 6 - OU Employee
+Organizational unit employee: male/female, age between 40 to 60 years old, high income, has been working in the company for a long time 
+
+### Story
+Places orders within the company, checks the pickup area storage availability and orders status. Needs to be constantly informed about the progress of orders done. 
+
+## Persona 7 - Quality inspector
+Quality inspector: male/female, from 30 to 60 years old, average income 
+
+### Story
+Randomly selects products within orders and carries out tests, reporting the result obtained. Needs software that communicates with testing machines used for performing tests and that can associate the result of the test carried out with each product. 
 
 
 # Functional and non functional requirements
@@ -506,6 +548,7 @@ products quantity are modified |
 | 7b | Back to step #3 |
 | 5c | Product information retrieve unsuccessful (product doesn't exists inside the catalogue) |
 | 6c | Go to scenario 3.2 |
+| 6 | Employee applies filters on the research result |
 
 
 
