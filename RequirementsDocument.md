@@ -204,57 +204,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  2     |  |
 |  ...     |  |
 
-### Use case 1, UC1: Manage Database
-| Actors Involved | IT Administrator and Database |
-| ------------- |:-------------:| 
-|  Precondition     | Database data out of date |
-|  Post condition     | Database data updated |
-|  Nominal Scenario     | Products are added and some others are removed from stock, IT Administrator needs to update the database |
-|  Variants     | Add new product, Modify product, Delete product |
-|  Exceptions     | Internet connection not available, Wrong database query |
 
-##### Scenario 1.1
-
-\<describe here scenarios instances of UC1>
-
-\<a scenario is a sequence of steps that corresponds to a particular execution of one use case>
-
-\<a scenario is a more formal description of a story>
-
-\<only relevant scenarios should be described>
-
-| Scenario 1.1 | Insert new product in Database |
-| ------------- |:-------------:| 
-|  Precondition     | Product does not exists in database |
-|  Post condition     | Product added to database |
-| Step#        | Description  |
-|  1     | Retrieve product specifications  |  
-|  2     | Define database query to add an entry including product specifications |
-| 3 | Submit query to database |
-
-##### Scenario 1.2
-
-| Scenario 1.2 | Modify product in Database |
-| ------------- |:-------------:| 
-|  Precondition     | Product specifications are wrong or out of date |
-|  Post condition     | Product specifications are up to date |
-| Step#        | Description  |
-|  1     | Retrieve product updated specifications |  
-|  2     | Define database query to modify an entry including the correct specifications |
-| 3 | Submit query to database |
-
-##### Scenario 1.3
-
-| Scenario 1.3 | Delete product from Database |
-| ------------- |:-------------:| 
-|  Precondition     | Product entry inside the database is obsolete |
-|  Post condition     | Product entry removed from Databse |
-| Step#        | Description  |
-|  1     | Retrieve product to be deleted |  
-|  1     | Define database query to delete the selected product |  
-| 2 | Submit query to database |
-
-### Use case 2, UC2: Manage User Account
+### Use case 1, UC1: Manage User Account
 | Actors Involved        | IT Administrator and Database |
 | ------------- |:-------------:| 
 |  Precondition     | User account not existing or User account is out of date or User forgot Password or User account needs to be deleted |
@@ -263,514 +214,482 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  Variants     | User Account updated, password reset, User Account deleted |
 |  Exceptions     | User Account already exists, invalid character within a field, User Account does not exist |
 
-##### Scenario 2.1
+##### Scenario 1.1
 
-| Scenario 2.1 | Register new user |
+| Scenario 1.1 | Register new user account |
 | ------------- |:-------------:| 
-|  Precondition     | Employee has been hired by the company and User Account does not exist |
+|  Precondition     | Employee has been hired by the company and User Account does not exist, IT Administrator logged into database |
 |  Post condition     | User Account created |
 | Step#        | Description  |
 |  1     | Retrieve user information |  
-|  2     | Fill new Account form |
-|  3     | Select correct permission for the User |
-| 4 | Submit User data for Account creation |
+|  2     | Define database query to create a new user including its information |
+|  3     | Define user permission according to his/her job |
+| 4 | Submit query to database |
+
+##### Scenario 1.2
+
+| Scenario 1.2 | Register new user account with errors |
+| ------------- |:-------------:| 
+|  Precondition     |  Employee has been hired by company and User Account does not exist, IT Administrator logged into database |
+|  Post condition     | User Account created |
+| Step#        | Description  |
+|  1     | Retrieve user information |  
+|  2     | Define database query to create a new user including its information |
+|  3     | Define user permission according to his/her job |
+| 4 | Submit query to database |
+| 5 | User account created |
+| 5b | Error message for some invalid fields, User Account not created |
+| 6b | Correct wrong fields |
+| ... | Repeat step #4  |
+
+##### Scenario 1.3
+
+| Scenario 1.3 | Modify user account |
+| ------------- |:-------------:| 
+|  Precondition     | User data are wrong or obsolete, IT Administrator logged into database |
+|  Post condition     | User data are up to date |
+| Step#        | Description  |
+|  1     | Retrieve User Account by ID or by Name |  
+|  2     | Update necessary data |
+| 3 | Submit User data for Account update |
+
+##### Scenario 1.4
+
+| Scenario 1.4 | Modify user account with errors |
+| ------------- |:-------------:| 
+|  Precondition     | User data are wrong or obsolete |
+|  Post condition     | User data are up to date |
+| Step#        | Description  |
+|  1     | Retrieve User Account by ID or by Name |  
+|  2     | Update necessary data |
+| 3 | Submit User data for Account update |
+| 4 | User data updated |
+| 4b | Error message for some invalid field, User Account not updated |
+| 5b | Correct wrong fields |
+| 6b | Submit User data for Account update |
+| ... | Repeat steps #3 |
+
+
+### Use case 2, UC2: Authentication
+| Actors Involved        | Users (Employees and WH Managers) |
+| ------------- |:-------------:| 
+|  Precondition     | Application is installed on the device. Network connectivity is available. User account already defined. |
+|  Post condition     | User is logged into her/his account |
+|  Nominal Scenario     | User authenticates himself when he/she needs to work with the application |
+|  Variants     | - |
+|  Exceptions     | Account doesn’t exist, no Internet Connectivity, wrong credentials, Password expired. |
+
+##### Scenario 2.1
+
+| Scenario 2.1 | Login |
+| ------------- |:-------------:| 
+|  Precondition     | Application is installed on the device. Network connectivity available. User account already defined.  |
+|  Post condition     | User is logged into the application |
+| Step#        | Description  |
+| 1 | User opens the application |
+| 2 | Application asks for  username and password |
+| 3 | User enters username and password |
+| 4 | Application allows access |
+| 5 | User is logged and can access application functionalities |
 
 ##### Scenario 2.2
 
-| Scenario 2.2 | Register new user with errors |
+| Scenario 2.2 | Login with errors |
 | ------------- |:-------------:| 
-|  Precondition     | WH Employee has been hired by company and User Account does not exist |
-|  Post condition     | User Account created |
+|  Precondition     | Application is installed on the device. Network connectivity available  |
+|  Post condition     | User is not logged into the application|
 | Step#        | Description  |
-|  1     | Retrieve User's info |  
-|  2     | Fill new Account form |
-|  3     | Select correct permission for the User |
-| 4 | Submit User data for Account creation |
-| 5 | Error message for some invalid field, User Account not created |
-| 6 | Correct interested fields |
-| 7 | Submit User data for Account creation |
-| ... | Repeat steps #5 to #7 if necessary |
+| 1 | User opens the application |
+| 2 | Application asks for  username and password |
+| 3 | User enters username and password |
+| 4 | Error message for wrong credentials |
+| 5 | Back to step #3 if first attempt |
+| 5b | Contact IT Administrator if many attempts |
 
 ##### Scenario 2.3
 
-| Scenario 2.3 | Modify user |
+| Scenario 2.3 | Logout |
 | ------------- |:-------------:| 
-|  Precondition     | User data is wrong or obsolete |
-|  Post condition     | User data is up to date |
+|  Precondition     | User is logged into the application |
+|  Post condition     | User is logged out from the application  |
 | Step#        | Description  |
-|  1     | Retrieve User Account data by ID or by Name |  
-|  2     | Update necessary data |
-| 3 | Submit User data for Account update |
+| 1 | User opens account section |
+| 2 | User starts logout procedure |
+| 3 | User is logged out from the application  |
+
 
 ##### Scenario 2.4
 
-| Scenario 2.4 | Modify User (wrong field) |
+| Scenario 2.4 | Credentials Recovery |
 | ------------- |:-------------:| 
-|  Precondition     | User data is wrong or obsolete |
-|  Post condition     | User data is up to date |
+|  Precondition     | User doesn’t remember password to login, user account is already defined. |
+|  Post condition     | Credentials recovered and updated  |
 | Step#        | Description  |
-|  1     | Retrieve User Account data by ID or by Name |  
-|  2     | Update necessary data |
-| 3 | Submit User data for Account update |
-| 4 | Error message for some invalid field, User Account not updated |
-| 5 | Correct interested fields |
-| 6 | Submit User data for Account creation |
-| ... | Repeat steps #4 to #6 if necessary |
+| 1 | User can't access the application |
+| 2 | IT Administrator asks for username and new password |
+| 3 | IT Administrator logs into database |
+| 4 | IT Administrator generates a new password for the user and save it into the database |
+| 5 | Perform Scenario 2.1 Login |
 
-##### Scenario 2.5
-
-| Scenario 2.5 | User modifies his/her own data |
+### Use case 3, UC3: Manage Catalogue
+| Actors Involved        | WH Manager |
 | ------------- |:-------------:| 
-|  Precondition     | User data is wrong or obsolete |
-|  Post condition     | User data is up to date |
-| Step#        | Description  |
-| 1 | Log into account |
-| 2 | Access form to modify data |
-| 3 | Update necessary data |
-| 4 | Submit data for Account update |
-| 5 | Error message for some invalid field, User Account not updated |
-| 6 | Correct interested fields |
-| 7 | Submit User data for Account creation |
-| ... | Repeat steps #4 to #6 if necessary |
-
-### Use case 3, UC3: Authentication
-| Actors Involved        | Application Users |
-| ------------- |:-------------:| 
-|  Precondition     | Application is installed on the device. Network connectivity available. User account already created. ( The account credentials are provided by the company, precisely by the IT Manager ) |
-|  Post condition     | User is logged into her/his account. Show different UI based on the role of the User |
-|  Nominal Scenario     | Actor authenticates himself when he/she needs to work with the application |
+|  Precondition     | Catalogue exists or not |
+|  Post condition     | Catalogue created and/or updated, new product descriptor defined and inserted |
+|  Nominal Scenario     | WH Manager performs CRUDs operations on the Catalogue |
 |  Variants     | - |
-|  Exceptions     | Account doesn’t exist. No Internet Connectivity. Wrong credentials. Password expired. |
+|  Exceptions     | Data submitted during catalogue creation and product descriptor insertion are wrong |
 
 ##### Scenario 3.1
 
-| Scenario 3.1 | Login |
+| Scenario 3.1 | Create Catalogue |
 | ------------- |:-------------:| 
-|  Precondition     | Application is installed on the device. Network connectivity available. User account already created. ( The account credentials are provided by the company, precisely by the IT Manager ) |
-|  Post condition     | User is logged into the application |
+|  Precondition     | Catalogue does not exist, WH Manager authenticated|
+|  Post condition     | New catalogue created |
 | Step#        | Description  |
-| 1 | Open application |
-| 2 | Insert username and password |
-| 3 | Login |
-| 4 | User diplays application UI (based on its role) |
-| 4b | Error message for wrong credentials |
-| 5b | Re-insert Credentials |
-| 6b | Back to step #3 |
-| 4c | Error message for nonexistent account |
-| 5c | If first attempt: go back to step 5b  |
-| 5c | If many attempts: contact IT Manager |
+| 1 | WH Manager starts catalogue creation procedure |
+| 2 | Application asks for catalogue information |
+| 3 | WH Manager inserts required information |
+| 4 | New catalogue created |
+| 4b | Error message if wrong data have been submitted |
+| 5b | Back to step #3 |
+
 
 ##### Scenario 3.2
 
-| Scenario 3.2 | Logout |
+| Scenario 3.2 | Add new product in Catalogue |
 | ------------- |:-------------:| 
-|  Precondition     | User is logged into the application |
-|  Post condition     | User has logged out from the application  |
+|  Precondition     | A new product is available, catalogue exists, WH Manager authenticated, product is not inside the catalogue  |
+|  Post condition     | The new product is inserted in the catalogue |
 | Step#        | Description  |
-| 1 | Open account menu |
-| 2 | Press 'Logout' button from account panel |
-| 3 | Successful logout |
-| 3b | Unsuccessful logout due to network issues |
-| 4b | Check network connection |
-| 5b | Back to step #1 |
-
-
-##### Scenario 3.3
-
-| Scenario 3.3 | Credentials Recovery |
-| ------------- |:-------------:| 
-|  Precondition     | User doesn’t remember the correct credentials needed to login |
-|  Post condition     | Credentials recovered and updated  |
-| Step#        | Description  |
-| 1 | Press 'Recover Credentials' |
-| 2 | Receive new credentials from IT Manager |
-| 3 | Perform Scenario 3.1 Login |
-| 2b | Unsucessful recovery |
-| 3b | Check network connection |
-| 4b | Back to step #1 |
-
-
-### Use case 4, UC4: Manage Catalog
-| Actors Involved        | WH Manager, DB Manager |
-| ------------- |:-------------:| 
-|  Precondition     | Catalog exists or not |
-|  Post condition     | Catalog created and/or updated |
-|  Nominal Scenario     | Actor can perform a variety of operations on the Catalog |
-|  Variants     | - |
-|  Exceptions     | Errors while performing an operation |
-
-##### Scenario 4.1
-
-| Scenario 4.1 | Create Catalog |
-| ------------- |:-------------:| 
-|  Precondition     | Catalog does not exist |
-|  Post condition     | New Catalog created |
-| Step#        | Description  |
-| 1 | Go to Catalog panel |
-| 2 | Press 'Create Catalog' |
-| 3 | Insert all needed Catalog's data |
-| 4 | Confirm creation |
-| 5 | Catalog creation successful |
-| 5b | Catalog creation unsuccessful (wrong field) |
-| 6b | Correct wrong Catalog field(s) |
-| 7b | Back to step #4 |
-
-##### Scenario 4.2
-
-| Scenario 4.2 | Insert Item in Catalog |
-| ------------- |:-------------:| 
-|  Precondition     | A new item is available on the marketplace, Catalog exists (may be empty) |
-|  Post condition     | The new item is present in the catalog |
-| Step#        | Description  |
-| 1 | Go to Catalog panel |
-| 2 | Press 'Insert Item' |
-| 3 | Insert all needed Item's data |
-| 4 | Confirm insertion |
+| 1 | WH manager starts product insertion |
+| 2 | Application asks to define a new product  |
+| 3 | WH manager issues all the requested data |
+| 4 | WH manager submits insertion |
 | 5 | Item insertion successful |
 | 5b | Item insertion unsuccessful (wrong field) |
-| 6b | Correct wrong Item field(s) |
+| 6b | Correct wrong product field(s) |
 | 7b | Back to step #4 |
 | 5c | Item insertion unsuccessful (Item code already existing) |
 | 6c | Change Item code |
 | 7c | Back to step #4 |
 
+##### Scenario 3.3
 
-##### Scenario 4.3
-
-| Scenario 4.3 | Modify Item in Catalog |
+| Scenario 3.3 | Modify product in Catalogue |
 | ------------- |:-------------:| 
-|  Precondition     | Item exists in Catalog |
-|  Post condition     | Item fields have been modified |
+|  Precondition     | Product exists in Catalogue, WH Manager authenticated |
+|  Post condition     | Product have been modified |
 | Step#        | Description  |
-| 1 | Go to Catalog panel |
-| 2 | Press 'Modify Item' |
-| 3 | Insert Item code |
+| 1 | WH manager starts product modification procedure |
+| 2 | Application asks to define the product to be removed |
+| 3 | WH manager select product by ID or search for it among all the products inside the catalogue |
 | 4 | Confirm insertion |
-| 5b | Wrong Item code |
+| 5b | Wrong product code |
 | 6b | Back to step #3 |
-| 5 | Modify Item's fields |
+| 5 | Modify product fields |
 | 6 | Confirm modifications |
-| 7 | Item modification successful |
-| 7c | Item modification unsuccessful (wrong field) |
-| 8c | Correct wrong Item field(s) |
+| 7 | Product modification successful |
+| 7c | Product modification unsuccessful (wrong field) |
+| 8c | Correct wrong product field(s) |
 | 9c | Back to step #5 |
 
-##### Scenario 4.4
 
-| Scenario 4.4 | Remove Item from Catalog |
+
+##### Scenario 3.4
+
+| Scenario 3.4 | Remove product from Catalogue |
 | ------------- |:-------------:| 
-|  Precondition     | Item exists in Catalog |
-|  Post condition     | Item removed from catalog |
+|  Precondition     | Product exists in Catalogue, WH Manager authenticated |
+|  Post condition     | Product removed from catalogue |
 | Step#        | Description  |
-| 1 | Go to Catalog panel |
-| 2 | Press 'Delete Item' |
-| 3 | Insert Item code |
-| 4 | Confirm insertion |
-| 5 | Confirm deletion
-| 5b | Wrong Item code |
+| 1 | WH manager starts product remove procedure |
+| 2 | Application asks to define the product to be removed |
+| 3 | WH manager select product by ID or search for it among all the products inside the catalogue |
+| 4 | Application asks to confirm deletion |
+| 5 | Product is removed from the catalogue  |
+| 5b | Wrong product ID |
 | 6b | Back to step #3 |
 
-
-### Use case 5, UC5: Manage Inventory
-| Actors Involved        | WH Manager, WH Worker, DB Manager |
+### Use case 4, UC4: Manage Inventory
+| Actors Involved        | WH Manager, Employee, IT Administrator |
 | ------------- |:-------------:| 
 |  Precondition     | Inventory exists or not |
-|  Post condition     | Inventory created and/or updated |
-|  Nominal Scenario     | Actor can perform a variety of operations on the Inventory |
+|  Post condition     | Inventory created and/or updated, products are added and removed from inventory, 
+products quantity are modified |
+|  Nominal Scenario     | Users can perform cruds operations on the Inventory |
 |  Variants     | - |
 |  Exceptions     | Errors while performing an operation |
 
-##### Scenario 5.1
+##### Scenario 4.1
 
-| Scenario 5.1 | Create Inventory |
+| Scenario 4.1 | Create Inventory |
 | ------------- |:-------------:| 
-|  Precondition     | Inventory does not exist |
+|  Precondition     | Inventory does not exist, WH Manager authenticated |
 |  Post condition     | New Inventory created |
 | Step#        | Description  |
-| 1 | Go to Inventory panel |
-| 2 | Press 'Inventory Catalog' |
-| 3 | Insert all needed Inventory's data |
-| 4 | Confirm creation |
-| 5 | Inventory creation successful |
-| 5b | Inventory creation unsuccessful (wrong field) |
-| 6b | Correct wrong Inventory field(s) |
-| 7b | Back to step #4 |
+| 1 | WH Manager starts inventory creation |
+| 2 | Application asks for inventory data |
+| 3 | WH Manager insert requested data  |
+| 4 | New inventory created successful |
+
+##### Scenario 4.2
+
+| Scenario 4.2 | Insert Product in Inventory |
+| ------------- |:-------------:| 
+|  Precondition     | Inventory exists, WH Manager authenticated, product exist into catalogue database but not into inventory |
+|  Post condition     | Product is added into inventory  |
+| Step#        | Description  |
+| 1 | WH Manager starts product insertion |
+| 2 | Application asks for product code  |
+| 3 | Employee inserts product code |
+| 3b | Employee scans product barcode |
+| 4 | Application looks for product ID inside the database |
+| 5 | Product information retrieved and shown |
+| 5b | Product information retrieve unsuccessful (wrong ID) |
+| 6b | Correct ID |
+| 7b | Back to step #3 |
+| 5c | Product information retrieve unsuccessful (product doesn't exists inside the catalogue) |
+| 6c | Go to scenario 3.2 |
+| 3 | Application asks for product placement inside the inventory  |
+| 4 | WH Manager chooses product placement among the empty spaces available |
+| 5 | Application asks for quantity |
+| 6 | WH Manager define quantity |
+| 7 | Product added into the inventory |
+| 7b | Quantity definition unsuccessful (not enough space in the inventory) |
+| 8b | Back to step #6 |
+
+
+##### Scenario 4.3
+
+| Scenario 4.3 | Modify product quantity in Inventory |
+| ------------- |:-------------:| 
+|  Precondition     | Inventory exists, Employee authenticated, product exist into inventory |
+|  Post condition     | Product quantity is modified  |
+| Step#        | Description  |
+| 1 | Employee starts modify procedure |
+| 2 | Go to scenario 4.5 |
+| 3 | Application asks for new quantity |
+| 4 | Employee define quantity |
+| 5 | Product added into the inventory |
+| 5b | Quantity definition unsuccessful (not enough space in the inventory) |
+| 6b | Back to step #6 |
+
+##### Scenario 4.4
+
+| Scenario 4.4 | Remove product from Inventory |
+| ------------- |:-------------:| 
+|  Precondition     | Inventory exists, WH Manager authenticated, product exist into inventory |
+|  Post condition     | Product removed from Inventory |
+| Step#        | Description  |
+| 1 | WH Manager starts modify procedure |
+| 2 | Go to scenario 4.5 |
+| 3 | Application asks for confirmation|
+| 4 | WH confirms  |
+| 5 | Product removed from inventory |
+
+##### Scenario 4.5
+
+| Scenario 4.5 | Track product in Inventory |
+| ------------- |:-------------:| 
+|  Precondition     | Internal Order received or Employee needs to locate an Item, Employee authenticated|
+|  Post condition     | Item position displayed to Employee |
+| Step#        | Description  |
+| 1 | Start product retrieve procedure |
+| 2 | Application asks for product code  |
+| 3 | Employee inserts product code |
+| 3b | Employee scans product barcode |
+| 4 | Application looks for product ID inside the database |
+| 5 | Product information retrieved and position shown |
+| 5b | Product information retrieve unsuccessful (wrong ID) |
+| 6b | Correct ID |
+| 7b | Back to step #3 |
+| 5c | Product information retrieve unsuccessful (product doesn't exists inside the catalogue) |
+| 6c | Go to scenario 3.2 |
+
+
+
+### Use case 5, UC5: External Orders issue
+| Actors Involved        | WH Manager, Consultant Agent |
+| ------------- |:-------------:| 
+|  Precondition     | Product Stocks are lacking, WH Manager authenticated  |
+|  Post condition     | Product re-stocked in Inventory |
+|  Nominal Scenario     | Manager product orders  |
+|  Variants     | View Order statistics |
+|  Exceptions     | No Internet Connectivity. Device is broken. Account lifetime expired. Database is not updated. |
+
+##### Scenario 5.1
+
+| Scenario 5.1 | New order |
+| ------------- |:-------------:| 
+|  Precondition     | Products is missing in inventory or quantity is lacking, product already defined in catalogue, WH Manager authenticated |
+|  Post condition     | New order issued |
+| Step#        | Description  |
+| 1 | WH Manager starts internal order procedure |
+| 2 | Application asks to select product   |
+| 3 | WH Manager select the product |
+| 3b | Scan product barcode |
+| 4 | Application shows suppliers available for the defined product |
+| 5 | Application asks to define quantity |
+| 6 | WH Managers defines the quantity |
+| ... | Repeat for each Item which needs to be ordered |
+| 7 | Checkout |
+| 8 | Application asks to confirm Order |
+| 9 | Order issued |
 
 ##### Scenario 5.2
 
-| Scenario 5.2 | Insert Item in Inventory |
+| Scenario 5.2 | Orders statistics |
 | ------------- |:-------------:| 
-|  Precondition     | A new item arrived in the Warehouse, Item present in Catalog, Inventory exists (may be empty)  |
-|  Post condition     | The is registered into the Inventory |
+|  Precondition     | Consultant Agent/ WH Manager is authenticated, orders have been issued 
+|  Post condition     | Order statistics displayed |
 | Step#        | Description  |
-| 1 | Go to Inventory panel |
-| 2 | Press 'Insert Item' |
-| 3 | Insert Item code |
-| 3b | Scan Item barcode |
-| 4 | Insert all needed Item's data (Item code insertion automatically retrieves already existing data from catalog) |
-| 5 | Confirm insertion |
-| 6 | Item insertion successful |
-| 6b | Item insertion unsuccessful (wrong field) |
-| 7b | Correct wrong Item field(s) |
-| 8b | Back to step #4 |
-| 6c | Item insertion unsuccessful (Item code nonexistent) |
-| 7c | Correct Item code |
-| 8c | Back to step #4 |
+| 1 | Consultant Agent/ WH Manager starts statistics procedure |
+| 2 | Application shows statistics |
 
 
 ##### Scenario 5.3
 
-| Scenario 5.3 | Modify Item in Inventory |
+| Scenario 5.3 | Damaged/Wrong orders return |
 | ------------- |:-------------:| 
-|  Precondition     | Item exists in Inventory |
-|  Post condition     | Item fields have been modified |
+|  Precondition     | Order has already been received, WH Manager is authenticated, Quality test is not passed  |
+|  Post condition     | Order return request issued |
 | Step#        | Description  |
-| 1 | Go to Catalog panel |
-| 2 | Press 'Modify Item' |
-| 3 | Insert Item code |
-| 3b | Scan Item barcode |
-| 4 | Confirm insertion |
-| 5b | Wrong Item code |
-| 6b | Back to step #3 |
-| 5 | Modify Item's fields |
-| 6 | Confirm modifications |
-| 7 | Item modification successful |
-| 7c | Item modification unsuccessful (wrong field) |
-| 8c | Correct wrong Item field(s) |
-| 9c | Back to step #5 |
+| 1 | WH Manager starts order return |
+| 2 | Application asks to choose the order|
+| 3 | WH Manager select the order |
+| 4 | Application ask to choose the product inside the order |
+| 5 | WH Manager define product code |
+| 5b | Scan product barcode |
+| 6 | Insert number of products to be returned |
+| ... | Repeat for each product which needs to be returned |
+| 7 | Issue order return request |
 
 ##### Scenario 5.4
 
-| Scenario 5.4 | Remove Item from Inventory |
+| Scenario 5.4 | Shipment status and order information |
 | ------------- |:-------------:| 
-|  Precondition     | Item exists in Inventory |
-|  Post condition     | Item removed from Inventory |
+|  Precondition     | Order has already been done, WH Manager is authenticated |
+|  Post condition     | Order information and shipment status |
 | Step#        | Description  |
-| 1 | Go to Inventory panel |
-| 2 | Press 'Delete Item' |
-| 3 | Insert Item code |
-| 3b | Scan Item barcode |
-| 4 | Confirm insertion |
-| 5 | Confirm deletion
-| 5b | Wrong Item code |
-| 6b | Back to step #3 |
+| 1 | WH Manager starts orders management procedure  |
+| 2 | Application asks to choose the order|
+| 3 | WH Manager selects the order |
+| 4 | Application shows order information and shipment status  |
 
-##### Scenario 5.5
 
-| Scenario 5.5 | Track Item in Inventory |
+
+### Use case 6, UC6: External Orders stock and management
+| Actors Involved        | Employee , Quality Inspector, WH Manager |
 | ------------- |:-------------:| 
-|  Precondition     | Internal Order received or Actor needs to locate an Item |
-|  Post condition     | Item position displayed to Actor |
-| Step#        | Description  |
-| 1 | Go to Catalog panel |
-| 2 | Press 'Track Item' |
-| 3 | Insert Item code |
-| 3b | Scan Item barcode |
-| 4 | Confirm insertion |
-| 5b | Wrong Item code or Item untracked |
-| 6b | Back to step #3 |
-| 5 | Display Item location |
-
-
-### Use case 6, UC6: Issue External Order
-| Actors Involved        | WH Manager |
-| ------------- |:-------------:| 
-|  Precondition     | Stocks are lacking |
-|  Post condition     | Items re-stocked in Inventory |
-|  Nominal Scenario     | Manager Issues an Order for Items short in Inventory |
-|  Variants     | View Order statistics |
-|  Exceptions     | No Internet Connectivity. Device is broken. Account lifetime expired. Database is not updated. |
+|  Precondition     | Products are available for stocking  |
+|  Post condition     | Product are added to the Inventory  |
+|  Nominal Scenario     | Employee scans and adds received products to Inventory |
+|  Variants     | Products needs to be added to inventory. Products already exists in Inventory, simply modify quantities. |
+|  Exceptions     | Product fails testing. No available space in Inventory |
 
 ##### Scenario 6.1
 
-| Scenario 6.1 | WH Manager re-stocks itmes |
+| Scenario 6.1 | Employee stocks products |
 | ------------- |:-------------:| 
-|  Precondition     | Item is missing in inventory it is short in stocks |
-|  Post condition     | Item re-stocked in Inventory |
+|  Precondition     | Products are available for stocking, Employee is authenticated |
+|  Post condition     | Products are added to the inventory  |
 | Step#        | Description  |
-| 1 | Go to Order panel |
-| 2 | Press 'Issue New Order' |
-| 3 | Press 'Order Item' |
-| 4 | Insert Item code |
-| 4b | Scan Item barcode |
-| 5 | Select Supplier from available choices|
-| 5c | Wrong Item code |
-| 6c | Back to step #3 |
-| 6 | Insert quantity |
-| 7 | Confirm insertion |
-| ... | Repeat for each Item which needs to be ordered |
-| 8 | Checkout |
-| 9 | Confirm Order |
+| ... | Repeat scenario 4.2 for each product  needs to be stocked |
 
 ##### Scenario 6.2
 
-| Scenario 6.2 | WH Manager displays order statistics |
+| Scenario 6.2 | Quality inspector tests products |
 | ------------- |:-------------:| 
-|  Precondition     | Order has already been issued |
-|  Post condition     | Order statistics displayed |
+|  Precondition     | Products present in Inventory, Quality inspector is authenticated |
+|  Post condition     | Test result added to the product |
 | Step#        | Description  |
-| 1 | Go to Order panel |
-| 2 | Press 'Issued Orders' |
-| 3 | Select desired order |
-| 4 | Press 'Status' |
-
-##### Scenario 6.3
-
-| Scenario 6.3 | WH Manager returns damaged Items |
-| ------------- |:-------------:| 
-|  Precondition     | Order has already been received |
-|  Post condition     | Items return request issued |
-| Step#        | Description  |
-| 1 | Go to Order panel |
-| 2 | Press 'Issued Orders' |
-| 3 | Select desired order |
-| 4 | Press 'Return Items' |
-| 5 | Insert Item code |
-| 5b | Scan Item barcode |
-| 6 | Insert number of Items to be returned |
-| ... | Repeat for each Item which needs to be returned |
-| 7 | Issue return request |
-
-
-### Use case 7, UC7: Receive External Order
-| Actors Involved        | WH Worker, WH Quality Inspector, WH Manager |
-| ------------- |:-------------:| 
-|  Precondition     | Items are available for stocking  |
-|  Post condition     | Items are added to the Inventory  |
-|  Nominal Scenario     | WH Worker scans and adds received Items to Inventory |
-|  Variants     | Item needs to be added to inventory. Item already exists in Inventory, simply modify its quantity. |
-|  Exceptions     | Item fails testing. No available space in Inventory |
-
-##### Scenario 7.1
-
-| Scenario 7.1 | WH Worker stocks Items |
-| ------------- |:-------------:| 
-|  Precondition     | Items are available for stocking |
-|  Post condition     | Items are added to the inventory  |
-| Step#        | Description  |
-| ... | Repeat scenario 5.2 for each Item which needs to be stocked |
-
-##### Scenario 7.2
-
-| Scenario 7.2 | WH Quality inspector tests Item |
-| ------------- |:-------------:| 
-|  Precondition     | Items present in Inventory |
-|  Post condition     | Tested Sample Items received test results in |
-| Step#        | Description  |
-| 1 | Pick a sample Item |
-| 2 | Insert Item code |
-| 2b | Scan Item barcode |
+| 1 | Quality inspector picks a sample product |
+| 2 | Insert product code to get information |
+| 2b | Scan product barcode |
 | 3 | Peform testing |
 | 4 | Insert testing results |
 
 
-### Use case 8, UC8: OU Issues Internal Order
+### Use case 7, UC7: Internal order issue
 | Actors Involved        | Organizational Unit OU |
 | ------------- |:-------------:| 
-|  Precondition     | OU lacking Items |
+|  Precondition     | OU lacking products, OU user authenticated |
 |  Post condition     | OU issued Internal Order  |
-|  Nominal Scenario     | OU is looking for a certain Item and issues an Internal Order to WH chosing Items from Catalog |
+|  Nominal Scenario     | OU is looking for a certain product and issues an Internal Order to WH chosing products from Catalogue |
 |  Variants     | - |
-|  Exceptions     | Item not present in Catalog |
+|  Exceptions     | Product not present in Catalogue |
 
-##### Scenario 8.1
+##### Scenario 7.1
 
-| Scenario 8.1 | OU Issues Internal Order |
+| Scenario 7.1 | OU Issues Internal Order |
 | ------------- |:-------------:| 
-|  Precondition     | OU lacking Items |
-|  Post condition     | OU issued Internal Order  |
+|  Precondition     | OU lacking products, OU user authenticated  |
+|  Post condition     |  Internal Order issued  |
 | Step#        | Description  |
-| 1 | Go to Order panel |
-| 2 | Press 'Issue New Order' |
-| 3 | Press 'Order Item' |
-| 4 | Insert Item code |
-| 4b | Select Item from Catalog list |
-| 5 | Insert quantity |
-| ... | Repeat for each Item which needs to be ordered |
+| 1 | OU opens internal order proceudure  |
+| 2 | Application shows catalogue and quantities available in stock |
+| 3 | OU selects product |
+| 3b | Product not available in catalogue, contacts warehouse manager |
+| 4 | OU inserts Item code |
+| 4c | Select product from Catalogue list |
+| 5 | Define quantity |
+| ... | Repeat for each product which needs to be ordered |
 | 8 | Checkout |
 | 9 | Confirm Order |
 
-##### Scenario 8.2
+##### Scenario 7.2
 
-| Scenario 8.2 | OU checks Internal Order status |
+| Scenario 7.2 | OU checks Internal Order status |
 | ------------- |:-------------:| 
-|  Precondition     | Internal Order already issued |
+|  Precondition     | Internal Order already issued, OU user authenticated |
 |  Post condition     | OU displays Internal Order status  |
 | Step#        | Description  |
-| 1 | Go to Order panel |
-| 2 | Press 'Issued Orders' |
+| 1 | OU user opens order procedure in the application  |
+| 2 | Application asks to select the order |
 | 3 | Select desired order |
-| 4 | Press 'Status' |
-
-##### Scenario 8.3
-
-| Scenario 8.3 | Necessary Item not in Catalog |
-| ------------- |:-------------:| 
-|  Precondition     | OU cannot find Item in Catalog |
-|  Post condition     | Item added to Catalog  |
-| Step#        | Description  |
-| 1 | Contact WH Manager |
+| 4 | Application shows the order status |
 
 
-### Use case 9, UC9: Manage Internal Order
-| Actors Involved        | WH Worker |
+
+### Use case 8, UC8: Internal order stock and management
+| Actors Involved        | Employee |
 | ------------- |:-------------:| 
 |  Precondition     | OU issued Internal Order |
-|  Post condition     | WH Worker prepared Internal Order  |
-|  Nominal Scenario     | WH Worker localizes each ordered Item, picks it up from Inventory |
+|  Post condition     | Employee prepared Internal Order  |
+|  Nominal Scenario     | Employee localizes each ordered product, picks it up from Inventory and move to pickup area |
 |  Variants     | - |
-|  Exceptions     | Not enogh Items available |
+|  Exceptions     | Not enogh products available |
 
-##### Scenario 9.1
+##### Scenario 8.1
 
-| Scenario 9.1 | WH Worker Prepares Order |
+| Scenario 8.1 | Employee Prepares Order |
 | ------------- |:-------------:| 
-|  Precondition     | Items available in Inventory |
-|  Post condition     | Items added to prepared order and removed from Inventory |
+|  Precondition     | Products available in Inventory, Employee authenticated |
+|  Post condition     | Products added to prepared order and removed from Inventory |
 | Step#        | Description  |
-| 1 | Go to Received Order panel |
+| 1 | Employee opens internal order section |
 | 2 | Select an Order |
-| 3 | Retrieve Item Code |
-| 4 | Scenario 5.5 |
-| 5 | Pick-up Item |
-| 6 | Decrement Item availability Scenario 5.3 |
-| 7 | Put Item in preparation station |
-| ... | Repeat for all Items in Order |
+| 3 | Retrieve product Code |
+| 4 | Scenario 4.5 |
+| 5 | Pick-up product |
+| 6 | go to Scenario 4.3 (decrease product quantity) |
+| 7 | Put product in preparation station |
+| ... | Repeat for all product in Orders |
 
-##### Scenario 9.2
+##### Scenario 8.2
 
-| Scenario 9.2 | Internal Order Ready |
+| Scenario 8.2 | Internal Order Ready |
 | ------------- |:-------------:| 
-|  Precondition     | WH Worker Prepared Internal Order |
+|  Precondition     | Employee Prepared Internal Order, Employee authenticated |
 |  Post condition     | Internal Order ready in pick-up station |
 | Step#        | Description  |
 | 1 | Take order from preparation station to pick-up station |
-| 2 | Go to Received Order panel |
+| 2 | Employee opens Received Order section |
 | 3 | Select the prepared Order |
-| 4 | Mark it as 'Ready to pick-up' |
+| 4 | Mark the order as 'Ready to pick-up' |
 
 
-### Use case 10, UC10: Bar Code Read
-| Actors Involved        | WH Worker |
-| ------------- |:-------------:| 
-|  Precondition     | WH Worker authenticated |
-|  Post condition     | Item code acquired |
-|  Nominal Scenario     | WH Worker acquires Item code through bar code reader |
-|  Variants     | - |
-|  Exceptions     | Product barcode unreadable |
-
-##### Scenario 10.1
-
-| Scenario 10.1 | Internal Order Ready |
-| ------------- |:-------------:| 
-|  Precondition     | WH Worker authenticated |
-|  Post condition     | Item code acquired |
-|  Nominal Scenario     | WH Worker acquires Item code through bar code reader |
-| Step#        | Description  |
-| 1 | Press 'Read Code' |
-| 2 | Scan Item Barcode |
-| 2b | Unreadable Bar Code |
-| 3b | Insert Code by hand |
 
 
 # Glossary
