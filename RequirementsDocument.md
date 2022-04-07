@@ -121,7 +121,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |   FR3.6  | Check order status |
 |   FR3.7  | Orders history |
 |   FR3.8  | Check space availability |
-|   FR3.9  | Reject item in case of defects |
+|   FR3.9  | Reject product in case of defects |
 |  FR4     | Manage Internal Orders |
 |   FR4.1  | Select product from the inventory |
 |   FR4.2  | Define quantity and pick-up date |
@@ -205,13 +205,13 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 |  ...     |  |
 
 ### Use case 1, UC1: Manage Database
-| Actors Involved | IT and Database |
+| Actors Involved | IT Administrator and Database |
 | ------------- |:-------------:| 
 |  Precondition     | Database data out of date |
 |  Post condition     | Database data updated |
-|  Nominal Scenario     | Items are added and some others are removed from stock, so the IT person needs to update the database |
-|  Variants     | Add new Item, Modify Item, Delete Item |
-|  Exceptions     | Internet connection not available, Wrong Database Query |
+|  Nominal Scenario     | Products are added and some others are removed from stock, IT Administrator needs to update the database |
+|  Variants     | Add new product, Modify product, Delete product |
+|  Exceptions     | Internet connection not available, Wrong database query |
 
 ##### Scenario 1.1
 
@@ -223,60 +223,61 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 \<only relevant scenarios should be described>
 
-| Scenario 1.1 | Insert new Item in Database |
+| Scenario 1.1 | Insert new product in Database |
 | ------------- |:-------------:| 
-|  Precondition     | Item does not exists in Database |
-|  Post condition     | Item added to database |
+|  Precondition     | Product does not exists in database |
+|  Post condition     | Product added to database |
 | Step#        | Description  |
-|  1     | Retrieve Item specifications |  
-|  2     | Prepare Database query to add an entry with all needed information |
+|  1     | Retrieve product specifications  |  
+|  2     | Define database query to add an entry including product specifications |
 | 3 | Submit query to database |
 
 ##### Scenario 1.2
 
-| Scenario 1.2 | Modify Item in Database |
+| Scenario 1.2 | Modify product in Database |
 | ------------- |:-------------:| 
-|  Precondition     | Item specifications are wrong or out of date |
-|  Post condition     | Item specifications are up to date |
+|  Precondition     | Product specifications are wrong or out of date |
+|  Post condition     | Product specifications are up to date |
 | Step#        | Description  |
-|  1     | Retrieve Item updated specifications |  
-|  2     | Prepare proper Database query to modify an entry by passing all corrected/updated information |
+|  1     | Retrieve product updated specifications |  
+|  2     | Define database query to modify an entry including the correct specifications |
 | 3 | Submit query to database |
 
 ##### Scenario 1.3
 
-| Scenario 1.3 | Delete Item in Database |
+| Scenario 1.3 | Delete product from Database |
 | ------------- |:-------------:| 
-|  Precondition     | Item entry is obsolete |
-|  Post condition     | Item entry removed from Databse |
+|  Precondition     | Product entry inside the database is obsolete |
+|  Post condition     | Product entry removed from Databse |
 | Step#        | Description  |
-|  1     | Prepare proper Database query to delete entry of interest |  
+|  1     | Retrieve product to be deleted |  
+|  1     | Define database query to delete the selected product |  
 | 2 | Submit query to database |
 
 ### Use case 2, UC2: Manage User Account
-| Actors Involved        | IT Manager |
+| Actors Involved        | IT Administrator and Database |
 | ------------- |:-------------:| 
-|  Precondition     | User Account not existing or User data Out of date or User Account obsolete or User forgot Password |
-|  Post condition     | User Account up to date or User Account Removed |
-|  Nominal Scenario     | IT Manager creates a new user account |
-|  Variants     | User Account updated, User Account password reset, User Account deleted |
-|  Exceptions     | User Account already exists, Invalid character within a field, User Account does not exist |
+|  Precondition     | User account not existing or User account is out of date or User forgot Password or User account needs to be deleted |
+|  Post condition     | New user account defined or User Account is up to date or User account password reset or User Account deleted |
+|  Nominal Scenario     | IT Administrator creates a new user account |
+|  Variants     | User Account updated, password reset, User Account deleted |
+|  Exceptions     | User Account already exists, invalid character within a field, User Account does not exist |
 
 ##### Scenario 2.1
 
-| Scenario 2.1 | Register new User |
+| Scenario 2.1 | Register new user |
 | ------------- |:-------------:| 
-|  Precondition     | WH Employee has been hired by company and User Account does not exist |
+|  Precondition     | Employee has been hired by the company and User Account does not exist |
 |  Post condition     | User Account created |
 | Step#        | Description  |
-|  1     | Retrieve User's info |  
+|  1     | Retrieve user information |  
 |  2     | Fill new Account form |
 |  3     | Select correct permission for the User |
 | 4 | Submit User data for Account creation |
 
 ##### Scenario 2.2
 
-| Scenario 2.2 | Register new User (wrong field) |
+| Scenario 2.2 | Register new user with errors |
 | ------------- |:-------------:| 
 |  Precondition     | WH Employee has been hired by company and User Account does not exist |
 |  Post condition     | User Account created |
@@ -292,7 +293,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 ##### Scenario 2.3
 
-| Scenario 2.3 | Modify User |
+| Scenario 2.3 | Modify user |
 | ------------- |:-------------:| 
 |  Precondition     | User data is wrong or obsolete |
 |  Post condition     | User data is up to date |
