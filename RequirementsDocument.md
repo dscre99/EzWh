@@ -86,7 +86,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Organizational Unit | GUI | Screen, keyboard |
 | Barcode scanner | Wireless connection or USB | Laser beam, camera |
 | Testing machine | API | USB or Wireless connection |
-| Administrator | GUI | Screen, keyboard |
+| IT Administrator | GUI | Screen, keyboard |
 | Delivery company | API | Internet connection |
 | Database | API | Internet connection |
 
@@ -710,7 +710,7 @@ products quantity are modified |
 
 - **Order**: it can be of two types
 	- **Internal**: it is issued by an OU employee, it refers to a product inside the warehouse that is deposited by a warehouse worker inside the pickup area.
-	- **External**: It is issued by WH manager, it can be of the 2 types normal or return of defective items, it is associated with a shipment carried out by an external delivery company.
+	- **External**: It is issued by WH manager, it can be of the 2 types normal or return of defective products, it is associated with a shipment carried out by an external delivery company.
 
 	Both types of orders refer to a generic product descriptor, as in the order phase the single instance of the ordered object is not yet known, which will become known once the order is received. 
 
@@ -728,5 +728,6 @@ It is possible to identify different roles to which a particular account is asso
 
 # Deployment Diagram 
 
-\<describe here deployment diagram >
+<img src="./RDImages/DeploymentDiagram.png" alt="glossary" width="850">
+
 
