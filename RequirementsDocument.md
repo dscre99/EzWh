@@ -70,7 +70,8 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Context Diagram and interfaces
 
 ## Context Diagram
-\<Define here Context diagram using UML use case diagram>
+<img src="./RDImages/Context_Diagram_UML_Diagram.png" alt="Context Diagram" width="850">
+
 
 \<actors are a subset of stakeholders>
 
@@ -212,7 +213,7 @@ Randomly selects products within orders and carries out tests, reporting the res
 
 
 ## Use case diagram
-\<inset here use case diagram >
+<img src="./RDImages/Use_Case_UML_Diagram.png" alt="Use Case Diagram" width="850">
 
 ### Use case 1, UC1: Manage User Account
 | Actors Involved        | IT Administrator and Database |
@@ -722,7 +723,7 @@ It is possible to identify different roles to which a particular account is asso
 - **Consultant agent**: carries out data analysis actions relating to orders 
 
 # System Design
-\<describe here system design>
+<img src="./RDImages/System_Design_UML_Diagram.png" alt="System Design" width="850">
 
 \<must be consistent with Context diagram>
 
