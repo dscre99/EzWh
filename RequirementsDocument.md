@@ -723,9 +723,8 @@ It is possible to identify different roles to which a particular account is asso
 - **Consultant agent**: carries out data analysis actions relating to orders 
 
 # System Design
-<img src="./RDImages/System_Design_UML_Diagram.png" alt="System Design" width="850">
+<img src="./RDImages/System_Design_UML_Diagram.png" alt="System Design" width="500">
 
-\<must be consistent with Context diagram>
 
 # Deployment Diagram 
 
