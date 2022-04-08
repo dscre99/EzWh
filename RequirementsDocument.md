@@ -702,13 +702,15 @@ products quantity are modified |
 
 # Glossary
 
+<img src="./RDImages/glossary.png" alt="glossary" width="850">
+
 - **Product**: It is the physical object stored in the warehouse in special shelves used to contain, for each product, a certain number of instances within that particular type. Each product can be associated with an external supplier, a manufacturer, a possible inspection result and a product descriptor.
 
 - **Catalogue**: it contains the list of descriptors of the single products, it does not refer to the single instances but to the common object described by the descriptor. It is useful to describe a product in a generic way within individual orders and is also used by internal orders as a catalog of all possible products contained in the warehouse.
 
 - **Order**: it can be of two types
 	- **Internal**: it is issued by an OU employee, it refers to a product inside the warehouse that is deposited by a warehouse worker inside the pickup area.
-	- **External**: It is issued by WH administrator, it can be of the 2 types normal or return of defective items, it is associated with a shipment carried out by an external delivery company.
+	- **External**: It is issued by WH manager, it can be of the 2 types normal or return of defective items, it is associated with a shipment carried out by an external delivery company.
 
 	Both types of orders refer to a generic product descriptor, as in the order phase the single instance of the ordered object is not yet known, which will become known once the order is received. 
 
