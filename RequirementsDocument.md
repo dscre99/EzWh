@@ -49,21 +49,21 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 
 | Stakeholder name  | Description | 
 | ----------------- |:-----------:|
-| Supplier | External entity in charge of supply items ordered by a Warehouse |
+| Supplier | External entity in charge of supply Products ordered by a Warehouse |
 | Company | Entity that has to follow normal accepted business practices and operates in order to make a profit |
 | Organizational Unit (OU) | Sub-unit of a Company with a specific action domain |
 | IT Administrator | Person in charge of supervise and manage a specific area of a company |
-| Retailer | Company that buys Item from a manufacturer or wholesaler and sells them to end users or customers |
-| Product Manufacturer | Company that owns or runs a manufacturing plant of a certain kind of item |
+| Retailer | Company that buys Product from a manufacturer or wholesaler and sells them to end users or customers |
+| Product Manufacturer | Company that owns or runs a manufacturing plant of a certain kind of Product |
 | Warehouse Manager | In a company, person in charge of supervising the warehouse of a company |
 | Consultant Agent | In a company, person who helps a warehouse manager in finding best suppliers/retailers on the marketplace |
-| Quality Inspector | In a company, person in charge of testing Item |
-| Employee | In a company, person in charge of storing the orders received and retrieving items in the warehouse |
-| Barcode System | Device able to scan optical machine-readable representation of item codes and to communicate through API	|
+| Quality Inspector | In a company, person in charge of testing Product |
+| WH Worker | In a company, person in charge of storing the orders received and retrieving Products in the warehouse |
+| Barcode System | Device able to scan optical machine-readable representation of Product codes and to communicate through API	|
 | Company Server/Database | Machine hosting the core of EZWH application |
 | Internet Provider | Company that provides access to the Internet to both personal and business customers |
 | Delivery Company | Company which offers transports of goods in a given geographical area or globally |
-| Software House | Company that primarily provides software Item |
+| Software House | Company that primarily provides software Product |
 | Competitors | Software houses which develop applications with the same purpose of EZWH |
 
 
@@ -80,7 +80,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | ------------- |:-------------:| -----:|
 |   Supplier    | API | Internet connection |
 | Warehouse manager| GUI | Screen, keyboard |
-| Employee | GUI | Screen, barcode reader |
+| WH Worker | GUI | Screen, barcode reader |
 | Product | Barcode | Laser beam, camera |
 | Quality inspector | GUI | Screen, keyboard, testing machine, barcode reader |
 | Organizational Unit | GUI | Screen, keyboard |
@@ -91,26 +91,21 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 | Database | API | Internet connection |
 
 # Stories and personas
-\<A Persona is a realistic impersonation of an actor. Define here a few personas and describe in plain text how a persona interacts with the system>
 
-\<Persona is-an-instance-of actor>
-
-\<stories will be formalized later as scenarios in use cases>
-
-## Persona 1 - Employee
-Employee: male/female,  age between 40 and 60 years old, low income, has been working in the company for a long time, specialized in management of orders received by the supplier  
+## Persona 1 - WH Worker
+WH Worker: male/female,  age between 40 and 60 years old, low income, has been working in the company for a long time, specialized in management of orders received by the supplier  
 
 ### Story
 Must dispatch and finds the right location for the products received by the supplier. Since has been working in the company for a long time, knows exactly the place of where products need to be stored. He/she is not into technology, needs a very user-friendly and easy to use software. 
 
-## Persona 2 - Employee
-Employee: male/female, age under 30, low income, new employee with no industry experience, specialized in internal orders management 
+## Persona 2 - WH Worker
+WH Worker: male/female, age under 30, low income, new employee with no industry experience, specialized in internal orders management 
 
 ### Story
 Has to find products inside the warehouse and then bring them to the right location for pick up. Since is new in the company, he/she doesn’t know well the right location of the products inside the warehouse. Needs a software that shows exactly where the product is inside the warehouse, with some map of the right location. 
 
 ## Persona 3 - WH Manager
-WH manager: male/female, age between 40 to 60 years old, high income, has been working in the company for a long time 
+WH Manager: male/female, age between 40 to 60 years old, high income, has been working in the company for a long time 
 
 ### Story
 Checks the stocks of the products into the warehouse and performs orders to suppliers when product quantity runs under some threshold. Needs to be warn when the quantity of some products decreases, and the list of orders carried out for each supplier.  
@@ -119,13 +114,13 @@ Checks the stocks of the products into the warehouse and performs orders to supp
 Consultant agent: male/female, age under 40, high income, specialized in marketing and data analysis 
 
 ### Story
-Checks the history of the orders, the quantity of products in stock and their prices for each supplier. Is skilled in using technology. Needs software that shows the products that are replenished most often, and which indicates for each product which supplier has the best price. Needs support in data analysis through some indicators about the actual and past condition of the warehouse. 
+Checks the history of the orders, the quantity of products in stock and their prices for each supplier. He/she is skilled in using technology. Needs software that shows the products that are replenished most often, and which indicates for each product which supplier has the best price. Needs support in data analysis through some indicators about the actual and past condition of the warehouse. 
 
 ## Persona 5 - IT Administrator
 IT Administrator: male/female, from 25 to 60 years old, average income 
 
 ### Story
-Responds to the WH manager indications, tests the application, checks if the database is up to date and performs management actions related to employee's account. Needs software that is compatible with the equipment already owned by the company, capable of running on different OSs and platforms. 
+Responds to the WH Manager indications, tests the application, checks if the database is up to date and performs management actions related to employee's account. Needs software that is compatible with the equipment already owned by the company, capable of running on different OSs and platforms. 
 
 ## Persona 6 - OU Employee
 Organizational unit employee: male/female, age between 40 to 60 years old, high income, has been working in the company for a long time 
@@ -194,8 +189,6 @@ Randomly selects products within orders and carries out tests, reporting the res
 
 ## Non Functional Requirements
 
-\<Describe constraints on functional requirements>
-
 | ID        | Type (efficiency, reliability, ..)           | Description  | Refers to |
 | ------------- |:-------------:| :-----:| -----:|
 | NFR1 | Usability | Average time spent in hours by workers to learn using the software product | All FR |
@@ -219,37 +212,11 @@ Randomly selects products within orders and carries out tests, reporting the res
 
 
 ## Use case diagram
-\<define here UML Use case diagram UCD summarizing all use cases, and their relationships>
-
-
-\<next describe here each use case in the UCD>
-
-
-### Use case X, UCX: TEMPLATE
-| Actors Involved        |  |
-| ------------- |:-------------:| 
-|  Precondition     | \<Boolean expression, must evaluate to true before the UC can start> |
-|  Post condition     | \<Boolean expression, must evaluate to true after UC is finished> |
-|  Nominal Scenario     | \<Textual description of actions executed by the UC> |
-|  Variants     | \<other normal executions> |
-|  Exceptions     | \<exceptions, errors > |
----
-
-##### Scenario 1.x TEMPLATE
-
-| Scenario 1.1 | |
-| ------------- |:-------------:| 
-|  Precondition     | \<Boolean expression, must evaluate to true before the scenario can start> |
-|  Post condition     | \<Boolean expression, must evaluate to true after scenario is finished> |
-| Step#        | Description  |
-|  1     |  |  
-|  2     |  |
-|  ...     |  |
-
+\<inset here use case diagram >
 
 ### Use case 1, UC1: Manage User Account
 | Actors Involved        | IT Administrator and Database |
-| ------------- |:-------------:| 
+| ------------- |:-------------:|
 |  Precondition     | User account not existing or User account is out of date or User forgot Password or User account needs to be deleted |
 |  Post condition     | New user account defined or User Account is up to date or User account password reset or User Account deleted |
 |  Nominal Scenario     | IT Administrator creates a new user account |
@@ -260,7 +227,7 @@ Randomly selects products within orders and carries out tests, reporting the res
 
 | Scenario 1.1 | Register new user account |
 | ------------- |:-------------:| 
-|  Precondition     | Employee has been hired by the company and User Account does not exist, IT Administrator logged into database |
+|  Precondition     | WH Worker has been hired by the company and User Account does not exist, IT Administrator logged into database |
 |  Post condition     | User Account created |
 | Step#        | Description  |
 |  1     | Retrieve user information |  
@@ -272,7 +239,7 @@ Randomly selects products within orders and carries out tests, reporting the res
 
 | Scenario 1.2 | Register new user account with errors |
 | ------------- |:-------------:| 
-|  Precondition     |  Employee has been hired by company and User Account does not exist, IT Administrator logged into database |
+|  Precondition     |  WH Worker has been hired by company and User Account does not exist, IT Administrator logged into database |
 |  Post condition     | User Account created |
 | Step#        | Description  |
 |  1     | Retrieve user information |  
@@ -313,7 +280,7 @@ Randomly selects products within orders and carries out tests, reporting the res
 
 
 ### Use case 2, UC2: Authentication
-| Actors Involved        | Users (Employees and WH Managers) |
+| Actors Involved        | Users (WH Workers and WH Managers) |
 | ------------- |:-------------:| 
 |  Precondition     | Application is installed on the device. Network connectivity is available. User account already defined. |
 |  Post condition     | User is logged into her/his account |
@@ -404,16 +371,16 @@ Randomly selects products within orders and carries out tests, reporting the res
 |  Precondition     | A new product is available, catalogue exists, WH Manager authenticated, product is not inside the catalogue  |
 |  Post condition     | The new product is inserted in the catalogue |
 | Step#        | Description  |
-| 1 | WH manager starts product insertion |
+| 1 | WH Manager starts product insertion |
 | 2 | Application asks to define a new product  |
-| 3 | WH manager issues all the requested data |
-| 4 | WH manager submits insertion |
-| 5 | Item insertion successful |
-| 5b | Item insertion unsuccessful (wrong field) |
+| 3 | WH Manager issues all the requested data |
+| 4 | WH Manager submits insertion |
+| 5 | Product insertion successful |
+| 5b | Product insertion unsuccessful (wrong field) |
 | 6b | Correct wrong product field(s) |
 | 7b | Back to step #4 |
-| 5c | Item insertion unsuccessful (Item code already existing) |
-| 6c | Change Item code |
+| 5c | Product insertion unsuccessful (Product code already existing) |
+| 6c | Change Product code |
 | 7c | Back to step #4 |
 
 ##### Scenario 3.3
@@ -423,9 +390,9 @@ Randomly selects products within orders and carries out tests, reporting the res
 |  Precondition     | Product exists in Catalogue, WH Manager authenticated |
 |  Post condition     | Product have been modified |
 | Step#        | Description  |
-| 1 | WH manager starts product modification procedure |
+| 1 | WH Manager starts product modification procedure |
 | 2 | Application asks to define the product to be removed |
-| 3 | WH manager select product by ID or search for it among all the products inside the catalogue |
+| 3 | WH Manager select product by ID or search for it among all the products inside the catalogue |
 | 4 | Confirm insertion |
 | 5b | Wrong product code |
 | 6b | Back to step #3 |
@@ -445,16 +412,16 @@ Randomly selects products within orders and carries out tests, reporting the res
 |  Precondition     | Product exists in Catalogue, WH Manager authenticated |
 |  Post condition     | Product removed from catalogue |
 | Step#        | Description  |
-| 1 | WH manager starts product remove procedure |
+| 1 | WH Manager starts product remove procedure |
 | 2 | Application asks to define the product to be removed |
-| 3 | WH manager select product by ID or search for it among all the products inside the catalogue |
+| 3 | WH Manager select product by ID or search for it among all the products inside the catalogue |
 | 4 | Application asks to confirm deletion |
 | 5 | Product is removed from the catalogue  |
 | 5b | Wrong product ID |
 | 6b | Back to step #3 |
 
 ### Use case 4, UC4: Manage Inventory
-| Actors Involved        | WH Manager, Employee, IT Administrator |
+| Actors Involved        | WH Manager, WH Worker |
 | ------------- |:-------------:| 
 |  Precondition     | Inventory exists or not |
 |  Post condition     | Inventory created and/or updated, products are added and removed from inventory, 
@@ -484,8 +451,8 @@ products quantity are modified |
 | Step#        | Description  |
 | 1 | WH Manager starts product insertion |
 | 2 | Application asks for product code  |
-| 3 | Employee inserts product code |
-| 3b | Employee scans product barcode |
+| 3 | WH Worker inserts product code |
+| 3b | WH Worker scans product barcode |
 | 4 | Application looks for product ID inside the database |
 | 5 | Product information retrieved and shown |
 | 5b | Product information retrieve unsuccessful (wrong ID) |
@@ -506,13 +473,13 @@ products quantity are modified |
 
 | Scenario 4.3 | Modify product quantity in Inventory |
 | ------------- |:-------------:| 
-|  Precondition     | Inventory exists, Employee authenticated, product exist into inventory |
+|  Precondition     | Inventory exists, WH Worker authenticated, product exist into inventory |
 |  Post condition     | Product quantity is modified  |
 | Step#        | Description  |
-| 1 | Employee starts modify procedure |
+| 1 | WH Worker starts modify procedure |
 | 2 | Go to scenario 4.5 |
 | 3 | Application asks for new quantity |
-| 4 | Employee define quantity |
+| 4 | WH Worker define quantity |
 | 5 | Product added into the inventory |
 | 5b | Quantity definition unsuccessful (not enough space in the inventory) |
 | 6b | Back to step #6 |
@@ -534,13 +501,13 @@ products quantity are modified |
 
 | Scenario 4.5 | Track product in Inventory |
 | ------------- |:-------------:| 
-|  Precondition     | Internal Order received or Employee needs to locate an Item, Employee authenticated|
-|  Post condition     | Item position displayed to Employee |
+|  Precondition     | Internal Order received or WH Worker needs to locate an Product, WH Worker authenticated|
+|  Post condition     | Product position displayed to WH Worker |
 | Step#        | Description  |
 | 1 | Start product retrieve procedure |
 | 2 | Application asks for product code  |
-| 3 | Employee inserts product code |
-| 3b | Employee scans product barcode |
+| 3 | WH Worker inserts product code |
+| 3b | WH Worker scans product barcode |
 | 4 | Application looks for product ID inside the database |
 | 5 | Product information retrieved and position shown |
 | 5b | Product information retrieve unsuccessful (wrong ID) |
@@ -548,7 +515,7 @@ products quantity are modified |
 | 7b | Back to step #3 |
 | 5c | Product information retrieve unsuccessful (product doesn't exists inside the catalogue) |
 | 6c | Go to scenario 3.2 |
-| 6 | Employee applies filters on the research result |
+| 6 | WH Worker applies filters on the research result |
 
 
 
@@ -575,7 +542,7 @@ products quantity are modified |
 | 4 | Application shows suppliers available for the defined product |
 | 5 | Application asks to define quantity |
 | 6 | WH Managers defines the quantity |
-| ... | Repeat for each Item which needs to be ordered |
+| ... | Repeat for each Product which needs to be ordered |
 | 7 | Checkout |
 | 8 | Application asks to confirm Order |
 | 9 | Order issued |
@@ -623,19 +590,19 @@ products quantity are modified |
 
 
 ### Use case 6, UC6: External Orders stock and management
-| Actors Involved        | Employee , Quality Inspector, WH Manager |
+| Actors Involved        | WH Worker , Quality Inspector, WH Manager |
 | ------------- |:-------------:| 
 |  Precondition     | Products are available for stocking  |
 |  Post condition     | Product are added to the Inventory  |
-|  Nominal Scenario     | Employee scans and adds received products to Inventory |
+|  Nominal Scenario     | WH Worker scans and adds received products to Inventory |
 |  Variants     | Products needs to be added to inventory. Products already exists in Inventory, simply modify quantities. |
 |  Exceptions     | Product fails testing. No available space in Inventory |
 
 ##### Scenario 6.1
 
-| Scenario 6.1 | Employee stocks products |
+| Scenario 6.1 | WH Worker stocks products |
 | ------------- |:-------------:| 
-|  Precondition     | Products are available for stocking, Employee is authenticated |
+|  Precondition     | Products are available for stocking, WH Worker is authenticated |
 |  Post condition     | Products are added to the inventory  |
 | Step#        | Description  |
 | ... | Repeat scenario 4.2 for each product  needs to be stocked |
@@ -674,7 +641,7 @@ products quantity are modified |
 | 2 | Application shows catalogue and quantities available in stock |
 | 3 | OU selects product |
 | 3b | Product not available in catalogue, contacts warehouse manager |
-| 4 | OU inserts Item code |
+| 4 | OU inserts Product code |
 | 4c | Select product from Catalogue list |
 | 5 | Define quantity |
 | ... | Repeat for each product which needs to be ordered |
@@ -696,22 +663,22 @@ products quantity are modified |
 
 
 ### Use case 8, UC8: Internal order stock and management
-| Actors Involved        | Employee |
+| Actors Involved        | WH Worker |
 | ------------- |:-------------:| 
 |  Precondition     | OU issued Internal Order |
-|  Post condition     | Employee prepared Internal Order  |
-|  Nominal Scenario     | Employee localizes each ordered product, picks it up from Inventory and move to pickup area |
+|  Post condition     | WH Worker prepared Internal Order  |
+|  Nominal Scenario     | WH Worker localizes each ordered product, picks it up from Inventory and move to pickup area |
 |  Variants     | - |
 |  Exceptions     | Not enogh products available |
 
 ##### Scenario 8.1
 
-| Scenario 8.1 | Employee Prepares Order |
+| Scenario 8.1 | WH Worker Prepares Order |
 | ------------- |:-------------:| 
-|  Precondition     | Products available in Inventory, Employee authenticated |
+|  Precondition     | Products available in Inventory, WH Worker authenticated |
 |  Post condition     | Products added to prepared order and removed from Inventory |
 | Step#        | Description  |
-| 1 | Employee opens internal order section |
+| 1 | WH Worker opens internal order section |
 | 2 | Select an Order |
 | 3 | Retrieve product Code |
 | 4 | Scenario 4.5 |
@@ -724,22 +691,33 @@ products quantity are modified |
 
 | Scenario 8.2 | Internal Order Ready |
 | ------------- |:-------------:| 
-|  Precondition     | Employee Prepared Internal Order, Employee authenticated |
+|  Precondition     | WH Worker Prepared Internal Order, WH Worker authenticated |
 |  Post condition     | Internal Order ready in pick-up station |
 | Step#        | Description  |
 | 1 | Take order from preparation station to pick-up station |
-| 2 | Employee opens Received Order section |
+| 2 | WH Worker opens Received Order section |
 | 3 | Select the prepared Order |
 | 4 | Mark the order as 'Ready to pick-up' |
 
 
-
-
 # Glossary
 
-\<use UML class diagram to define important terms, or concepts in the domain of the system, and their relationships> 
+- **Product**: It is the physical object stored in the warehouse in special shelves used to contain, for each product, a certain number of instances within that particular type. Each product can be associated with an external supplier, a manufacturer, a possible inspection result and a product descriptor.
 
-\<concepts are used consistently all over the document, ex in use cases, requirements etc>
+- **Catalogue**: it contains the list of descriptors of the single products, it does not refer to the single instances but to the common object described by the descriptor. It is useful to describe a product in a generic way within individual orders and is also used by internal orders as a catalog of all possible products contained in the warehouse.
+
+- **Order**: it can be of two types
+	- **Internal**: it is issued by an OU employee, it refers to a product inside the warehouse that is deposited by a warehouse worker inside the pickup area.
+	- **External**: It is issued by WH administrator, it can be of the 2 types normal or return of defective items, it is associated with a shipment carried out by an external delivery company.
+
+	Both types of orders refer to a generic product descriptor, as in the order phase the single instance of the ordered object is not yet known, which will become known once the order is received. 
+
+It is possible to identify different roles to which a particular account is associated with different privileges and contents:
+- **Quality inspector**: carries out inspections on individual
+- **Warehouse worker**: manages products and internal orders.
+- **OU Employee**: place orders within the company.
+- **WH Manager**: carries out orders outside the company, accesses product descriptors and manages the warehouse.
+- **Consultant agent**: carries out data analysis actions relating to orders 
 
 # System Design
 \<describe here system design>
@@ -749,7 +727,4 @@ products quantity are modified |
 # Deployment Diagram 
 
 \<describe here deployment diagram >
-
-
-
 
