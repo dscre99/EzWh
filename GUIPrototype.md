@@ -1,10 +1,10 @@
 # Graphical User Interface Prototype  
 
-Authors:
+Authors: Agnese Serafino
 
-Date:
+Date: 10.04.2022
 
-Version:
+Version: 1.0
 
 # Use case 1: Manage user account
 
