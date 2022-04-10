@@ -1,7 +1,7 @@
 # Project Estimation  
-Date: 9 april 2022
+Date: 10 april 2022
 
-Version: 1.0
+Version: 1.1
 
 
 # Estimation approach
@@ -86,7 +86,8 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 
 
 ## Gantt chart
-Insert here Gantt chart with above activities
+<img src="./Gantt_Images/EZWH_Gantt_part1.png" alt="business model canvas">
+<img src="./Gantt_Images/EZWH_Gantt_part2.png" alt="business model canvas">
 
 # Summary
 
