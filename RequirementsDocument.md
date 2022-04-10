@@ -281,7 +281,7 @@ Randomly selects products within orders and carries out tests, reporting the res
 
 ##### Scenario 1.5
 
-| Scenario 1.5 | Employees list and retrieve information |
+| Scenario 1.5 | WH workers list and retrieve information |
 | ------------- |:-------------:| 
 |  Precondition     | WH Manager authenticated |
 |  Post condition     | List of employees with their job shown |
