@@ -13,7 +13,7 @@ Version:
 ## Scenario 2.1: Login
 
 <img src="./GUI_Images/Main_page.png" alt="Login"  width="175" height="250"> <br>
-Error message in case of incompelte login: <br>
+Error message in case of incomplete login: <br>
 
 <img src="./GUI_Images/Error_credentials.png" alt="Login not complete"  width="175" height="250"> <br>
 <img src="./GUI_Images/Login_user.png" alt="Username insertion"  width="175" height="250">
