@@ -84,7 +84,7 @@ This function is implemented in the WH worker page.
 
 ## Scenario 3.4: Remove product from catalogue
 
-<img src="./GUI_Images/catalog_delete_product.png" alt="Remove product from catalogue"  width="175" height="250">
+<img src="./GUI_Images/catalogue_delete_product.png" alt="Remove product from catalogue"  width="175" height="250">
 
 # Use case 6: External Orders stock and management
 
