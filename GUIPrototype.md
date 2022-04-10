@@ -7,8 +7,9 @@ Date:
 Version:
 
 # Use case 1: Manage user account
-## Scenario 2.1: WH workers list and retrieve information
-The WH manager can check the list of workers and their specific job: <br>
+
+## Scenario 1.5: WH workers list and retrieve information
+The WH manager can check the list of WH workers and their specific job: <br>
 
 <img src="./GUI_Images/employees.png" alt="List of WH workers" widht="175" height="250">
 
