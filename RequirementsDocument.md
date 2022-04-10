@@ -216,7 +216,7 @@ Randomly selects products within orders and carries out tests, reporting the res
 <img src="./RDImages/Use_Case_UML_Diagram.png" alt="Use Case Diagram" width="850">
 
 ### Use case 1, UC1: Manage User Account
-| Actors Involved        | IT Administrator and Database |
+| Actors Involved        | IT Administrator, WH Manager and Database |
 | ------------- |:-------------:|
 |  Precondition     | User account not existing or User account is out of date or User forgot Password or User account needs to be deleted |
 |  Post condition     | New user account defined or User Account is up to date or User account password reset or User Account deleted |
@@ -278,6 +278,19 @@ Randomly selects products within orders and carries out tests, reporting the res
 | 5b | Correct wrong fields |
 | 6b | Submit User data for Account update |
 | ... | Repeat steps #3 |
+
+##### Scenario 1.5
+
+| Scenario 1.5 | Employees list and retrieve information |
+| ------------- |:-------------:| 
+|  Precondition     | WH Manager authenticated |
+|  Post condition     | List of employees with their job shown |
+| Step#        | Description  |
+|  1     | WH Manager open employees section of the application |  
+|  2     | Application shows the list of all the employees |
+| 2b | WH Manager filters the list by the name or ID of the employee  |
+| 3b | Application shows the list of employees based on the parameters looked for  |
+
 
 
 ### Use case 2, UC2: Authentication
