@@ -6,9 +6,13 @@ Date:
 
 Version:
 
-\<Report here the GUI that you propose. You are free to organize it as you prefer. A suggested presentation matches the Use cases and scenarios defined in the Requirement document. The GUI can be shown as a sequence of graphical files (jpg, png)  >
+# Use case 1: Manage user account
+## Scenario 2.1: WH workers list and retrieve information
+The WH manager can check the list of workers and their specific job: <br>
 
-# Use case 2: authentication
+<img src="./GUI_Images/employees.png" alt="List of WH workers" widht="175" height="250">
+
+# Use case 2: Authentication
 
 ## Scenario 2.1: Login
 
@@ -53,7 +57,7 @@ To find a product in the list one can use the filter results option. By clicking
 <img src="./GUI_Images/Product_info.png" alt="Product info" width="175" height="250">
 <img src="./GUI_Images/inventory_modify_product.png" alt="Modify product" width="175" height="250">
 
-## Scenario 4.4: remove product from inventory
+## Scenario 4.4: Remove product from inventory
 
 <img src="./GUI_Images/inventory_delete.png" alt="Delete product" width="175" height="250">
 
@@ -134,11 +138,8 @@ WH manager: <br>
 WH worker: <br>
 <img src="./GUI_Images/employee_delivered_orders.png" alt="Products delivered from WH worker view" widht="175" height="250"> <br>
 
-# Extra
 
-In addition, the WH manager can check the list of workers and their specific job: <br>
 
-<img src="./GUI_Images/employees.png" alt="List of WH workers" widht="175" height="250">
 
 
 
