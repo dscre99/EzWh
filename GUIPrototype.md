@@ -130,9 +130,9 @@ WH worker: <br>
 
 As in the last scenario, both the WH worker and manager can see the delivered products: <br>
 WH manager: <br>
-<img src="./GUI_Images/admin_check_orders.png" alt="Products delivered from WH manager view" widht="175" height="250">
+<img src="./GUI_Images/admin_check_orders.png" alt="Products delivered from WH manager view" widht="175" height="250"> <br>
 WH worker: <br>
-<img src="./GUI_Images/employee_delivered_orders.png" alt="Products delivered from WH worker view" widht="175" height="250">
+<img src="./GUI_Images/employee_delivered_orders.png" alt="Products delivered from WH worker view" widht="175" height="250"> <br>
 
 # Extra
 
