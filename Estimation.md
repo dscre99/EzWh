@@ -1,7 +1,7 @@
 # Project Estimation  
-Date: 10 april 2022
+Date: 11 april 2022
 
-Version: 1.1
+Version: 1.2
 
 
 # Estimation approach
@@ -10,11 +10,11 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 |             | Estimate    |             
 | ----------- | :-------------------------------: |  
 | NC =  Estimated number of classes to be developed  | 25                                 |             
-|  A = Estimated average size per class, in LOC       |          300 - 400                  | 
-| S = Estimated size of project, in LOC (= NC * A) | 7500 - 10000 | 
-| E = Estimated effort, in person hours (here use productivity 10 LOC per person hour)  |                      750ph - 1000               |   
-| C = Estimated cost, in euro (here use 1 person hour cost = 30 euro) |  22.500 euro - 30.000 euro | 
-| Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) |       750 ph /(4\*8\*5)= 4,69 weeks - 1000 ph /(4\*8\*5)= 6,25 weeks  |               
+|  A = Estimated average size per class, in LOC       |      300     | 
+| S = Estimated size of project, in LOC (= NC * A) | 7500 | 
+| E = Estimated effort, in person hours (here use productivity 10 LOC per person hour)  |                      750ph             |   
+| C = Estimated cost, in euro (here use 1 person hour cost = 30 euro) |  22.500 euro  | 
+| Estimated calendar time, in calendar weeks (Assume team of 4 people, 8 hours per day, 5 days per week ) |       750 ph /(4\*8\*5)= 4,69 weeks weeks  |               
 
 # Estimate by product decomposition
 | Component name    | Estimated effort (person hours)   |             
@@ -82,7 +82,6 @@ Consider the EZWH  project as described in YOUR requirement document, assume tha
 | Barcode Reader API Testing | 8 |
 | **Management Documents** | Total: 50 |
 | **Total** | 924 |
-|  |  |
 
 
 ## Gantt chart
