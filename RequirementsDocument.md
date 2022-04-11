@@ -94,7 +94,7 @@ EZWH (EaSy WareHouse) is a software application to support the management of a w
 # Stories and personas
 
 ## Persona 1 - WH Worker
-WH Worker: male/female,  age between 40 and 60 years old, low income, has been working in the company for a long time, specialized in management of orders received by the supplier  
+WH Worker: male/female,  age between 40 and 60 years old, low income, has been working in the company for a long time, specialized in management of external orders received by the supplier  
 
 ### Story
 Must dispatch and finds the right location for the products received by the supplier. Since has been working in the company for a long time, knows exactly the place of where products need to be stored. He/she is not into technology, needs a very user-friendly and easy to use software. 
@@ -103,7 +103,7 @@ Must dispatch and finds the right location for the products received by the supp
 WH Worker: male/female, age under 30, low income, new employee with no industry experience, specialized in internal orders management 
 
 ### Story
-Has to find products inside the warehouse and then bring them to the right location for pick up. Since is new in the company, he/she doesn’t know well the right location of the products inside the warehouse. Needs a software that shows exactly where the product is inside the warehouse, with some map of the right location. 
+Has to find products inside the warehouse and bring them to the right location for pick up. Since is new in the company, he/she doesn’t know well the right location of the products inside the warehouse. Needs a software that shows exactly where the product is stored inside the warehouse, with some map of the right location. 
 
 ## Persona 3 - WH Manager
 WH Manager: male/female, age between 40 to 60 years old, high income, has been working in the company for a long time 
