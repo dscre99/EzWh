@@ -29,22 +29,23 @@ The design must satisfy the Official Requirements document, notably functional a
 <discuss architectural styles used, if any>
 <report package diagram, if needed>
 
-Architectural style: 
+We are using **Client** **server** architectural pattern, having a set of stand-alone servers that provides specific services and a set of clients that call these services.
 
-Client server
-- data processing is distributed among a set of components 
-- we have a set of servers that provides specific services
-- we have a set of clients that call these services 
-- network allows client to acess servers 
-- data is widely distributed 
-- requires cheaper hardware for servers, easy add and remove servers, requires network capability
+In client-server architecture, data processing is distributed among all the components: it is a distributed system model that requires network capabilities to allow clients to access servers.
+
+Using client-server has a lot of **advantages**
+- data are well distributed  
+- requires cheaper hardware to develop servers
+- servers management is easy compared to mainframes
 - management is replicated in each server 
+
+Disadvantages are 
+- datamodel is free and every server can choose its own: in our scenario we have just one single server, so we have an unique data model
+- rendundant management policies in each server: also in this case is not a problem because we are planning to use just or at leas few servers 
 
 <img src="./DesignDocumentIMG/packageDiagram.png">
 
-
-
-
+EZWH is a client server application composed of one executable generating one single process and thread that communicates with data stored inside a database.
 
 # Low level design
 
