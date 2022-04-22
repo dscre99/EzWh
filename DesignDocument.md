@@ -35,7 +35,7 @@ Client server
 - requires cheaper hardware for servers, easy add and remove servers, requires network capability
 - management is replicated in each server 
 
-<img src="./DesignDocumentIMG/pakcageDiagram.png">
+<img src="./DesignDocumentIMG/packageDiagram.png">
 
 
 
