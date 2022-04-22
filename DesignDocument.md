@@ -124,3 +124,8 @@ EZWH is a client server application composed of one executable generating one si
 # Verification sequence diagrams 
 \<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
 
+## Sequence diagram of Scenario 1.2 (Scenario ID: Scenario 1-2)
+<img src="./DesignDocumentIMG/seqDiagScenario1_2.png">
+
+## Sequence diagram of Scenario 1.3 (Scenario ID: Scenario 1-3)
+<img src="./DesignDocumentIMG/seqDiagScenario1_3.png">
