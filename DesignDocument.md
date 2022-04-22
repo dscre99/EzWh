@@ -10,6 +10,7 @@ Version: 0.1
 | **Version Number** | **Change** |
 |--------------------|------------|
 | 0.1 | Versioning, High Level Design (Draft), Verification Matrix (first implementation) |
+| 0.2 | Sequence Diagrams for Scenario 1-2 and 1-3 |
 |  |  |
 
 
