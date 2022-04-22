@@ -24,6 +24,34 @@ The design must satisfy the Official Requirements document, notably functional a
 <discuss architectural styles used, if any>
 <report package diagram, if needed>
 
+Architectural style: 
+
+Client server
+- data processing is distributed among a set of components 
+- we have a set of servers that provides specific services
+- we have a set of clients that call these services 
+- network allows client to acess servers 
+- data is widely distributed 
+- requires cheaper hardware for servers, easy add and remove servers, requires network capability
+- no shared data models, subsystems will use different data model : problema
+- management is replicated in each server 
+
+@startuml
+
+
+
+package Client <<Folder>> {
+  class Client
+}
+
+package Server <<Folder>> {
+  class Server
+}
+
+Client -> Server
+
+
+@enduml
 
 
 
