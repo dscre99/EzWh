@@ -5,12 +5,13 @@ Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone
 
 Date: 22/04/2022
 
-Version: 0.1
+Version: 0.3
 
 | **Version Number** | **Change** |
 |--------------------|------------|
 | 0.1 | Versioning, High Level Design (Draft), Verification Matrix (first implementation) |
 | 0.2 | Sequence Diagrams for Scenario 1-2 and 1-3 |
+| 0.3 | Sequence Diagrams corrections for Scenario 1-2 and 1-3, changed images paths. Added Sequence Diagrams for Scenario 1-1, 2-1, 2-2, 2-3, 4-1 |
 |  |  |
 
 
@@ -125,8 +126,23 @@ EZWH is a client server application composed of one executable generating one si
 # Verification sequence diagrams 
 \<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
 
+## Sequence diagram of Scenario 1.1 (Scenario ID: Scenario 1-1)
+<img src="./SequenceDiagram/scenario1_1.png">
+
 ## Sequence diagram of Scenario 1.2 (Scenario ID: Scenario 1-2)
-<img src="./DesignDocumentIMG/seqDiagScenario1_2.png">
+<img src="./SequenceDiagram/scenario1_2.png">
 
 ## Sequence diagram of Scenario 1.3 (Scenario ID: Scenario 1-3)
-<img src="./DesignDocumentIMG/seqDiagScenario1_3.png">
+<img src="./SequenceDiagram/scenario1_3.png">
+
+## Sequence diagram of Scenario 2.1 (Scenario ID: Scenario 2-1)
+<img src="./SequenceDiagram/scenario2_1.png">
+
+## Sequence diagram of Scenario 2.2 (Scenario ID: Scenario 2-2)
+<img src="./SequenceDiagram/scenario2_2.png">
+
+## Sequence diagram of Scenario 2.3 (Scenario ID: Scenario 2-3)
+<img src="./SequenceDiagram/scenario2_3.png">
+
+## Sequence diagram of Scenario 4.1 (Scenario ID: Scenario 4-1)
+<img src="./SequenceDiagram/scenario4_1.png">
