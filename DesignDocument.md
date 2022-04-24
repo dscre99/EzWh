@@ -5,7 +5,7 @@ Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone
 
 Date: 24/04/2022
 
-Version: 0.7
+Version: 0.8
 
 | **Version Number** | **Change** |
 |--------------------|------------|
