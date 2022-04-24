@@ -5,7 +5,7 @@ Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone
 
 Date: 24/04/2022
 
-Version: 0.6
+Version: 0.7
 
 | **Version Number** | **Change** |
 |--------------------|------------|
@@ -15,6 +15,7 @@ Version: 0.6
 | 0.4 | Sequence Diagrams for Scenario 2-4, 2-5, 3-1, and 3-2 |
 | 0.5 | Corrections on Verification traceability matrix |
 | 0.6 | Sequence Diagrams for Scenario 5-1-1 and 5-2-1 |
+| 0.7 | Sequence Diagrams for Scenario 5-3-1 and 5-3-2 |
 |  |  |
 
 
@@ -167,3 +168,9 @@ EZWH is a client server application composed of one executable generating one si
 
 ## Sequence diagram of Scenario 5.2.1 (Scenario ID: Scenario 5-2-1)
 <img src="./SequenceDiagram/scenario5_2_1.png">
+
+## Sequence diagram of Scenario 5.3.1 (Scenario ID: Scenario 5-3-1)
+<img src="./SequenceDiagram/scenario5_3_1.png">
+
+## Sequence diagram of Scenario 5.3.2 (Scenario ID: Scenario 5-3-2)
+<img src="./SequenceDiagram/scenario5_3_2.png">
