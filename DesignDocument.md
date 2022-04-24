@@ -16,7 +16,7 @@ Version: 0.7
 | 0.5 | Corrections on Verification traceability matrix |
 | 0.6 | Sequence Diagrams for Scenario 5-1-1 and 5-2-1 |
 | 0.7 | Sequence Diagrams for Scenario 5-3-1 and 5-3-2 |
-|  |  |
+| 0.8 | Class Diagram and Package Diagram  |
 
 
 # Contents
@@ -58,6 +58,7 @@ EZWH is a client server application composed of one executable generating one si
 <for each package in high level design, report class diagram. Each class should detail attributes and operations>
 
 
+<img src="./DesignDocumentIMG/ClassDiagramDM.png">
 
 
 
