@@ -3,9 +3,9 @@
 
 Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone CRESCENZO
 
-Date: 24/04/2022
+Date: 26/04/2022
 
-Version: 0.8
+Version: 1.0
 
 | **Version Number** | **Change** |
 |--------------------|------------|
@@ -16,7 +16,7 @@ Version: 0.8
 | 0.5 | Corrections on Verification traceability matrix |
 | 0.6 | Sequence Diagrams for Scenario 5-1-1 and 5-2-1 |
 | 0.7 | Sequence Diagrams for Scenario 5-3-1 and 5-3-2 |
-| 0.8 | Class Diagram and Package Diagram  |
+| 1.0 | Class Diagram and Package Diagram (First complete version)  |
 
 
 # Contents
