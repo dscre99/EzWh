@@ -5,7 +5,7 @@ Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone
 
 Date: 26/04/2022
 
-Version: 1.1
+Version: 1.2
 
 | **Version Number** | **Change** |
 |--------------------|------------|
@@ -18,6 +18,7 @@ Version: 1.1
 | 0.7 | Sequence Diagrams for Scenario 5-3-1 and 5-3-2 |
 | 1.0 | Class Diagram and Package Diagram (First complete version)  |
 | 1.1 | Sequence Diagrams for Scenario 6-1, 7-1, 7-2, 11-1 and 11-2. Cleaned guidelines. |
+| 1.2 | Sequence Diagrams for Scenario 9-1, 12-1, 12-2 and 12-3. |
 
 
 # Contents
@@ -172,8 +173,20 @@ EZWH is a client server application composed of one executable generating one si
 ## Sequence diagram of Scenario 7.2 (Scenario ID: Scenario 7-2)
 <img src="./SequenceDiagram/scenario7_2.png">
 
+## Sequence diagram of Scenario 9.1 (Scenario ID: Scenario 9-1)
+<img src="./SequenceDiagram/scenario9_1.png">
+
 ## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
 <img src="./SequenceDiagram/scenario11_1.png">
 
 ## Sequence diagram of Scenario 11.2 (Scenario ID: Scenario 11-2)
 <img src="./SequenceDiagram/scenario11_2.png">
+
+## Sequence diagram of Scenario 12.1 (Scenario ID: Scenario 12-1)
+<img src="./SequenceDiagram/scenario12_1.png">
+
+## Sequence diagram of Scenario 12.2 (Scenario ID: Scenario 12-2)
+<img src="./SequenceDiagram/scenario12_2.png">
+
+## Sequence diagram of Scenario 12.3 (Scenario ID: Scenario 12-3)
+<img src="./SequenceDiagram/scenario12_3.png">
