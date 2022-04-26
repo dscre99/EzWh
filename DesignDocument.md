@@ -5,7 +5,7 @@ Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone
 
 Date: 26/04/2022
 
-Version: 1.0
+Version: 1.1
 
 | **Version Number** | **Change** |
 |--------------------|------------|
@@ -17,6 +17,7 @@ Version: 1.0
 | 0.6 | Sequence Diagrams for Scenario 5-1-1 and 5-2-1 |
 | 0.7 | Sequence Diagrams for Scenario 5-3-1 and 5-3-2 |
 | 1.0 | Class Diagram and Package Diagram (First complete version)  |
+| 1.1 | Sequence Diagrams for Scenario 6-1, 7-1, 7-2, 11-1 and 11-2. Cleaned guidelines. |
 
 
 # Contents
@@ -31,9 +32,6 @@ Version: 1.0
 The design must satisfy the Official Requirements document, notably functional and non functional requirements, and be consistent with the APIs
 
 # High level design 
-
-<discuss architectural styles used, if any>
-<report package diagram, if needed>
 
 We are using **Client** **server** architectural pattern, having a set of stand-alone servers that provides specific services and a set of clients that call these services.
 
@@ -55,20 +53,10 @@ EZWH is a client server application composed of one executable generating one si
 
 # Low level design
 
-<for each package in high level design, report class diagram. Each class should detail attributes and operations>
-
-
 <img src="./DesignDocumentIMG/ClassDiagramDM.png">
 
 
-
-
-
-
-
 # Verification traceability matrix
-
-\<for each functional requirement from the requirement document, list which classes concur to implement it>
 
 |         | Warehouse | User | InternalOrder | Aisle | SKUItem | Position | SKU | Item | Supplier | Order | TestResult | TestDescriptor |
 |---------|:---------:|:----:|:-------------:|:-----:|:-------:|:--------:|:---:|:----:|:--------:|:-----:|:----------:|:--------------:|
@@ -129,7 +117,6 @@ EZWH is a client server application composed of one executable generating one si
 
 
 # Verification sequence diagrams 
-\<select key scenarios from the requirement document. For each of them define a sequence diagram showing that the scenario can be implemented by the classes and methods in the design>
 
 ## Sequence diagram of Scenario 1.1 (Scenario ID: Scenario 1-1)
 <img src="./SequenceDiagram/scenario1_1.png">
@@ -175,3 +162,18 @@ EZWH is a client server application composed of one executable generating one si
 
 ## Sequence diagram of Scenario 5.3.2 (Scenario ID: Scenario 5-3-2)
 <img src="./SequenceDiagram/scenario5_3_2.png">
+
+## Sequence diagram of Scenario 6.1 (Scenario ID: Scenario 6-1)
+<img src="./SequenceDiagram/scenario6_1.png">
+
+## Sequence diagram of Scenario 7.1 (Scenario ID: Scenario 7-1)
+<img src="./SequenceDiagram/scenario7_1.png">
+
+## Sequence diagram of Scenario 7.2 (Scenario ID: Scenario 7-2)
+<img src="./SequenceDiagram/scenario7_2.png">
+
+## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
+<img src="./SequenceDiagram/scenario11_1.png">
+
+## Sequence diagram of Scenario 11.2 (Scenario ID: Scenario 11-2)
+<img src="./SequenceDiagram/scenario11_2.png">
