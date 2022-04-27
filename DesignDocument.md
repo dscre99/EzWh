@@ -176,6 +176,12 @@ EZWH is a client server application composed of one executable generating one si
 ## Sequence diagram of Scenario 9.1 (Scenario ID: Scenario 9-1)
 <img src="./SequenceDiagram/scenario9_1.png">
 
+## Sequence diagram of Scenario 9.2 (Scenario ID: Scenario 9-2)
+<img src="./SequenceDiagram/scenario9_2.png">
+
+## Sequence diagram of Scenario 9.3 (Scenario ID: Scenario 9-3)
+<img src="./SequenceDiagram/scenario9_3.png">
+
 ## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
 <img src="./SequenceDiagram/scenario11_1.png">
 
