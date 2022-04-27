@@ -19,6 +19,7 @@ Version: 1.2
 | 1.0 | Class Diagram and Package Diagram (First complete version)  |
 | 1.1 | Sequence Diagrams for Scenario 6-1, 7-1, 7-2, 11-1 and 11-2. Cleaned guidelines. |
 | 1.2 | Sequence Diagrams for Scenario 9-1, 12-1, 12-2 and 12-3. |
+| 1.3 | Sequence Diagrams for Scenarios 9-2, 9-3 |
 
 
 # Contents
