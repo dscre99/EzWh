@@ -3,9 +3,9 @@
 
 Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone CRESCENZO
 
-Date: 26/04/2022
+Date: 27/04/2022
 
-Version: 1.2
+Version: 1.4
 
 | **Version Number** | **Change** |
 |--------------------|------------|
@@ -20,12 +20,13 @@ Version: 1.2
 | 1.1 | Sequence Diagrams for Scenario 6-1, 7-1, 7-2, 11-1 and 11-2. Cleaned guidelines. |
 | 1.2 | Sequence Diagrams for Scenario 9-1, 12-1, 12-2 and 12-3. |
 | 1.3 | Sequence Diagrams for Scenarios 9-2, 9-3 |
+| 1.4 | Sequence Diagrams for Scenarios 10-1, links fix |
 
 
 # Contents
 
-- [High level design](#package-diagram)
-- [Low level design](#class-diagram)
+- [High level design](#high-level-design)
+- [Low level design](#low-level-design)
 - [Verification traceability matrix](#verification-traceability-matrix)
 - [Verification sequence diagrams](#verification-sequence-diagrams)
 
@@ -182,6 +183,9 @@ EZWH is a client server application composed of one executable generating one si
 
 ## Sequence diagram of Scenario 9.3 (Scenario ID: Scenario 9-3)
 <img src="./SequenceDiagram/scenario9_3.png">
+
+## Sequence diagram of Scenario 10.1 (Scenario ID: Scenario 10-1)
+<img src="./SequenceDiagram/scenario10_1.png">
 
 ## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
 <img src="./SequenceDiagram/scenario11_1.png">
