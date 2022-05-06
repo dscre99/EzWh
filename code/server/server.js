@@ -13,6 +13,11 @@ firstDBtest.newUserTable().then(
   function(value) {console.log('user table created', value)},
   function(error) {console.log('user table not created', error)}
 );
+
+firstDBtest.newSKUTable().then(
+    function (value) { console.log('sku table created', value) },
+    function (error) { console.log('sku table not created', error) }
+)
 // ***********************************
 
 //GET /api/test
@@ -70,6 +75,15 @@ app.post('/api/customerSessions', (req, res) => {
 
   console.log('login received');
   return res.status(200).json(customerInfo);
+});
+
+//GET /api/skus
+
+app.get('/api/skus', (req, res) => {
+    firstDBtest.getSKU(req.body).then(
+        function (sku) { return res.status(200).json(sku); },
+        function (error) { console.log(error); }
+    );
 });
 
 // activate the server
