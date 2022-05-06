@@ -16,7 +16,7 @@ class EZWH_db {
                 console.log('Connected to database')
             }
         });*/
-        var dbFile = dbname + " .db";
+        var dbFile = dbname + ".db";
         /*var dbExists = this.#fs.existsSync(dbFile);
         console.log(dbExists);
 
