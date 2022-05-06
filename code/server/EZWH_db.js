@@ -1,7 +1,7 @@
 class EZWH_db {
-    sqlite3 = require('sqlite3');
-    fs = require('fs');
-    db = null
+    #sqlite3 = require('sqlite3');
+    #fs = require('fs');
+    #db = undefined
 
     constructor(dbname) {
         /*this.db = new this.sqlite3.Database(dbname, (err) => {
@@ -17,20 +17,20 @@ class EZWH_db {
             }
         });*/
         var dbFile = dbname + " .db";
-        /*var dbExists = this.fs.existsSync(dbFile);
+        /*var dbExists = this.#fs.existsSync(dbFile);
         console.log(dbExists);
 
         if (!dbExists) {
-            this.fs.openSync(dbFile,'w');
+            this.#fs.openSync(dbFile,'w');
         }*/
 
-        this.db = new this.sqlite3.Database(dbFile);
+        this.#db = new this.#sqlite3.Database(dbFile);
     }
 
     newUserTable(){
         return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR, SURNAME VARCHAR, EMAIL VARCHAR, PASSWORD VARCHAR, TYPE VARCHAR)';
-            this.db.run(sql, (err) => {
+            this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -44,7 +44,7 @@ class EZWH_db {
     newUser(data){
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES (?, ?, ?, ?, ?)';
-            this.db.run(sql, [data.name, data.surname, data.username, data.password, data.type], (err) => {
+            this.#db.run(sql, [data.name, data.surname, data.username, data.password, data.type], (err) => {
                 if (err) {
                     reject(err);
                     return
@@ -57,7 +57,7 @@ class EZWH_db {
     getUser(data){
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM USERS WHERE EMAIL=?';
-            this.db.all(sql, [data.username], (err, rows) => {
+            this.#db.all(sql, [data.username], (err, rows) => {
                 if(err){
                     reject(err);
                     return;
@@ -79,7 +79,7 @@ class EZWH_db {
     }
 
     close() {
-        this.db.close();
+        this.#db.close();
     }
 }
 
