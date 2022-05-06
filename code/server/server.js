@@ -77,14 +77,7 @@ app.post('/api/customerSessions', (req, res) => {
   return res.status(200).json(customerInfo);
 });
 
-//GET /api/skus
 
-app.get('/api/skus', (req, res) => {
-    firstDBtest.getSKU(req.body).then(
-        function (sku) { return res.status(200).json(sku); },
-        function (error) { console.log(error); }
-    );
-});
 
 // activate the server
 app.listen(port, () => {

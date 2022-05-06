@@ -1,6 +1,23 @@
-import "EZWH_db.js"
+
 
 class SKUDao {
+
+    db = require('../EZWH_db.js');
+
+    sqlite = require('sqlite3');
+
+    dropSKUTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DROP TABLE IF EXISTS SKUS';
+            this.db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(this.id)
+            })
+        });
+    }
 
     newSKUTable() {
         return new Promise((resolve, reject) => {
@@ -10,15 +27,16 @@ class SKUDao {
                     reject(err);
                     return;
                 }
-                resolve('SKUS');
+                resolve(this.id);
             });
+
         });
     }
 
     newSKU(data) {
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO SKUS(DESCRIPTION, WEIGHT, VOLUME, NOTES, POSITION, AVAILABLEQUANTITY, PRICE, TESTDESCRIPTORS) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-            this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.position, data.availableQuantity, data.price, data.testDescriptors], (err) => {
+            const sql = 'INSERT INTO SKUS(DESCRIPTION, WEIGHT, VOLUME, NOTES, POSITION, AVAILABLEQUANTITY, PRICE) VALUES (?, ?, ?, ?, ?, ?, ?, )';
+            this.db.run(sql, [data.description, data.weight, data.volume, data.notes, data.position, data.availableQuantity, data.price], (err) => {
                 if (err) {
                     reject(err);
                     return
@@ -28,10 +46,10 @@ class SKUDao {
         });
     }
 
-    getSKU(data) {
+    getSKUbyID(id) {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM SKUS WHERE ID=?';
-            this.db.all(sql, [data.id], (err, rows) => {
+            this.db.all(sql, [id], (err, rows) => {
                 if (err) {
                     reject(err);
                     return;
@@ -53,6 +71,50 @@ class SKUDao {
             });
         });
     }
+
+    modifySKU(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'UPDATE SKUS SET description = ? ,weight= ?,volume= ?,notes= ?,availablequantity= ?,price= ? WHERE id = ?';
+            db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, id], (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(true);
+                }
+            });
+        });
+    }
+
+    modifySKUPosition(id, position) {
+        return new Promise((resolve, reject) => {
+            const sql = 'UPDATE SKUS SET position = ? WHERE id = ?';
+            db.run(sql, [position, id], (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(true);
+                }
+            });
+        });
+    }
+
+    deleteSKUbyID(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'DELETE FROM SKUS WHERE id = ?';
+            db.run(sql, [id], (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(true);
+                }
+            });
+        });
+    }
+
+
 }
+
+module.exports = SKUDao;
+
 
 
