@@ -16,7 +16,7 @@ class EZWH_db {
                 console.log('Connected to database')
             }
         });*/
-        var dbFile = dbname + ".db";
+        var dbFile = './' + dbname + '.db';
         /*var dbExists = this.#fs.existsSync(dbFile);
         console.log(dbExists);
 
@@ -27,58 +27,11 @@ class EZWH_db {
         this.#db = new this.#sqlite3.Database(dbFile);
     }
 
-    newUserTable(){
-        return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR, SURNAME VARCHAR, EMAIL VARCHAR, PASSWORD VARCHAR, TYPE VARCHAR)';
-            this.#db.run(sql, (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                //let value = 'USERS'
-                resolve('USERS');
-            });
-        });
+    getDB() {
+        return this.#db;
     }
 
-    newUser(data){
-        return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES (?, ?, ?, ?, ?)';
-            this.#db.run(sql, [data.name, data.surname, data.username, data.password, data.type], (err) => {
-                if (err) {
-                    reject(err);
-                    return
-                }
-                resolve(data.username);
-            });
-        });
-    }
-
-    getUser(data){
-        return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM USERS WHERE EMAIL=?';
-            this.#db.all(sql, [data.username], (err, rows) => {
-                if(err){
-                    reject(err);
-                    return;
-                }
-                //console.log(rows[0]);
-                const user = rows.map((r) => (
-                    {
-                        id:r.ID,
-                        name:r.NAME,
-                        surname:r.SURNAME,
-                        email:r.EMAIL,
-                        password:r.PASSWORD,
-                        type:r.TYPE
-                    }
-                ));
-                resolve(user[0]);
-            });
-        });
-    }
-
-    newSKUTable() {
+    /*newSKUTable() {
         return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY AUTOINCREMENT, DESCRIPTION VARCHAR, WEIGHT INTEGER, VOLUME INTEGER, NOTES VARCHAR, POSITION BIGINT, AVAILABLEQUANTITY INTEGER, PRICE FLOAT, TESTDESCRIPTORS VARCHAR)';
             this.db.run(sql, (err) => {
@@ -133,7 +86,7 @@ class EZWH_db {
 
     close() {
         this.#db.close();
-    }
+    }*/
 
 
 }
