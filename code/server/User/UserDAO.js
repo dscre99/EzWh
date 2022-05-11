@@ -1,8 +1,6 @@
-const User = require('./User.js')
 const DB = require('./../EZWH_db/EZWH_db.js');
 const { use } = require('chai');
 const EZWH_db = require('./../EZWH_db/EZWH_db.js');
-
 
 class UserDAO {
     #db = undefined;
@@ -163,7 +161,7 @@ class UserDAO {
         });
     }
 
-    newUser(user){
+    newUser(newUserData){
 
         //console.log(user.getUserAsDict());
         
@@ -174,7 +172,7 @@ class UserDAO {
             if(loggedAndAuthorized) {
                 // query to DB to check if tuple USERNAME-TYPE is already present
                 const sql1 = 'SELECT * FROM USERS WHERE EMAIL = ? AND TYPE = ?';
-                this.#db.getDB().all(sql1, [user.getEmail(), user.getType()], (err, rows) => {
+                this.#db.getDB().all(sql1, [newUserData.username, newUserData.type], (err, rows) => {
                     if(err){
                         // reports error while querying database
                         console.log('newUser() sql1.run error:: ', err);
@@ -190,7 +188,7 @@ class UserDAO {
 
                     // query to DB to insert new USER
                     const sql2 = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES (?, ?, ?, ?, ?)';
-                    this.#db.getDB().run(sql2, [user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getType()], (err) => {
+                    this.#db.getDB().run(sql2, [newUserData.name, newUserData.surname, newUserData.username, newUserData.password, newUserData.type], (err) => {
                         if (err) {
                             // reports error while querying database
                             console.log('newUser() sql2.run error:: ', err);
