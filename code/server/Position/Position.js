@@ -1,5 +1,3 @@
-const express = require('express');
-const router = express.Router();
 const {getPositions, storePosition, put_position_by_ID_DB, put_positionID_by_ID_DB, delete_position_by_ID_DB} = require('./Position_DAO');
 const { empty_body_check } = require('./utils');
 
@@ -40,6 +38,6 @@ function delete_position_by_ID(req, res) {
 }
 
 
-module.exports = {get_positions, post_position, put_position_by_ID, put_positionID_by_ID, delete_position_by_ID, router};
+module.exports = {get_positions, post_position, put_position_by_ID, put_positionID_by_ID, delete_position_by_ID};
 
 

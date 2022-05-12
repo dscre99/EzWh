@@ -1,17 +1,31 @@
 const express = require('express');
+const router = express.Router();
+
 const { get_positions, post_position, put_position_by_ID, put_positionID_by_ID, delete_position_by_ID } = require('../Position/Position');
+const { get_test_descriptors } = require('../Test_descriptor/Test_Descriptor');
+
 const { new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
         supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions,
         modify_user_type, delete_user } = require('../User/UserAPIreceiver');
-const router = express.Router();
+
 
 
 // POSITION routes
 router.get('/positions', get_positions);
 router.post('/position', post_position);
 router.put('/position/:positionID', put_position_by_ID);
-router.put('/position/:positionID/changeID', put_positionID_by_ID)
-router.delete('/position/:positionID', delete_position_by_ID)
+router.put('/position/:positionID/changeID', put_positionID_by_ID);
+router.delete('/position/:positionID', delete_position_by_ID);
+
+// TEST DESCRIPTOR routes
+//router.get('/testDescriptors', get_test_descriptors);
+
+
+
+/**
+ * TODO : Test Reult
+*/
+
 
 // USER routes
 router.get('/userinfo', get_user);  //GET /api/userinfo
@@ -27,9 +41,6 @@ router.post('/deliveryEmployeeSessions', deliveryEmployee_sessions);  //POST /ap
 router.put('/users/:username', modify_user_type);  //PUT /api/users/:username
 router.delete('/users/:username/:type', delete_user);  //DELETE /api/users/:username/:type
 
-/**
- * TODO : Test Descriptor, Test Reult
-*/
 
 /***********************************************************************/
 

@@ -1,8 +1,7 @@
-const req = require('express/lib/request');
-
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./Position/EZWH.db', sqlite3.OPEN_READWRITE, (err) => {
+const db = new sqlite3.Database('../EZWH_db/EZWH_Daniele.db', sqlite3.OPEN_READWRITE, (err) => {
 	if(err) {
+        console.log("ERRRORR")
 		throw(err);
 	} else {
 		console.log("Connected to the Database!")
