@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('../EZWH_db/EZWH_Daniele.db', sqlite3.OPEN_READWRITE, (err) => {
+const fs = require('fs')
+const db = new sqlite3.Database('./Position/EZWH_Daniele.db', sqlite3.OPEN_READWRITE, (err) => {
 	if(err) {
         console.log("ERRRORR")
 		throw(err);
@@ -88,6 +89,8 @@ function delete_position_by_ID_DB(positionID) {
 
     });
 }
+
+
 
 
 
