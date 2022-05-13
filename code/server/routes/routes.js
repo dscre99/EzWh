@@ -3,6 +3,7 @@ const { get_positions, post_position, put_position_by_ID, put_positionID_by_ID, 
 const { new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
         supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions,
         modify_user_type, delete_user } = require('../User/UserAPIreceiver');
+const { get_internal_orders, get_issued_orders, get_accepted_orders, get_internal_order_by_id } = require('../Internal_order/InternalOrderAPIreceiver')
 const router = express.Router();
 
 
@@ -26,6 +27,13 @@ router.post('/qualityEmployeeSessions', qualityEmployee_sessions);  //POST /api/
 router.post('/deliveryEmployeeSessions', deliveryEmployee_sessions);  //POST /api/deliveryEmployeeSessions
 router.put('/users/:username', modify_user_type);  //PUT /api/users/:username
 router.delete('/users/:username/:type', delete_user);  //DELETE /api/users/:username/:type
+
+// INTERNAL ORDER routes
+router.get('/internalOrders', get_internal_orders); //GET /api/internalOrders
+router.get('/internalOrdersIssued', get_issued_orders); //GET /api/internalOrdersIssued
+router.get('/internalOrdersAccepted', get_accepted_orders); //GET /api/internalOrdersAccepted
+router.get('/internalOrders/:id', get_internal_order_by_id); //GET /api/internalOrders/:id
+
 
 /**
  * TODO : Test Descriptor, Test Reult

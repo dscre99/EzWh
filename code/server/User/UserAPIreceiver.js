@@ -2,16 +2,17 @@ const express = require('express');
 const router = express.Router();
 const DB = require('../EZWH_db/EZWH_db.js');
 const UserDAO = require('./UserDAO.js')
-
-let DBinstance = new DB('EZWH_db/EZWH_db');
+const DBinstance = new DB('EZWH_db/EZWH_db');
+const UserDAOinstance = new UserDAO(DBinstance);
 
 const userTypes = ['customer', 'qualityEmployee', 'clerk', 'deliveryEmployee', 'supplier'];
 
+//GET /api/userinfo
 async function get_user(req, res) {
     console.log('GET /api/userinfo');
 
-    let tmpUserDAO = new UserDAO(DBinstance);
-    await tmpUserDAO.getUser().then(
+    let getUserPromise = UserDAOinstance.getUser();
+    await getUserPromise.then(
     function(value) {
         console.log('getUser resolve');
         return res.status(200).json(value).end();
@@ -26,11 +27,12 @@ async function get_user(req, res) {
     });
 }
 
+//GET /api/suppliers
 async function get_suppliers(req, res) {
 
     console.log('GET /api/suppliers');
 
-    let getSuppliersPromise = new UserDAO(DBinstance).getSuppliers();
+    let getSuppliersPromise = UserDAOinstance.getSuppliers();
     await getSuppliersPromise.then(
       function(value) {
         console.log('getSuppliers resolve');
@@ -46,11 +48,12 @@ async function get_suppliers(req, res) {
     });
 }
 
+//GET /api/users
 async function get_users(req, res) {
 
     console.log('GET /api/users');
 
-    let getUsersPromise = new UserDAO(DBinstance).getUsers();
+    let getUsersPromise = UserDAOinstance.getUsers();
     await getUsersPromise.then(
         function(value) {
         console.log('getUsers resolve');
@@ -66,6 +69,7 @@ async function get_users(req, res) {
     });
 }
 
+//POST /api/newUser
 async function new_user(req, res) {
 
     console.log('POST /api/newUser');
@@ -110,7 +114,7 @@ async function new_user(req, res) {
   
     //let tmp_user = new User(tmp_user_data['name'], tmp_user_data['surname'], tmp_user_data['username'], tmp_user_data['password'], tmp_user_data['type']);
   
-    const addUserPromise = new UserDAO(DBinstance).newUser(userData);
+    const addUserPromise = UserDAOinstance.newUser(userData);
     await addUserPromise.then(
       function(value) {
         console.log('addUser resolve');
@@ -127,6 +131,7 @@ async function new_user(req, res) {
     });
 }
 
+//POST /api/managerSessions
 async function manager_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
@@ -152,7 +157,7 @@ async function manager_sessions(req, res) {
     });
     managerData['type'] = 'manager';
 
-    let managerSessionsPromise = new UserDAO(DBinstance).userSession(managerData);
+    let managerSessionsPromise = UserDAOinstance.userSession(managerData);
     await managerSessionsPromise.then(
     function(value) {
         console.log('managerSession resolve');
@@ -168,6 +173,7 @@ async function manager_sessions(req, res) {
     });
 }
 
+//POST /api/customerSessions
 async function customer_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
@@ -193,7 +199,7 @@ async function customer_sessions(req, res) {
     });
     customerData['type'] = 'customer';
 
-    let customerSessionsPromise = new UserDAO(DBinstance).userSession(customerData);
+    let customerSessionsPromise = UserDAOinstance.userSession(customerData);
     await customerSessionsPromise.then(
     function(value) {
         console.log('customerSession resolve');
@@ -209,6 +215,7 @@ async function customer_sessions(req, res) {
     });
 }
 
+//POST /api/supplierSessions
 async function supplier_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
@@ -234,7 +241,7 @@ async function supplier_sessions(req, res) {
     });
     supplierData['type'] = 'supplier';
 
-    let supplierSessionsPromise = new UserDAO(DBinstance).userSession(supplierData);
+    let supplierSessionsPromise = UserDAOinstance.userSession(supplierData);
     await supplierSessionsPromise.then(
     function(value) {
         console.log('supplierSessions resolve');
@@ -250,6 +257,7 @@ async function supplier_sessions(req, res) {
     });
 }
 
+//POST /api/clerkSessions
 async function clerk_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
@@ -275,7 +283,7 @@ async function clerk_sessions(req, res) {
     });
     clerkData['type'] = 'clerk';
 
-    let clerkSessionsPromise = new UserDAO(DBinstance).userSession(clerkData);
+    let clerkSessionsPromise = UserDAOinstance.userSession(clerkData);
     await clerkSessionsPromise.then(
     function(value) {
         console.log('clerkSessions resolve');
@@ -291,6 +299,7 @@ async function clerk_sessions(req, res) {
     });
 }
 
+//POST /api/qualityEmployeeSessions
 async function qualityEmployee_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
@@ -316,7 +325,7 @@ async function qualityEmployee_sessions(req, res) {
     });
     qualityEmployeeData['type'] = 'qualityEmployee';
 
-    let qualityEmployeePromise = new UserDAO(DBinstance).userSession(qualityEmployeeData);
+    let qualityEmployeePromise = UserDAOinstance.userSession(qualityEmployeeData);
     await qualityEmployeePromise.then(
     function(value) {
         console.log('qualityEmployeeSessions resolve');
@@ -332,6 +341,7 @@ async function qualityEmployee_sessions(req, res) {
     });
 }
 
+//POST /api/deliveryEmployeeSessions
 async function deliveryEmployee_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
@@ -357,7 +367,7 @@ async function deliveryEmployee_sessions(req, res) {
     });
     deliveryEmployeeData['type'] = 'deliveryEmployee';
     
-    let deliveryEmployeePromise = new UserDAO(DBinstance).userSession(deliveryEmployeeData);
+    let deliveryEmployeePromise = UserDAOinstance.userSession(deliveryEmployeeData);
     await deliveryEmployeePromise.then(
         function(value) {
         console.log('deliveryEmployeeSessions resolve');
@@ -373,6 +383,7 @@ async function deliveryEmployee_sessions(req, res) {
     });
 }
 
+//PUT /api/users/:username
 async function modify_user_type(req, res) {
 // check input
     if (Object.keys(req.body).length === 0) {
@@ -415,7 +426,7 @@ async function modify_user_type(req, res) {
         }
 
         if(valid) {
-            let putUserPromise = new UserDAO(DBinstance).modifyUserType(userData);
+            let putUserPromise = UserDAOinstance.modifyUserType(userData);
             await putUserPromise.then(
             function(value) {
                 console.log('PUTuser resolve');
@@ -433,6 +444,7 @@ async function modify_user_type(req, res) {
     }
 }
 
+//DELETE /api/users/:username/:type
 async function delete_user(req, res) {
     let valid = true;
     let userData = {
@@ -452,7 +464,7 @@ async function delete_user(req, res) {
     if(!valid) {
       return res.status(422).end(); // 422 Unprocessable Entity
     } else {
-      let deleteUserPromise = new UserDAO(DBinstance).deleteUser(userData);
+      let deleteUserPromise = UserDAOinstance.deleteUser(userData);
       await deleteUserPromise.then(
         function(value) {
           console.log('DELETEuser resolve');
