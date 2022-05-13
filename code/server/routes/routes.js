@@ -9,6 +9,8 @@ const { new_user, get_user, get_suppliers, get_users, manager_sessions, customer
         modify_user_type, delete_user } = require('../User/UserAPIreceiver');
 const { get_internal_orders, get_issued_orders, get_accepted_orders, get_internal_order_by_id } = require('../Internal_order/InternalOrderAPIreceiver')
 
+const { getSKUs, getSKUbyID, modifySKU, modifySKUPosition, deleteSKUbyId } = require('../SKU/SKU')
+
 
 // POSITION routes
 router.get('/positions', get_positions);
@@ -56,5 +58,14 @@ router.get('/internalOrders/:id', get_internal_order_by_id); //GET /api/internal
 */
 
 /***********************************************************************/
+
+//  SKU routes
+
+router.get('/api/skus', getSKUs); //GET /api/skus
+router.get('/api/skus/:id', getSKUbyID); //GET /api/skus/:id
+router.post('/api/sku', newSKU);  //POST /api/sku
+router.put('/api/sku/:id', modifySKU);  //PUT /api/sku/:id
+router.put('/api/sku/:id/position', modifySKUPosition);  //PUT /api/sku/:id/position
+router.delete('/api/skus/:id', deleteSKUbyId);  //DELETE /api/skus/:id
 
 module.exports = router;
