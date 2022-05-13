@@ -228,14 +228,14 @@ class UserDAO {
                         return;
                     } else {
                         // prepares response body (customer info: id, username, name)
-                        const customerInfo = rows.map((r) => (
+                        const userInfo = rows.map((r) => (
                             {
                                 id:r.ID,
                                 username:r.EMAIL,
                                 name:r.NAME
                             }
                         ));
-                        resolve(customerInfo);
+                        resolve(userInfo[0]);
                         return;
                     }
                 });
