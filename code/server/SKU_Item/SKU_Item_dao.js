@@ -3,7 +3,7 @@ const { S } = require('../node_modules/xmlchars/xml/1.0/ed5.js');
 class SKUItemDao {
     // DB = require('./../EZWH_db.js');
     DB = require('../EZWH_db/EZWH_db.js');
-    db = (new DB('EZWH_db/EZWH_db')).getDB();
+    db = (new DB('EZWH_db/EZWH_DB_TEST')).getDB();
     SKUITEM = require('./SKU_Item.js')
 
     sqlite = require('sqlite3');

@@ -4,7 +4,7 @@ class SKUDao {
 
     // DB = require('./../EZWH_db.js');
     DB = require('../EZWH_db/EZWH_db.js');
-    db = (new DB('EZWH_db/EZWH_db')).getDB();
+    db = (new DB('EZWH_db/EZWH_DB_TEST')).getDB();
     SKU = require('./SKU.js')
 
     sqlite = require('sqlite3');
