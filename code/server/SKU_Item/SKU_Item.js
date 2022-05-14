@@ -86,7 +86,7 @@ async function getSKUItemsByRfid(req, res) {
         return res.status(422).json({ error: 'Invalid id' });
     }
     let getSKUItemsByRfidPromise = skuItemDaoInstance.getSKUItemsByRfid();
-    await getSKUItemBySKUIDPromise.then(
+    await getSKUItemsByRfidPromise.then(
         function (value) {
             console.log('getSKUItemsByRfid resolve');
             return res.status(200).json(value).end();
