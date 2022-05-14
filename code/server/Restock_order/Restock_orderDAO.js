@@ -92,7 +92,7 @@ class Restock_orderDAO{
     getProducts(data){
         return new Promise((resolve, reject) => {
             const sql = 'SELECT SKUID, DESCRIPTION, PRICE, QUANTITY FROM PRODUCTS WHERE ORDERID=? ';
-            this.#db.all(sql, [data.id], (err, rows) => {
+            this.db.all(sql, [data.id], (err, rows) => {
                 if(err){
                     reject(err);
                     return;
@@ -114,7 +114,7 @@ class Restock_orderDAO{
     getSKUItems(data){
         return new Promise((resolve, reject) => {
             const sql = 'SELECT SKUID, RFID, FROM ITEMS WHERE ORDERID=? ';
-            this.#db.all(sql, [data.id], (err, rows) => {
+            this.db.all(sql, [data.id], (err, rows) => {
                 if(err){
                     reject(err);
                     return;
@@ -209,7 +209,7 @@ class Restock_orderDAO{
     storeRestockOrder(data){
         return new Promise((resolve, reject) => {
             const sql = 'INSERT INTO RESTOCK_ORDER(ISSUEDATE, STATE, SUPPLIERID) VALUES (?, "ISSUED", ?)';
-            this.#db.run(sql, [data.issueDate, data.state, data.supplierId], (err) => {
+            this.db.run(sql, [data.issueDate, data.state, data.supplierId], (err) => {
                 if (err) {
                     reject(err);
                     return

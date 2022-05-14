@@ -2,7 +2,8 @@
 
 class SKUDao {
 
-    DB = require('./../EZWH_db.js');
+    // DB = require('./../EZWH_db.js');
+    DB = require('../EZWH_db/EZWH_db');
     SKU = require('./SKU.js')
 
     sqlite = require('sqlite3');

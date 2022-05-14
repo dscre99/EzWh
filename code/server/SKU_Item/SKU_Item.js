@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router()
-const skuItemDao = require('SKU_Item_dao')
+const skuItemDao = require('./SKU_Item_dao')
 const DB = require('../EZWH_db/EZWH_db');
 const skuItemDaoInstance = new skuItemDao();
 
@@ -168,4 +168,4 @@ async function deleteSKUItembyRfid(req, res) {
 }
 
 module.exports = SKUItem;
-module.exports = { getSKUItems, getSKUItemsBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid };
+module.exports = { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid };

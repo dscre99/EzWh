@@ -1,7 +1,8 @@
 const { S } = require('../node_modules/xmlchars/xml/1.0/ed5.js');
 
 class SKUItemDao {
-    DB = require('./../EZWH_db.js');
+    // DB = require('./../EZWH_db.js');
+    DB = require('../EZWH_db/EZWH_db');
     SKUITEM = require('./SKU_Item.js')
 
     sqlite = require('sqlite3');
@@ -51,7 +52,7 @@ class SKUItemDao {
                         rfid: r.rfid,
                         SKUId: r.SKUId,
                         Available: r.Available,
-                        DateOfStock: r.DateOfStock;
+                        DateOfStock: r.DateOfStock
                     }));
                 resolve(skuItems);
             });
@@ -72,7 +73,7 @@ class SKUItemDao {
                         rfid: r.rfid,
                         SKUId: r.SKUId,
                         Available: r.Available,
-                        DateOfStock: r.DateOfStock;
+                        DateOfStock: r.DateOfStock
                     }));
                 resolve(skuItems);
             });
@@ -92,7 +93,7 @@ class SKUItemDao {
                         rfid: r.rfid,
                         SKUId: r.SKUId,
                         Available: r.Available,
-                        DateOfStock: r.DateOfStock;
+                        DateOfStock: r.DateOfStock
                     }));
                 resolve(skuItems[0]);
             });
@@ -126,4 +127,4 @@ class SKUItemDao {
     }
 }
 
-module.exports = SKUItem;
+module.exports = SKUItemDao;

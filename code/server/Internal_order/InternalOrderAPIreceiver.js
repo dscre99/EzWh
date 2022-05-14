@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const DB = require('../EZWH_db/EZWH_db.js');
+const DB = require('../EZWH_db/EZWH_db');
 const InternalOrderDAO = require('./InternalOrderDAO.js')
 const InternalOrderDAOinstance = new InternalOrderDAO();
 

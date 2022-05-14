@@ -201,7 +201,7 @@ class InternalOrderDAO {
 
     modifyInternalOrderState(data) {
         return new Promise((resolve, reject) =>  {
-            let loggedAndAuthorized = true;
+            let loggedAndAuthorized = false;
             if(loggedAndAuthorized) {
 
                 let sql1 = 'SELECT ID FROM INTERNAL_ORDERS WHERE ID=?';
@@ -245,6 +245,7 @@ class InternalOrderDAO {
                     }
                 })
             } else {
+                console.log(Date());
                 reject(401);
                 return;
             }
