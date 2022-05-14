@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router()
 const skuItemDao = require('./SKU_Item_dao')
-const DB = require('../EZWH_db/EZWH_DB_TEST').getDB();
+const DB = require('../EZWH_db/EZWH_db');
+const DBinstance = DB.DBinstance;
 const skuItemDaoInstance = new skuItemDao();
 
 

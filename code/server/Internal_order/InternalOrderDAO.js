@@ -1,9 +1,12 @@
 const { json } = require('body-parser');
 const { resolve } = require('path');
-const DB = require('../EZWH_db/EZWH_db.js');
-const DBinstance = (new DB('EZWH_db/EZWH_db')).getDB();
 
 class InternalOrderDAO {
+    db = undefined;
+
+    constructor(dbInstance) {
+        this.db = dbInstance;
+    }
     
     getInternalOrders() {
 
@@ -13,7 +16,7 @@ class InternalOrderDAO {
             if(loggedAndAuthorized) {
 
                 let sql1 = 'SELECT * FROM INTERNAL_ORDERS';
-                DBinstance.all(sql1, (err, rows) => {
+                this.db.all(sql1, (err, rows) => {
                     if(err){
                         // reports error while querying database
                         console.log('getInternalOrders() sql1.run error:: ', err);
@@ -34,7 +37,7 @@ class InternalOrderDAO {
                         //this.internalOrders = intOrds;
 
                         let sql2 = 'SELECT * FROM SKUITEM_IN_INTERNALORDER';
-                        DBinstance.all(sql2, (err2, rows2) => {
+                        this.db.all(sql2, (err2, rows2) => {
                             if(err2){
                                 // reports error while querying database
                                 console.log('getInternalOrders() sql2.run error:: ', err2);
@@ -49,7 +52,7 @@ class InternalOrderDAO {
                                 ));
 
                                 let sql3 = 'SELECT * FROM SKU_ITEMS';
-                                DBinstance.all(sql3, (err3, rows3) => {
+                                this.db.all(sql3, (err3, rows3) => {
                                     if(err3){
                                         // reports error while querying database
                                         console.log('getInternalOrders() sql3.run error:: ', err2);
@@ -123,7 +126,7 @@ class InternalOrderDAO {
     //                                 WHERE I.ID = S.INTERNAL_ORDER_ID) T
     //                         JOIN SKU_ITEMS SI
     //                         WHERE T.SKU_ID=SI.ID`
-    //             DBinstance.getDB().all(sql1, (err, rows) => {
+    //             this.db.getDB().all(sql1, (err, rows) => {
     //                 if(err){
     //                     // reports error while querying database
     //                     console.log('getthis.InternalOrders() sql1.run error:: ', err);
@@ -157,7 +160,7 @@ class InternalOrderDAO {
 
                 let sql = `INSERT INTO INTERNAL_ORDERS (ISSUE_DATE, STATE, CUSTOMER_ID)
                 VALUES(?, ?, ?)`;
-                DBinstance.run(sql, [orderData.issueDate, 'ISSUED', orderData.customerId], (err) => {
+                this.db.run(sql, [orderData.issueDate, 'ISSUED', orderData.customerId], (err) => {
                     if(err){
                         // reports error while querying database
                         console.log('createInternalOrder() sql.run error:: ', err);
@@ -167,7 +170,7 @@ class InternalOrderDAO {
                 });
 
                 let sql2 = `SELECT ID FROM INTERNAL_ORDERS WHERE (ISSUE_DATE=? AND STATE=? AND CUSTOMER_ID=?)`;
-                DBinstance.all(sql2, [orderData.issueDate, 'ISSUED', orderData.customerId], (err2, rows2) => {
+                this.db.all(sql2, [orderData.issueDate, 'ISSUED', orderData.customerId], (err2, rows2) => {
                     if(err2){
                         // reports error while querying database
                         console.log('createInternalOrder() sql2.all error:: ', err2);
@@ -181,7 +184,7 @@ class InternalOrderDAO {
                         orderData.products.forEach(p => {
                             let sql3 = `INSERT INTO SKUITEM_IN_INTERNALORDER
                                         VALUES(?,?)`;
-                            DBinstance.run(sql3, [id, p.SKUId], (err3) => {
+                            this.db.run(sql3, [id, p.SKUId], (err3) => {
                                 if(err3){
                                     // reports error while querying database
                                     console.log('createInternalOrder() sql3.all error:: ', err3);
@@ -205,7 +208,7 @@ class InternalOrderDAO {
             if(loggedAndAuthorized) {
 
                 let sql1 = 'SELECT ID FROM INTERNAL_ORDERS WHERE ID=?';
-                DBinstance.all(sql1, [data.id], (err1, rows1) => {
+                this.db.all(sql1, [data.id], (err1, rows1) => {
                     if(err1){
                         // reports error while querying database
                         console.log('modifyInternalOrder() sql1.run error:: ', err1);
@@ -223,7 +226,7 @@ class InternalOrderDAO {
                         } else {
 
                             let sql2 = 'UPDATE INTERNAL_ORDERS SET STATE=? WHERE ID=?';
-                            DBinstance.run(sql2, [data.newState, data.id], (err2) => {
+                            this.db.run(sql2, [data.newState, data.id], (err2) => {
                                 if(err2){
                                     // reports error while querying database
                                     console.log('modifyInternalOrder() sql2.run error:: ', err2);
@@ -241,7 +244,7 @@ class InternalOrderDAO {
                                             
                                             console.log(i, data.products.length-1);
                                             let sql3 = 'INSERT INTO SKU_ITEMS (RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?,?,?,?)';
-                                            DBinstance.run(sql3, [p.RFID, p.SkuID, 1, date], (err3) => {
+                                            this.db.run(sql3, [p.RFID, p.SkuID, 1, date], (err3) => {
                                                 console.log('i', i);
                                                 console.log('tot', data.products.length-1);
                                                 if(err3){
@@ -283,7 +286,7 @@ class InternalOrderDAO {
             if(loggedAndAuthorized) {
 
                 let sql = `DELETE FROM SKUITEM_IN_INTERNALORDER WHERE INTERNAL_ORDER_ID=?`;
-                DBinstance.run(sql, [orderId], (err) => {
+                this.db.run(sql, [orderId], (err) => {
                     if(err){
                         // reports error while querying database
                         console.log('deleteInternalOrder() sql.run error:: ', err);
@@ -292,7 +295,7 @@ class InternalOrderDAO {
                     } else {
 
                         let sql2 = 'DELETE FROM INTERNAL_ORDERS WHERE ID=?';
-                        DBinstance.run(sql2, [orderId], (err2) => {
+                        this.db.run(sql2, [orderId], (err2) => {
                             if(err2){
                                 // reports error while querying database
                                 console.log('deleteInternalOrder() sql2.run error:: ', err2);

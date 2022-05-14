@@ -2,7 +2,7 @@ const express = require('express');
 //const { AsyncLocalStorage } = require('node:async_hooks');
 const SKUDao = require('./SKUdao');
 const router = express.Router();
-const DB = require('../EZWH_db/EZWH_DB_TEST');
+//const DB = require('../EZWH_db/EZWH_DB_TEST');
 const skuDaoInstance = new SKUDao();
 
 class SKU {

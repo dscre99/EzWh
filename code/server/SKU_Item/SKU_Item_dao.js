@@ -1,12 +1,10 @@
 const { S } = require('../node_modules/xmlchars/xml/1.0/ed5.js');
+const DB = require('../EZWH_db/EZWH_db');
+const db = DB.DBinstance;
+const SKUITEM = require('./SKU_Item.js');
+const sqlite = require('sqlite3');
 
 class SKUItemDao {
-    // DB = require('./../EZWH_db.js');
-    DB = require('../EZWH_db/EZWH_db.js');
-    db = (new DB('EZWH_db/EZWH_DB_TEST')).getDB();
-    SKUITEM = require('./SKU_Item.js')
-
-    sqlite = require('sqlite3');
 
     /*newSKUItemTable() {
         return new Promise((resolve, reject) => {

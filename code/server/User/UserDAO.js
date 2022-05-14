@@ -1,6 +1,7 @@
-const DB = require('./../EZWH_db/EZWH_db.js');
-const { use } = require('chai');
-const EZWH_db = require('./../EZWH_db/EZWH_db.js');
+const crypto = require('crypto');
+const key = 'bibbidi_boobbidi_bu';
+const cipher = crypto.createCipher('aes-256-cbc', key);
+const decipher = crypto.createDecipher('aes-256-cbc', key);
 
 class UserDAO {
     #db = undefined;
@@ -39,7 +40,7 @@ class UserDAO {
             if(logged){
                 // query to DB to retrieve USER info
                 const sql = 'SELECT * FROM USERS WHERE EMAIL=?';
-                this.#db.getDB().all(sql, [sampleUser.username], (err, rows) => {
+                this.#db.all(sql, [sampleUser.username], (err, rows) => {
                     if(err){
                         // reports error while querying database
                         console.log('getUser() sql.run error:: ', err);
@@ -83,7 +84,7 @@ class UserDAO {
             if(loggedAndAuthorized){
 
                 let sql = 'SELECT * FROM USERS WHERE TYPE=\'supplier\''
-                this.#db.getDB().all(sql, (err, rows) => {
+                this.#db.all(sql, (err, rows) => {
                     if(err){
                         // reports error while querying database
                         console.log('getUser() sql.run error:: ', err);
@@ -130,7 +131,7 @@ class UserDAO {
 
                 // query to DB to retrieve all users (except manager)
                 let sql = 'SELECT * FROM USERS WHERE NOT (TYPE=\'manager\')';
-                this.#db.getDB().all(sql, (err, rows) => {
+                this.#db.all(sql, (err, rows) => {
                     if(err){
                         // reports error while querying database
                         console.log('getUser() sql.run error:: ', err);
@@ -170,9 +171,10 @@ class UserDAO {
             // !!! session checking to be implemented !!!
             let loggedAndAuthorized = true;
             if(loggedAndAuthorized) {
+                
                 // query to DB to check if tuple USERNAME-TYPE is already present
                 const sql1 = 'SELECT * FROM USERS WHERE EMAIL = ? AND TYPE = ?';
-                this.#db.getDB().all(sql1, [newUserData.username, newUserData.type], (err, rows) => {
+                this.#db.all(sql1, [newUserData.username, newUserData.type], (err, rows) => {
                     if(err){
                         // reports error while querying database
                         console.log('newUser() sql1.run error:: ', err);
@@ -187,8 +189,11 @@ class UserDAO {
                     }
 
                     // query to DB to insert new USER
+                    let cipheredpw = cipher.update(newUserData.password, 'base64');
+                    cipheredpw = cipher.final('base64');
+                    console.log(cipheredpw);
                     const sql2 = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES (?, ?, ?, ?, ?)';
-                    this.#db.getDB().run(sql2, [newUserData.name, newUserData.surname, newUserData.username, newUserData.password, newUserData.type], (err) => {
+                    this.#db.run(sql2, [newUserData.name, newUserData.surname, newUserData.username, cipheredpw, newUserData.type], (err) => {
                         if (err) {
                             // reports error while querying database
                             console.log('newUser() sql2.run error:: ', err);
@@ -215,8 +220,11 @@ class UserDAO {
             let loggedAndAuthorized = true;
             if(loggedAndAuthorized) {
 
-                let sql = 'SELECT * FROM USERS WHERE EMAIL=? AND PASSWORD=? AND TYPE=?';
-                this.#db.getDB().all(sql, [userData.username, userData.password, userData.type], (err, rows) => {
+                let cipheredpw = cipher.update(userData.password, 'base64');
+                cipheredpw = cipher.final('base64');
+                console.log(cipheredpw);
+                const sql = 'SELECT * FROM USERS WHERE EMAIL=? AND PASSWORD=? AND TYPE=?';
+                this.#db.all(sql, [userData.username, cipheredpw, userData.type], (err, rows) => {
                     if(err){
                         // reports error while querying database
                         console.log('userSession() sql.all error:: ', err);
@@ -253,7 +261,7 @@ class UserDAO {
             if(loggedAndAuthorized) {
 
                 let sql1 = 'SELECT * FROM USERS WHERE EMAIL=? AND TYPE=?';
-                this.#db.getDB().all(sql1, [newUserData.username, newUserData.oldType], (err, rows) => {
+                this.#db.all(sql1, [newUserData.username, newUserData.oldType], (err, rows) => {
                     if(err){
                         // reports error while querying database
                         console.log('modifyUserType() sql1.all error:: ', err);
@@ -269,7 +277,7 @@ class UserDAO {
                         console.log(userID);
 
                         let sql2 = 'UPDATE USERS SET TYPE=? WHERE ID=?';
-                        this.#db.getDB().all(sql2, [newUserData.newType, userID], (err, rows) => {
+                        this.#db.all(sql2, [newUserData.newType, userID], (err, rows) => {
                             if(err){
                                 // reports error while querying database
                                 console.log('modifyUserType() sql2.all error:: ', err);
@@ -296,7 +304,7 @@ class UserDAO {
             let loggedAndAuthorized = true;
             if(loggedAndAuthorized) {
                 let sql = 'DELETE FROM USERS WHERE EMAIL=? AND TYPE=?';
-                this.#db.getDB().run(sql, [userData.username, userData.type], (err) => {
+                this.#db.run(sql, [userData.username, userData.type], (err) => {
                     if(err){
                         // reports error while querying database
                         console.log('deleteUser() sql.all error:: ', err);

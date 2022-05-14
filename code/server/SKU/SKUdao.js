@@ -1,13 +1,9 @@
-
+const DB = require('../EZWH_db/EZWH_db');
+const db = DB.DBinstance;
+const SKU = require('./SKU.js')
+const sqlite = require('sqlite3');
 
 class SKUDao {
-
-    // DB = require('./../EZWH_db.js');
-    DB = require('../EZWH_db/EZWH_db.js');
-    db = (new DB('EZWH_db/EZWH_DB_TEST')).getDB();
-    SKU = require('./SKU.js')
-
-    sqlite = require('sqlite3');
 
     /*dropSKUTable() {
         return new Promise((resolve, reject) => {

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const DB = require('../EZWH_db/EZWH_db.js');
+const DB = require('../EZWH_db/RunDB')
+const DBinstance = DB.DBinstance;
 const UserDAO = require('./UserDAO.js')
-const DBinstance = new DB('EZWH_db/EZWH_db');
 const UserDAOinstance = new UserDAO(DBinstance);
 
 const userTypes = ['customer', 'qualityEmployee', 'clerk', 'deliveryEmployee', 'supplier'];

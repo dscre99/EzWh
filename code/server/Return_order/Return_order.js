@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+sqlite = require('sqlite3');
 let db = new sqlite.Database('./EZWH_db/EZWH_db.db');
+const Return_orderDAO = require('./Return_orderDAO');
 const DAO = new Return_orderDAO(db);
 DAO.newTableReturnOrder();
 

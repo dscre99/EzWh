@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const DB = require('../EZWH_db/EZWH_db');
+const DB = require('../EZWH_db/RunDB')
+const DBinstance = DB.DBinstance;
 const InternalOrderDAO = require('./InternalOrderDAO.js')
-const InternalOrderDAOinstance = new InternalOrderDAO();
+const InternalOrderDAOinstance = new InternalOrderDAO(DBinstance);
+
 
 const internalOrderStates = [ 'ISSUED', 'ACCEPTED', 'REFUSED', 'CANCELED', 'COMPLETED' ];
 
