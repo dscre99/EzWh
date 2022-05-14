@@ -165,15 +165,15 @@ async function modify_internal_order_state(req, res) {
     let modifyInternalOrderStatePromise = InternalOrderDAOinstance.modifyInternalOrderState(req.body);
     await modifyInternalOrderStatePromise.then(
         function(value) {
-            console.log('deleteInternalOrder resolve');
+            console.log('modifyInternalOrderStatus resolve');
             return res.status(200).end();
         },
         function(error) {
-            console.log('deleteInternalOrder reject');
+            console.log('modifyInternalOrderStatus reject', error);
             return res.status(error).end();
         }
     ).catch(err => function(err) {
-        console.log('deleteInternalOrder error', err);
+        console.log('modifyInternalOrderStatus error', err);
         return res.status(503).end();   // 503 Service Unavailable
     });
 }

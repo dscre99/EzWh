@@ -201,7 +201,7 @@ class InternalOrderDAO {
 
     modifyInternalOrderState(data) {
         return new Promise((resolve, reject) =>  {
-            let loggedAndAuthorized = false;
+            let loggedAndAuthorized = true;
             if(loggedAndAuthorized) {
 
                 let sql1 = 'SELECT ID FROM INTERNAL_ORDERS WHERE ID=?';
@@ -217,6 +217,7 @@ class InternalOrderDAO {
                         ));
 
                         if(id.length == 0) {
+                            console.log(test)
                             reject(404);    // 404 Not Found
                             return;
                         } else {
@@ -231,6 +232,30 @@ class InternalOrderDAO {
                                 } else {
                                     if(data.newState == 'COMPLETED') {
                                         // TO-DO: REGISTER NEW SKU_ITEMS
+
+                                        for (let i = 0; i < data.products.length; i++) {
+                                            let p = data.products[i];
+
+                                            let actualDate = new Date();
+                                            let date = actualDate.getFullYear() + '/' + (actualDate.getMonth()+1) + '/' + actualDate.getDate() + ' ' + actualDate.getHours() + ':' + actualDate.getMinutes();
+                                            
+                                            console.log(i, data.products.length-1);
+                                            let sql3 = 'INSERT INTO SKU_ITEMS (RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?,?,?,?)';
+                                            DBinstance.run(sql3, [p.RFID, p.SkuID, 1, date], (err3) => {
+                                                console.log('i', i);
+                                                console.log('tot', data.products.length-1);
+                                                if(err3){
+                                                    // reports error while querying database
+                                                    console.log('modifyInternalOrder() sql3.run error:: ', err3);
+                                                    reject(503);    // 503 Service Unavailable (generic error)
+                                                    return;
+                                                } else if(i == data.products.length-1) {
+                                                    resolve(200);   // 202 OK Success
+                                                    return;
+                                                }
+                                            });
+                                            
+                                        }
                                         data.products.forEach(p => {
                                             
                                         });
@@ -245,7 +270,6 @@ class InternalOrderDAO {
                     }
                 })
             } else {
-                console.log(Date());
                 reject(401);
                 return;
             }
