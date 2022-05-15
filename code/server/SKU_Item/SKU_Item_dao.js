@@ -67,7 +67,7 @@ class SKUItemDao {
                         return;
                     }
 
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exist;
+                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
 
                     if (exists) {
                         const sql = 'SELECT * FROM SKU_ITEM WHERE SKUID= ? AND AVAILABLE=1';
@@ -111,7 +111,7 @@ class SKUItemDao {
                         return;
                     }
 
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exist;
+                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
 
                     if (exists) {
                         const sql = 'SELECT * FROM SKU_ITEM WHERE RFID = ?';
@@ -154,7 +154,7 @@ class SKUItemDao {
                         return;
                     }
 
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exist;
+                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
 
                     if (exists) {
                         const sql = 'UPDATE SKU_ITEM SET RFID= ?, AVAILABLE = ?, DATEOFSTOCK = ? WHERE RFID = ?';
