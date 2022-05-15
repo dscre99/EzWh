@@ -1,4 +1,3 @@
-const { S } = require('../node_modules/xmlchars/xml/1.0/ed5.js');
 const DB = require('../EZWH_db/EZWH_db');
 const db = DB.DBinstance;
 const SKUITEM = require('./SKU_Item.js');

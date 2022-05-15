@@ -4,6 +4,7 @@ const router = express.Router();
 // POSITION receivers
 const { get_positions, post_position, put_position_by_ID, put_positionID_by_ID, delete_position_by_ID } = require('../Position/Position');
 const { get_test_descriptors, get_test_descriptor_by_ID, post_test_descriptor, put_test_descriptor_by_ID, delete_test_descriptor_by_ID } = require('../Test_descriptor/Test_Descriptor');
+const { get_test_results, get_test_result_with_id_from_rfid, post_test_result, put_test_result_with_id_from_rfid, delete_test_result_with_id_from_rfid } = require('../Test_result/Test_result');
 
 // USER receives
 const { new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
@@ -27,7 +28,8 @@ const { get_items, get_item_by_id, store_item, update_item, delete_item } = requ
 
 const { getSKUs, getSKUbyID, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID } = require('../SKU/SKU')
 
-const { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid} = require('../SKU_Item/SKU_Item')
+const { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid} = require('../SKU_Item/SKU_Item');
+
 
 
 // POSITION routes
@@ -44,11 +46,12 @@ router.post('/testDescriptor', post_test_descriptor);
 router.put('/testDescriptor/:id', put_test_descriptor_by_ID)
 router.delete('/testDescriptor/:id', delete_test_descriptor_by_ID)
 
-
-/**
- * TODO : Test Reult
-**/
-
+// TEST RESULT routes
+router.get('/skuitems/:rfid/testResults', get_test_results)
+router.get('/skuitems/:rfid/testResults/:id', get_test_result_with_id_from_rfid)
+router.post('/skuitems/testResult', post_test_result)
+router.put('/skuitems/:rfid/testResult/:id', put_test_result_with_id_from_rfid)
+router.delete('/skuitems/:rfid/testResult/:id', delete_test_result_with_id_from_rfid)
 
 // USER routes
 router.get('/userinfo', get_user);  //GET /api/userinfo
@@ -103,19 +106,19 @@ router.delete('/internalOrders/:id', delete_internal_order); //DELETE /api/inter
 //  SKU routes
 
 router.get('/skus', getSKUs); //GET /api/skus
-router.get('/api/skus/:id', getSKUbyID); //GET /api/skus/:id
-router.post('/api/sku', newSKU);  //POST /api/sku
-router.put('/api/sku/:id', modifySKU);  //PUT /api/sku/:id
-router.put('/api/sku/:id/position', modifySKUPosition);  //PUT /api/sku/:id/position
-router.delete('/api/skus/:id', deleteSKUbyID);  //DELETE /api/skus/:id
+router.get('/skus/:id', getSKUbyID); //GET /api/skus/:id
+router.post('/sku', newSKU);  //POST /api/sku
+router.put('/sku/:id', modifySKU);  //PUT /api/sku/:id
+router.put('/sku/:id/position', modifySKUPosition);  //PUT /api/sku/:id/position
+router.delete('/skus/:id', deleteSKUbyID);  //DELETE /api/skus/:id
 
 // SKU Item routes
 
-router.get('/api/skuitems', getSKUItems); // GET /api/skuItems
-router.get('/api/skuitems/sku/:id', getSKUItemBySKUID); // GET /api/skuitems/sku/:id
-router.get('/api/skuitems/:rfid', getSKUItemsByRfid); //GET /api/skuitems/:rfid
-router.post('/api/skuitem', newSKUItem); // POST /api/skuitem
-router.put('/api/skuitems/:rfid', modifySKUItem); // PUT /api/skuitems/:rfid
-router.delete('/api/skuitems/:rfid', deleteSKUItembyRfid); // DELETE /api/skuitems/:rfid
+router.get('/skuitems', getSKUItems); // GET /api/skuItems
+router.get('/skuitems/sku/:id', getSKUItemBySKUID); // GET /api/skuitems/sku/:id
+router.get('/skuitems/:rfid', getSKUItemsByRfid); //GET /api/skuitems/:rfid
+router.post('/skuitem', newSKUItem); // POST /api/skuitem
+router.put('/skuitems/:rfid', modifySKUItem); // PUT /api/skuitems/:rfid
+router.delete('/skuitems/:rfid', deleteSKUItembyRfid); // DELETE /api/skuitems/:rfid
 
 module.exports = router;
