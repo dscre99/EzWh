@@ -4,6 +4,7 @@ const SKUITEM = require('./SKU_Item.js');
 const sqlite = require('sqlite3');
 
 class SKUItemDao {
+    #db = undefined;
 
     constructor(dbInstance) {
         this.#db = dbInstance;
