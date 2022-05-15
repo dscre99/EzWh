@@ -90,7 +90,7 @@ async function getSKUbyID(req, res) {
     if (Object.keys(req.params.id).length == 0) {
         return res.status(422).json({ error: 'Invalid id' });
     }
-    let getSKUbyIDPromise = skuDaoInstance.getSKUbyID();
+    let getSKUbyIDPromise = skuDaoInstance.getSKUbyID(req.params.id);
     await getSKUbyIDPromise.then(
         function (value) {
             console.log('getSKUbyID resolve');
@@ -112,8 +112,8 @@ async function newSKU(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Invalid body' });
     }
-    let newSKUPromise = skuDaoInstance.newSKU();
-    awaitnewSKUPromise.then(
+    let newSKUPromise = skuDaoInstance.newSKU(req.body);
+    await newSKUPromise.then(
         function (value) {
             console.log('newSKU resolve');
             return res.status(201).json(value).end();
@@ -135,7 +135,7 @@ async function modifySKU(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Empty body' });
     }
-    let modifySKUPromise = skuDaoInstance.modifySKU();
+    let modifySKUPromise = skuDaoInstance.modifySKU(req.body);
     await modifySKUPromise.then(
         function (value) {
             console.log('modifySKU resolve');
@@ -155,10 +155,10 @@ async function modifySKU(req, res) {
 //PUT /api/sku/:id/position
 
 async function modifySKUPosition(req, res) {
-    /*if (Object.keys(req.params.id).length == 0) {
-        return res.status(422).json({ error: 'Invalid id' });
-    } */
-    let modifySKUPositionPromise = skuDaoInstance.modifySKUPosition();
+    if (Object.keys(req.body).length == 0) {
+        return res.status(422).json({ error: 'Invalid position' });
+    } 
+    let modifySKUPositionPromise = skuDaoInstance.modifySKUPosition(req.body);
     await modifySKUPositionPromise.then(
         function (value) {
             console.log('modifySKUPosition resolve');
@@ -180,7 +180,7 @@ async function deleteSKUbyID(req, res) {
     if (Object.keys(req.params.id).length == 0) {
         return res.status(422).json({ error: 'Invalid id' });
     }
-    let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID();
+    let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID(req.params.id);
     await deletetSKUbyIDPromise.then(
         function (value) {
             console.log('deleteSKUbyID resolve');

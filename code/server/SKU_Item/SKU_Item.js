@@ -1,5 +1,5 @@
 const skuItemDao = require('./SKU_Item_dao')
-const DB = require('../EZWH_db/EZWH_db');
+const DB = require('../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const skuItemDaoInstance = new skuItemDao(DBinstance);
 
@@ -63,7 +63,7 @@ async function getSKUItemBySKUID(req, res) {
     if (Object.keys(req.params.id).length == 0) {
         return res.status(422).json({ error: 'Invalid id' });
     }
-    let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemBySKUID();
+    let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemBySKUID(req.params.id);
     await getSKUItemBySKUIDPromise.then(
         function (value) {
             console.log('getSKUItemBySKUID resolve');
@@ -82,10 +82,10 @@ async function getSKUItemBySKUID(req, res) {
 // GET /api/skuitems/:rfid
 
 async function getSKUItemsByRfid(req, res) {
-    if (Object.keys(req.params.id).length == 0) {
+    if (Object.keys(req.params.rfid).length == 0) {
         return res.status(422).json({ error: 'Invalid id' });
     }
-    let getSKUItemsByRfidPromise = skuItemDaoInstance.getSKUItemsByRfid();
+    let getSKUItemsByRfidPromise = skuItemDaoInstance.getSKUItemsByRfid(req.params.rfid);
     await getSKUItemsByRfidPromise.then(
         function (value) {
             console.log('getSKUItemsByRfid resolve');
@@ -107,7 +107,7 @@ async function newSKUItem(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Invalid body request' });
     }
-    let newSKUItemPromise = skuItemDaoInstance.newSKUItem();
+    let newSKUItemPromise = skuItemDaoInstance.newSKUItem(req.body);
     await newSKUItemPromise.then(
         function (value) {
             console.log('newSKUItem resolve');
@@ -129,7 +129,17 @@ async function modifySKUItem(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Invalid body request' });
     }
-    let modifySKUItemPromise = skuItemDaoInstance.modifySKUItem();
+    if (Object.keys(req.params.rfid).length == 0) {
+        return res.status(422).json({ error: 'Invalid rfid' });
+    }
+    let data = {
+        "oldRfid": req.params.rfid,
+        "newRfid": req.body.newRfid,
+        "newAvailable": req.body.newAvailable,
+        "newDateOfStock": req.body.newDateOfStock
+    }
+
+    let modifySKUItemPromise = skuItemDaoInstance.modifySKUItem(data);
     await modifySKUItemPromise.then(
         function (value) {
             console.log('modifySKUItem resolve');
@@ -148,10 +158,10 @@ async function modifySKUItem(req, res) {
 //DELETE /api/skuitems/:rfid
 
 async function deleteSKUItembyRfid(req, res) {
-    if (Object.keys(req.body).length == 0) {
-        return res.status(422).json({ error: 'Invalid body request' });
+    if (Object.keys(req.params.rfid).length == 0) {
+        return res.status(422).json({ error: 'Invalid rfid request' });
     }
-    let deleteSKUItembyRfidPromise = skuItemDaoInstance.deleteSKUItembyRfid();
+    let deleteSKUItembyRfidPromise = skuItemDaoInstance.deleteSKUItembyRfid(req.params.rfid);
     await deleteSKUItembyRfidPromise.then(
         function (value) {
             console.log('deleteSKUItembyRfid resolve');

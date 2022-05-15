@@ -1,4 +1,4 @@
-const DB = require('../EZWH_db/EZWH_db');
+const DB = require('../EZWH_db/RunDB');
 const db = DB.DBinstance;
 const SKUITEM = require('./SKU_Item.js');
 const sqlite = require('sqlite3');
@@ -9,20 +9,6 @@ class SKUItemDao {
     constructor(dbInstance) {
         this.#db = dbInstance;
     }
-
-    /*newSKUItemTable() {
-        return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEMS(RFID INTEGER PRIMARY KEY NOT NULL, SKUID INTEGER, AVAILABILITY INTEGER, VOLUME INTEGER, NOTES VARCHAR, POSITION BIGINT, AVAILABLEQUANTITY INTEGER, DATEOFSTOCK DATETIME, FOREIGN KEY(SKUID) REFERENCES SKUS(ID)';
-            db.run(sql, (err) => {
-                if (err) {
-                    reject(503);
-                    return;
-                }
-                resolve(this.rfid);
-            });
-
-        });
-    } */
 
     newSKUItem(skuItem) {
         return new Promise((resolve, reject) => {
@@ -156,13 +142,13 @@ class SKUItemDao {
         });
     }
 
-    modifySKUItem(rfid) {
+    modifySKUItem(data) {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const checkRfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID= ?';
                 let exists = 0;
-                this.#db.all(checkRfid, [rfid], (err, res) => {
+                this.#db.all(checkRfid, [data.oldRfid], (err, res) => {
                     if (err) {
                         reject(err);
                         return;
@@ -171,20 +157,13 @@ class SKUItemDao {
                     res[0]['COUNT(*)'] > 0 ? exists = 1 : exist;
 
                     if (exists) {
-                        const sql = 'SELECT * FROM SKU_ITEM WHERE RFID = ?';
-                        this.#db.all(sql, [rfid], (err, rows) => {
+                        const sql = 'UPDATE SKU_ITEM SET RFID= ?, AVAILABLE = ?, DATEOFSTOCK = ? WHERE RFID = ?';
+                        this.#db.run(sql, [data.newRfid, data.newAvailable, data.newDateOfStock, data.oldRfid], (err) => {
                             if (err) {
                                 reject(err);
-                                return;
+                            } else {
+                                resolve(true);
                             }
-                            const sql = 'UPDATE SKU_ITEM SET RFID= ?, AVAILABLE = ?, DATEOFSTOCK = ? WHERE RFID = ?';
-                            this.#db.run(sql, [skuItem.newRfid, skuItem.newAvailable, skuItem.DateOfStock], (err) => {
-                                if (err) {
-                                    reject(err);
-                                } else {
-                                    resolve(true);
-                                }
-                            });
                         });
                     } else {
                         console.log('No SKU Item associated to Rfid');

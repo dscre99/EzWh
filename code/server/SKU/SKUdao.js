@@ -5,7 +5,7 @@ class SKUDao {
         this.#db = dbInstance;
     }
 
-    /*dropSKUTable() {
+    dropSKUTable() {
         return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS SKUS';
             this.#db.run(sql, (err) => {
@@ -17,20 +17,6 @@ class SKUDao {
             })
         });
     }
-
-    newSKUTable() {
-        return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY AUTOINCREMENT, DESCRIPTION VARCHAR, WEIGHT INTEGER, VOLUME INTEGER, NOTES VARCHAR, POSITION BIGINT, AVAILABLEQUANTITY INTEGER, PRICE FLOAT, TESTDESCRIPTORS VARCHAR)';
-            this.#db.run(sql, (err) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-                resolve(201);
-            });
-
-        });
-    }*/
 
     newSKU(sku) {
         return new Promise((resolve, reject) => {
