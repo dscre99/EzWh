@@ -8,22 +8,12 @@ const port = 3001;
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json()) 
-
-
 app.use('/api', router)
-
 app.use(express.json());
 
 // *****SERVER APP PROTOTYPE*********
-const DB = require('./EZWH_db/EZWH_db.js');
-const UserDAO = require('./User/UserDAO.js')
 
-/*firstDBtest.newUserTable().then(
-  function(value) {console.log('user table created', value)},
-  function(error) {console.log('user table not created', error)}
-);*/
-
-new UserDAO().newUserTable();
+//new UserDAO().newUserTable();
 
 // ***********************************
 

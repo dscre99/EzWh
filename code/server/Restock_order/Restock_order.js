@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const restock_orderDAO = require('Restock_orderDAO');
+const restock_orderDAO = require('./Restock_orderDAO');
 const db = new restock_orderDAO('EzWh');
 
 /*

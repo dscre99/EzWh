@@ -1,6 +1,9 @@
 const express = require('express');
-const router = express.Router()
-const sku = require('SKUDao')
+//const { AsyncLocalStorage } = require('node:async_hooks');
+const SKUDao = require('./SKUdao');
+const router = express.Router();
+//const DB = require('../EZWH_db/EZWH_DB_TEST');
+const skuDaoInstance = new SKUDao();
 
 class SKU {
 
@@ -62,64 +65,139 @@ class SKU {
     getTestDescriptors() {
         return this.#testDescriptors;
     }
-
-
-
-    //GET /api/skus
-
-    router.get('/api/skus', (req, res) => {
-        sku.getSKU(req.body).then(
-            function (sku) { return res.status(200).json(sku); },
-            function (error) { console.log(error); }
-        );
-    });
-
-    //GET /api/skus/:id
-
-    router.get('/api/skus/:id', (req, res) => {
-        sku.getSKUbyID(req.body).then(
-            function (sku) { return res.status(200).json(sku); },
-            function (error) { console.log(error); }
-        );
-    });
-
-    //POST /api/sku
-
-    router.post('/api/sku', (req, res) => {
-        if (Object.keys(req.body).length === 0) {
-            return res.status(422).json({ error: 'Empty body request' });
-        }
-        sku.newSKU(req.body).then(
-            function (sku) { return res.status(200).json(sku); },
-            function (error) { console.log(error); }
-        );
-
-        let message = {
-            message: 'Received new SKU addition request',
-            received: req.body
-        }
-        return res.status(201).json(message);
-    });
-
-    //PUT /api/sku/:id
-
-    router.put('/api/sku/:id', (req, res) => {
-        sku.modifySKU(req.body);
-    });
-
-    //PUT /api/sku/:id/position
-
-    router.put('/api/sku/:id/position', (req, res) => {
-        sku.modifySKUPosition(req.body);
-    });
-    
-
-    //DELETE /api/skus/:id
-
-    router.delete('/api/skus/:id', (req, res) {
-        sku.deleteSKUbyID(req.body);
-    });
-
 }
 
+// GET /api/skus
+
+ async function getSKUs(req, res) {
+    let getSKUSPromise = skuDaoInstance.getSKUs();
+    await getSKUSPromise.then(
+        function (value) {
+            console.log('Get SKUs resolve');
+            return res.status(200).json(value).end();
+        },
+        function (error) {
+            console.log('getSKUs reject');
+            return res.status(error).end();
+        }
+    ).catch(err => function (err) {
+        console.log('getSKUs error', err);
+        return res.status(500).end();
+    });
+ }
+
+// GET /api/skus/:id
+
+async function getSKUbyID(req, res) {
+    if (Object.keys(req.params.id).length == 0) {
+        return res.status(422).json({ error: 'Invalid id' });
+    }
+    let getSKUbyIDPromise = skuDaoInstance.getSKUbyID();
+    await getSKUbyIDPromise.then(
+        function (value) {
+            console.log('getSKUbyID resolve');
+            return res.status(200).json(value).end();
+        },
+        function (error) {
+            console.log('getSKUbyID reject');
+            return res.status(error).end();
+        }
+    ).catch(err => function (err) {
+        console.log('getSKUbyID error', err);
+        return res.status(500).end();
+    });
+}
+
+// POST /api/sku
+
+async function newSKU(req, res) {
+    if (Object.keys(req.body).length == 0) {
+        return res.status(422).json({ error: 'Invalid body' });
+    }
+    let newSKUPromise = skuDaoInstance.newSKU();
+    awaitnewSKUPromise.then(
+        function (value) {
+            console.log('newSKU resolve');
+            return res.status(201).json(value).end();
+        },
+        function (error) {
+            console.log('newSKU reject');
+            return res.status(error).end();
+        }
+    ).catch(err => function (err) {
+        console.log('newSKU error', err);
+        return res.status(503).end();
+    });
+}
+
+
+// PUT /api/sku/:id
+
+async function modifySKU(req, res) {
+    if (Object.keys(req.body).length == 0) {
+        return res.status(422).json({ error: 'Empty body' });
+    }
+    let modifySKUPromise = skuDaoInstance.modifySKU();
+    await modifySKUPromise.then(
+        function (value) {
+            console.log('modifySKU resolve');
+            return res.status(200).json(value).end();
+        },
+        function (error) {
+            console.log('modifySKU reject');
+            return res.status(error).end();
+        }
+    ).catch(err => function (err) {
+        console.log('modifySKU error', err);
+        return res.status(503).end();
+    });
+}
+
+
+//PUT /api/sku/:id/position
+
+async function modifySKUPosition(req, res) {
+    /*if (Object.keys(req.params.id).length == 0) {
+        return res.status(422).json({ error: 'Invalid id' });
+    } */
+    let modifySKUPositionPromise = skuDaoInstance.modifySKUPosition();
+    await modifySKUPositionPromise.then(
+        function (value) {
+            console.log('modifySKUPosition resolve');
+            return res.status(200).json(value).end();
+        },
+        function (error) {
+            console.log('modifySKUPosition reject');
+            return res.status(error).end();
+        }
+    ).catch(err => function (err) {
+        console.log('modifySKUPosition error', err);
+        return res.status(503).end();
+    });
+}
+
+//DELETE /api/skus/:id
+
+async function deleteSKUbyID(req, res) {
+    if (Object.keys(req.params.id).length == 0) {
+        return res.status(422).json({ error: 'Invalid id' });
+    }
+    let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID();
+    await deletetSKUbyIDPromise.then(
+        function (value) {
+            console.log('deleteSKUbyID resolve');
+            return res.status(200).json(value).end();
+        },
+        function (error) {
+            console.log('deleteSKUbyID reject');
+            return res.status(error).end();
+        }
+    ).catch(err => function (err) {
+        console.log('deleteSKUbyID error', err);
+        return res.status(503).end();
+    });
+}
+
+
 module.exports = SKU;
+module.exports = { getSKUbyID, getSKUs, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID };
