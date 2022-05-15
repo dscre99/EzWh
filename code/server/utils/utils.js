@@ -8,7 +8,7 @@ function isBodyEmpty(body) {
 
 
 function isAllowed() {
-    return 0;
+    return 1;
 }
 
 function idExist() {
