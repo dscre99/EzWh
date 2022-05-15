@@ -23,8 +23,8 @@ class SKUItemDao {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const sql = 'INSERT INTO SKUITEMS(RFID, SKUID, AVAILABILITY, DATEOFSTOCK) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                db.run(sql, [skuItem.getRfid(), skuItem.getSKUId(), skuItem.getAvailability(), sku.getAvailability(), sku.getDateOfStock()], (err) => {
+                const sql = 'INSERT INTO SKUITEMS(RFID, SKUID, AVAILABILITY, DATEOFSTOCK) VALUES (?, ?, ?, ?)';
+                db.run(sql, [skuItem.rfid, skuItem.SKUId, skuItem.Available, skuItem.DateOfStock], (err) => {
                     if (err) {
                         reject(503);
                         return;
