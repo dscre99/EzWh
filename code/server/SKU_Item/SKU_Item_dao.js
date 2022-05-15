@@ -1,30 +1,21 @@
-const DB = require('../EZWH_db/EZWH_db');
+const DB = require('../EZWH_db/RunDB');
 const db = DB.DBinstance;
 const SKUITEM = require('./SKU_Item.js');
 const sqlite = require('sqlite3');
 
 class SKUItemDao {
+    #db = undefined;
 
-    /*newSKUItemTable() {
-        return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEMS(RFID INTEGER PRIMARY KEY NOT NULL, SKUID INTEGER, AVAILABILITY INTEGER, VOLUME INTEGER, NOTES VARCHAR, POSITION BIGINT, AVAILABLEQUANTITY INTEGER, DATEOFSTOCK DATETIME, FOREIGN KEY(SKUID) REFERENCES SKUS(ID)';
-            db.run(sql, (err) => {
-                if (err) {
-                    reject(503);
-                    return;
-                }
-                resolve(this.rfid);
-            });
-
-        });
-    } */
+    constructor(dbInstance) {
+        this.#db = dbInstance;
+    }
 
     newSKUItem(skuItem) {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const sql = 'INSERT INTO SKUITEMS(RFID, SKUID, AVAILABILITY, DATEOFSTOCK) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                db.run(sql, [skuItem.getRfid(), skuItem.getSKUId(), skuItem.getAvailability(), sku.getAvailability(), sku.getDateOfStock()], (err) => {
+                const sql = 'INSERT INTO SKUITEMS(RFID, SKUID, AVAILABILITY, DATEOFSTOCK) VALUES (?, ?, ?, ?)';
+                this.#db.run(sql, [skuItem.rfid, skuItem.SKUId, skuItem.Available, skuItem.DateOfStock], (err) => {
                     if (err) {
                         reject(503);
                         return;
@@ -43,7 +34,7 @@ class SKUItemDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU_ITEM';
-                db.all(sql, [], (err, rows) => {
+                this.#db.all(sql, [], (err, rows) => {
                     if (err) {
                         reject(err);
                         return;
@@ -70,17 +61,17 @@ class SKUItemDao {
             if (loggedAndAuthorized) {
                 const checkSKUId = 'SELECT COUNT(*) FROM SKU WHERE ID= ?';
                 let exists = 0;
-                db.all(checkSKUId, [id], (err, res) => {
+                this.#db.all(checkSKUId, [id], (err, res) => {
                     if (err) {
                         reject(err);
                         return;
                     }
 
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exist;
+                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
 
                     if (exists) {
                         const sql = 'SELECT * FROM SKU_ITEM WHERE SKUID= ? AND AVAILABLE=1';
-                        db.all(sql, [SKUId
+                        this.#db.all(sql, [SKUId
                         ], (err, rows) => {
                             if (err) {
                                 reject(err);
@@ -114,17 +105,17 @@ class SKUItemDao {
             if (loggedAndAuthorized) {
                 const checkRfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID= ?';
                 let exists = 0;
-                db.all(checkRfid, [rfid], (err, res) => {
+                this.#db.all(checkRfid, [rfid], (err, res) => {
                     if (err) {
                         reject(err);
                         return;
                     }
 
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exist;
+                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
 
                     if (exists) {
                         const sql = 'SELECT * FROM SKU_ITEM WHERE RFID = ?';
-                        db.all(sql, [rfid], (err, rows) => {
+                        this.#db.all(sql, [rfid], (err, rows) => {
                             if (err) {
                                 reject(err);
                                 return;
@@ -151,35 +142,28 @@ class SKUItemDao {
         });
     }
 
-    modifySKUItem(rfid) {
+    modifySKUItem(data) {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const checkRfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID= ?';
                 let exists = 0;
-                db.all(checkRfid, [rfid], (err, res) => {
+                this.#db.all(checkRfid, [data.oldRfid], (err, res) => {
                     if (err) {
                         reject(err);
                         return;
                     }
 
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exist;
+                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
 
                     if (exists) {
-                        const sql = 'SELECT * FROM SKU_ITEM WHERE RFID = ?';
-                        db.all(sql, [rfid], (err, rows) => {
+                        const sql = 'UPDATE SKU_ITEM SET RFID= ?, AVAILABLE = ?, DATEOFSTOCK = ? WHERE RFID = ?';
+                        this.#db.run(sql, [data.newRfid, data.newAvailable, data.newDateOfStock, data.oldRfid], (err) => {
                             if (err) {
                                 reject(err);
-                                return;
+                            } else {
+                                resolve(true);
                             }
-                            const sql = 'UPDATE SKU_ITEM SET RFID= ?, AVAILABLE = ?, DATEOFSTOCK = ? WHERE RFID = ?';
-                            db.run(sql, [skuItem.newRfid, skuItem.newAvailable, skuItem.DateOfStock], (err) => {
-                                if (err) {
-                                    reject(err);
-                                } else {
-                                    resolve(true);
-                                }
-                            });
                         });
                     } else {
                         console.log('No SKU Item associated to Rfid');
@@ -198,7 +182,7 @@ class SKUItemDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'DELETE FROM SKU_ITEM WHERE RFID = ?';
-                db.run(sql, [rfid], (err) => {
+                this.#db.run(sql, [rfid], (err) => {
                     if (err) {
                         reject(err);
                     } else {
