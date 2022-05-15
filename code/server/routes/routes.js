@@ -102,7 +102,7 @@ router.delete('/internalOrders/:id', delete_internal_order); //DELETE /api/inter
 
 //  SKU routes
 
-router.get('/api/skus', getSKUs); //GET /api/skus
+router.get('/skus', getSKUs); //GET /api/skus
 router.get('/api/skus/:id', getSKUbyID); //GET /api/skus/:id
 router.post('/api/sku', newSKU);  //POST /api/sku
 router.put('/api/sku/:id', modifySKU);  //PUT /api/sku/:id

@@ -1,14 +1,14 @@
-const DB = require('../EZWH_db/EZWH_db');
-const db = DB.DBinstance;
-const SKU = require('./SKU.js')
-const sqlite = require('sqlite3');
-
 class SKUDao {
+    #db = undefined;
+
+    constructor(dbInstance) {
+        this.#db = dbInstance;
+    }
 
     /*dropSKUTable() {
         return new Promise((resolve, reject) => {
             const sql = 'DROP TABLE IF EXISTS SKUS';
-            db.run(sql, (err) => {
+            this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -21,7 +21,7 @@ class SKUDao {
     newSKUTable() {
         return new Promise((resolve, reject) => {
             const sql = 'CREATE TABLE IF NOT EXISTS SKUS(ID INTEGER PRIMARY KEY AUTOINCREMENT, DESCRIPTION VARCHAR, WEIGHT INTEGER, VOLUME INTEGER, NOTES VARCHAR, POSITION BIGINT, AVAILABLEQUANTITY INTEGER, PRICE FLOAT, TESTDESCRIPTORS VARCHAR)';
-            db.run(sql, (err) => {
+            this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
                     return;
@@ -37,7 +37,7 @@ class SKUDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, POSITION, AVAILABLEQUANTITY, PRICE) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                db.run(sql, [sku.getDescription(), sku.getWeight(), sku.getVolume(), sku.getNotes(), sku.getPosition(), sku.getAvailableQuantity(), sku.getPrice()], (err) => {
+                this.#db.run(sql, [sku.getDescription(), sku.getWeight(), sku.getVolume(), sku.getNotes(), sku.getPosition(), sku.getAvailableQuantity(), sku.getPrice()], (err) => {
                     if (err) {
                         reject(503);
                         return;
@@ -56,7 +56,7 @@ class SKUDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU';
-                db.all(sql, [], (err, rows) => {
+                this.#db.all(sql, [], (err, rows) => {
                     if (err) {
                         reject(err);
                         return;
@@ -88,7 +88,7 @@ class SKUDao {
             if (loggedAndAuthorized) {
                 const checkSKUId = 'SELECT COUNT(*) FROM SKU WHERE ID= ?';
                 let exists = 0;
-                db.all(checkSKUId, [id], (err, res) => {
+                this.#db.all(checkSKUId, [id], (err, res) => {
                     if (err) {
                         reject(err);
                         return;
@@ -98,7 +98,7 @@ class SKUDao {
 
                     if (exists) {
                         const sql = 'SELECT * FROM SKU WHERE ID=?';
-                        db.all(sql, [id], (err, rows) => {
+                        this.#db.all(sql, [id], (err, rows) => {
                             if (err) {
                                 reject(err);
                                 return;
@@ -136,7 +136,7 @@ class SKUDao {
             if (loggedAndAuthorized) {
                 const checkId = "SELECT * FROM USERS WHERE ID= ?";
                 let exists = 0;
-                db.all(checkId, [id], (err, res) => {
+                this.#db.all(checkId, [id], (err, res) => {
                     if (err) {
                         reject(err);
                         return;
@@ -148,7 +148,7 @@ class SKUDao {
                         let loggedAndAuthorized = true;
                         if (loggedAndAuthorized) {
                             const sql = 'UPDATE SKU SET description = ? ,weight= ?,volume= ?,notes= ?,availablequantity= ?,price= ? WHERE id = ?';
-                            db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, id], (err) => {
+                            this.#db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, id], (err) => {
                                 if (err) {
                                     reject(err);
                                 } else {
@@ -194,7 +194,7 @@ class SKUDao {
                     });
                     if (checked) {
                         const sql = 'UPDATE SKU SET position = ? WHERE id = ?';
-                        db.run(sql, [position], (err) => {
+                        this.#db.run(sql, [position], (err) => {
                             if (err) {
                                 reject(err);
                             } else {
@@ -218,7 +218,7 @@ class SKUDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'DELETE FROM SKU WHERE id = ?';
-                db.run(sql, [id], (err) => {
+                this.#db.run(sql, [id], (err) => {
                     if (err) {
                         reject(err);
                     } else {

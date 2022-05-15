@@ -1,9 +1,7 @@
-const express = require('express');
-//const { AsyncLocalStorage } = require('node:async_hooks');
 const SKUDao = require('./SKUdao');
-const router = express.Router();
-//const DB = require('../EZWH_db/EZWH_DB_TEST');
-const skuDaoInstance = new SKUDao();
+const DB = require('../EZWH_db/RunDB');
+const DBinstance = DB.DBinstance;
+const skuDaoInstance = new SKUDao(DBinstance);
 
 class SKU {
 
@@ -77,8 +75,8 @@ class SKU {
             return res.status(200).json(value).end();
         },
         function (error) {
-            console.log('getSKUs reject');
-            return res.status(error).end();
+            console.log('getSKUs reject', error);
+            return res.status(500).end();
         }
     ).catch(err => function (err) {
         console.log('getSKUs error', err);
