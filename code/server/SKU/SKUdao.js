@@ -37,7 +37,7 @@ class SKUDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, POSITION, AVAILABLEQUANTITY, PRICE) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                this.#db.run(sql, [sku.getDescription(), sku.getWeight(), sku.getVolume(), sku.getNotes(), sku.getPosition(), sku.getAvailableQuantity(), sku.getPrice()], (err) => {
+                this.#db.run(sql, [sku.description, sku.getWeight(), sku.getVolume(), sku.getNotes(), sku.getPosition(), sku.getAvailableQuantity(), sku.getPrice()], (err) => {
                     if (err) {
                         reject(503);
                         return;

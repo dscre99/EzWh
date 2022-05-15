@@ -1,5 +1,3 @@
-const express = require('express');
-const router = express.Router();
 const DB = require('../EZWH_db/RunDB')
 const DBinstance = DB.DBinstance;
 const InternalOrderDAO = require('./InternalOrderDAO.js')
@@ -86,6 +84,7 @@ async function get_accepted_orders(req, res) {
 //GET /api/internalOrders/:id
 async function get_internal_order_by_id(req, res) {
 
+    console.log(Number.parseInt(req.params.id));
     if(Number.parseInt(req.params.id) > 0){
         let getInternalOrderPromise = InternalOrderDAOinstance.getInternalOrders(req.params);
         await getInternalOrderPromise.then(

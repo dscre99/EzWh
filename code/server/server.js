@@ -7,8 +7,8 @@ const app = new express();
 const port = 3001;
 
 app.use(express.urlencoded({extended: true}));
-app.use(express.json()) 
-app.use('/api', router)
+app.use(express.json());
+app.use('/api', router);
 app.use(express.json());
 
 // *****SERVER APP PROTOTYPE*********

@@ -3,7 +3,7 @@ const DB = require('../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const skuDaoInstance = new SKUDao(DBinstance);
 
-class SKU {
+/*class SKU {
 
     #id = undefined;
     #description = "";
@@ -63,7 +63,7 @@ class SKU {
     getTestDescriptors() {
         return this.#testDescriptors;
     }
-}
+}*/
 
 // GET /api/skus
 
@@ -113,7 +113,7 @@ async function newSKU(req, res) {
         return res.status(422).json({ error: 'Invalid body' });
     }
     let newSKUPromise = skuDaoInstance.newSKU();
-    awaitnewSKUPromise.then(
+    await newSKUPromise.then(
         function (value) {
             console.log('newSKU resolve');
             return res.status(201).json(value).end();
@@ -197,5 +197,5 @@ async function deleteSKUbyID(req, res) {
 }
 
 
-module.exports = SKU;
+//module.exports = SKU;
 module.exports = { getSKUbyID, getSKUs, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID };
