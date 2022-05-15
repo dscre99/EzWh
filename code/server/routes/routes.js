@@ -3,6 +3,7 @@ const router = express.Router();
 
 const { get_positions, post_position, put_position_by_ID, put_positionID_by_ID, delete_position_by_ID } = require('../Position/Position');
 const { get_test_descriptors, get_test_descriptor_by_ID, post_test_descriptor, put_test_descriptor_by_ID, delete_test_descriptor_by_ID } = require('../Test_descriptor/Test_Descriptor');
+const { get_test_results } = require('../Test_result/Test_result');
 
 const { new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
         supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions,
@@ -28,6 +29,7 @@ router.delete('/testDescriptor/:id', delete_test_descriptor_by_ID)
 /**
  * TODO : Test Reult
 **/
+router.get('/skuitems/:rfid/testResults', get_test_results)
 
 
 // USER routes

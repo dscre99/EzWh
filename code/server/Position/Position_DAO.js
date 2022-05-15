@@ -1,19 +1,10 @@
-const sqlite3 = require('sqlite3').verbose();
-const fs = require('fs')
-const db = new sqlite3.Database('./Position/EZWH_Daniele.db', sqlite3.OPEN_READWRITE, (err) => {
-	if(err) {
-        console.log("ERRRORR")
-		throw(err);
-	} else {
-		console.log("Connected to the Database!")
-	}
-} )
-
+const DB = require('../EZWH_db/RunDB');
+const DBinstance = DB.DBinstance;
 
 function getPositions() {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM POSITION;';
-        db.all(sql, [], (err, rows) => {
+        DBinstance.all(sql, [], (err, rows) => {
             if(err){
                 reject(err);
                 return;
@@ -29,16 +20,19 @@ function getPositions() {
                     occupiedWeight:position.occupiedWeight,
                     occupiedVolume:position.occupiedVolume
                 }
-            ));
-            resolve(positions);
-        });
-    });
+            ))
+            resolve(positions)    
+        })
+
+        
+    })
+    
 }
 
 function storePosition(data) { 
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO POSITION(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES (?,?,?,?,?,?,?,?)';
-        db.run(sql, [data.positionID, data.aisleID, data.row, data.col, data.maxWeight, data.maxVolume, 0, 0], (err) => {
+        DBinstance.run(sql, [data.positionID, data.aisleID, data.row, data.col, data.maxWeight, data.maxVolume, 0, 0], (err) => {
             if (err) {
                 reject(err);
                 return
@@ -51,7 +45,7 @@ function storePosition(data) {
 function put_position_by_ID_DB(positionID, body) {
     return new Promise((resolve, reject) => {
         const sql = 'UPDATE POSITION SET aisleID = ? ,row= ?,col= ?,maxWeight= ?,maxVolume= ?,occupiedWeight= ?, occupiedVolume= ? WHERE positionID = ?';
-           db.run(sql, [body.aisleID, body.row, body.col, body.maxWeight, body.maxVolume, body.occupiedWeight, body.occupiedVolume,  positionID], (err) => {
+        DBinstance.run(sql, [body.aisleID, body.row, body.col, body.maxWeight, body.maxVolume, body.occupiedWeight, body.occupiedVolume,  positionID], (err) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -65,7 +59,7 @@ function put_position_by_ID_DB(positionID, body) {
 function put_positionID_by_ID_DB(positionID, body) {
     return new Promise((resolve, reject) => {
         const sql = 'UPDATE POSITION SET positionID = ? WHERE positionID = ?';
-           db.run(sql, [body.positionID, positionID], (err) => {
+        DBinstance.run(sql, [body.positionID, positionID], (err) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -79,7 +73,7 @@ function put_positionID_by_ID_DB(positionID, body) {
 function delete_position_by_ID_DB(positionID) {
     return new Promise((resolve, reject) => {
         const sql = 'DELETE FROM POSITION WHERE positionID = ?';
-           db.run(sql, [positionID], (err) => {
+        DBinstance.run(sql, [positionID], (err) => {
                 if (err) {
                     reject(err);
                 } else {
