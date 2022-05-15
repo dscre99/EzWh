@@ -184,7 +184,7 @@ class SKUDao {
                 } else {
                     const checkVolumeAndWeight = "SELECT S.VOLUME, S.WEIGHT, P.MAXVOLUME, P.MAXWEIGHT, P.OCCUPIEDWEIGHT, P.OCCUPIEDVOLUME FROM SKU S, POSITION P WHERE POSITION = ?"
                     let checked = false;
-                    db.get(checkVolumeAndWeight, [position], (err, row) => {
+                    this.#db.get(checkVolumeAndWeight, [position], (err, row) => {
                         if (err) {
                             reject(err);
                             return;
