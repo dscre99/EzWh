@@ -177,7 +177,8 @@ async function modifySKUPosition(req, res) {
         "id": req.params.id,
         "position": req.body.position
     }
-
+    //console.log(data);
+   
     let modifySKUPositionPromise = skuDaoInstance.modifySKUPosition(data);
     await modifySKUPositionPromise.then(
         function (value) {
