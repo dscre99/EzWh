@@ -63,7 +63,7 @@ async function getSKUItemBySKUID(req, res) {
     if (Object.keys(req.params.id).length == 0) {
         return res.status(422).json({ error: 'Invalid id' });
     }
-    let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemBySKUID(req.params.id);
+    let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemsBySKUID(Number.parseInt(req.params.id));
     await getSKUItemBySKUIDPromise.then(
         function (value) {
             console.log('getSKUItemBySKUID resolve');

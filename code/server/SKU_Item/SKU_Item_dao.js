@@ -16,6 +16,7 @@ class SKUItemDao {
             if (loggedAndAuthorized) {
                 const sql = 'INSERT INTO SKU_ITEM(RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?, ?, 0, ?)';
                 this.#db.run(sql, [skuItem.RFID, skuItem.SKUId, skuItem.DateOfStock], (err, rows) => {
+                    console.log('query error', err);
                     if (err) {
                         reject(503);
                         return;
@@ -41,10 +42,10 @@ class SKUItemDao {
                     }
                     const skuItems = rows.map((r) => (
                         {
-                            rfid: r.rfid,
-                            SKUId: r.SKUId,
-                            Available: r.Available,
-                            DateOfStock: r.DateOfStock
+                            rfid: r.RFID,
+                            SKUId: r.SKUID,
+                            Available: r.AVAILABLE,
+                            DateOfStock: r.DATEOFSTOCK
                         }));
                     resolve(skuItems);
                 });
@@ -61,7 +62,7 @@ class SKUItemDao {
             if (loggedAndAuthorized) {
                 const checkSKUId = 'SELECT COUNT(*) FROM SKU WHERE ID= ?';
                 let exists = 0;
-                this.#db.all(checkSKUId, [id], (err, res) => {
+                this.#db.all(checkSKUId, [SKUId], (err, res) => {
                     if (err) {
                         reject(err);
                         return;
@@ -79,10 +80,10 @@ class SKUItemDao {
                             }
                             const skuItems = rows.map((r) => (
                                 {
-                                    rfid: r.rfid,
-                                    SKUId: r.SKUId,
-                                    Available: r.Available,
-                                    DateOfStock: r.DateOfStock
+                                    rfid: r.RFID,
+                                    SKUId: r.SKUID,
+                                    Available: r.AVAILABLE,
+                                    DateOfStock: r.DATEOFSTOCK
                                 }));
                             resolve(skuItems);
                         });
@@ -122,10 +123,10 @@ class SKUItemDao {
                             }
                             const skuItems = rows.map((r) => (
                                 {
-                                    rfid: r.rfid,
-                                    SKUId: r.SKUId,
-                                    Available: r.Available,
-                                    DateOfStock: r.DateOfStock
+                                    rfid: r.RFID,
+                                    SKUId: r.SKUID,
+                                    Available: r.AVAILABLE,
+                                    DateOfStock: r.DATAOFSTOCK
                                 }));
                             resolve(skuItems[0]);
                         });
@@ -158,7 +159,7 @@ class SKUItemDao {
 
                     if (exists) {
                         const sql = 'UPDATE SKU_ITEM SET RFID= ?, AVAILABLE = ?, DATEOFSTOCK = ? WHERE RFID = ?';
-                        this.#db.run(sql, [data.newRfid, data.newAvailable, data.newDateOfStock, data.oldRfid], (err) => {
+                        this.#db.run(sql, [data.newRFID, data.newAvailable, data.newDateOfStock, data.oldRfid], (err) => {
                             if (err) {
                                 reject(err);
                             } else {
