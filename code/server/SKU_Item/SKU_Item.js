@@ -118,7 +118,7 @@ async function newSKUItem(req, res) {
             return res.status(error).end();
         }
     ).catch(err => function (err) {
-        console.log('newSKUItemd error', err);
+        console.log('newSKUItem error', err);
         return res.status(503).end();
     });
 }

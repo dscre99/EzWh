@@ -129,12 +129,12 @@ class SKUDao {
                         return;
                     }
 
-                    res.length > 0 ? exists = true : exists=false;
+                    res.length > 0 ? exists = 1 : exists;
 
                     if (exists) {
                         let loggedAndAuthorized = true;
                         if (loggedAndAuthorized) {
-                            const sql = 'UPDATE SKU SET description = ? ,weight= ?,volume= ?,notes= ?,availablequantity= ?,price= ? WHERE id = ?';
+                            const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT= ?, VOLUME= ?, NOTES= ?, AVAILABLEQUANTITY= ?, PRICE= ? WHERE ID = ?';
                             this.#db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, sku.id], (err) => {
                                 if (err) {
                                     reject(err);
@@ -171,25 +171,27 @@ class SKUDao {
                         return;
                     }
                     if (res.length > 0) {
-                        const checkVolumeAndWeight = "SELECT S.VOLUME, S.WEIGHT, P.MAXVOLUME, P.MAXWEIGHT, P.OCCUPIEDWEIGHT, P.OCCUPIEDVOLUME FROM SKU S, POSITION P WHERE ID = ?"
+                        const checkVolumeAndWeight = "SELECT S.VOLUME, S.WEIGHT, P.maxVolume, P.maxWeight, P.occupiedWeight, P.occupiedVolume FROM SKU S, POSITION P WHERE P.positionID= S.POSITION AND P.positionID = ?"
                         let checked = false;
-                        this.#db.all(checkVolumeAndWeight, [data.id], (err, rows) => {
+                        this.#db.all(checkVolumeAndWeight, [data.position], (err, rows) => {
                             if (err) {
                                 reject(err);
                                 return;
                             }
-                            const res = rows.map((r) => {
-                                    volume = r.VOLUME,
-                                    weight = r.WEIGHT,
-                                    maxVolume = r.MAXVOLUME,
-                                    maxWeight = r.MAXWEIGHT,
-                                    occupiedVolume = r.OCCUPIEDVOLUME,
-                                    occupiedWeight = r.OCCUPIEDWEIGHT
-                            });
+                            const res = rows.map((r) => (
+                                {
+                                    volume : r.VOLUME,
+                                    weight: r.WEIGHT,
+                                    maxVolume: r.maxVolume,
+                                    maxWeight: r.maxWeight,
+                                    occupiedVolume: r.occupiedVolume,
+                                    occupiedWeight: r.occupiedWeight
+                                }
+                            ));
                             if ((res.volume <= (res.maxVolume - res.occupiedVolume)) && (res.weight <= (res.maxWeight - res.occupiedWeight)))
                                 checked = true;
                             if (checked) {
-                                const sql = 'UPDATE SKU SET position = ? WHERE id = ?';
+                                const sql = 'UPDATE SKU SET POSITION = ? WHERE ID = ?';
                                 this.#db.run(sql, [data.position, data.id], (err) => {
                                     if (err) {
                                         reject(err);

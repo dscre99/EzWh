@@ -135,7 +135,19 @@ async function modifySKU(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Empty body' });
     }
-    let modifySKUPromise = skuDaoInstance.modifySKU(req.body);
+    if (Object.keys(req.params.id).length == 0) {
+        return res.status(422).json({ error: 'Invalid id' });
+    }
+    let data = {
+        "id": req.params.id,
+        "newDescription": req.body.newDescription,
+        "newVolume": req.body.newVolume,
+        "newNotes": req.body.newNotes,
+        "newPrice": req.body.newPrice,
+        "newAvailableQuantity": req.body.newAvailableQuantity
+    }
+
+    let modifySKUPromise = skuDaoInstance.modifySKU(data);
     await modifySKUPromise.then(
         function (value) {
             console.log('modifySKU resolve');
@@ -162,8 +174,8 @@ async function modifySKUPosition(req, res) {
         return res.status(422).json({ error: 'Invalid id' });
     }
     let data = {
-        id: req.params.id,
-        position: req.body.position
+        "id": req.params.id,
+        "position": req.body.position
     }
 
     let modifySKUPositionPromise = skuDaoInstance.modifySKUPosition(data);
