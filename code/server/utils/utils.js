@@ -1,26 +1,12 @@
-function isBodyNotEmpty(body) {
-    if(Object.keys(body).length === 0) return 0;
-    return 1;
+function isEmpty(body) {
+    if(Object.keys(body).length == 0) return 1;
+    return 0;
 }
-
 
 function isAllowed(loggedUser) {
     return loggedUser;
 }
 
-function idExist() {
-
-}
-
-function invalidID() {
-
-}
-
-
-/** Verify if the request body is valid and/or contains the appropriate data. 
- *  
- *  return 1 if is valid, 0 otherwise 
-**/ 
 
 function positionBodyLength(body, req_type) {
 
@@ -88,4 +74,4 @@ function validatePositionID(body) {
 }
 
 
-module.exports = {isBodyNotEmpty, isAllowed, idExist, invalidID, positionBodyLength, validatePositionBody, validatePositionID};
+module.exports = {isEmpty, isAllowed, positionBodyLength, validatePositionBody, validatePositionID};
