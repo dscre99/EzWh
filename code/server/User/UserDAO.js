@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const key = 'bibbidi_boobbidi_bu';
-const cipher = crypto.createCipher('aes-256-cbc', key);
-const decipher = crypto.createDecipher('aes-256-cbc', key);
+//const decipher = crypto.createDecipher('aes-256-cbc', key);
 
 class UserDAO {
     #db = undefined;
@@ -189,6 +188,7 @@ class UserDAO {
                     }
 
                     // query to DB to insert new USER
+                    const cipher = crypto.createCipher('aes-256-cbc', key);
                     let cipheredpw = cipher.update(newUserData.password, 'base64');
                     cipheredpw = cipher.final('base64');
                     console.log(cipheredpw);
@@ -220,9 +220,9 @@ class UserDAO {
             let loggedAndAuthorized = true;
             if(loggedAndAuthorized) {
 
+                const cipher = crypto.createCipher('aes-256-cbc', key);
                 let cipheredpw = cipher.update(userData.password, 'base64');
                 cipheredpw = cipher.final('base64');
-                console.log(cipheredpw);
                 const sql = 'SELECT * FROM USERS WHERE EMAIL=? AND PASSWORD=? AND TYPE=?';
                 this.#db.all(sql, [userData.username, cipheredpw, userData.type], (err, rows) => {
                     if(err){

@@ -7,7 +7,6 @@ const userTypes = ['customer', 'qualityEmployee', 'clerk', 'deliveryEmployee', '
 
 //GET /api/userinfo
 async function get_user(req, res) {
-    console.log('GET /api/userinfo');
 
     let getUserPromise = UserDAOinstance.getUser();
     await getUserPromise.then(
@@ -28,8 +27,6 @@ async function get_user(req, res) {
 //GET /api/suppliers
 async function get_suppliers(req, res) {
 
-    console.log('GET /api/suppliers');
-
     let getSuppliersPromise = UserDAOinstance.getSuppliers();
     await getSuppliersPromise.then(
       function(value) {
@@ -49,8 +46,6 @@ async function get_suppliers(req, res) {
 //GET /api/users
 async function get_users(req, res) {
 
-    console.log('GET /api/users');
-
     let getUsersPromise = UserDAOinstance.getUsers();
     await getUsersPromise.then(
         function(value) {
@@ -69,8 +64,6 @@ async function get_users(req, res) {
 
 //POST /api/newUser
 async function new_user(req, res) {
-
-    console.log('POST /api/newUser');
   
     // check input
     if (Object.keys(req.body).length === 0) {
@@ -162,7 +155,7 @@ async function manager_sessions(req, res) {
         return res.status(200).json(value).end();
     },
     function(error) {
-        console.log('managerSession reject');
+        console.log('managerSession reject', error);
         return res.status(error).end();
     }
     ).catch(err => function(err){
