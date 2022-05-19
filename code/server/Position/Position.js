@@ -1,26 +1,40 @@
 const {getPositions, storePosition, put_position_by_ID_DB, put_positionID_by_ID_DB, delete_position_by_ID_DB} = require('./Position_DAO');
-const { isAllowed, validatePositionBody, isBodyNotEmpty, positionBodyLength, validatePositionID } = require('../utils/utils');
+const { isAllowed, validatePositionBody, isEmpty, positionBodyLength, validatePositionID } = require('../utils/utils');
 
 let loggedUser = false;
 
 // GET /api/positions
 function get_positions(req,res) {
-    isBodyNotEmpty(req.body) ? res.status(400).json("Body must be empty!") : isAllowed(loggedUser) ? getPositions().then((positions) => {
+    
+    if(!isAllowed(loggedUser)) {
+        res.status(401).json("You are not allowed to see the positions!");
+        return;
+    }
+
+    if(!isEmpty(req.body)) {
+        res.status(503).json("Body must be empty!");
+        return;
+    }
+    
+    
+    getPositions().then((positions) => {
         res.status(200).json(positions);
-    }).catch((error) => res.status(500).json("Error!")) : res.status(401).json("You are not allowed to see the positions!");
+    }).catch((error) => res.status(500).json("Error!"));
 }
 
 // POST /api/position
 function post_position(req, res) {
 
     if(!isAllowed(loggedUser)) {
-        res.status(422).json("You are not allowed to see the positions!");
+        res.status(401).json("You are not allowed to see the positions!");
         return;
     }
-    if(!(isBodyNotEmpty(req.body))) {
-        res.status(500).json("Body is empty!");
+
+    if(isEmpty(req.body)) {
+        res.status(422).json("Body is empty!");
         return;
     }
+
     if(positionBodyLength(req.body, "post") && validatePositionBody(req.body, "post")) {
         storePosition(req.body).then((position) => {
             res.status(200).json(position);
@@ -35,12 +49,12 @@ function post_position(req, res) {
 function put_position_by_ID(req, res) {
 
     if(!isAllowed(loggedUser)) {
-        res.status(422).json("You are not allowed to see the positions!");
+        res.status(401).json("You are not allowed to see the positions!");
         return;
     }
 
-    if(!(isBodyNotEmpty(req.body))) {
-        res.status(500).json("Body is empty!");
+    if(isEmpty(req.body)) {
+        res.status(422).json("Body is empty!");
         return;
     }
 
@@ -59,12 +73,12 @@ function put_position_by_ID(req, res) {
 function put_positionID_by_ID(req, res) {
 
     if(!isAllowed(loggedUser)) {
-        res.status(422).json("You are not allowed to see the positions!");
+        res.status(401).json("You are not allowed to see the positions!");
         return;
     }
 
-    if(!(isBodyNotEmpty(req.body))) {
-        res.status(500).json("Body is empty!");
+    if(!isEmpty(req.body)) {
+        res.status(503).json("Body must be empty!");
         return;
     }
 
@@ -83,7 +97,12 @@ function put_positionID_by_ID(req, res) {
 function delete_position_by_ID(req, res) {
 
     if(!isAllowed(loggedUser)) {
-        res.status(422).json("You are not allowed to see the positions!");
+        res.status(401).json("You are not allowed to see the positions!");
+        return;
+    }
+
+    if(!isEmpty(req.body)) {
+        res.status(503).json("Body must be empty!");
         return;
     }
 
