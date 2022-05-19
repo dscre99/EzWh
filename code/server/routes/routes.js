@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-// POSITION receivers
-const { get_positions, post_position, put_position_by_ID, put_positionID_by_ID, delete_position_by_ID } = require('../Position/Position');
+const PositionDAO = require('../Position/Position_DAO');
+const PositionService = require('../Position/Position');
+const positionDAO = new PositionDAO();
+const positionService = new PositionService(positionDAO);
+
+
+
 const { get_test_descriptors, get_test_descriptor_by_ID, post_test_descriptor, put_test_descriptor_by_ID, delete_test_descriptor_by_ID } = require('../Test_descriptor/Test_Descriptor');
 const { get_test_results, get_test_result_with_id_from_rfid, post_test_result, put_test_result_with_id_from_rfid, delete_test_result_with_id_from_rfid } = require('../Test_result/Test_result');
 
@@ -32,12 +37,14 @@ const { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKU
 
 
 
+
+
 // POSITION routes
-router.get('/positions', get_positions);
-router.post('/position', post_position);
-router.put('/position/:positionID', put_position_by_ID);
-router.put('/position/:positionID/changeID', put_positionID_by_ID);
-router.delete('/position/:positionID', delete_position_by_ID);
+router.get('/positions', positionService.get_positions);
+router.post('/position', positionService.post_position);
+router.put('/position/:positionID', positionService.put_position_by_ID);
+router.put('/position/:positionID/changeID', positionService.put_positionID_by_ID);
+router.delete('/position/:positionID', positionService.delete_position_by_ID);
 
 // TEST DESCRIPTOR routes
 router.get('/testDescriptors', get_test_descriptors);

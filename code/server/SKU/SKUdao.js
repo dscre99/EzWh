@@ -1,8 +1,8 @@
 class SKUDao {
     #db = undefined;
 
-    constructor(dbInstance) {
-        this.#db = dbInstance;
+    constructor(DBinstance) {
+        this.#db = DBinstance;
     }
 
     dropSKUTable() {
