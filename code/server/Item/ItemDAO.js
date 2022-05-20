@@ -2,7 +2,6 @@ class ItemDAO {
     db= undefined;
     constructor(db) {
         this.db=db;
-        
     }
 
     dropTableItem() {

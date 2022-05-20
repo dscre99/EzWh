@@ -1,8 +1,7 @@
-const express = require('express');
-const router = express.Router();
-let db = new sqlite.Database('./EZWH_db/EZWH_db.db');
+const DB = require('../EZWH_db/RunDB');
+const DBInstance = DB.DBinstance;
 const ItemDAO = require('./ItemDAO.js');
-const DAO=new ItemDAO(db);
+const DAO=new ItemDAO(DBInstance);
 
 
 // ITEM
