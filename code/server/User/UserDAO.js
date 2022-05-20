@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 const key = 'bibbidi_boobbidi_bu';
-const cipher = crypto.createCipher('aes-256-cbc', key);
-const decipher = crypto.createDecipher('aes-256-cbc', key);
+//const decipher = crypto.createDecipher('aes-256-cbc', key);
 
 class UserDAO {
     #db = undefined;
@@ -10,29 +9,41 @@ class UserDAO {
         this.#db = db;
     }
 
-    newUserTable(){
-        /*return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR, SURNAME VARCHAR, EMAIL VARCHAR, PASSWORD VARCHAR, TYPE VARCHAR)';
-            this.#db.run(sql, (err) => {
-                if (err) {
-                    reject(err);
-                    return;
+    clearUserTable(){
+        return new Promise((resolve, reject) => {
+            
+            const sql1 = 'DROP TABLE IF EXISTS USERS';
+            this.#db.run(sql1, (err) => {
+                if(err){
+                    console.log('clearUserTable() error:', err);
+                    reject(500);
+                } else {
+
+                    const sql2 = 'CREATE TABLE IF NOT EXISTS USERS(ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR, SURNAME VARCHAR, EMAIL VARCHAR, PASSWORD VARCHAR, TYPE VARCHAR)';
+                    this.#db.run(sql2, (err) => {
+                        if(err){
+                            console.log('clearUserTable() error:', err);
+                            reject(500);
+                            return;
+                        } else {
+                            resolve(200);
+                            return;
+                        }
+                    });
                 }
-                //let value = 'USERS'
-                resolve('USERS table created');
             });
-        });*/
-        console.log('newUserTable() CALLED')
+        });
     }
 
     getUser(data){
         return new Promise((resolve, reject) => {
+            
             let sampleUser = {
                 id: 1,
                 username: 'dscre@ezwh.com',
                 name: 'Simone',
                 surname: 'Crescenzo',
-                type: 'Manager'
+                type: 'manager'
             }
 
             // !!! session checking to be implemented !!!
@@ -41,6 +52,7 @@ class UserDAO {
                 // query to DB to retrieve USER info
                 const sql = 'SELECT * FROM USERS WHERE EMAIL=?';
                 this.#db.all(sql, [sampleUser.username], (err, rows) => {
+
                     if(err){
                         // reports error while querying database
                         console.log('getUser() sql.run error:: ', err);
@@ -65,7 +77,7 @@ class UserDAO {
                             }
                         ));
 
-                        resolve(userData);  // returrns userData dictionary to be sent as JSON response body
+                        resolve(userData);  // returns userData dictionary to be sent as JSON response body
                         return;
                     }
                 });
@@ -163,8 +175,6 @@ class UserDAO {
     }
 
     newUser(newUserData){
-
-        //console.log(user.getUserAsDict());
         
         return new Promise((resolve, reject) => {
 
@@ -189,9 +199,10 @@ class UserDAO {
                     }
 
                     // query to DB to insert new USER
+                    const cipher = crypto.createCipher('aes-256-cbc', key);
                     let cipheredpw = cipher.update(newUserData.password, 'base64');
                     cipheredpw = cipher.final('base64');
-                    console.log(cipheredpw);
+
                     const sql2 = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES (?, ?, ?, ?, ?)';
                     this.#db.run(sql2, [newUserData.name, newUserData.surname, newUserData.username, cipheredpw, newUserData.type], (err) => {
                         if (err) {
@@ -219,10 +230,10 @@ class UserDAO {
             // !!! session checking to be implemented !!!
             let loggedAndAuthorized = true;
             if(loggedAndAuthorized) {
-
+                
+                const cipher = crypto.createCipher('aes-256-cbc', key);
                 let cipheredpw = cipher.update(userData.password, 'base64');
                 cipheredpw = cipher.final('base64');
-                console.log(cipheredpw);
                 const sql = 'SELECT * FROM USERS WHERE EMAIL=? AND PASSWORD=? AND TYPE=?';
                 this.#db.all(sql, [userData.username, cipheredpw, userData.type], (err, rows) => {
                     if(err){
@@ -243,6 +254,7 @@ class UserDAO {
                                 name:r.NAME
                             }
                         ));
+
                         resolve(userInfo[0]);
                         return;
                     }
@@ -274,7 +286,6 @@ class UserDAO {
                     } else {
                         let userID = rows.map((r) => r.ID);
                         userID = userID[0];
-                        console.log(userID);
 
                         let sql2 = 'UPDATE USERS SET TYPE=? WHERE ID=?';
                         this.#db.all(sql2, [newUserData.newType, userID], (err, rows) => {
