@@ -75,21 +75,21 @@ router.put('/users/:username', modify_user_type);  //PUT /api/users/:username
 router.delete('/users/:username/:type', delete_user);  //DELETE /api/users/:username/:type
 
 //RESTOCK ORDER routes
-// router.get('/restockOrders', get_restock_order);    //GET /api/restockOrders
-// router.get('/restockOrdersIssued', get_restock_order_issued);   //GET /api/restockOrdersIssued
-// router.get('/restockOrders/:id', get_restock_order_by_id);  // GET /api/restockOrders/:id
-// router.get('/restockOrders/:id/returnItems', get_item_list);    // GET /api/restockOrders/:id/returnItems
-// router.post('/restockOrder', store_restock_order);  // POST /api/restockOrder
-// router.put('/restockOrder/:id', update_restock_order_state);    // PUT /api/restockOrder/:id
-// router.put('/restockOrder/:id/skuItems', add_skuitems_to_restock_order);    // PUT /api/restockOrder/:id/skuItems
-// router.put('/restockOrder/:id/transportNote', add_tnote_to_restock_order);  // PUT /api/restockOrder/:id/transportNote
-// router.delete('/restockOrder/:id', delete_restock_order);   // DELETE /api/restockOrder/:id
+router.get('/restockOrders', get_restock_order);    //GET /api/restockOrders
+router.get('/restockOrdersIssued', get_restock_order_issued);   //GET /api/restockOrdersIssued
+router.get('/restockOrders/:id', get_restock_order_by_id);  // GET /api/restockOrders/:id
+router.get('/restockOrders/:id/returnItems', get_item_list);    // GET /api/restockOrders/:id/returnItems
+router.post('/restockOrder', store_restock_order);  // POST /api/restockOrder
+router.put('/restockOrder/:id', update_restock_order_state);    // PUT /api/restockOrder/:id
+router.put('/restockOrder/:id/skuItems', add_skuitems_to_restock_order);    // PUT /api/restockOrder/:id/skuItems
+router.put('/restockOrder/:id/transportNote', add_tnote_to_restock_order);  // PUT /api/restockOrder/:id/transportNote
+router.delete('/restockOrder/:id', delete_restock_order);   // DELETE /api/restockOrder/:id
 
 // RETURN ORDER routes
-// router.get('/returnOrders', get_return_orders); //GET /api/returnOrders
-// router.get('/returnOrders/:id', get_return_order_by_id); // GET /api/returnOrders/:id
-// router.post('/returnOrder', store_return_order);    // POST /api/returnOrder
-// router.delete('/returnOrder/:id', delete_return_order); // DELETE /api/returnOrder/:id
+router.get('/returnOrders', get_return_orders); //GET /api/returnOrders
+router.get('/returnOrders/:id', get_return_order_by_id); // GET /api/returnOrders/:id
+router.post('/returnOrder', store_return_order);    // POST /api/returnOrder
+router.delete('/returnOrder/:id', delete_return_order); // DELETE /api/returnOrder/:id
 
 // INTERNAL ORDER routes
 router.get('/internalOrders', get_internal_orders); //GET /api/internalOrders
@@ -101,11 +101,11 @@ router.put('/internalOrders/:id', modify_internal_order_state); //PUT '/api/inte
 router.delete('/internalOrders/:id', delete_internal_order); //DELETE /api/internalOrders/:id
 
 // ITEM routes
-// router.get('/items', get_items);    //GET /api/items
-// router.get('/items/:id', get_item_by_id);    //GET /api/items/:id
-// router.post('/items', store_item);    //POST /api/item
-// router.put('/item/:id', update_item);   //PUT /api/item/:id
-// router.delete('/items/:id', delete_item);    // DELETE /api/items/:id
+router.get('/items', get_items);    //GET /api/items
+router.get('/items/:id', get_item_by_id);    //GET /api/items/:id
+router.post('/items', store_item);    //POST /api/item
+router.put('/item/:id', update_item);   //PUT /api/item/:id
+router.delete('/items/:id', delete_item);    // DELETE /api/items/:id
 
 
 /***********************************************************************/

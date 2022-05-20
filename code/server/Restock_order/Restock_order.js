@@ -1,8 +1,7 @@
-const express = require('express');
-const router = express.Router();
-let db = new sqlite.Database('./EZWH_db/EZWH_db.db');
-const DAO = new Restock_orderDAO(db);
-DAO.newTableItemlist();
+const DB = require('../EZWH_db/RunDB');
+const DBInstance = DB.DBinstance;
+const Restock_orderDAO = require ('./Restock_orderDAO');
+const DAO = new Restock_orderDAO(DBInstance);
 
 // GET 
 //GET /api/restockOrders

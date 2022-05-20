@@ -2,9 +2,7 @@ class Restock_orderDAO{
     sqlite = require('sqlite3');
 
     constructor(dbname) {
-        this.db = new this.sqlite.Database(dbname, (err) => {
-            if(err) throw err;
-        });
+        this.db = dbname;
     }
     // RESTOCK ORDER TABLE
     dropTableRestockOrder() {
