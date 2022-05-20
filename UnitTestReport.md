@@ -179,6 +179,46 @@ No boundaries for boolean predicates.
 |F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},2);-> reject ||
 
 
+ ### **Class *SKUDao* - method *getSKUbyID(id)***
+
+
+
+**Criteria for method *getSKUbyID(id)*:**
+	
+
+ - params.id already exists in database
+
+
+
+
+
+**Predicates for method *getSKUbyID(id)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|params.id already exists in database| True, False          |
+
+
+
+
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+
+
+**Combination of predicates**:
+
+
+| Criteria 1 | Criteria 2 | ... | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|
+|||||||
+|||||||
+|||||||
+|||||||
+|||||||
+
 
 
 # White Box Unit Tests
@@ -212,6 +252,8 @@ No boundaries for boolean predicates.
 |||||
 |||||
 ||||||
+
+
 
 
 
