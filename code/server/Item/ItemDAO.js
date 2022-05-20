@@ -9,10 +9,10 @@ class ItemDAO {
             const sql = 'DROP TABLE IF EXISTS ITEM';
             this.db.run(sql, (err) => {
                 if (err) {
-                    reject(err);
-                    return;
+                    reject(500);
+                }else{
+                    resolve(200);
                 }
-                resolve(this.lastID);
             });
         });
     }
@@ -22,10 +22,10 @@ class ItemDAO {
             const sql = 'CREATE TABLE IF NOT EXISTS ITEM(ID INTEGER, DESCRIPTION VARCHAR, PRICE REAL, SKUID INTEGER REFERENCES SKUS(ID), SUPPLIERID INTEGER REFERENCES USER(ID), PRIMARY KEY(ID,SUPPLIERID,SKUID) )';
             this.db.run(sql, (err) => {
                 if (err) {
-                    reject(err);
-                    return;
+                    reject(500);
+                }else{
+                    resolve(200);
                 }
-                resolve('ITEM');
             });
         });
     }
@@ -36,10 +36,8 @@ class ItemDAO {
             this.db.all(sql, (err, rows) => {
                 if(err){
                     reject(err);
-                    return;
-                }
-                const products = rows.map((r) => (
-                    {
+                }else{
+                    const products = rows.map((r) => ({
                         id:r.ID,
                         description:r.DESCRIPTION,
                         price:r.PRICE,
@@ -48,10 +46,10 @@ class ItemDAO {
                     }
                 ));
                 resolve(products);
+                }
             });
         });
     }
-
 
     getItemByID(data){
         return new Promise((resolve, reject) => {
@@ -59,18 +57,18 @@ class ItemDAO {
             this.db.all(sql, [data.id], (err, rows) => {
                 if(err){
                     reject(err);
-                    return;
+                }else{
+                    const products = rows.map((r) => (
+                        {
+                            id:r.ID,
+                            description:r.DESCRIPTION,
+                            price:r.PRICE,
+                            SKUId:r.SKUID,
+                            supplierId:r.SUPPLIERID
+                        }
+                    ));
+                    resolve(products[0]);
                 }
-                const products = rows.map((r) => (
-                    {
-                        id:r.ID,
-                        description:r.DESCRIPTION,
-                        price:r.PRICE,
-                        SKUId:r.SKUID,
-                        supplierId:r.SUPPLIERID
-                    }
-                ));
-                resolve(products[0]);
             });
         });
     }
@@ -81,14 +79,14 @@ class ItemDAO {
             this.db.all(sql, [data.SKUId,data.supplierId], (err, rows) => {
                 if(err){
                     reject(err);
-                    return;
+                }else{
+                    const products = rows.map((r) => (
+                        {
+                            id:r.ID,
+                        }
+                    ));
+                    resolve(products[0]);
                 }
-                const products = rows.map((r) => (
-                    {
-                        id:r.ID,
-                    }
-                ));
-                resolve(products[0]);
             });
         });
     }
@@ -99,28 +97,40 @@ class ItemDAO {
             this.db.all(sql, [data.id,data.supplierId], (err, rows) => {
                 if(err){
                     reject(err);
-                    return;
+                }else{
+                    const products = rows.map((r) => (
+                        {
+                            id:r.ID,
+                        }
+                    ));
+                    resolve(products[0]);
                 }
-                const products = rows.map((r) => (
-                    {
-                        id:r.ID,
-                    }
-                ));
-                resolve(products[0]);
             });
         });
     }
 
     storeItem(data) {
         return new Promise((resolve, reject) => {
-            const sql = ' INSERT INTO ITEM (ID,DESCRIPTION, PRICE, SKUID, SUPPLIERID) VALUES (?,?,?,?,?) ';
-            this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
-                if (err) {
-                    reject(err);
-                    return
+            const sql1 = 'SELECT * FROM SKU WHERE ID = ?';
+            this.db.all(sql1, data.SKUId, (err,rows)=>{
+                if(err){
+                    reject(503);
                 }
-                resolve(data.id);
+                if(rows.length === 0){
+                    reject(404);    //SKUId not found
+                    return;
+                }else{
+                    const sql = ' INSERT INTO ITEM (ID,DESCRIPTION, PRICE, SKUID, SUPPLIERID) VALUES (?,?,?,?,?) ';
+                    this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
+                        if (err) {
+                            reject(503);
+                        }
+                        resolve(201);
+                    });
+                }
+                
             });
+            
         });
     }
 
@@ -130,9 +140,9 @@ class ItemDAO {
             this.db.run(sql, [data.newDescription, data.newPrice, params.id], (err) => {
                 if (err) {
                     reject(err);
-                    return
+                }else{
+                    resolve(200);
                 }
-                resolve(data.id);
             });
         });
     }
@@ -142,18 +152,13 @@ class ItemDAO {
             const sql = ' DELETE FROM ITEM WHERE ID=? ';
             this.db.run(sql, [data.id], (err) => {
                 if (err) {
-                    reject(err);
-                    return
+                    reject(503);
+                }else{
+                    resolve(204);
                 }
-                resolve(data.id);
             });
         });
     }
-
-
-
-    
-
 }
 
 module.exports = ItemDAO;

@@ -105,9 +105,9 @@ No boundaries for boolean predicates.
 
 |  data.id is digits only  | data.id exists | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-|T|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:1}; i.getItemByID(data); ||
-|T|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:2}; i.getItemByID(data)-> reject ||
-|F||Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:'T2'}; i.getItemByID(data)-> reject ||
+|T|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:1}; i.getItemByID(data); |Get item by id|
+|T|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:2}; i.getItemByID(data)-> reject |Get item by id|
+|F||Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:'T2'}; i.getItemByID(data)-> reject |Get item by id|
 
 
 ### **Class *ItemDAO* - method *storeItem(data)***
@@ -125,7 +125,7 @@ No boundaries for boolean predicates.
 | Criteria | Predicate |
 | -------- | --------- |
 |     data.id already exist in DB     |      True, False     |
-|     data.id is only digits    |   True, False        |
+|     data.SKUId exists in SKU table    |   True, False        |
 
 
 
@@ -138,11 +138,11 @@ No boundaries for boolean predicates.
 **Combination of predicates**:
 
 
-| data.id already exist in DB | data.id is only digits | Valid / Invalid | Description of the test case | Jest test case |
+| data.id already exist in DB | data.SKUId exists in SKU table  | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-|F|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({2,'desc',1.99,1,1}); |
-|F|F|Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({'1T','desc',1.99,1,1});-> reject |
-|T||Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({1,'desc',1.99,1,1});-> reject ||
+|F|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({2,'desc',1.99,1,1}); | Store item |
+|F|F|Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({'1T','desc',1.99,1,1});-> reject(404) |Store item|
+|T||Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({1,'desc',1.99,1,1});-> reject |Store item|
 
 ### **Class *ItemDAO* - method *updateItem(data,params)***
 
@@ -175,8 +175,8 @@ No boundaries for boolean predicates.
 
 | params.id already exist in DB  | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},1); i.getItemByID(1); ||
-|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},2);-> reject ||
+|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},1); i.getItemByID(1); |Update item|
+|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},2);-> reject |Update item|
 
 
 
@@ -192,9 +192,14 @@ No boundaries for boolean predicates.
 
 | Unit name | Jest test case |
 |--|--|
-|||
-|||
-||||
+|ItemDAO|Store item|
+|ItemDAO|Update item|
+|ItemDAO|Get item by id|
+|ItemDAO|Get SKUID by item id|
+|ItemDAO|Get ID by Supplier id|
+|ItemDAO|Get items|
+|ItemDAO|Delete item|
+
 
 ### Code coverage report
 
