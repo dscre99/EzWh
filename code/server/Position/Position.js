@@ -29,6 +29,7 @@ class PositionService {
             return;
         }
         
+        
         this.#dao.getPositions().then((positions) => {
             res.status(200).json(positions);
         }).catch((error) => res.status(500).json("Error!"));
