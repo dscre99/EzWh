@@ -20,7 +20,7 @@ class SKUDao {
 
     newSKUTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE "SKU" ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT)))';
+            const sql = 'CREATE TABLE "SKU" ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
