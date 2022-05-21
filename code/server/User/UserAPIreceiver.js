@@ -400,6 +400,12 @@ async function deliveryEmployee_sessions(req, res) {
     });
 }
 
+//POST /api/logout
+async function user_logout(req, res) {
+    // --- TO BE IMPLEMENTED TOGETHER WITH SESSIONS ---
+    return res.status(200).end();
+}
+
 //PUT /api/users/:username
 async function modify_user_type(req, res) {
 // check input
@@ -412,9 +418,9 @@ async function modify_user_type(req, res) {
     // Request Body Validation
     let valid = true;
     const requiredKeys = ['oldType', 'newType'];
-
+    
     requiredKeys.forEach(key => {
-        //console.log(key);
+        
 
         if(!Object.keys(userData).includes(key)){
             // checks for necessary field presence
@@ -475,10 +481,13 @@ async function delete_user(req, res) {
             valid = false;
     } else if(!userTypes.includes(userData.type)){
       // checks for correct user types in request body
+      console.log('WORKING');
+      console.log(userData.type);
       valid = false;
     }
   
     if(!valid) {
+        
       return res.status(422).end(); // 422 Unprocessable Entity
     } else {
       let deleteUserPromise = UserDAOinstance.deleteUser(userData);
@@ -499,5 +508,5 @@ async function delete_user(req, res) {
 }
 
 module.exports = { clear_user_table, new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
-                    supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions,
+                    supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions, user_logout,
                     modify_user_type, delete_user }

@@ -13,7 +13,7 @@ const { get_test_results, get_test_result_with_id_from_rfid, post_test_result, p
 
 // USER receives
 const { clear_user_table, new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
-        supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions,
+        supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions, user_logout,
         modify_user_type, delete_user } = require('../User/UserAPIreceiver');
 
 // RESTOCK ORDER receivers
@@ -72,6 +72,7 @@ router.post('/supplierSessions', supplier_sessions);  //POST /api/supplierSessio
 router.post('/clerkSessions', clerk_sessions);  //POST /api/clerkSessions
 router.post('/qualityEmployeeSessions', qualityEmployee_sessions);  //POST /api/qualityEmployeeSessions
 router.post('/deliveryEmployeeSessions', deliveryEmployee_sessions);  //POST /api/deliveryEmployeeSessions
+router.post('/logout', user_logout);
 router.put('/users/:username', modify_user_type);  //PUT /api/users/:username
 router.delete('/users/:username/:type', delete_user);  //DELETE /api/users/:username/:type
 

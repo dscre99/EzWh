@@ -202,7 +202,7 @@ describe('test UserDAO.js', () => {
             id:6,
             name:'Hasit1',
             surname:'All1',
-            username:'supp1@ezwh.com'
+            email:'supp1@ezwh.com'
         }
     ]);
 
@@ -214,19 +214,19 @@ describe('test UserDAO.js', () => {
             id:6,
             name:'Hasit1',
             surname:'All1',
-            username:'supp1@ezwh.com'
+            email:'supp1@ezwh.com'
         },
         {
             id:7,
             name:'Hasit2',
             surname:'All2',
-            username:'supp2@ezwh.com'
+            email:'supp2@ezwh.com'
         },
         {
             id:8,
             name:'Hasit3',
             surname:'All3',
-            username:'supp3@ezwh.com'
+            email:'supp3@ezwh.com'
         }
     ]);
 
