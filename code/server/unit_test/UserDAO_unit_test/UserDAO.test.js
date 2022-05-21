@@ -137,8 +137,13 @@ describe('test UserDAO.js', () => {
         expect(res).toEqual(200);
     });
 
+
+    // empty user array
+    testGetUsers([]);
+
     // empty supplier array
     testGetSuppliers([]);
+    
 
     // tests inserting new users, error code if duplicates are detected
     testNewUser('dscre@ezwh.com', 'Simone', 'Crescenzo', 'testpassword', 'manager', 201);
