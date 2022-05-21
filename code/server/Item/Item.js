@@ -56,16 +56,16 @@ async function store_item(req, res) {
   
     if(err===0){
       let itembyid = await DAO.getItembyIdSupp(req.body);
-      if(itembyid!==undefined) return res.status(422).json({error: ' Unprocessable Entity - ID Already there'});
+      if(itembyid!==undefined) return res.status(422).json({error: ' Unprocessable Entity - ID already there'});
     
   let skuidbyid = await DAO.getSKUIDbyItemID(req.body);
-    if(skuidbyid!==undefined) return res.status(422).json({error: ' Unprocessable Entity - SKUId Already there'});
+    if(skuidbyid!==undefined) return res.status(422).json({error: ' Unprocessable Entity - SKUId already there'});
       
       try {
         let db =  await DAO.storeItem(req.body);
         res.status(201).end();
       }catch(error){
-        res.status(500).json(error);
+        res.status(503).json(error);
       }
     }
 }

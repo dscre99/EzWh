@@ -24,17 +24,10 @@ Version:
 
  ### **Class *class_name* - method *name***
 
-
-
 **Criteria for method *name*:**
 	
-
  - 
  - 
-
-
-
-
 
 **Predicates for method *name*:**
 
@@ -45,18 +38,12 @@ Version:
 |          |           |
 |          |           |
 
-
-
-
-
 **Boundaries**:
 
 | Criteria | Boundary values |
 | -------- | --------------- |
 |          |                 |
 |          |                 |
-
-
 
 **Combination of predicates**:
 
@@ -68,6 +55,182 @@ Version:
 |||||||
 |||||||
 |||||||
+
+
+
+
+ ### **Class *UserDAO***
+
+**Criteria for method *getUser(data)*:**
+ - Username exists
+ - User is logged
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Username exists (C1) | True, False |
+| User is logged (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Username exists (C1) | User is logged (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               User exists and is logged in, correct data is returned.               | testGetUser (); |
+|           T          |          F          |     Invalid     | User exists but it is not logged in, test fails. (Sessions still to be implemented) |  testGetUser(); |
+|           F          |          -          |     Invalid     |                          User does not exists, test fails.                          |  testGetUser(); |
+
+**Criteria for method *getSuppliers()*:**
+ - Suppliers registered in the system (C1)
+ - DB queries successfull (C2)
+
+**Predicates for method *getSuppliers()*:**
+
+| Criteria | Predicate   |
+|----------|-------------|
+|    C1    | True, False |
+|    C2    | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Suppliers registered in the system (C1) | DB queries successfull (C2) | Valid / Invalid | Description of the test case                                 | Jest test case                      |
+|-----------------------------------------|-----------------------------|-----------------|--------------------------------------------------------------|-------------------------------------|
+|                    T                    |              T              |      Valid      | Method expected to return an array of suppliers data objects | testGetSuppliers([{...},{...},...); |
+|                    F                    |              T              |      Valid      |           Method expected to return an empty array           |        testGetSuppliers([]);        |
+|                    -                    |              F              |     Invalid     |                     DB error, test fails                     |         testGetSuppliers ();        |
+
+
+
+**Criteria for method *getUsers()*:**
+ - Users registered in the system (C1)
+ - DB queries successfull (C2)
+
+**Predicates for method *getUsers()*:**
+
+| Criteria | Predicate   |
+|----------|-------------|
+|    C1    | True, False |
+|    C2    | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+
+
+| Users registered in the system (C1) | DB queries successfull (C2) | Valid / Invalid | Description of the test case                                 | Jest test case                      |
+|-----------------------------------------|-----------------------------|-----------------|--------------------------------------------------------------|-------------------------------------|
+|                    T                    |              T              |      Valid      | Method expected to return an array of users data objects | testGetUsers([{...},{...},...); |
+|                    F                    |              T              |      Valid      |           Method expected to return an empty array           |        testGetUsers([]);        |
+|                    -                    |              F              |     Invalid     |                     DB error, test fails                     |         testGetUsers ();        |
+
+
+**Criteria for method *newUser(newUserData)*:**
+ - New user does not already exist in the system (C1)
+ - DB queries successfull (C2)
+ - (Note: data format is checked at API level, so it is considered correct at DAO level).
+
+**Predicates for method *newUser(newUserData)*:**
+
+| Criteria | Predicate   |
+|----------|-------------|
+|    C1    | True, False |
+|    C2    | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| New user does not already exist in the system (C1) | DB queries successfull (C2) | Valid / Invalid |                 Description of the test case                 |                                                                            Jest test case                                                                           |
+|:----------------------------------------------------:|:---------------------------:|:---------------:|:------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|                          T                         |              T              |      Valid      | Method expected to return 2 01 for successful user creation. |                            testNewUser('dscre@ezwh.com','Simone','Crescenzo','testpassword','manager', 201); (one for each kind of user)                            |
+|                          F                         |              T              |     Invalid     |            Method expected to return 409 Conflict.           | testNewUser('dscre@ezwh.com','Simone','Crescenzo','testpassword','manager', 201); testNewUser('dscre@ezwh.com','Simone','Crescenzo','testpassword','manager', 409); |
+|                          -                         |              F              |     Invalid     |                     DB error, test fails                     |                                                                            testNewUser();                                                                           |
+
+
+**Criteria for method *userSession(userData)*:**
+ - User registered (C1)
+ - User logged in (C2)
+ - DB queries successfull (C3)
+ - (Note: data format is checked at API level, so it is considered correct at DAO level).
+
+**Predicates for method *name*:**
+
+| Criteria |  Predicate  |
+|:--------:|:-----------:|
+|    C1    | True, False |
+|    C2    | True, False |
+|    C3    | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| User registered (C1) | User logged in (C2) | DB queries successfull (C3) | Valid / Invalid |         Description of the test case        |                                Jest test case                                |
+|:--------------------:|:-------------------:|:---------------------------:|:---------------:|:-------------------------------------------:|:----------------------------------------------------------------------------:|
+|           T          |          T          |              T              |      Valid      | Method expected to return user data object. |    testUserSession('dscre@ezwh.com','testpassword','manager',1,'Simone');    |
+|           T          |          F          |              T              |     Invalid     |        Method expected to return 401.       |    testUserSession('dscre@ezwh.com','wrongpassword','manager',1,'Simone');   |
+|           F          |          -          |              T              |     Invalid     |        Method expected to return 401.       | testUserSession('notexisting@ezwh.com','testpassword','manager',1,'Simone'); |
+|           -          |          -          |              F              |     Invalid     |        Method expected to return 500.       |                              testUserSession();                              |
+
+
+**Criteria for method *modifyUserType(newUserData)*:**
+ - User exists (C1)
+ - DB queries successfull (C2)
+ - (Note: data format is checked at API level, so it is considered correct at DAO level).
+
+**Predicates for method *modifyUserType(newUserData)*:**
+
+| Criteria |  Predicate  |
+|:--------:|:-----------:|
+|    C1    | True, False |
+|    C2    | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| User exists (C1) | DB queries successfull (C2) | Valid / Invalid |  Description of the test case  |                              Jest test case                              |
+|:----------------:|:---------------------------:|:---------------:|:------------------------------:|:------------------------------------------------------------------------:|
+|         T        |              T              |      Valid      | Method expected to return 200. |    testModifyUserType('supp3@ezwh.com', 'supplier', 'customer', 200);    |
+|         F        |              T              |     Invalid     | Method expected to return 404. | testModifyUserType('notexisting@ezwh.com', 'supplier', 'customer', 404); |
+|         -        |              F              |     Invalid     | Method expected to return 500. |                           testModifyUserType();                          |
+
+
+**Criteria for method *deleteUser(userData)*:**
+- DB queries successfull (C1)
+- (Note: data format is checked at API level, so it is considered correct at DAO level).
+
+**Predicates for method *deleteUser(userData)*:**
+
+| Criteria |  Predicate  |
+|:--------:|:-----------:|
+|    C1    | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| DB queries successful (C1) | Valid / Invalid |  Description of the test case  |               Jest test case              |
+|:--------------------------:|:---------------:|:------------------------------:|:-----------------------------------------:|
+|              T             |      Valid      | Method expected to return 204. | testDeleteUser('user1@ezwh.com','clerk'); |
+|              F             |     Invalid     | Method expected to return 500. |             testDeleteUser();             |
+
+
+
+
+
 ## **Class *ItemDAO***
 
 The implementation strategy used to create the ItemDAO class was to move the validation of the parameters within the associated API class and to implement within the DAO class only the methods to execute queries to the database, which receive input data already validated.
@@ -82,10 +245,6 @@ For this reason, the associated criteria and predicates in black box testing are
 
  - data.id is composed by digits only
  - data.id exists in DB or not 
-
-
-
-
 
 **Predicates for method *getItemByID(data)*:**
 
@@ -105,9 +264,9 @@ No boundaries for boolean predicates.
 
 |  data.id is digits only  | data.id exists | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-|T|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:1}; i.getItemByID(data); ||
-|T|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:2}; i.getItemByID(data)-> reject ||
-|F||Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:'T2'}; i.getItemByID(data)-> reject ||
+|T|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:1}; i.getItemByID(data); |Get item by id|
+|T|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:2}; i.getItemByID(data)-> reject |Get item by id|
+|F||Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:'T2'}; i.getItemByID(data)-> reject |Get item by id|
 
 
 ### **Class *ItemDAO* - method *storeItem(data)***
@@ -125,7 +284,7 @@ No boundaries for boolean predicates.
 | Criteria | Predicate |
 | -------- | --------- |
 |     data.id already exist in DB     |      True, False     |
-|     data.id is only digits    |   True, False        |
+|     data.SKUId exists in SKU table    |   True, False        |
 
 
 
@@ -138,11 +297,11 @@ No boundaries for boolean predicates.
 **Combination of predicates**:
 
 
-| data.id already exist in DB | data.id is only digits | Valid / Invalid | Description of the test case | Jest test case |
+| data.id already exist in DB | data.SKUId exists in SKU table  | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-|F|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({2,'desc',1.99,1,1}); |
-|F|F|Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({'1T','desc',1.99,1,1});-> reject |
-|T||Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({1,'desc',1.99,1,1});-> reject ||
+|F|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({2,'desc',1.99,1,1}); | Store item |
+|F|F|Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({'1T','desc',1.99,1,1});-> reject(404) |Store item|
+|T||Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({1,'desc',1.99,1,1});-> reject |Store item|
 
 ### **Class *ItemDAO* - method *updateItem(data,params)***
 
@@ -175,8 +334,8 @@ No boundaries for boolean predicates.
 
 | params.id already exist in DB  | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},1); i.getItemByID(1); ||
-|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},2);-> reject ||
+|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},1); i.getItemByID(1); |Update item|
+|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},2);-> reject |Update item|
 
 
  ### **Class *SKUDao* - method *getSKUbyID(id)***
@@ -232,9 +391,14 @@ No boundaries for boolean predicates.
 
 | Unit name | Jest test case |
 |--|--|
-|||
-|||
-||||
+|ItemDAO|Store item|
+|ItemDAO|Update item|
+|ItemDAO|Get item by id|
+|ItemDAO|Get SKUID by item id|
+|ItemDAO|Get ID by Supplier id|
+|ItemDAO|Get items|
+|ItemDAO|Delete item|
+
 
 ### Code coverage report
 
