@@ -40,18 +40,12 @@ function testUpdateItem(id,description,price,expectedResult){
     });
 }
 
-function testGetItemById(id,description, price, SKUId, supplierId){
+function testGetItemById(id,expectedRes){
 
     test('Get item by id', async () =>{
         try{
             let res = await ItemDAOInstance.getItemByID({id:id});
-            expect(res).toEqual({ 
-                id: id,
-                description: description,
-                price: price,
-                SKUId: SKUId,
-                supplierId: supplierId
-            });
+            expect(res).toStrictEqual(expectedRes);
         }catch(err){
             expect(err).toEqual(err);
         }
@@ -63,9 +57,7 @@ function testGetSKUIDbyItemID(SKUId,supplierId,expectedResult){
 
     test('Get SKUID by item id', async () =>{
         let res = await ItemDAOInstance.getSKUIDbyItemID({SKUId:SKUId,supplierId:supplierId});
-        expect(res).toEqual({ 
-            id: expectedResult
-        });
+        expect(res).toEqual(expectedResult);
     });
 }
 
@@ -97,8 +89,6 @@ function deleteItem(id,expectedResult){
     })
 }
 
-
-
 describe('test ItemDAO.js',  () => {
 
     beforeAll(async () => {
@@ -107,16 +97,21 @@ describe('test ItemDAO.js',  () => {
         let res1 = await ItemDAOInstance.newTableItem();
         expect(res1).toEqual(200);
     });
-    testGetItems([]);
+     testGetItems([]); // No items stored 
 
-     testStoreItem(1, 'New item', 10.99, 2, 1, 404);
+     testStoreItem(1, 'New item', 10.99, 2, 1, 404); // Not stored
      testStoreItem(2, 'New item', 10.99, 1, 1, 201); // SKUId Exists 
 
-     testGetItemById(2, 'New item', 10.99, 1, 1);
-     testGetItemById('due', 'New item', 10.99, 1, 1);
+     testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});
+     testGetItemById(3,{}); // No item with it = 3
 
-     testGetSKUIDbyItemID(1,1,2);
+     testGetSKUIDbyItemID(1,1,{id:2});
+     testGetSKUIDbyItemID(5,5,{}); //No item with SKUID=5 and ID = 5
+
      testGetItembyIdSupp(1,2);
+     
+
+     testGetItems([{id:2,description:'New item',price:10.99,skuid:1,supplierid:1}]);
 
      testUpdateItem(2,'New description',9.99,200);
      deleteItem(2,204);

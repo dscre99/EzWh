@@ -58,16 +58,20 @@ class ItemDAO {
                 if(err){
                     reject(err);
                 }else{
-                    const products = rows.map((r) => (
-                        {
-                            id:r.ID,
-                            description:r.DESCRIPTION,
-                            price:r.PRICE,
-                            SKUId:r.SKUID,
-                            supplierId:r.SUPPLIERID
-                        }
-                    ));
-                    resolve(products[0]);
+                    if(rows.length===0){
+                        resolve({});
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ID,
+                                description:r.DESCRIPTION,
+                                price:r.PRICE,
+                                SKUId:r.SKUID,
+                                supplierId:r.SUPPLIERID
+                            }
+                        ));
+                        resolve(products[0]);
+                    }
                 }
             });
         });
@@ -80,12 +84,16 @@ class ItemDAO {
                 if(err){
                     reject(err);
                 }else{
-                    const products = rows.map((r) => (
-                        {
-                            id:r.ID,
-                        }
-                    ));
-                    resolve(products[0]);
+                    if(rows.length===0){
+                        resolve({});
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ID,
+                            }
+                        ));
+                        resolve(products[0]);
+                    }
                 }
             });
         });
@@ -98,12 +106,16 @@ class ItemDAO {
                 if(err){
                     reject(err);
                 }else{
-                    const products = rows.map((r) => (
-                        {
-                            id:r.ID,
-                        }
-                    ));
-                    resolve(products[0]);
+                    if(rows.length===0){
+                        resolve({});
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ID,
+                            }
+                        ));
+                        resolve(products[0]);
+                    }
                 }
             });
         });
