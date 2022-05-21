@@ -149,7 +149,7 @@ describe('test UserDAO.js', () => {
     testNewUser('dscre@ezwh.com', 'Simone', 'Crescenzo', 'testpassword', 'manager', 201);
     testNewUser('dscre@ezwh.com', 'Simone', 'Crescenzo', 'testpassword', 'manager', 409);
     testNewUser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'customer', 201);
-    testNewUser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'clerk', 201);;
+    testNewUser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'clerk', 201);
     testNewUser('qemp1@ezwh.com', 'Qual1', 'Emp1', 'testpassword', 'qualityEmployee', 201);
     testNewUser('demp1@ezwh.com', 'Deli1', 'Emp1', 'testpassword', 'deliveryEmployee', 201);
     testNewUser('supp1@ezwh.com', 'Hasit1', 'All1', 'testpassword', 'supplier', 201);

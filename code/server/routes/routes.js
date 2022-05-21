@@ -12,7 +12,7 @@ const { get_test_descriptors, get_test_descriptor_by_ID, post_test_descriptor, p
 const { get_test_results, get_test_result_with_id_from_rfid, post_test_result, put_test_result_with_id_from_rfid, delete_test_result_with_id_from_rfid } = require('../Test_result/Test_result');
 
 // USER receives
-const { new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
+const { clear_user_table, new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
         supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions,
         modify_user_type, delete_user } = require('../User/UserAPIreceiver');
 
@@ -61,6 +61,7 @@ router.put('/skuitems/:rfid/testResult/:id', put_test_result_with_id_from_rfid)
 router.delete('/skuitems/:rfid/testResult/:id', delete_test_result_with_id_from_rfid)
 
 // USER routes
+router.delete('/clearusertable', clear_user_table);  //DELETE /api/clearusertable (custom api)
 router.get('/userinfo', get_user);  //GET /api/userinfo
 router.get('/suppliers', get_suppliers);  //GET /api/suppliers
 router.get('/users', get_users);  //GET /api/users
