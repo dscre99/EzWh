@@ -3,68 +3,6 @@ const DB = require('../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const skuDaoInstance = new SKUDao(DBinstance);
 
-/*class SKU {
-
-    #id = undefined;
-    #description = "";
-    #weight = undefined;
-    #volume = undefined;
-    #notes = "";
-    #position = "";
-    #availableQuantity = undefined;
-    #price = undefined;
-    #testDescriptors = undefined;
-
-    constructor(description, weight, volume, notes, availableQuantity, price) {
-        this.#description = description;
-        this.#weight = weight;
-        this.#volume = volume;
-        this.#notes = notes;
-        this.#availableQuantity = availableQuantity;
-        this.#price = price;
-    }
-
-    setPosition(position) {
-        return this.#position = position;
-    }
-
-    setTestDescriptors(testDescriptors) {
-        return this.#testDescriptors = testDescriptors;
-    }
-
-    getId() {
-        return this.#id;
-    }
-
-    getDescription() {
-        return this.#description;
-    }
-
-    getVolume() {
-        return this.#volume;
-    }
-
-    getNotes() {
-        return this.#notes;
-    }
-
-    getAvailableQuantity() {
-        return this.#availableQuantity;
-    }
-
-    getPrice() {
-        return this.#price;
-    }
-
-    getPosition() {
-        return this.#position;
-    }
-
-    getTestDescriptors() {
-        return this.#testDescriptors;
-    }
-}*/
-
 // GET /api/skus
 
  async function getSKUs(req, res) {
@@ -109,9 +47,23 @@ async function getSKUbyID(req, res) {
 // POST /api/sku
 
 async function newSKU(req, res) {
-    if (Object.keys(req.body).length == 0) {
+    if (Object.keys(req.body).length == 0 ) {
         return res.status(422).json({ error: 'Invalid body' });
     }
+    const required = ['description', 'weight', 'volume', 'notes', 'price', 'availableQuantity'];
+    if (Object.keys(req.body).length != required.length) {
+        return res.status(422).end();
+    } else {
+        required.forEach(key => {
+            if (!Object.keys(req.body).includes(key)) {
+                return res.status(422).end();
+            }
+            if (req.body[key] == undefined || req.body[key] == '') {
+                return res.status(422).end();
+            }
+        });
+    }
+
     let newSKUPromise = skuDaoInstance.newSKU(req.body);
     await newSKUPromise.then(
         function (value) {
@@ -134,6 +86,19 @@ async function newSKU(req, res) {
 async function modifySKU(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Empty body' });
+    }
+    const required = ['newDescription', 'newWeight', 'newVolume', 'newNotes', 'newPrice', 'newAvailableQuantity'];
+    if (Object.keys(req.body).length != required.length) {
+        return res.status(422).end();
+    } else {
+        required.forEach(key => {
+            if (!Object.keys(req.body).includes(key)) {
+                return res.status(422).end();
+            }
+            if (req.body[key] == undefined || req.body[key] == '') {
+                return res.status(422).end();
+            }
+        });
     }
     if (Object.keys(req.params.id).length == 0) {
         return res.status(422).json({ error: 'Invalid id' });
@@ -169,6 +134,21 @@ async function modifySKU(req, res) {
 async function modifySKUPosition(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Invalid position' });
+    }
+    const required = ['position'];
+    if (Object.keys(req.body).length != required.length) {
+        return res.status(422).end();
+    } else {
+        if (!Object.keys(req.body).includes(required[0])) {
+            return res.status(422).end();
+        }
+        if (req.body[required[0]] == undefined || req.body[required[0]] == '') {
+            return res.status(422).end();
+        }
+        if (req.body.position.length != 12) {
+            return res.status(422).end();
+        }
+
     }
     if (Object.keys(req.params.id).length == 0) {
         return res.status(422).json({ error: 'Invalid id' });

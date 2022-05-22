@@ -13,8 +13,21 @@ class SKUDao {
                     reject(err);
                     return;
                 }
-                resolve(this.id)
+                resolve(200)
             })
+        });
+    }
+
+    newSKUTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE "SKU" ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(200);
+            });
         });
     }
 
@@ -132,21 +145,14 @@ class SKUDao {
                     res.length > 0 ? exists = 1 : exists;
 
                     if (exists) {
-                        let loggedAndAuthorized = true;
-                        if (loggedAndAuthorized) {
-                            const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT= ?, VOLUME= ?, NOTES= ?, AVAILABLEQUANTITY= ?, PRICE= ? WHERE ID = ?';
-                            this.#db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, sku.id], (err) => {
-                                if (err) {
+                        const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT= ?, VOLUME= ?, NOTES= ?, AVAILABLEQUANTITY= ?, PRICE= ? WHERE ID = ?';
+                        this.#db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, sku.id], (err) => {
+                            if (err) {
                                     reject(err);
-                                } else {
+                             } else {
                                     resolve(true);
-                                }
-                            });
-                        } else {
-                            console.log('SKUID not authorized');
-                            reject(401);
-                        }
-
+                             }
+                        });
                     } else {
                         console.log('SKU Id does not exist');
                         reject(404);
