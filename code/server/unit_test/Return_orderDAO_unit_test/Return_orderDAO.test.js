@@ -4,7 +4,7 @@ const ReturnOrderDAO = require ('../../Return_order/Return_orderDAO');
 const ReturnOrderDAOInstance = new ReturnOrderDAO(db);
 
 function testGetReturnOrders(resExpected){
-    test('Get return orders',async ()=>{
+    test('testGetReturnOrders',async ()=>{
         try{
             let res = await ReturnOrderDAOInstance.getReturnOrders();
             expect(res).toEqual(resExpected);
@@ -16,7 +16,7 @@ function testGetReturnOrders(resExpected){
 }
 
 function testGetRestockOrderbyID(id,resExpected){
-    test('Get restock order ID',async ()=>{
+    test('testGetRestockOrderbyID',async ()=>{
         try{
             let res = await ReturnOrderDAOInstance.getRestockOrderbyID({restockOrderId:id});
             expect(res).toEqual(resExpected);
@@ -28,7 +28,7 @@ function testGetRestockOrderbyID(id,resExpected){
 }
 
 function testGetReturnOrderById(id,resExpected){
-    test('Get return order by ID',async ()=>{
+    test('testGetReturnOrderById',async ()=>{
         try{
             let res = await ReturnOrderDAOInstance.getReturnOrderbyId({id:id});
             expect(res).toEqual(resExpected);
@@ -41,7 +41,7 @@ function testGetReturnOrderById(id,resExpected){
 
 function testStoreReturnOrder(returnDate,restockOrderId,expectedResult){
 
-    test('Store restock order', async ()=>{
+    test('testStoreReturnOrder', async ()=>{
         let order = {
             returnDate:returnDate,
             restockOrderId:restockOrderId
@@ -57,7 +57,7 @@ function testStoreReturnOrder(returnDate,restockOrderId,expectedResult){
 
 function testSetReturnItem(rfid,description,price,SKUId,expectedResult){
 
-    test('Store return item for a return order', async ()=>{
+    test('testSetReturnItem', async ()=>{
         let item = {
             RFID:rfid,
             description:description,
@@ -74,7 +74,7 @@ function testSetReturnItem(rfid,description,price,SKUId,expectedResult){
 }
 
 function testDeleteReturnOrder(id,expectedResult){
-    test('Delete Return_order by ID', async () =>{
+    test('testDeleteReturnOrder', async () =>{
         try{
             let res = await ReturnOrderDAOInstance.deleteReturnOrder({id:id});
             let res2 = await ReturnOrderDAOInstance.getReturnOrderbyId({id:id});
@@ -104,7 +104,7 @@ describe('test Return_orderDAO.js', ()=>{
 
     testGetReturnOrderById(1,404);
     testStoreReturnOrder("2021/11/29 09:33",2,201);
-    testGetReturnOrderById(1,[{id:1, returnDate: "2021/11/29 09:33", products:[],restockOrderId:2}]);
+    testGetReturnOrderById(1,{id:1, returnDate: "2021/11/29 09:33", products:[],restockOrderId:2});
 
 
     testSetReturnItem("12345678901234567890123456789015","New Item",10.99,1,201);
@@ -129,7 +129,7 @@ describe('test Return_orderDAO.js', ()=>{
         returnDate: "2021/11/29 09:33"   
                     }]);
 
-    testGetReturnOrderById(1,[{
+    testGetReturnOrderById(1,{
         id: 1,
         products:  [
                      {
@@ -145,7 +145,29 @@ describe('test Return_orderDAO.js', ()=>{
                         }],
         restockOrderId: 2,
         returnDate: "2021/11/29 09:33"   
-}]);
+});
+
+testStoreReturnOrder("2022/05/22 09:33",2,201);
+testGetReturnOrders([{
+    id: 1,
+    products:  [
+                 {
+                RFID: "12345678901234567890123456789015",
+                SKUId: 1,
+                description: "New Item",
+                price: 10.99
+                    },{
+                RFID: "12325678901534567790123456789015",
+                SKUId: 2,
+                description: "New Item",
+                price: 10.99 
+                    }],
+    restockOrderId: 2,
+    returnDate: "2021/11/29 09:33"   
+                },{id:2,products:[],restockOrderId:2, returnDate: "2022/05/22 09:33"}]);
+
+
+
 
 testDeleteReturnOrder(1,404);
 

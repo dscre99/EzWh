@@ -4,7 +4,7 @@ const RestockOrderDAO = require ('../../Restock_order/Restock_orderDAO');
 const RestockOrderDAOInstance = new RestockOrderDAO(db);
 
 function testGetRestockOrders(resExpected){
-    test('Get restock orders',async ()=>{
+    test('testGetRestockOrders',async ()=>{
         try{
             let res = await RestockOrderDAOInstance.getRestockOrders();
             expect(res).toEqual(resExpected);
@@ -16,7 +16,7 @@ function testGetRestockOrders(resExpected){
 }
 
 function testGetRestockOrdersIssued(resExpected){
-    test('Get restock orders issued',async ()=>{
+    test('testGetRestockOrdersIssued',async ()=>{
         try{
             let res = await RestockOrderDAOInstance.getRestockOrdersIssued();
             expect(res).toEqual(resExpected);
@@ -28,7 +28,7 @@ function testGetRestockOrdersIssued(resExpected){
 }
 
 function testGetRestockOrderDeliveredByID(id,resExpected){
-    test('Get restock order delivered by ID',async ()=>{
+    test('testGetRestockOrderDeliveredByID',async ()=>{
         try{
             let res = await RestockOrderDAOInstance.getRestockOrderDeliveredByID({id:id});
             expect(res).toEqual(resExpected);
@@ -40,7 +40,7 @@ function testGetRestockOrderDeliveredByID(id,resExpected){
 }
 
 function testGetItemList(id,resExpected){
-    test('Get SKUItems in Restock_Order',async ()=>{
+    test('testGetItemList',async ()=>{
         try{
             let res = await RestockOrderDAOInstance.getItemList({id:id});
             expect(res).toEqual(resExpected);
@@ -52,7 +52,7 @@ function testGetItemList(id,resExpected){
 }
 
 function testCheckItemList(id,rfid,resExpected){
-    test('Check RFID in a given Restock_Order',async ()=>{
+    test('testCheckItemList',async ()=>{
         try{
             let res = await RestockOrderDAOInstance.checkItemList({id:id},{rfid:rfid});
             expect(res).toEqual(resExpected);
@@ -64,7 +64,7 @@ function testCheckItemList(id,rfid,resExpected){
 }
 
 function testGetRestockOrderByID(id,resExpected){
-    test('Get Restock_Order by ID',async ()=>{
+    test('testGetRestockOrderByID',async ()=>{
         try{
             let res = await RestockOrderDAOInstance.getRestockOrderByID({id:id});
             expect(res).toEqual(resExpected);
@@ -77,7 +77,7 @@ function testGetRestockOrderByID(id,resExpected){
 
 function testStoreRestockOrder(issueDate,supplierId,expectedResult){
 
-    test('Store restock order', async ()=>{
+    test('testStoreRestockOrder', async ()=>{
         let item = {
             issueDate:issueDate,
             supplierId:supplierId
@@ -93,7 +93,7 @@ function testStoreRestockOrder(issueDate,supplierId,expectedResult){
 
 function testStoreProducts(SKUId,qty,price,description,expectedResult){
 
-    test('Store product', async ()=>{
+    test('testStoreProducts', async ()=>{
         let product = {
             SKUId:SKUId,
             qty:qty,
@@ -111,7 +111,7 @@ function testStoreProducts(SKUId,qty,price,description,expectedResult){
 
 function testUpdateState(id,newState,expectedResult){
 
-    test('Update state', async ()=>{
+    test('testUpdateState', async ()=>{
         try{
             let res= await RestockOrderDAOInstance.updateState({newState:newState},{id:id});
             expect(res).toStrictEqual(expectedResult);
@@ -123,7 +123,7 @@ function testUpdateState(id,newState,expectedResult){
 
 function testNewSKUItemList(id,rfid,expectedResult){
 
-    test('Store SKUItem in Restock_Order', async ()=>{
+    test('testNewSKUItemList', async ()=>{
         try{
             let res= await RestockOrderDAOInstance.newSKUItemList({rfid:rfid},{id:id});
             expect(res).toStrictEqual(expectedResult);
@@ -135,7 +135,7 @@ function testNewSKUItemList(id,rfid,expectedResult){
 
 function testAddTransportNote(id,transportNote,expectedResult){
 
-    test('Add transport note', async ()=>{
+    test('testAddTransportNote', async ()=>{
         try{
             let res= await RestockOrderDAOInstance.addTransportNote(transportNote,{id:id});
             expect(res).toStrictEqual(expectedResult);
@@ -146,7 +146,7 @@ function testAddTransportNote(id,transportNote,expectedResult){
 }
 
 function testDeleteRestockOrder(id,expectedResult){
-    test('Delete Restock_Order by ID', async () =>{
+    test('testDeleteRestockOrder', async () =>{
         try{
             let res = await RestockOrderDAOInstance.deleteRestockOrder({id:id});
             expect(res).toEqual(expectedResult);
@@ -232,7 +232,7 @@ describe('test Restock_orderDAO.js', ()=>{
         skuItems:[]
     }]);
 
-    testGetRestockOrderByID(1,[{
+    testGetRestockOrderByID(1,{
         id:1,
         issueDate: "2021/11/29 09:33",
         state: "ISSUED",
@@ -250,7 +250,7 @@ describe('test Restock_orderDAO.js', ()=>{
         supplierId: 1,
         transportNote: {},
         skuItems:[]
-    }]);
+    });
 
 
     testStoreRestockOrder("2022/05/21 09:33",1,201);
@@ -333,7 +333,7 @@ describe('test Restock_orderDAO.js', ()=>{
 
     testUpdateState(2,"DELIVERED",200);
 
-    testGetRestockOrderDeliveredByID(2,[{
+    testGetRestockOrderDeliveredByID(2,{
         id:2,
         issueDate: "2022/05/21 09:33",
         state: "DELIVERED",
@@ -351,7 +351,7 @@ describe('test Restock_orderDAO.js', ()=>{
         supplierId: 1,
         transportNote: null,
         skuItems:[]
-    }]);
+    });
 
     testNewSKUItemList(2,"12345678901234567890123456789015",200);
 

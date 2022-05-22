@@ -288,7 +288,7 @@ class Restock_orderDAO{
                             })):[]
                         }
                     ));
-                    resolve(resOrder);
+                    resolve(resOrder[0]);
                 }
                 
             });
@@ -338,7 +338,7 @@ class Restock_orderDAO{
                             skuItems :[]
                         }
                     ));
-                    resolve(resOrder);
+                    resolve(resOrder[0]);
                 }
                 
             });

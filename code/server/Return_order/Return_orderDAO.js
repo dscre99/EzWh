@@ -170,7 +170,7 @@ class Return_orderDAO{
                             restockOrderId: r.ORDERID,
                         }
                     ));
-                    resolve(resOrders);
+                    resolve(resOrders[0]);
 
                 }
 
