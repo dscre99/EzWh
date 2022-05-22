@@ -560,24 +560,26 @@ No boundaries for boolean predicates.
 
 
 
- ### **Class *SKUDao* - method *getSKUbyID(id)***
+ ### **Class *SKUDao* - method *getSKUs()***
 
 
 
-**Criteria for method *getSKUbyID(id)*:**
+**Criteria for method *getSKUs()*:**
 	
 
- - params.id already exists in database
+ - DB queries successful
+ - SKUs exist
 
 
 
 
 
-**Predicates for method *getSKUbyID(id)*:**
+**Predicates for method *newSKU(sku)*:**
 
 | Criteria | Predicate |
 | -------- | --------- |
-|params.id already exists in database| True, False          |
+|DB queries successful | True, False |
+|SKUs exist | True, False |
 
 
 
@@ -592,13 +594,40 @@ No boundaries for boolean predicates.
 **Combination of predicates**:
 
 
-| Criteria 1 | Criteria 2 | ... | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|
-|||||||
-|||||||
-|||||||
-|||||||
-|||||||
+|  DB queries successful | SKUs exist | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+|F|-|Invalid|DB error, test fails|testGetSKUs()|
+|T|F|Valid|Test is successful, an empty array is returned|testGetSKUs([])|
+|T|T|Valid|Skus are returned| testGetSKUs(skus)|
+
+ ### **Class *SKUDao* - method *modifySKU(sku)***
+
+**Criteria for method *modifySKU(sku)*:**
+	
+ - SKUId exists
+- Queries are successful
+
+**Predicates for method *name*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|     SKUId exists     |      True, False     |
+|     Queries are successful     |     True, False      |
+
+**Boundaries**:
+
+No boundaries for boolean values
+
+**Combination of predicates**:
+
+
+| SKUId exists | Queries are successful | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+|T|F|Invalid|Test fails because of a DB error|testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200)|
+|T|T|Valid|The SKU with ID= skuid is modified|testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200)|
+|F|-|Invalid|The test is expected to return error 404 |testModifySKU(18, "description", 14, 12, "note", 10000.56, 13, 404)|
+
+
 
 
 
