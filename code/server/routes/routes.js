@@ -29,7 +29,7 @@ const { get_internal_orders, get_issued_orders, get_accepted_orders, get_interna
         create_internal_order, modify_internal_order_state, delete_internal_order } = require('../Internal_order/InternalOrderAPIreceiver')
 
 // ITEM receivers
-const { get_items, get_item_by_id, store_item, update_item, delete_item } = require('../Item/Item')
+const { get_items, get_item_by_id, store_item, update_item, delete_item , clear_item_table} = require('../Item/Item')
 
 const { getSKUs, getSKUbyID, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID } = require('../SKU/SKU')
 
@@ -105,10 +105,10 @@ router.delete('/internalOrders/:id', delete_internal_order); //DELETE /api/inter
 // ITEM routes
 router.get('/items', get_items);    //GET /api/items
 router.get('/items/:id', get_item_by_id);    //GET /api/items/:id
-router.post('/items', store_item);    //POST /api/item
+router.post('/item', store_item);    //POST /api/item
 router.put('/item/:id', update_item);   //PUT /api/item/:id
 router.delete('/items/:id', delete_item);    // DELETE /api/items/:id
-
+router.delete('/clearitemtable',clear_item_table);
 
 /***********************************************************************/
 
