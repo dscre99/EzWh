@@ -47,8 +47,8 @@ class SKUItemDao {
 
                     res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
                     if (exists) {
-                        const sql = 'INSERT INTO SKU_ITEM(RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?, ?, 0, ?)';
-                        this.#db.run(sql, [skuItem.RFID, skuItem.SKUId, skuItem.DateOfStock], (err, rows) => {
+                        const sql = 'INSERT INTO SKU_ITEM(RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?, ?, ?, ?)';
+                        this.#db.run(sql, [skuItem.RFID, skuItem.SKUId, 0, skuItem.DateOfStock], (err, rows) => {
                             console.log('query error', err);
                             if (err) {
                                 reject(503);
@@ -198,7 +198,7 @@ class SKUItemDao {
 
                     if (exists) {
                         const sql = 'UPDATE SKU_ITEM SET RFID= ?, AVAILABLE = ?, DATEOFSTOCK = ? WHERE RFID = ?';
-                        this.#db.run(sql, [data.newRFID, data.newAvailable, data.newDateOfStock, data.oldRfid], (err) => {
+                        this.#db.run(sql, [data.newRfid, data.newAvailable, data.newDateOfStock, data.oldRfid], (err) => {
                             if (err) {
                                 reject(err);
                             } else {
