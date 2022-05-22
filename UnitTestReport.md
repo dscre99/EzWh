@@ -501,8 +501,6 @@ No boundaries for boolean predicates.
 | -------- | --------- |
 |     SKUId exists     |      True, False     |
 |     Queries are successful     |     True, False      |
-|          |           |
-|          |           |
 
 **Boundaries**:
 
@@ -512,7 +510,7 @@ No boundaries for boolean values
 
 
 | SKUId exists | Queries are successful | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|
+|-------|-------|-------|-------|-------|
 |T|F|Invalid|Test fails because of a DB error|testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200)|
 |T|T|Valid|The SKU with ID= skuid is modified|testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200)|
 |F|-|Invalid|The test is expected to return error 404 |testModifySKU(18, "description", 14, 12, "note", 10000.56, 13, 404)|
