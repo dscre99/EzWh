@@ -5,43 +5,73 @@ const RestockOrderDAOInstance = new RestockOrderDAO(db);
 
 function testGetRestockOrders(resExpected){
     test('Get restock orders',async ()=>{
-        let res = await RestockOrderDAOInstance.getRestockOrders();
-        expect(res).toEqual(resExpected);
+        try{
+            let res = await RestockOrderDAOInstance.getRestockOrders();
+            expect(res).toEqual(resExpected);
+        }catch(err){
+            expect(err).toStrictEqual(resExpected);
+        }
+        
     });
 }
 
 function testGetRestockOrdersIssued(resExpected){
     test('Get restock orders issued',async ()=>{
-        let res = await RestockOrderDAOInstance.getRestockOrdersIssued();
-        expect(res).toEqual(resExpected);
+        try{
+            let res = await RestockOrderDAOInstance.getRestockOrdersIssued();
+            expect(res).toEqual(resExpected);
+        }catch(err){
+            expect(err).toStrictEqual(resExpected);
+        }
+        
     });
 }
 
 function testGetRestockOrderDeliveredByID(id,resExpected){
     test('Get restock order delivered by ID',async ()=>{
-        let res = await RestockOrderDAOInstance.getRestockOrderDeliveredByID({id:id});
-        expect(res).toEqual(resExpected);
+        try{
+            let res = await RestockOrderDAOInstance.getRestockOrderDeliveredByID({id:id});
+            expect(res).toEqual(resExpected);
+        }catch(err){
+            expect(err).toStrictEqual(resExpected);
+        }
+        
     });
 }
 
 function testGetItemList(id,resExpected){
     test('Get SKUItems in Restock_Order',async ()=>{
-        let res = await RestockOrderDAOInstance.getItemList({id:id});
-        expect(res).toEqual(resExpected);
+        try{
+            let res = await RestockOrderDAOInstance.getItemList({id:id});
+            expect(res).toEqual(resExpected);
+        }catch(err){
+            expect(err).toStrictEqual(resExpected);
+        }
+        
     });
 }
 
 function testCheckItemList(id,rfid,resExpected){
     test('Check RFID in a given Restock_Order',async ()=>{
-        let res = await RestockOrderDAOInstance.checkItemList({id:id},{rfid:rfid});
-        expect(res).toEqual(resExpected);
+        try{
+            let res = await RestockOrderDAOInstance.checkItemList({id:id},{rfid:rfid});
+            expect(res).toEqual(resExpected);
+        }catch(err){
+            expect(err).toStrictEqual(resExpected);
+        }
+        
     });
 }
 
 function testGetRestockOrderByID(id,resExpected){
     test('Get Restock_Order by ID',async ()=>{
-        let res = await RestockOrderDAOInstance.getRestockOrderByID({id:id});
-        expect(res).toEqual(resExpected);
+        try{
+            let res = await RestockOrderDAOInstance.getRestockOrderByID({id:id});
+            expect(res).toEqual(resExpected);
+        }catch(err){
+            expect(err).toStrictEqual(expectedResult);
+        }
+        
     });
 }
 
@@ -149,14 +179,19 @@ describe('test Restock_orderDAO.js', ()=>{
 
     testGetRestockOrders([]);
     testGetRestockOrdersIssued([]);
-    testGetRestockOrderDeliveredByID(1,undefined);
-    testGetItemList(1,[]);
-    testCheckItemList(1,1,undefined);
-    testGetRestockOrderByID(1,undefined);
+    
 
     testStoreRestockOrder("2021/11/29 09:33",1,201);
     testStoreProducts(1,30,1.99,'New PC',201);
     testStoreProducts(2,15,10.99,'New Pen',201);
+
+    testGetItemList(1,[]);
+    testCheckItemList(1,1,undefined);
+    testGetRestockOrderByID(3,undefined);
+    testGetRestockOrderDeliveredByID(3,undefined);
+
+
+
 
     testGetRestockOrders([{
         id:1,
@@ -328,13 +363,14 @@ describe('test Restock_orderDAO.js', ()=>{
     testNewSKUItemList(2,"12325678901534567790123456789015",200);
 
     testGetItemList(2,[{
-        SKUId: 2,
-        rfid: "12325678901534567790123456789015"
-    },{
         SKUId: 1,
         rfid: "12345678901234567890123456789015"
+    },{
+        SKUId: 2,
+        rfid: "12325678901534567790123456789015"
     }]);
 
+    testAddTransportNote(1,{deliveryDate:"2022/05/20 09:33"},422); // Staus != delivered
     testAddTransportNote(2,{deliveryDate:"2022/05/20 09:33"},422); // Delivery date is before issueDate
     testAddTransportNote(2,{deliveryDate:"2022/05/22 09:33"},200);
 

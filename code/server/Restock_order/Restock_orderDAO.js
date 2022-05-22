@@ -69,7 +69,7 @@ class Restock_orderDAO{
     
         newTableItemlist() {
             return new Promise((resolve, reject)  => {
-                const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM_IN_RESTOCKORDER(RFID VARCHAR REFERENCES SKU_ITEM(RFID),ORDERID INTEGER REFERENCES RESTOCK_ORDER(ID),RETURNORDERID INTEGER REFERENCES RETURN_ORDER(ID), PRIMARY KEY(RFID,ORDERID))';
+                const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM_IN_RESTOCKORDER(RFID VARCHAR REFERENCES SKU_ITEM(RFID),ORDERID INTEGER REFERENCES RESTOCK_ORDER(ID), PRIMARY KEY(RFID,ORDERID))';
                 this.db.run(sql, (err) => {
                     if (err) {
                         reject(err);
@@ -82,9 +82,9 @@ class Restock_orderDAO{
     // GETTERS
 
     getItemList(data){
-        return new Promise((resolve, reject) => {
+        return new Promise( (resolve, reject) => {
             const sql = 'SELECT I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID AND I.ORDERID=?';
-            this.db.all(sql, [data.id||data.ID], (err, rows) => {
+             this.db.all(sql, [data.id||data.ID], (err, rows) => {
                 if(err){
                     reject(err);
                 }
@@ -100,9 +100,9 @@ class Restock_orderDAO{
     }
 
     checkItemList(data,param){
-        return new Promise((resolve, reject) => {
+        return new Promise( (resolve, reject) => {
             const sql = 'SELECT ORDERID FROM SKUITEM_IN_RESTOCKORDER WHERE ORDERID=? AND RFID=?';
-            this.db.all(sql, [data.id,param.rfid], (err, rows) => {
+             this.db.all(sql, [data.id,param.rfid], (err, rows) => {
                 if(err){
                     reject(err);
                 }
@@ -122,7 +122,7 @@ class Restock_orderDAO{
     }
 
     getRestockOrders() {
-        return new Promise((resolve, reject) => {
+        return new Promise( (resolve, reject) =>  {
             let products =[];
             let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P';
             this.db.all(sql, (err, rows) => {
@@ -141,7 +141,7 @@ class Restock_orderDAO{
             });
             let items = [];
             sql = 'SELECT I.ORDERID, I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
-            this.db.all(sql, (err, rows) => {
+             this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
                 }
@@ -183,10 +183,10 @@ class Restock_orderDAO{
     }
 
     getRestockOrdersIssued() {
-        return new Promise((resolve, reject) => {
+        return new Promise( (resolve, reject) => {
             let products =[];
             let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P';
-            this.db.all(sql, (err, rows) => {
+             this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
                 }
@@ -203,7 +203,7 @@ class Restock_orderDAO{
             
 
             sql = 'SELECT * FROM RESTOCK_ORDER WHERE STATE="ISSUED" ';
-            this.db.all(sql, (err, rows) => {
+             this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
                 }
@@ -229,10 +229,10 @@ class Restock_orderDAO{
 
 
     getRestockOrderByID(data) {
-        return new Promise((resolve, reject) => {
+        return new Promise( (resolve, reject) => {
             let products =[];
             let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P  ';
-            this.db.all(sql, (err, rows) => {
+             this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
                 }
@@ -248,7 +248,7 @@ class Restock_orderDAO{
             });
             let items = [];
             sql = 'SELECT I.ORDERID, I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
-            this.db.all(sql, (err, rows) => {
+             this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
                 }
@@ -262,7 +262,7 @@ class Restock_orderDAO{
             });
 
             sql = 'SELECT * FROM RESTOCK_ORDER WHERE ID= ? ';
-            this.db.all(sql, [data.id], (err, rows) => {
+             this.db.all(sql, [data.id], (err, rows) => {
                 if (err) {
                     reject(err);
                 }
@@ -296,10 +296,10 @@ class Restock_orderDAO{
     }
 
     getRestockOrderDeliveredByID(data) {
-        return new Promise((resolve, reject) => {
+        return new Promise( (resolve, reject) => {
             let products =[];
             let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P ';
-            this.db.all(sql, (err, rows) => {
+             this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
                 }
@@ -315,7 +315,7 @@ class Restock_orderDAO{
             });
 
          sql = 'SELECT * FROM RESTOCK_ORDER WHERE ID= ? AND STATE="DELIVERED" ';
-            this.db.all(sql, [data.id], (err, rows) => {
+             this.db.all(sql, [data.id], (err, rows) => {
                 if (err) {
                     reject(err);
                 }
@@ -348,9 +348,9 @@ class Restock_orderDAO{
     //POST
 
     storeRestockOrder(data){
-        return new Promise((resolve, reject) => {
+        return new Promise(async  (resolve, reject) => {
             const sql = 'INSERT INTO RESTOCK_ORDER(ISSUEDATE, STATE, SUPPLIERID) VALUES (?, "ISSUED", ?)';
-            this.db.run(sql, [data.issueDate, data.supplierId], (err) => {
+            await this.db.run(sql, [data.issueDate, data.supplierId], (err) => {
                 if (err) {
                     reject(err);
                 }else{
@@ -365,13 +365,14 @@ class Restock_orderDAO{
 
     storeProducts(data){
         
-        return new Promise((resolve, reject) => {
+        return new Promise( async (resolve, reject) => {
             const sql = 'INSERT INTO PRODUCTS(SKUID, ORDERID, QUANTITY,PRICE,DESCRIPTION) VALUES (?, (SELECT ID FROM RESTOCK_ORDER ORDER BY ID DESC LIMIT 1),?,?,?)';
-            this.db.run(sql, [data.SKUId, data.qty, data.price, data.description], (err) => {
+            await this.db.run(sql, [data.SKUId, data.qty, data.price, data.description], (err) => {
                 if (err) {
                     reject(err);
+                }else{
+                    resolve(201);
                 }
-                resolve(201);
             });
         });
     }
@@ -407,7 +408,7 @@ class Restock_orderDAO{
 
     addTransportNote(data,params) {
         return new Promise((resolve, reject) => {
-            const sql1= 'SELECT * FROM RESTOCK_ORDER WHERE ID=? AND ISSUEDATE<=? AND STATE= "DELIVERED" ';
+            const sql1= 'SELECT * FROM RESTOCK_ORDER WHERE ID=? AND ISSUEDATE<? AND STATE= "DELIVERED" ';
             this.db.all(sql1,[params.id,data.deliveryDate],(err,rows)=>{
                 if(err){
                     reject(err);

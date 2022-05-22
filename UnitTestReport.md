@@ -264,9 +264,9 @@ No boundaries for boolean predicates.
 
 |  data.id is digits only  | data.id exists | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-|T|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:1}; i.getItemByID(data); |Get item by id|
-|T|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:2}; i.getItemByID(data)-> reject |Get item by id|
-|F||Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:'T2'}; i.getItemByID(data)-> reject |Get item by id|
+|T|T|Valid| Method expects to return the Item specified by the ID |     testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});|
+|T|F|Invalid| Method expects to return empty object {}  |testGetItemById(3,{});|
+|F||Invalid| Method expects to return an empty object {} |testGetItemById('A',{}); |
 
 
 ### **Class *ItemDAO* - method *storeItem(data)***
@@ -299,9 +299,9 @@ No boundaries for boolean predicates.
 
 | data.id already exist in DB | data.SKUId exists in SKU table  | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-|F|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({2,'desc',1.99,1,1}); | Store item |
-|F|F|Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({'1T','desc',1.99,1,1});-> reject(404) |Store item|
-|T||Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({1,'desc',1.99,1,1});-> reject |Store item|
+|F|T|Valid| Method expects to return 201, SKUId=1 exists in DB | testStoreItem(2, 'New item', 10.99, 1, 1, 201); |
+|F|F|Invalid| Method returns 404 because SKUId specified doesn't exist | testStoreItem(1, 'New item', 10.99, 2, 1, 404); |
+|T||Invalid| Method returns 503 because ItemID is already stored |testStoreItem(2, 'New item', 10.99, 1, 1, 503);|
 
 ### **Class *ItemDAO* - method *updateItem(data,params)***
 
@@ -334,8 +334,66 @@ No boundaries for boolean predicates.
 
 | params.id already exist in DB  | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},1); i.getItemByID(1); |Update item|
-|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},2);-> reject |Update item|
+|T|Valid| Method expects to return 200 |testUpdateItem(2,'New description',9.99,200);|
+| F | Invalid | Check on ID is performed by another function, so this function will always receive a valid ID. | 
+
+## **Class *Restock Order***
+### **Class *Restock Order* - method *getRestockOrderByID(data)***
+
+**Criteria for method *getRestockOrderByID(data)*:**
+	
+ - data.id already exists in DB
+ 
+
+**Predicates for method *name*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|    data.id already exists in DB      |  True, False         |
+
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+
+
+| data.id already exists in DB| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+|T|Valid| Method expects to return the restock order given| testGetRestockOrderByID(1,[{ id:1, issueDate: "2021/11/29 09:33", state: "ISSUED", products: [{ SKUId:1 description: "New PC", price: 1.99, qty: 30},{ SKUId:2, description: "New Pen", price: 10.99, qty: 15  }],supplierId: 1,transportNote: {},skuItems:[] }]);|
+|F|Invalid| Method expects to return undefined|    testGetRestockOrderByID(1,undefined);|
+
+### **Class *Restock Order* - method *addTransportNote(data,params)***
+
+**Criteria for method *addTransportNote(data,params)*:**
+
+ - params.id exists or not
+ - order state == DELIVERED
+ - data.deliveryDate is before issueDate
+
+**Predicates for method *addTransportNote(data,params)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|   params.id exists or not       |    True, False       |
+|    order state === "DELIVERED"      |    True, False       |
+|    data.deliveryDate is before issueDate      |     True, False      |
+
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+
+
+| params.id exists or not | order state == "DELIVERED"  | data.deliveryDate is before issueDate | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|
+|T|T|T|Valid|Method expects to return 200|testAddTransportNote(2,{deliveryDate:"2022/05/22 09:33"},200);|
+|T|T|F|Invalid|Method expects to return 422|testAddTransportNote(2,{deliveryDate:"2022/05/20 09:33"},422);|
+|T|F||Invalid|Method expects to return 422|testAddTransportNote(1,{deliveryDate:"2022/05/20 09:33"},422);|
+|F|||Invalid|Check on ID is performed by another function, so this function will always receive a valid ID.||
 
 
  ### **Class *SKUDao* - method *getSKUbyID(id)***
@@ -391,13 +449,32 @@ No boundaries for boolean predicates.
 
 | Unit name | Jest test case |
 |--|--|
-|ItemDAO|Store item|
-|ItemDAO|Update item|
-|ItemDAO|Get item by id|
-|ItemDAO|Get SKUID by item id|
-|ItemDAO|Get ID by Supplier id|
-|ItemDAO|Get items|
-|ItemDAO|Delete item|
+|storeItem|testStoreItem|
+|updateItem|testUpdateItem|
+|getItemByID|testGetItemById|
+|getSKUIDbyItemID|testGetSKUIDbyItemID|
+|getItembyIdSupp|testGetItembyIdSupp|
+|getItems|testGetItems|
+|deleteItem|testDeleteItem|
+|||
+|getRestockOrders|testGetRestockOrders|
+|getRestockOrdersIssued|testGetRestockOrdersIssued|
+|getRestockOrderDeliveredByID|testGetRestockOrderDeliveredByID|
+|getItemList|testGetItemList|
+|checkItemList|testCheckItemList|
+|getRestockOrderByID|testGetRestockOrderByID|
+|storeRestockOrder|testStoreRestockOrder|
+|storeProducts|testStoreProducts|
+|updateState|testUpdateState|
+|newSKUItemList|testNewSKUItemList|
+|addTransportNote|testAddTransportNote|
+|deleteRestockOrder|testDeleteRestockOrder|
+
+
+
+
+
+
 
 
 ### Code coverage report

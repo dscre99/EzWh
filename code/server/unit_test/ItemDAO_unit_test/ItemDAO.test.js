@@ -78,7 +78,7 @@ function testGetItems(resExpected){
     });
 }
 
-function deleteItem(id,expectedResult){
+function testDeleteItem(id,expectedResult){
     test('Delete item', async () =>{
         try{
             let res = await ItemDAOInstance.deleteItem({id:id});
@@ -101,9 +101,12 @@ describe('test ItemDAO.js',  () => {
 
      testStoreItem(1, 'New item', 10.99, 2, 1, 404); // Not stored
      testStoreItem(2, 'New item', 10.99, 1, 1, 201); // SKUId Exists 
+     testStoreItem(2, 'New item', 10.99, 1, 1, 503); // ItemID already exists  
+
 
      testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});
-     testGetItemById(3,{}); // No item with it = 3
+     testGetItemById(3,{}); // No item with id = 3
+     testGetItemById('A',{}); // No item with id= A
 
      testGetSKUIDbyItemID(1,1,{id:2});
      testGetSKUIDbyItemID(5,5,{}); //No item with SKUID=5 and ID = 5
@@ -114,7 +117,8 @@ describe('test ItemDAO.js',  () => {
      testGetItems([{id:2,description:'New item',price:10.99,skuid:1,supplierid:1}]);
 
      testUpdateItem(2,'New description',9.99,200);
-     deleteItem(2,204);
+
+     testDeleteItem(2,204);
      
 });
 
