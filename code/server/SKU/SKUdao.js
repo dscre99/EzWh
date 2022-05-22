@@ -41,7 +41,7 @@ class SKUDao {
                         reject(503);
                         return;
                     }
-                    resolve(sku);
+                    resolve(201);
                 });
             } else {
                 console.log('Not logged in or authorized');
@@ -72,7 +72,7 @@ class SKUDao {
                             price: r.PRICE,
                             testDescriptors: r.TESTDESCRIPTORS
                         }));
-                    console.log(skus);
+                    //console.log(skus);
                     resolve(skus);
                 });
             } else {
@@ -116,7 +116,7 @@ class SKUDao {
                                     testDescriptors: r.TESTDESCRIPTORS
                                 }
                             ));
-                            resolve(sku[0]);
+                            resolve(sku);
                         });
                     } else {
                         console.log('No SKU associated to ID');
@@ -150,7 +150,7 @@ class SKUDao {
                             if (err) {
                                     reject(err);
                              } else {
-                                    resolve(true);
+                                    resolve(200);
                              }
                         });
                     } else {
@@ -215,7 +215,7 @@ class SKUDao {
                                                     if (err) {
                                                         reject(err);
                                                     } else {
-                                                        resolve(true);
+                                                        resolve(200);
                                                     }
                                                 });
                                                 let occVolume = res.occupiedVolume + res.volume;
@@ -225,7 +225,7 @@ class SKUDao {
                                                     if (err) {
                                                         reject(err);
                                                     } else {
-                                                        resolve(true);
+                                                        resolve(200);
                                                     }
                                                 });
                                             } else {
@@ -267,7 +267,7 @@ class SKUDao {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve(true);
+                        resolve(204);
                     }
                 });
             } else {

@@ -1,7 +1,4 @@
-const DB = require('../EZWH_db/RunDB');
-const db = DB.DBinstance;
-const SKUITEM = require('./SKU_Item.js');
-const sqlite = require('sqlite3');
+
 
 class SKUItemDao {
     #db = undefined;
@@ -10,19 +7,61 @@ class SKUItemDao {
         this.#db = dbInstance;
     }
 
+    dropSKUItemTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DROP TABLE IF EXISTS SKU_ITEM';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(200)
+            })
+        });
+    }
+
+    newSKUItemTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE "SKU_ITEM" ("RFID"	TEXT,"SKUID"	INTEGER,"AVAILABLE"	INTEGER,"DATEOFSTOCK" TEXT,PRIMARY KEY("RFID"))';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(200);
+            });
+        });
+    }
+
     newSKUItem(skuItem) {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const sql = 'INSERT INTO SKU_ITEM(RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?, ?, 0, ?)';
-                this.#db.run(sql, [skuItem.RFID, skuItem.SKUId, skuItem.DateOfStock], (err, rows) => {
-                    console.log('query error', err);
+                const check = 'SELECT COUNT(*) FROM SKU WHERE ID = ?';
+                let exists = 0;
+                this.#db.all(check, [skuItem.SKUId], (err, res) => {
                     if (err) {
-                        reject(503);
+                        reject(err);
                         return;
                     }
-                    resolve(201);
+
+                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
+                    if (exists) {
+                        const sql = 'INSERT INTO SKU_ITEM(RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?, ?, 0, ?)';
+                        this.#db.run(sql, [skuItem.RFID, skuItem.SKUId, skuItem.DateOfStock], (err, rows) => {
+                            console.log('query error', err);
+                            if (err) {
+                                reject(503);
+                                return;
+                            }
+                            resolve(201);
+                        });
+                    } else {
+                        console.log('No SKU associated to SKUID');
+                        reject(404);
+                    }
                 });
+
             } else {
                 console.log('Not logged in or wrong permissions');
                 reject(401);
@@ -128,7 +167,7 @@ class SKUItemDao {
                                     Available: r.AVAILABLE,
                                     DateOfStock: r.DATAOFSTOCK
                                 }));
-                            resolve(skuItems[0]);
+                            resolve(skuItems);
                         });
                     } else {
                         console.log('No SKU Item associated to Rfid');
@@ -163,7 +202,7 @@ class SKUItemDao {
                             if (err) {
                                 reject(err);
                             } else {
-                                resolve(true);
+                                resolve(200);
                             }
                         });
                     } else {
@@ -187,7 +226,7 @@ class SKUItemDao {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve(true);
+                        resolve(204);
                     }
                 });
             } else {

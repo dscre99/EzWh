@@ -2,11 +2,11 @@ const SKUDao = require('../../SKU/SKUdao');
 const DB = require('../../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const SKUDaoInstance = new SKUDao(DBinstance);
-const position = require('../../Position/Position_DAO')
-const positionInstance = new position(DBinstance)
+const position = require('../../Position/Position_DAO');
+const positionInstance = new position(DBinstance);
 
 
-function testNewSKU(description, weight, volume, notes, price, availableQuantity) {
+function testNewSKU(description, weight, volume, notes, price, availableQuantity, expected) {
     test('new sku', async () => {
         let sku = {
             description: description,
@@ -18,11 +18,10 @@ function testNewSKU(description, weight, volume, notes, price, availableQuantity
         }
 
         let res = await SKUDaoInstance.newSKU(sku);
-        expect(res).toEqual(sku);
+        expect(res).toEqual(expected);
     });
 }
 
-testNewSKU("sku", 100, 50, "sku", 15.99, 3);
 
 function testGetSKUs(expected) {
     test('get skus', async () => {
@@ -81,22 +80,16 @@ function testModifySKUPosition(id, position, expected) {
 function testDeleteSKUbyID(id, expected){
     test('test delete sku by id', async () => {
         let res = await SKUDaoInstance.deleteSKUbyID(id);
-        expect(res).toEqual(true);
+        expect(res).toEqual(expected);
     });
 }
 
 describe('test SKUdao', () => {
-    beforeAll(async () => {
-        let drop = await SKUDaoInstance.dropSKUTable();
-        expect(drop).toEqual(200);
-        let table = await SKUDaoInstance.newSKUTable();
-        expect(table).toEqual(200);
-    });
 
     let position1 = {
-        "positionID": "800234543412",
+        "positionID": "800234523412",
         "aisleID": "8002",
-        "row": "3454",
+        "row": "3452",
         "col": "3412",
         "maxWeight": 1000,
         "maxVolume": 1000,
@@ -115,19 +108,29 @@ describe('test SKUdao', () => {
         "occupiedVolume": 150
     }
 
-
-    let pos1 = positionInstance.storePosition(position1);
-    let pos2 = positionInstance.storePosition(position2);
+    beforeAll(async () => {
+        let drop = await SKUDaoInstance.dropSKUTable();
+        expect(drop).toEqual(200);
+        let table = await SKUDaoInstance.newSKUTable();
+        expect(table).toEqual(200);
+        let pos1 = await positionInstance.storePosition(position1);
+        expect(pos1).toEqual(position1.positionID);
+        let pos2 = await positionInstance.storePosition(position2);
+        expect(pos2).toEqual(position2.positionID);
+    });
 
     testGetSKUs([]);
 
-    testNewSKU("a new sku", 100, 50, "first sku", 10.99, 50);
-    testNewSKU("second", 54, 12, "second", 2.99, 15);
+    testGetSKUbyID(1, 404);
 
-    testModifySKUPosition(1, "800234523412", true);
+
+    testNewSKU("a new sku", 100, 50, "first sku", 10.99, 50, 201);
+    testNewSKU("second", 54, 12, "second", 2.99, 15, 201);
+
+    testModifySKUPosition(1, "800234523412", 200);
     testModifySKUPosition(16, "800234523412", 422);
     testModifySKUPosition(1, "800234523", 422);
-    testModifySKUPosition(2, "800234525144", true);
+    testModifySKUPosition(2, "800234525144", 200);
 
     let skus = [{
         id: 1,
@@ -138,7 +141,7 @@ describe('test SKUdao', () => {
         position: "800234523412" ,
         price: 10.99,
         availableQuantity: 50,
-        testDescriptors: []
+        testDescriptors: undefined
     },
     {
         id: 2,
@@ -149,9 +152,9 @@ describe('test SKUdao', () => {
         position: "800234525144",
         price: 2.99,
         availableQuantity: 15,
-        testDescriptors: []
+        testDescriptors: undefined
     }]
-    let sku = {
+    let sku = [{
         id: 1,
         description: "a new sku",
         weight: 100,
@@ -160,11 +163,12 @@ describe('test SKUdao', () => {
         position: "800234523412",
         price: 10.99,
         availableQuantity: 50,
-        testDescriptors: []
-    }
+        testDescriptors: undefined
+    }]
+
     testGetSKUs(skus);
     testGetSKUbyID(1, sku);
 
-    testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, true);
+    testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200);
     testModifySKU(18, "description", 14, 12, "note", 10000.56, 13, 404);
 })

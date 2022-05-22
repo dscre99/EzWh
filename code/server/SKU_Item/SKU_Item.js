@@ -1,40 +1,12 @@
 const skuItemDao = require('./SKU_Item_dao')
 const DB = require('../EZWH_db/RunDB');
+const moment = require('../node_modules/moment/ts3.1-typings/moment');
 const DBinstance = DB.DBinstance;
 const skuItemDaoInstance = new skuItemDao(DBinstance);
 
-
-
-class SKUItem{
-
-    #rfid = "";
-    #SKUId = undefined;
-    #available = undefined;
-    #DateOfStock = "";
-
-    constructor(rfid, SKUId, DateOfStock) {
-        this.#rfid = rfid;
-        this.#SKUId = SKUId;
-        this.#available = 0;
-        this.#DateOfStock = DateOfStock;
-    }
-
-    getRfid() {
-        return this.#rfid;
-    }
-
-    getSKUId() {
-        return this.#SKUId;
-    }
-
-    getAvailability() {
-        return this.#available;
-    }
-
-    getDateOfStock() {
-        return this.#DateOfStock;
-    }
-
+function verifyDate(date) {
+    var regex = /(\d{ 4})-(\d{ 2 }) -(\d{ 2 }) (\d{ 2 }): (\d{ 2 }): (\d{ 2 })/;
+    return re.test(date);
 }
 
 
@@ -107,6 +79,25 @@ async function newSKUItem(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Invalid body request' });
     }
+    const required = ['RFID', 'SKUId', 'DateOfStock'];
+    if (Object.keys(req.body).length != required.length) {
+        return res.status(422).end();
+    } else {
+        required.forEach(key => {
+            if (!Object.keys(req.body).includes(key)) {
+                return res.status(422).end();
+            }
+            if (req.body[key] == undefined || req.body[key] == '') {
+                return res.status(422).end();
+            }
+        });
+        if ((req.body).RFID.length != 32) {
+            return res.status(422).end();
+        }
+        if (!verifyDate((req.body).DateOfStock) {
+            return res.status(422).end();
+        }
+    }
     let newSKUItemPromise = skuItemDaoInstance.newSKUItem(req.body);
     await newSKUItemPromise.then(
         function (value) {
@@ -129,8 +120,27 @@ async function modifySKUItem(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Invalid body request' });
     }
-    if (Object.keys(req.params.rfid).length == 0) {
+    if (Object.keys(req.params.rfid).length == 0 || (req.params.rfid).length != 32) {
         return res.status(422).json({ error: 'Invalid rfid' });
+    }
+    const required = ['newRFID', 'newAvailable', 'newDateOfStock'];
+    if (Object.keys(req.body).length != required.length) {
+        return res.status(422).end();
+    } else {
+        required.forEach(key => {
+            if (!Object.keys(req.body).includes(key)) {
+                return res.status(422).end();
+            }
+            if (req.body[key] == undefined || req.body[key] == '') {
+                return res.status(422).end();
+            }
+        });
+        if ((req.body).RFID.length != 32) {
+            return res.status(422).end();
+        }
+        if (!verifyDate((req.body).DateOfStock) {
+            return res.status(422).end();
+        }
     }
     let data = {
         "oldRfid": req.params.rfid,
@@ -158,7 +168,7 @@ async function modifySKUItem(req, res) {
 //DELETE /api/skuitems/:rfid
 
 async function deleteSKUItembyRfid(req, res) {
-    if (Object.keys(req.params.rfid).length == 0) {
+    if (Object.keys(req.params.rfid).length == 0 || (req.params.rfid).length !=32 ) {
         return res.status(422).json({ error: 'Invalid rfid request' });
     }
     let deleteSKUItembyRfidPromise = skuItemDaoInstance.deleteSKUItembyRfid(req.params.rfid);
@@ -177,5 +187,4 @@ async function deleteSKUItembyRfid(req, res) {
     });
 }
 
-module.exports = SKUItem;
 module.exports = { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid };
