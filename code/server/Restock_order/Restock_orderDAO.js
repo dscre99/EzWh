@@ -395,9 +395,9 @@ class Restock_orderDAO{
 
 
     newSKUItemList(data,params) {
-            return new Promise((resolve, reject) => {
+            return new Promise(async (resolve, reject) => {
                 const sql = ' INSERT INTO SKUITEM_IN_RESTOCKORDER (ORDERID,RFID) VALUES (?,?) ';
-                this.db.run(sql, [params.id, data.rfid], (err) => {
+                await this.db.run(sql, [params.id, data.rfid], (err) => {
                     if (err) {
                         reject(err);
                     }

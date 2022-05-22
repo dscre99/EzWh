@@ -98,12 +98,12 @@ describe('test SKU Item dao', () => {
     testGetSKUItems([]); //empty sku items list
     testGetSKUItemsByRfid("1", 404); //no sku item with rfid
     testGetSKUItemsBySKUId(2, 404); //no sku associated to sku id
-    testNewSKUItem("12345678901234567890123456789015", 2, 404) // no sku associated to sku id
+    //testNewSKUItem("12345678901234567890123456789015", 2, 404) // no sku associated to sku id
     testModifySKUItem("12345678901234567890123456789015", "12345678901234567890123456789015", 1, "2021/11/29 12:30", 404); //no rfid
-
-    /*testNewSKUItem("12345678901234567890123456789015", 1, "2021/11/29 12:30", 201);
+/*
+    testNewSKUItem("12345678901234567890123456789015", 1, "2021/11/29 12:30", 201);
     testNewSKUItem("12345678901234567890123456789014", 1, "2021/11/29 12:30", 201);
-
+    
     testModifySKUItem("12345678901234567890123456789014", "12345678901234567890123456789014", 2, "2021/11/29 12:31", 200);
 
     let skuitems = [
