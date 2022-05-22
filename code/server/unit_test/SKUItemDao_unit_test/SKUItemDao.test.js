@@ -12,9 +12,12 @@ function testNewSKUItem(rfid, skuid, dateOfStock, expected) {
             SKUId: skuid,
             DateOfStock: dateOfStock
         }
-
-        let res = await SKUItemDaoInstance.newSKUItem(skuItem);
-        expect(res).toEqual(expected);
+        try {
+            let res = await SKUItemDaoInstance.newSKUItem(skuItem);
+            expect(res).toEqual(expected);
+        } catch (err) {
+            expect(err).toEqual(expected);
+        }
     });
 }
 
@@ -83,14 +86,14 @@ describe('test SKU Item dao', () => {
     }
 
     beforeAll(async () => {
-        let drop = await SKUItemDaoInstance.dropSKUItemTable();
-        expect(drop).toEqual(200);
-        let table = await SKUItemDaoInstance.newSKUItemTable()
-        expect(table).toEqual(200);
         let drop2 = await SKUDaoInstance.dropSKUTable();
         expect(drop2).toEqual(200);
         let table2 = await SKUDaoInstance.newSKUTable();
         expect(table2).toEqual(200);
+        let drop = await SKUItemDaoInstance.dropSKUItemTable();
+        expect(drop).toEqual(200);
+        let table = await SKUItemDaoInstance.newSKUItemTable()
+        expect(table).toEqual(200);
         let newSKU = await SKUDaoInstance.newSKU(sku);
         expect(newSKU).toEqual(201)
     });
@@ -98,30 +101,39 @@ describe('test SKU Item dao', () => {
     testGetSKUItems([]); //empty sku items list
     testGetSKUItemsByRfid("1", 404); //no sku item with rfid
     testGetSKUItemsBySKUId(2, 404); //no sku associated to sku id
-    //testNewSKUItem("12345678901234567890123456789015", 2, 404) // no sku associated to sku id
+    testNewSKUItem("12345678901234567890123456789015", 2, "2021/11/29 12:30", 404); // no sku associated to sku id
     testModifySKUItem("12345678901234567890123456789015", "12345678901234567890123456789015", 1, "2021/11/29 12:30", 404); //no rfid
-/*
+
     testNewSKUItem("12345678901234567890123456789015", 1, "2021/11/29 12:30", 201);
     testNewSKUItem("12345678901234567890123456789014", 1, "2021/11/29 12:30", 201);
-    
-    testModifySKUItem("12345678901234567890123456789014", "12345678901234567890123456789014", 2, "2021/11/29 12:31", 200);
+
+    testModifySKUItem("12345678901234567890123456789014", "12345678901234567890123456789014", 1, "2021/11/29 12:31", 200);
 
     let skuitems = [
         {
-            "RFID": "12345678901234567890123456789015",
+            "rfid": "12345678901234567890123456789015",
             "SKUId": 1,
             "Available": 0,
             "DateOfStock": "2021/11/29 12:30"
-        },{
-        "RFID": "12345678901234567890123456789014",
+        },
+        {
+        "rfid": "12345678901234567890123456789014",
         "SKUId": 1,
-        "Available": 2,
+        "Available": 1,
+        "DateOfStock": "2021/11/29 12:31"
+        }
+    ]
+
+    let skuitem = [{
+        "rfid": "12345678901234567890123456789014",
+        "SKUId": 1,
+        "Available": 1,
         "DateOfStock": "2021/11/29 12:31"
     }]
 
-    testGetSKUItemsBySKUId(1, skuitems[0]);
+    testGetSKUItemsBySKUId(1, skuitem);
     testGetSKUItems(skuitems);
-    */
+    
     testDeleteSKUItemByRfid("12345678901234567890123456789015", 204);
     
 });

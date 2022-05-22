@@ -1,6 +1,6 @@
 const skuItemDao = require('./SKU_Item_dao')
 const DB = require('../EZWH_db/RunDB');
-const moment = require('../node_modules/moment/ts3.1-typings/moment');
+// const moment = require('../node_modules/moment/ts3.1-typings/moment');
 const DBinstance = DB.DBinstance;
 const skuItemDaoInstance = new skuItemDao(DBinstance);
 
@@ -94,7 +94,7 @@ async function newSKUItem(req, res) {
         if ((req.body).RFID.length != 32) {
             return res.status(422).end();
         }
-        if (!verifyDate((req.body).DateOfStock) {
+        if (!verifyDate((req.body).DateOfStock)) {
             return res.status(422).end();
         }
     }
@@ -138,7 +138,7 @@ async function modifySKUItem(req, res) {
         if ((req.body).RFID.length != 32) {
             return res.status(422).end();
         }
-        if (!verifyDate((req.body).DateOfStock) {
+        if (!verifyDate((req.body).DateOfStock)) {
             return res.status(422).end();
         }
     }

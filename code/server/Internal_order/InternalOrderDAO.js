@@ -4,6 +4,112 @@ class InternalOrderDAO {
     constructor(dbInstance) {
         this.db = dbInstance;
     }
+
+    clearInternalOrdersTable() {
+        return new Promise((resolve, reject) => {
+
+            let sql1 = 'DROP TABLE IF EXISTS INTERNAL_ORDER';
+            this.db.run(sql1, (err1) => {
+                if(err1){
+                    // reports error while querying database
+                    console.log('clearInternalOrdersTable() sql1.run error:: ', err1);
+                    reject(500);    // 500 Internal Server Error (generic error)
+                    return;
+                } else {
+
+                    let sql2 = `CREATE TABLE IF NOT EXISTS INTERNAL_ORDER(
+                                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                                    ISSUE_DATE VARCHAR,
+                                    STATE VARCHAR,
+                                    CUSTOMER_ID INTEGER
+                                )`;
+                    this.db.run(sql2, (err2) => {
+                        if(err2){
+                            // reports error while querying database
+                            console.log('clearInternalOrdersTable() sql2.run error:: ', err2);
+                            reject(500);    // 500 Internal Server Error (generic error)
+                            return;
+                        } else {
+                            resolve(200);
+                            return;
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    clearSKUinInternalOrdersTable() {
+        return new Promise((resolve, reject) => {
+
+            let sql1 = 'DROP TABLE IF EXISTS SKU_IN_INTERNALORDER';
+            this.db.run(sql1, (err1) => {
+                if(err1){
+                    // reports error while querying database
+                    console.log('clearSKUinInternalOrdersTable() sql1.run error:: ', err1);
+                    reject(500);    // 500 Internal Server Error (generic error)
+                    return;
+                } else {
+
+                    let sql2 = `CREATE TABLE IF NOT EXISTS SKU_IN_INTERNALORDER(
+                                    INTERNAL_ORDER_ID INTEGER NOT NULL,
+                                    SKU_ID INTEGER NOT NULL,
+                                    DESCRIPTION VARCHAR,
+                                    PRICE FLOAT,
+                                    QTY INTEGER,
+                                    PRIMARY KEY (INTERNAL_ORDER_ID, SKU_ID),
+                                    FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
+                                )`;
+                    this.db.run(sql2, (err2) => {
+                        if(err2){
+                            // reports error while querying database
+                            console.log('clearSKUinInternalOrdersTable() sql2.run error:: ', err2);
+                            reject(500);    // 500 Internal Server Error (generic error)
+                            return;
+                        } else {
+                            resolve(200);
+                            return;
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    clearSKUITEMinInternalOrdersTable() {
+        return new Promise((resolve, reject) => {
+
+            let sql1 = 'DROP TABLE IF EXISTS SKUITEM_IN_INTERNALORDER';
+            this.db.run(sql1, (err1) => {
+                if(err1){
+                    // reports error while querying database
+                    console.log('clearSKUITEMinInternalOrdersTable() sql1.run error:: ', err1);
+                    reject(500);    // 500 Internal Server Error (generic error)
+                    return;
+                } else {
+
+                    let sql2 = `CREATE TABLE IF NOT EXISTS SKUITEM_IN_INTERNALORDER(
+                                    INTERNAL_ORDER_ID INTEGER NOT NULL,
+                                    SKU_ID INTEGER NOT NULL,
+                                    RFID VARCHAR,
+                                    PRIMARY KEY (INTERNAL_ORDER_ID, SKU_ID, RFID),
+                                    FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
+                                )`;
+                    this.db.run(sql2, (err2) => {
+                        if(err2){
+                            // reports error while querying database
+                            console.log('clearSKUITEMinInternalOrdersTable() sql2.run error:: ', err2);
+                            reject(500);    // 500 Internal Server Error (generic error)
+                            return;
+                        } else {
+                            resolve(200);
+                            return;
+                        }
+                    });
+                }
+            });
+        });
+    }
     
     getInternalOrders() {
 
@@ -126,47 +232,6 @@ class InternalOrderDAO {
         });
     }
 
-    // getInternalOrders() {
-
-    //     return new Promise((resolve, reject) => {
-    //         // !!! session checking to be implemented !!!
-    //         let loggedAndAuthorized = true;
-    //         if(loggedAndAuthorized) {
-
-    //             let products = []
-    //             let sql1 = `SELECT T.ID, T.SKU_ID, SI.DESCRIPTION, SI.PRICE, SI.QTY, SI.RFID
-    //                         FROM (SELECT I.ID, S.SKU_ID
-    //                                 FROM INTERNAL_ORDERS I
-    //                                 JOIN SKUITEM_IN_INTERNALORDER S
-    //                                 WHERE I.ID = S.INTERNAL_ORDER_ID) T
-    //                         JOIN SKU_ITEMS SI
-    //                         WHERE T.SKU_ID=SI.ID`
-    //             this.db.getDB().all(sql1, (err, rows) => {
-    //                 if(err){
-    //                     // reports error while querying database
-    //                     console.log('getthis.InternalOrders() sql1.run error:: ', err);
-    //                     reject(500);    // 500 Internal Server Error (generic error)
-    //                     return;
-    //                 } else {
-    //                     products = rows.map((r) => (
-    //                         {
-    //                             orderid:r.ID,
-    //                             id:r.SKU_ID,
-    //                             description:r.DESCRIPTION,
-    //                             price:r.PRICE,
-    //                             qty:r.QTY
-    //                         }
-    //                     ));                    
-    //                 }                    
-    //             });
-    //             console.log(products);
-                
-    //         } else {
-    //             reject(401);    // 401 Unauthorized
-    //         }
-    //     });
-    // }
-
     createInternalOrder(orderData){
         return new Promise((resolve, reject) => {
             // !!! session checking to be implemented !!!
@@ -196,21 +261,25 @@ class InternalOrderDAO {
                             r.ID
                         ))[0];
 
-                        orderData.products.forEach(p => {
-                            let sql3 = `INSERT INTO SKU_IN_INTERNALORDER (INTERNAL_ORDER_ID, SKU_ID, DESCRIPTION, PRICE, QTY)
-                                        VALUES(?,?,?,?,?)`;
-                            this.db.run(sql3, [id, p.SKUId, p.description, p.price, p.qty], (err3) => {
-                                if(err3){
-                                    // reports error while querying database
-                                    console.log('createInternalOrder() sql3.all error:: ', err3);
-                                    reject(503);    // 503 Service Unavailable (generic error)
-                                    return;
-                                } else {
-                                    resolve(201);
-                                    return;
-                                }
+                        if(orderData.products.length > 0) {
+                            orderData.products.forEach(p => {
+                                let sql3 = `INSERT INTO SKU_IN_INTERNALORDER (INTERNAL_ORDER_ID, SKU_ID, DESCRIPTION, PRICE, QTY)
+                                            VALUES(?,?,?,?,?)`;
+                                this.db.run(sql3, [id, p.SKUId, p.description, p.price, p.qty], (err3) => {
+                                    if(err3){
+                                        // reports error while querying database
+                                        console.log('createInternalOrder() sql3.all error:: ', err3);
+                                        reject(503);    // 503 Service Unavailable (generic error)
+                                        return;
+                                    } else {
+                                        resolve(201);
+                                        return;
+                                    }
+                                });
                             });
-                        });
+                        } else {
+                            resolve(201);
+                        }
                     }
                 });
             }
@@ -276,9 +345,7 @@ class InternalOrderDAO {
                                             });
                                             
                                         }
-                                        data.products.forEach(p => {
-                                            
-                                        });
+                                        resolve(200);
                                     } else {
                                         resolve(200);   // 200 OK
                                         return; 
