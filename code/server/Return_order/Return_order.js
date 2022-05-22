@@ -24,7 +24,7 @@ async function get_return_order_by_id(req, res) {
 
   try {
     let orderbyid = await DAO.getReturnOrderbyId(req.params);
-    if (orderbyid===undefined) return res.status(404).json({error: 'No return order associated to id'}).end()
+    if (orderbyid===404) return res.status(404).json({error: 'No return order associated to id'}).end()
     return res.status(200).json(orderbyid).end(); 
   }catch(error){
     return res.status(500).json(error).end();
@@ -73,7 +73,7 @@ async function store_return_order(req, res) {
 // DELETE /api/returnOrder/:id
 async function delete_return_order(req, res) {
   let robyid = await DAO.getReturnOrderbyId(req.params);
-  if (robyid===undefined) return res.status(422).json({error: 'Not found - No return order associated to id'}).end(); 
+  if (robyid===404) return res.status(422).json({error: 'Not found - No return order associated to id'}).end(); 
 
   try{
     let db = await DAO.deleteReturnOrder(req.params)

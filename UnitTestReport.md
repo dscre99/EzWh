@@ -264,9 +264,9 @@ No boundaries for boolean predicates.
 
 |  data.id is digits only  | data.id exists | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-|T|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:1}; i.getItemByID(data); |Get item by id|
-|T|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:2}; i.getItemByID(data)-> reject |Get item by id|
-|F||Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); data={id:'T2'}; i.getItemByID(data)-> reject |Get item by id|
+|T|T|Valid| Method expects to return the Item specified by the ID |     testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});|
+|T|F|Invalid| Method expects to return empty object {}  |testGetItemById(3,{});|
+|F||Invalid| Method expects to return an empty object {} |testGetItemById('A',{}); |
 
 
 ### **Class *ItemDAO* - method *storeItem(data)***
@@ -299,9 +299,9 @@ No boundaries for boolean predicates.
 
 | data.id already exist in DB | data.SKUId exists in SKU table  | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|-------|
-|F|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({2,'desc',1.99,1,1}); | Store item |
-|F|F|Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({'1T','desc',1.99,1,1});-> reject(404) |Store item|
-|T||Invalid|ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.storeItem({1,'desc',1.99,1,1});-> reject |Store item|
+|F|T|Valid| Method expects to return 201, SKUId=1 exists in DB | testStoreItem(2, 'New item', 10.99, 1, 1, 201); |
+|F|F|Invalid| Method returns 404 because SKUId specified doesn't exist | testStoreItem(1, 'New item', 10.99, 2, 1, 404); |
+|T||Invalid| Method returns 503 because ItemID is already stored |testStoreItem(2, 'New item', 10.99, 1, 1, 503);|
 
 ### **Class *ItemDAO* - method *updateItem(data,params)***
 
@@ -334,8 +334,118 @@ No boundaries for boolean predicates.
 
 | params.id already exist in DB  | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-|T|Valid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},1); i.getItemByID(1); |Update item|
-|F|Invalid| ItemDAO i = new ItemDAO(db); i.storeItem({1,'desc',1.99,1,1}); i.updateItem({'new desc',2.99},2);-> reject |Update item|
+|T|Valid| Method expects to return 200 |testUpdateItem(2,'New description',9.99,200);|
+| F | Invalid | Check on ID is performed by another function, so this function will always receive a valid ID. | 
+
+## **Class *Restock Order***
+### **Class *Restock Order* - method *getRestockOrderByID(data)***
+
+**Criteria for method *getRestockOrderByID(data)*:**
+	
+ - data.id already exists in DB
+ 
+
+**Predicates for method *name*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|    data.id already exists in DB      |  True, False         |
+
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+
+
+| data.id already exists in DB| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+|T|Valid| Method expects to return the restock order given| testGetRestockOrderByID(1,{ id:1, issueDate: "2021/11/29 09:33", state: "ISSUED", products: [{ SKUId:1 description: "New PC", price: 1.99, qty: 30},{ SKUId:2, description: "New Pen", price: 10.99, qty: 15  }],supplierId: 1,transportNote: {},skuItems:[] });|
+|F|Invalid| Method expects to return undefined|    testGetRestockOrderByID(1,undefined);|
+
+### **Class *Restock Order* - method *addTransportNote(data,params)***
+
+**Criteria for method *addTransportNote(data,params)*:**
+
+ - params.id exists or not
+ - order state == DELIVERED
+ - data.deliveryDate is before issueDate
+
+**Predicates for method *addTransportNote(data,params)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|   params.id exists or not       |    True, False       |
+|    order state === "DELIVERED"      |    True, False       |
+|    data.deliveryDate is before issueDate      |     True, False      |
+
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+
+
+| params.id exists or not | order state == "DELIVERED"  | data.deliveryDate is before issueDate | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|
+|T|T|T|Valid|Method expects to return 200|testAddTransportNote(2,{deliveryDate:"2022/05/22 09:33"},200);|
+|T|T|F|Invalid|Method expects to return 422|testAddTransportNote(2,{deliveryDate:"2022/05/20 09:33"},422);|
+|T|F||Invalid|Method expects to return 422|testAddTransportNote(1,{deliveryDate:"2022/05/20 09:33"},422);|
+|F|||Invalid|Check on ID is performed by another function, so this function will always receive a valid ID.||
+
+ ### **Class *Return_orderDAO* - method *getReturnOrderbyId(data)***
+
+**Criteria for method *getReturnOrderbyId(data)*:**
+	
+ - data.id exists or not 
+
+
+**Predicates for method *getReturnOrderbyId(data)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|    data.id exists or not       |   True, False        |
+
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+
+
+| data.id exists or not | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+|T|Valid|Method must return the return order specified, including the list of products given|    testGetReturnOrderById(1,[{id: 1,products:  [{RFID: "12345678901234567890123456789015",SKUId: 1,description: "New Item",price: 10.99},{RFID: "12325678901534567790123456789015",SKUId: 2,description: "New Item",price: 10.99 }],restockOrderId: 2,returnDate: "2021/11/29 09:33" }]);|
+|F|Invalid|Method must return 404 if the specified ID doesn't exist|    testGetReturnOrderById(1,404);|
+
+ ### **Class *Return_orderDAO* - method *deleteReturnOrder(data)***
+
+**Criteria for method *deleteReturnOrder(data)*:**
+	
+ - data.id exists or not 
+
+
+**Predicates for method *deleteReturnOrder(data)*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|    data.id exists or not       |   True, False        |
+
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+
+
+| data.id exists or not | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|
+|T|Valid|Method must return 404 because test case calls getReturnOrderbyId after performing delete operation.  |  testDeleteReturnOrder(1,404);|
+|F|Invalid|Method always receives existing ID because check is done in API level function.|    
 
 
  ### **Class *SKUDao* - method *getSKUbyID(id)***
@@ -391,13 +501,43 @@ No boundaries for boolean predicates.
 
 | Unit name | Jest test case |
 |--|--|
-|ItemDAO|Store item|
-|ItemDAO|Update item|
-|ItemDAO|Get item by id|
-|ItemDAO|Get SKUID by item id|
-|ItemDAO|Get ID by Supplier id|
-|ItemDAO|Get items|
-|ItemDAO|Delete item|
+|storeItem|testStoreItem|
+|updateItem|testUpdateItem|
+|getItemByID|testGetItemById|
+|getSKUIDbyItemID|testGetSKUIDbyItemID|
+|getItembyIdSupp|testGetItembyIdSupp|
+|getItems|testGetItems|
+|deleteItem|testDeleteItem|
+|getRestockOrders|testGetRestockOrders|
+|getRestockOrdersIssued|testGetRestockOrdersIssued|
+|getRestockOrderDeliveredByID|testGetRestockOrderDeliveredByID|
+|getItemList|testGetItemList|
+|checkItemList|testCheckItemList|
+|getRestockOrderByID|testGetRestockOrderByID|
+|storeRestockOrder|testStoreRestockOrder|
+|storeProducts|testStoreProducts|
+|updateState|testUpdateState|
+|newSKUItemList|testNewSKUItemList|
+|addTransportNote|testAddTransportNote|
+|deleteRestockOrder|testDeleteRestockOrder|
+|dropTableReturnOrder|beforeAll|
+|newTableReturnOrder|beforeAll|
+|dropTableItemReturn|beforeAll|
+|newTableItemReturn|beforeAll|
+|getReturnOrders|testGetReturnOrders|
+|getRestockOrderbyID|testGetRestockOrderbyID|
+|getReturnOrderbyId|testGetReturnOrderById|
+|storeReturnOrder|testStoreReturnOrder|
+|setReturnItem|testSetReturnItem|
+|deleteReturnOrder|testDeleteReturnOrder|
+
+
+
+
+
+
+
+
 
 
 ### Code coverage report
@@ -413,9 +553,23 @@ No boundaries for boolean predicates.
 
 |Unit name | Loop rows | Number of iterations | Jest test case |
 |---|---|---|---|
+|getItems|40-46|0|testGetItems([]);|
+|getItems|40-46|1|testGetItems([{id:2,description:'New item',price:10.99,skuid:1,supplierid:1}]);|
+|getItems|40-46|2|     testGetItems([{id:2,description:'New description',price:9.99,skuid:1,supplierid:1},{id:3,description:'New item',price:10.99,skuid:1,supplierid:1}]);|
+|getRestockOrders|148-153|0|testGetRestockOrders([]);|
+|getRestockOrders|148-153|1|testGetRestockOrders([{id:1,issueDate: "2021/11/29 09:33",state: "ISSUED",products: [{SKUId:1,description: "New PC",price: 1.99,qty: 30},{SKUId:2,description: "New Pen",price: 10.99,qty: 15 }],supplierId: 1,transportNote: {},skuItems:[]}]);|
+|getRestockOrders|148-153|2|testGetRestockOrders([{SKUId:1,description: "New PC",price: 1.99,qty: 30},{SKUId:2,description: "New Pen",price: 10.99,qty: 15 }],supplierId: 1,transportNote: {},skuItems:[]},{id:2,issueDate: "2022/05/21 09:33",state: "ISSUED",products: [{SKUId:1,description: "New PC",price: 1.99,qty: 30},{SKUId:2,description: "New Pen",price: 10.99,qty: 15 }],supplierId: 1,transportNote: {},skuItems:[]}]);|
+|getRestockOrdersIssued|211-223|0|testGetRestockOrdersIssued([]);|
+|getRestockOrdersIssued|211-223|1|    testGetRestockOrdersIssued([{id:1,issueDate: "2021/11/29 09:33",state: "ISSUED",products: [{SKUId:1,description: "New PC",price: 1.99,qty: 30},{SKUId:2,description: "New Pen",price: 10.99,qty: 15 }],supplierId: 1, skuItems:[]}]);|
+|getRestockOrdersIssued|211-223|2|testGetRestockOrdersIssued([{SKUId:1,description: "New PC",price: 1.99,qty: 30},{SKUId:2,description: "New Pen",price: 10.99,qty: 15 }],supplierId: 1, skuItems:[]},{id:2,issueDate: "2022/05/21 09:33",state: "ISSUED",products: [{SKUId:1,description: "New PC",price: 1.99,qty: 30},{SKUId:2,description: "New Pen",price: 10.99,qty: 15 }],supplierId: 1,skuItems:[]}]);|
+|getItemList|92-95|0|testGetItemList(1,[]);|
+|getItemList|92-95|1|testGetItemList(2,[{SKUId: 1,rfid: "12345678901234567890123456789015"}]);|
+|getItemList|92-95|2|testGetItemList(2,[{SKUId: 1,rfid: "12345678901234567890123456789015"},{SKUId: 2,rfid: "12325678901534567790123456789015"}]);|
+|getReturnOrders|91-99|0|testGetReturnOrders([]);|
+|getReturnOrders|91-99|1|testGetReturnOrders([{id: 1,products:  [{RFID: "12345678901234567890123456789015",SKUId: 1,description: "New Item",price: 10.99},{RFID: "12325678901534567790123456789015",SKUId: 2,description: "New Item",price: 10.99 }],restockOrderId: 2,returnDate: "2021/11/29 09:33" }]);|
+|getReturnOrders|91-99|2|testGetReturnOrders([{id: 1,products:  [{RFID: "12345678901234567890123456789015",SKUId: 1,description: "New Item",price: 10.99},{RFID: "12325678901534567790123456789015",SKUId: 2,description: "New Item",price: 10.99 }],restockOrderId: 2,returnDate: "2021/11/29 09:33" },{id:2,products:[],restockOrderId:2, returnDate: "2022/05/22 09:33"}]);|
 |||||
 |||||
-||||||
 
 
 

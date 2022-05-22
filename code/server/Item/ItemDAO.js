@@ -122,9 +122,9 @@ class ItemDAO {
     }
 
     storeItem(data) {
-        return new Promise((resolve, reject) => {
+        return new Promise( async (resolve, reject) => {
             const sql1 = 'SELECT * FROM SKU WHERE ID = ?';
-            this.db.all(sql1, data.SKUId, (err,rows)=>{
+              await this.db.all(sql1, data.SKUId, (err,rows)=>{
                 if(err){
                     reject(503);
                 }
@@ -133,7 +133,7 @@ class ItemDAO {
                     return;
                 }else{
                     const sql = ' INSERT INTO ITEM (ID,DESCRIPTION, PRICE, SKUID, SUPPLIERID) VALUES (?,?,?,?,?) ';
-                    this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
+                      this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
                         if (err) {
                             reject(503);
                         }
