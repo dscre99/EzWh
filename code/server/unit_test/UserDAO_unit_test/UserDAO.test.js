@@ -1,10 +1,7 @@
-//const EZWH_db = require('../../EZWH_db/EZWH_db');
 const DB = require('../../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const UserDAO = require('../../User/UserDAO');
 const UserDAOinstance = new UserDAO(DBinstance);
-//const DB = require('./mockDB')
-//const UserDAOinstance = new UserDAO(DB);
 
 
 function testSample(expectedString) {

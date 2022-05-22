@@ -59,7 +59,9 @@ Version:
 
 
 
- ### **Class *UserDAO***
+ ## **Class *UserDAO***
+
+ ### **Class *UserDAO* - method *getUser(data)***
 
 **Criteria for method *getUser(data)*:**
  - Username exists
@@ -82,6 +84,8 @@ No boundaries for boolean predicates.
 |           T          |          T          |      Valid      |               User exists and is logged in, correct data is returned.               | testGetUser (); |
 |           T          |          F          |     Invalid     | User exists but it is not logged in, test fails. (Sessions still to be implemented) |  testGetUser(); |
 |           F          |          -          |     Invalid     |                          User does not exists, test fails.                          |  testGetUser(); |
+
+### **Class *UserDAO* - method *getSuppliers()***
 
 **Criteria for method *getSuppliers()*:**
  - Suppliers registered in the system (C1)
@@ -106,6 +110,7 @@ No boundaries for boolean predicates.
 |                    -                    |              F              |     Invalid     |                     DB error, test fails                     |         testGetSuppliers ();        |
 
 
+### **Class *UserDAO* - method *getUsers()***
 
 **Criteria for method *getUsers()*:**
  - Users registered in the system (C1)
@@ -132,6 +137,8 @@ No boundaries for boolean predicates.
 |                    -                    |              F              |     Invalid     |                     DB error, test fails                     |         testGetUsers ();        |
 
 
+### **Class *UserDAO* - method *newUser(newUserData)***
+
 **Criteria for method *newUser(newUserData)*:**
  - New user does not already exist in the system (C1)
  - DB queries successfull (C2)
@@ -155,6 +162,8 @@ No boundaries for boolean predicates.
 |                          F                         |              T              |     Invalid     |            Method expected to return 409 Conflict.           | testNewUser('dscre@ezwh.com','Simone','Crescenzo','testpassword','manager', 201); testNewUser('dscre@ezwh.com','Simone','Crescenzo','testpassword','manager', 409); |
 |                          -                         |              F              |     Invalid     |                     DB error, test fails                     |                                                                            testNewUser();                                                                           |
 
+
+### **Class *UserDAO* - method *userSession(userData)***
 
 **Criteria for method *userSession(userData)*:**
  - User registered (C1)
@@ -183,6 +192,8 @@ No boundaries for boolean predicates.
 |           -          |          -          |              F              |     Invalid     |        Method expected to return 500.       |                              testUserSession();                              |
 
 
+### **Class *UserDAO* - method *modifyUserType(newUserData)***
+
 **Criteria for method *modifyUserType(newUserData)*:**
  - User exists (C1)
  - DB queries successfull (C2)
@@ -206,6 +217,8 @@ No boundaries for boolean predicates.
 |         F        |              T              |     Invalid     | Method expected to return 404. | testModifyUserType('notexisting@ezwh.com', 'supplier', 'customer', 404); |
 |         -        |              F              |     Invalid     | Method expected to return 500. |                           testModifyUserType();                          |
 
+
+### **Class *UserDAO* - method *deleteUser(userData)***
 
 **Criteria for method *deleteUser(userData)*:**
 - DB queries successfull (C1)
@@ -445,7 +458,106 @@ No boundaries for boolean predicates.
 | data.id exists or not | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
 |T|Valid|Method must return 404 because test case calls getReturnOrderbyId after performing delete operation.  |  testDeleteReturnOrder(1,404);|
-|F|Invalid|Method always receives existing ID because check is done in API level function.|    
+|F|Invalid|Method always receives existing ID because check is done in API level function.|
+
+
+## **Class *InternalOrderDAO***
+
+### **Class *InternalOrderDAO* - method *getInternalOrders()***
+
+**Criteria for method *getInternalOrders()*:**
+ - DB queries successfull (C1)
+ - (Note: data format is checked at API level, so it is considered correct at DAO level).
+
+**Predicates for method *getInternalOrders()*:**
+
+|  Criteria  |  Predicate    |
+|:----------:|:-------------:|
+|     C1     |  True, False  |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| DB queries successfull(C1) | Valid / Invalid |         Description of the test case        |           Jest test case           |
+|:--------------------------:|:---------------:|:-------------------------------------------:|:----------------------------------:|
+|              T             |      Valid      | Method expected to return user data object. | testGetInternalOrders(resExpected) |
+|              F             |     Invalid     |        Method expected to return 500.       |                  -                 |
+
+
+### **Class *InternalOrderDAO* - method *createInternalOrder()***
+
+**Criteria for method *createInternalOrder()*:**
+ - DB queries successfull (C1)
+ - (Note: data format is checked at API level, so it is considered correct at DAO level).
+
+**Predicates for method *createInternalOrder()*:**
+
+|  Criteria  |  Predicate    |
+|:----------:|:-------------:|
+|     C1     |  True, False  |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| DB queries successfull(C1) | Valid / Invalid |         Description of the test case        |                 Jest test case                 |
+|:--------------------------:|:---------------:|:-------------------------------------------:|:----------------------------------------------:|
+|              T             |      Valid      | Method expected to return user data object. | testCreateInternalOrder(orderData,resExpected) |
+|              F             |     Invalid     |        Method expected to return 500.       |                        -                       |
+
+
+### **Class *InternalOrderDAO* - method *modifyInternalOrderState()***
+
+**Criteria for method *modifyInternalOrderState()*:**
+ - DB queries successfull (C1)
+ - (Note: data format is checked at API level, so it is considered correct at DAO level).
+
+**Predicates for method *modifyInternalOrderState()*:**
+
+|  Criteria  |  Predicate    |
+|:----------:|:-------------:|
+|     C1     |  True, False  |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| DB queries successfull(C1) | Valid / Invalid |         Description of the test case        |                 Jest test case                 |
+|:--------------------------:|:---------------:|:-------------------------------------------:|:----------------------------------------------:|
+|              T             |      Valid      | Method expected to return user data object. | testModifyInternalOrder(orderData, resExpected) |
+|              F             |     Invalid     |        Method expected to return 500.       |                        -                       |
+
+
+### **Class *InternalOrderDAO* - method *deleteInternalOrder()***
+
+**Criteria for method *deleteInternalOrder()*:**
+ - DB queries successfull (C1)
+ - (Note: data format is checked at API level, so it is considered correct at DAO level).
+
+**Predicates for method *deleteInternalOrder()*:**
+
+|  Criteria  |  Predicate    |
+|:----------:|:-------------:|
+|     C1     |  True, False  |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| DB queries successfull(C1) | Valid / Invalid |         Description of the test case        |                 Jest test case                 |
+|:--------------------------:|:---------------:|:-------------------------------------------:|:----------------------------------------------:|
+|              T             |      Valid      | Method expected to return user data object. | testDeleteInternalOrder(orderID, resExpected) |
+|              F             |     Invalid     |        Method expected to return 500.       |                        -                       |
+
+
+
+
+
 
 
  ### **Class *SKUDao* - method *getSKUbyID(id)***
@@ -530,10 +642,17 @@ No boundaries for boolean predicates.
 |storeReturnOrder|testStoreReturnOrder|
 |setReturnItem|testSetReturnItem|
 |deleteReturnOrder|testDeleteReturnOrder|
-
-
-
-
+|InternalOrderDAO.getInternalOrders()|InternalOrderDAO.test.js -> testGetInternalOrders(resExpected)|
+|InternalOrderDAO.createInternalOrder(orderData)|InternalOrderDAO.test.js -> testCreateInternalOrder(orderData, resExpected)|
+|InternalOrderDAO.modifyInternalOrderState(data)|InternalOrderDAO.test.js -> testModifyInternalOrder(orderData, resExpected)|
+|InternalOrderDAO.deleteInternalOrder(orderId)|InternalOrderDAO.test.js -> testDeleteInternalOrder(orderID, resExpected)|
+|UserDAO.getUser(data)|UserDAO.test.js -> testGetUser()|
+|UserDAO.getSuppliers()|UserDAO.test.js -> testGetSuppliers(resExpected)|
+|UserDAO.getUsers()|UserDAO.test.js -> testGetUser()|
+|UserDAO.newUser(newUserData)|UserDAO.test.js -> testNewUser(username, name, surname, password, type, resExpected)|
+|UserDAO.userSession(userData)|UserDAO.test.js -> testUserSession(username, password, type, idExpected, nameExpected, errExpected)|
+|UserDAO.modifyUserType(newUserData)|UserDAO.test.js -> testModifyUserType(username, oldType, newType, resExpected)|
+|UserDAO.deleteUser(userData)|UserDAO.test.js -> testDeleteUser(username, type)|
 
 
 
@@ -568,8 +687,14 @@ No boundaries for boolean predicates.
 |getReturnOrders|91-99|0|testGetReturnOrders([]);|
 |getReturnOrders|91-99|1|testGetReturnOrders([{id: 1,products:  [{RFID: "12345678901234567890123456789015",SKUId: 1,description: "New Item",price: 10.99},{RFID: "12325678901534567790123456789015",SKUId: 2,description: "New Item",price: 10.99 }],restockOrderId: 2,returnDate: "2021/11/29 09:33" }]);|
 |getReturnOrders|91-99|2|testGetReturnOrders([{id: 1,products:  [{RFID: "12345678901234567890123456789015",SKUId: 1,description: "New Item",price: 10.99},{RFID: "12325678901534567790123456789015",SKUId: 2,description: "New Item",price: 10.99 }],restockOrderId: 2,returnDate: "2021/11/29 09:33" },{id:2,products:[],restockOrderId:2, returnDate: "2022/05/22 09:33"}]);|
+|getInternalOrders|197-218|0|InternalOrderDAO.test.js - line 61|
+|getInternalOrders|197-218|1|InternalOrderDAO.test.js - line 84|
+|getInternalOrders|197-218|2|InternalOrderDAO.test.js - line 177|
+|createInternalOrder|265-279|0|InternalOrderDAO.test.js - line 327|
+|createInternalOrder|265-279|1|InternalOrderDAO.test.js - line 334|
+|createInternalOrder|265-279|2|InternalOrderDAO.test.js - line 151|
 |||||
-|||||
+
 
 
 

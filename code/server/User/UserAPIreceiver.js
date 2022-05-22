@@ -421,7 +421,6 @@ async function modify_user_type(req, res) {
     
     requiredKeys.forEach(key => {
         
-
         if(!Object.keys(userData).includes(key)){
             // checks for necessary field presence
             valid = false;
