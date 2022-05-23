@@ -350,15 +350,15 @@ No boundaries for boolean predicates.
 |T|Valid| Method expects to return 200 |testUpdateItem(2,'New description',9.99,200);|
 | F | Invalid | Check on ID is performed by another function, so this function will always receive a valid ID. | 
 
-## **Class *Restock Order***
-### **Class *Restock Order* - method *getRestockOrderByID(data)***
+## **Class *Restock_orderDAO***
+### **Class *Restock_orderDAO* - method *getRestockOrderByID(data)***
 
 **Criteria for method *getRestockOrderByID(data)*:**
 	
  - data.id already exists in DB
  
 
-**Predicates for method *name*:**
+**Predicates for method *getRestockOrderByID(data)*:**
 
 | Criteria | Predicate |
 | -------- | --------- |
@@ -377,7 +377,7 @@ No boundaries for boolean predicates.
 |T|Valid| Method expects to return the restock order given| testGetRestockOrderByID(1,{ id:1, issueDate: "2021/11/29 09:33", state: "ISSUED", products: [{ SKUId:1 description: "New PC", price: 1.99, qty: 30},{ SKUId:2, description: "New Pen", price: 10.99, qty: 15  }],supplierId: 1,transportNote: {},skuItems:[] });|
 |F|Invalid| Method expects to return undefined|    testGetRestockOrderByID(1,undefined);|
 
-### **Class *Restock Order* - method *addTransportNote(data,params)***
+### **Class *Restock_orderDAO* - method *addTransportNote(data,params)***
 
 **Criteria for method *addTransportNote(data,params)*:**
 
@@ -661,10 +661,6 @@ No boundaries for boolean values
 |newSKUItemList|testNewSKUItemList|
 |addTransportNote|testAddTransportNote|
 |deleteRestockOrder|testDeleteRestockOrder|
-|dropTableReturnOrder|beforeAll|
-|newTableReturnOrder|beforeAll|
-|dropTableItemReturn|beforeAll|
-|newTableItemReturn|beforeAll|
 |getReturnOrders|testGetReturnOrders|
 |getRestockOrderbyID|testGetRestockOrderbyID|
 |getReturnOrderbyId|testGetReturnOrderById|
@@ -697,6 +693,12 @@ No boundaries for boolean values
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
 <img src="./UnitTestCoverage_images/InternalOrderDAO_unit_test_coverage.png" alt="Context Diagram">
+Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
+
+<img src="./UnitTestCoverage_images/ReturnOrderDAO_unit_test_coverage.png" alt="Context Diagram">
+Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
+
+<img src="./UnitTestCoverage_images/RestockOrderDAO_unit_test_coverage.png" alt="Context Diagram">
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
 

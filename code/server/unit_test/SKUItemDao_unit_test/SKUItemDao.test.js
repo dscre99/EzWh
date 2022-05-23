@@ -6,7 +6,7 @@ const SKUDao = require('../../SKU/SKUdao');
 const SKUDaoInstance = new SKUDao(DBinstance);
 
 function testNewSKUItem(rfid, skuid, dateOfStock, expected) {
-    test('test new SKU Item', async () => {
+    test('test_new_SKU_Item', async () => {
         let skuItem = {
             RFID: rfid,
             SKUId: skuid,
@@ -22,14 +22,14 @@ function testNewSKUItem(rfid, skuid, dateOfStock, expected) {
 }
 
 function testGetSKUItems(expected) {
-    test('get sku Items', async () => {
+    test('get_sku_Items', async () => {
         let res = await SKUItemDaoInstance.getSKUItems();
         expect(res).toEqual(expected);
     });
 }
 
 function testGetSKUItemsBySKUId(id, expected) {
-    test('get sku Items by SKU id', async () => {
+    test('get_sku_Items_by_SKU_id', async () => {
         try {
             let res = await SKUItemDaoInstance.getSKUItemsBySKUID(id);
             expect(res).toEqual(expected);
@@ -40,7 +40,7 @@ function testGetSKUItemsBySKUId(id, expected) {
 }
 
 function testGetSKUItemsByRfid(rfid, expected) {
-    test('get SKU Items by RFID', async () => {
+    test('get_SKU_Items_by_RFID', async () => {
         try {
             let res = await SKUItemDaoInstance.getSKUItemsByRfid(rfid);
             expect(res).toEqual(expected);
@@ -51,7 +51,7 @@ function testGetSKUItemsByRfid(rfid, expected) {
 }
 
 function testModifySKUItem(oldRfid, newRfid, newAvailable, newDateOfStock, expected) {
-    test('modify SKU Item', async () => {
+    test('modify_SKU_Item', async () => {
         let data = {
             "oldRfid": oldRfid,
             "newRfid": newRfid,
@@ -68,7 +68,7 @@ function testModifySKUItem(oldRfid, newRfid, newAvailable, newDateOfStock, expec
 }
 
 function testDeleteSKUItemByRfid(rfid, expected) {
-    test('delete SKU Item by rfid', async () => {
+    test('delete_SKU_Item_by_rfid', async () => {
         let res = await SKUItemDaoInstance.deleteSKUItembyRfid();
         expect(res).toEqual(expected);
     });

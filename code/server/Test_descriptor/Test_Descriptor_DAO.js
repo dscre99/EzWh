@@ -1,100 +1,124 @@
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./Test_Descriptor/EZWH_Daniele.db', sqlite3.OPEN_READWRITE, (err) => {
-	/*if(err) {
-        console.log("ERROREE")
-		throw(err);
-	} else {
-		console.log("Connected to the Database!")
-	}*/
-} )
+const DB = require('../EZWH_db/RunDB');
+const DBinstance = DB.DBinstance;
 
 
-function get_test_descriptors_DB() {
-    return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM TEST_DESCRIPTOR;';
-        db.all(sql, [], (err, rows) => {
-            if(err){
-                reject(err);
-                return;
-            }
-            const test_descriptors = rows.map((test_descriptor) => (
-                {
-                    id:test_descriptor.id,
-                    name:test_descriptor.name,
-                    procedureDescription:test_descriptor.procedureDescription,
-                    idSKU:test_descriptor.idSKU
+
+class TestDescriptorDAO {
+    #db = undefined;
+
+    constructor() {
+        this.#db = DBinstance;
+    }
+
+    dropTestDescriptorTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DROP TABLE IF EXISTS TEST_DESCRIPTOR';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
                 }
-            ));
-            resolve(test_descriptors);
+                resolve(200)
+            })
         });
-    });
-}
+    }
 
-function get_test_descriptor_by_ID_DB(id) {
-    return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM TEST_DESCRIPTOR WHERE id = ?';
-           db.all(sql, [id], (err, rows) => {
+    newTestDescriptorTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE TEST_DESCRIPTOR ( "ID" INTEGER, "NAME" TEXT, "PROCEDUREDESCRIPTION" TEXT, "IDSKU" INTEGER, PRIMARY KEY("ID" AUTOINCREMENT))';
+            this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                } else {
-                    const test_descriptor = rows.map((test_descriptor) => (
-                        {
-                            id:test_descriptor.id,
-                            name:test_descriptor.name,
-                            procedureDescription:test_descriptor.procedureDescription,
-                            idSKU:test_descriptor.idSKU
-                        }
-                    ));
-                    test_descriptor.length === 0 ? reject(`Test Descriptor with id=${id} doesn't exist!`) : resolve(test_descriptor);
                 }
+                resolve(200);
             });
-    });
-}
-
-function post_test_descriptor_DB(data) { 
-    return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO TEST_DESCRIPTOR(id, name, procedureDescription, idSKU) VALUES (?,?,?,?)';
-        db.run(sql, [data.id, data.name, data.procedureDescription, data.idSKU], (err) => {
-            if (err) {
-                reject(err);
-                return
-            }
-            resolve(data.id);
         });
-    });
-}
+    }
 
-function put_test_descriptor_by_ID_DB(id, body) {
-    return new Promise((resolve, reject) => {
-        const sql = 'UPDATE TEST_DESCRIPTOR SET name=?,procedureDescription=?, idSKU= ? WHERE id = ?';
-           db.run(sql, [body.name, body.procedureDescription, body.idSKU, id], (err) => {
+
+    get_test_descriptors_DB() {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM TEST_DESCRIPTOR;';
+            this.#db.all(sql, [], (err, rows) => {
+                if(err){
+                    reject(err);
+                }
+                const test_descriptors = rows.map((test_descriptor) => (
+                    {
+                        ID:test_descriptor.ID,
+                        NAME:test_descriptor.NAME,
+                        PROCEDUREDESCRIPTION:test_descriptor.PROCEDUREDESCRIPTION,
+                        IDSKU:test_descriptor.IDSKU
+                    }
+                ));
+                resolve(test_descriptors);
+            });
+        });
+    }
+    
+    get_test_descriptor_by_ID_DB(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT * FROM TEST_DESCRIPTOR WHERE id = ?';
+            this.#db.all(sql, [id], (err, rows) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        const test_descriptor = rows.map((test_descriptor) => (
+                            {
+                                ID:test_descriptor.ID,
+                                NAME:test_descriptor.NAME,
+                                PROCEDUREDESCRIPTION:test_descriptor.PROCEDUREDESCRIPTION,
+                                IDSKU:test_descriptor.IDSKU
+                            }
+                        ));
+                        test_descriptor.length === 0 ? reject(`Test Descriptor with id=${id} doesn't exist!`) : resolve(test_descriptor);
+                    }
+                });
+        });
+    }
+    
+    post_test_descriptor_DB(data) { 
+        return new Promise((resolve, reject) => {
+            const sql = 'INSERT INTO TEST_DESCRIPTOR(NAME, PROCEDUREDESCRIPTION, IDSKU) VALUES (?,?,?)';
+            this.#db.run(sql, [data.NAME, data.PROCEDUREDESCRIPTION, data.IDSKU], (err) => {
                 if (err) {
                     reject(err);
-                } else {
-                    resolve(true);
                 }
+                resolve(true);
             });
+        });
+    }
+    
+    put_test_descriptor_by_ID_DB(id, body) {
+        return new Promise((resolve, reject) => {
+            const sql = 'UPDATE TEST_DESCRIPTOR SET name=?,procedureDescription=?, idSKU= ? WHERE id = ?';
+            this.#db.run(sql, [body.NAME, body.PROCEDUREDESCRIPTION, body.IDSKU, id], (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(true);
+                    }
+                });
+    
+        });
+    }
+    
+    
+    delete_test_descriptor_by_ID_DB(id) {
+        return new Promise((resolve, reject) => {
+            const sql = 'DELETE FROM TEST_DESCRIPTOR WHERE id=?;';
+            this.#db.run(sql, [id], (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(true);
+                    }
+                });
+    
+        });
+    }
+    
 
-    });
+
 }
 
-
-function delete_test_descriptor_by_ID_DB(id) {
-    return new Promise((resolve, reject) => {
-        const sql = 'DELETE FROM TEST_DESCRIPTOR WHERE id=?;';
-           db.run(sql, [id], (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(true);
-                }
-            });
-
-    });
-}
-
-
-
-
-
-module.exports = {get_test_descriptors_DB, get_test_descriptor_by_ID_DB, post_test_descriptor_DB, put_test_descriptor_by_ID_DB, delete_test_descriptor_by_ID_DB}
+module.exports = TestDescriptorDAO;

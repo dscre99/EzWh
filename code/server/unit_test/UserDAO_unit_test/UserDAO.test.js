@@ -13,7 +13,7 @@ function testSample(expectedString) {
 
 function testNewUser(username, name, surname, password, type, resExpected){
 
-        test('new user', async () => {
+        test('new_user', async () => {
             let user = {
                 username:username,
                 name:name,
@@ -35,7 +35,7 @@ function testNewUser(username, name, surname, password, type, resExpected){
 
 function testGetUser(){
 
-    test('get user', async () => {
+    test('get_user', async () => {
         let res = await UserDAOinstance.getUser();
         expect(res).toEqual([{
             id: 1,
@@ -50,7 +50,7 @@ function testGetUser(){
 
 function testGetSuppliers(resExpected){
 
-    test('get suppliers', async () => {
+    test('get_suppliers', async () => {
             let res = await UserDAOinstance.getSuppliers();
             expect(res).toEqual(resExpected);
     });
@@ -59,7 +59,7 @@ function testGetSuppliers(resExpected){
 
 function testGetUsers(resExpected){
 
-    test('get users', async () => {
+    test('get_users', async () => {
         let res = await UserDAOinstance.getUsers();
         expect(res).toEqual(resExpected);
     });
@@ -68,7 +68,7 @@ function testGetUsers(resExpected){
 
 function testUserSession(username, password, type, idExpected, nameExpected, errExpected){
 
-    test('get users', async () => {
+    test('get_users_sessions', async () => {
 
         let userData = {
             username:username,
@@ -94,7 +94,7 @@ function testUserSession(username, password, type, idExpected, nameExpected, err
 
 function testModifyUserType(username, oldType, newType, resExpected){
 
-    test('get users', async () => {
+    test('modify_user_type', async () => {
 
         let userData = {
             username:username,
@@ -114,7 +114,7 @@ function testModifyUserType(username, oldType, newType, resExpected){
 
 function testDeleteUser(username, type){
 
-    test('get users', async () => {
+    test('delete_user', async () => {
 
         let userData = {
             username:username,
