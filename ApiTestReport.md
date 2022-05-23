@@ -21,7 +21,7 @@ Version:
 
 # Dependency graph 
 
-     <report the here the dependency graph of the classes in EzWH, using plantuml or other tool>
+<img src="./Dependency_graph_img/Dependency_Graph.png" alt="Dependency Graph">
      
 # Integration approach
 
@@ -29,8 +29,17 @@ Version:
     (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
     <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
     <One step will  correspond to API testing>
-    
 
+The integration sequence adopted is top down: starting from DAO classes, we have developed testing because no dependencies were present, witouth the use of mock-ups and interacting directly with the DB. This step corresponds to unit testing.
+
+The reason of this choice is that methods of each DAO are supposed to interact with the database only and perform just some minor check and validation on data received: all the major checks are performed on API level (A).
+
+Once unit test have been done and validated, integration test has been performed using receiver classes.
+Also in this case, since the connection with the DB is performed by DAO classes already tested, no mock-ups have been used. This step correspond to API testing (A+B).
+
+
+
+    
 
 #  Integration Tests
 
@@ -40,7 +49,18 @@ Version:
 ## Step 1
 | Classes  | mock up used |Jest test cases |
 |--|--|--|
-||||
+|InternalOrderDAO|| getInternalOrders, createInternalOrder,  modifyInternalOrder, modifyInternalOrder|
+|ItemDAO||testStoreItem, testUpdateItem, testGetItemById, testGetSKUIDbyItemID, testGetItembyIdSupp, testGetItems, testDeleteItem|
+|Position_DAO|||
+|Restock_orderDAO||testGetRestockOrders, testGetRestockOrdersIssued, testGetRestockOrderDeliveredByID, testGetItemList, testCheckItemList, testGetRestockOrderByID, testStoreRestockOrder, testStoreProducts, testUpdateState, testNewSKUItemList, testAddTransportNote, testDeleteRestockOrder|
+|Return_orderDAO||testGetReturnOrders, testGetRestockOrderbyID, testGetReturnOrderById, testStoreReturnOrder, testSetReturnItem, testDeleteReturnOrder|
+|SKUdao||new_sku, get_skus, get_sku_by_id, modify_sku, test_modify_SKU_position, test_delete_sku_by_id|
+|SKU_Item||test_new_SKU_Item, get_sku_Items, get_sku_Items_by_SKU_id, get_SKU_Items_by_RFID, modify_SKU_Item, delete_SKU_Item_by_rfid|
+|Test_Descriptor_DAO|||
+|Test_result_DAO|||
+|UserDAO||new_user, get_user, get_suppliers, get_users, get_users_sessions, modify_user_type, delete_user, |
+
+
 
 
 ## Step 2
