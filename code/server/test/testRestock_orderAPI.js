@@ -103,7 +103,7 @@ function testGETItemList(id, SKUId, rfid, expectedHTTPstatus) {
             res.should.have.status(expectedHTTPstatus);
             if(res.status == 200) {
                 res.body.SKUId.should.equal(SKUId);
-                res.body.rfid.should.equal(rfid);
+                res.body.rfid.should.equal(rfid); 
             }
         });
     });
@@ -158,7 +158,7 @@ function testDELETERestockOrder(id,expectedHTTPStatus) {
     });
 }
 
-describe('test Restock_order.js.js', () => {
+describe('test Restock_order.js', () => {
 
     before(async () => {
         await agent.delete('/api/clearRestockOrdertable');

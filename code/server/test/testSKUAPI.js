@@ -26,7 +26,10 @@ function testGetSKUs(expected, expectedHTTPStatus) {
             }
         });
     });
+<<<<<<< HEAD
 
+=======
+>>>>>>> d49dbcf88c574923c1dff27c943c5fbece387c1a
 }
 
 function testGetSKUByID(id, expected, expectedHTTPStatus) {
@@ -79,6 +82,7 @@ function testModifySKU(id, modifications, expectedHTTPStatus) {
         await agent.put('/api/sku/' + id).send(modifications).then(function (res) {
             res.should.have.status(expectedHTTPStatus);
         });
+<<<<<<< HEAD
     });
 }
 
@@ -128,3 +132,7 @@ describe('test sku apis', () => {
     testGetSKUByID(1, exp[0], 200);
     testGetSKUs(exp, 200);
 });
+=======
+    })
+}
+>>>>>>> d49dbcf88c574923c1dff27c943c5fbece387c1a
