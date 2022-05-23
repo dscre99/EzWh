@@ -136,7 +136,8 @@ class Return_orderDAO{
                 if (err) {
                     reject(err);
                 }else{
-                    products = rows.map((r) => ({
+                    products = rows.map((r) => (
+                        {
                             returnorderid: r.RETURNORDERID,
                             description: r.DESCRIPTION,
                             skuid:r.SKUID,
@@ -161,7 +162,7 @@ class Return_orderDAO{
                         {
                             id: r.ID,
                             returnDate: r.RETURNDATE,
-                            products: products.map((d)=>({
+                            products: products.filter(key=>key.returnorderid===r.ID).map((d)=>({
                                 SKUId:d.skuid,
                                 description : d.description,
                                 price: d.price,

@@ -28,10 +28,10 @@ const { clear_user_table, new_user, get_user, get_suppliers, get_users, manager_
 // RESTOCK ORDER receivers
 const { get_restock_order, get_restock_order_issued, get_restock_order_by_id, get_item_list,
         store_restock_order, update_restock_order_state, add_skuitems_to_restock_order,
-        add_tnote_to_restock_order, delete_restock_order } = require('../Restock_order/Restock_order');
+        add_tnote_to_restock_order, delete_restock_order, clear_restock_order_table } = require('../Restock_order/Restock_order');
 
 // RETURN ORDER receivers
-const { get_return_orders, get_return_order_by_id, store_return_order, delete_return_order } = require('../Return_order/Return_order');
+const { clear_return_order_table, get_return_orders, get_return_order_by_id, store_return_order, delete_return_order } = require('../Return_order/Return_order');
 
 // INTERNAL ORDER receivers
 const { get_internal_orders, get_issued_orders, get_accepted_orders, get_internal_order_by_id,
@@ -96,12 +96,14 @@ router.put('/restockOrder/:id', update_restock_order_state);    // PUT /api/rest
 router.put('/restockOrder/:id/skuItems', add_skuitems_to_restock_order);    // PUT /api/restockOrder/:id/skuItems
 router.put('/restockOrder/:id/transportNote', add_tnote_to_restock_order);  // PUT /api/restockOrder/:id/transportNote
 router.delete('/restockOrder/:id', delete_restock_order);   // DELETE /api/restockOrder/:id
+router.delete('/clearRestockOrdertable',clear_restock_order_table); // DELETE /api/clearRestockOrdertable
 
 // RETURN ORDER routes
 router.get('/returnOrders', get_return_orders); //GET /api/returnOrders
 router.get('/returnOrders/:id', get_return_order_by_id); // GET /api/returnOrders/:id
 router.post('/returnOrder', store_return_order);    // POST /api/returnOrder
 router.delete('/returnOrder/:id', delete_return_order); // DELETE /api/returnOrder/:id
+router.delete('/clearReturnOrdertable', clear_return_order_table); //DELETE /api/clearReturnOrdertable
 
 // INTERNAL ORDER routes
 router.get('/internalOrders', get_internal_orders); //GET /api/internalOrders

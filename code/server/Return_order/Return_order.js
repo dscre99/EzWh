@@ -72,8 +72,12 @@ async function store_return_order(req, res) {
 
 // DELETE /api/returnOrder/:id
 async function delete_return_order(req, res) {
+  if (!parseInt(req.params['id'])) {
+    return res.status(422).json({ error: 'Unprocessable Entity ' }).end();
+  }
+  
   let robyid = await DAO.getReturnOrderbyId(req.params);
-  if (robyid===404) return res.status(422).json({error: 'Not found - No return order associated to id'}).end(); 
+  if (robyid===404) return res.status(404).json({error: 'Not found - No return order associated to id'}).end(); 
 
   try{
     let db = await DAO.deleteReturnOrder(req.params)
@@ -83,4 +87,19 @@ async function delete_return_order(req, res) {
   }
 }
 
-module.exports = { get_return_orders, get_return_order_by_id, store_return_order, delete_return_order }
+async function clear_return_order_table(req,res){
+  try{
+    let res1 = await DAO.dropTableReturnOrder();
+    let res2= await DAO.dropTableItemReturn();
+    
+    let new1 = await DAO.newTableReturnOrder();
+    let new2 = await DAO.newTableItemReturn();
+
+    res.status(200).end();
+
+  }catch(err){
+    res.status(500).end();
+  }
+}
+
+module.exports = { clear_return_order_table, get_return_orders, get_return_order_by_id, store_return_order, delete_return_order }

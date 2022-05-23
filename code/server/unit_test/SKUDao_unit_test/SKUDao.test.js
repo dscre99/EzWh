@@ -7,7 +7,7 @@ const positionInstance = new position(DBinstance);
 
 
 function testNewSKU(description, weight, volume, notes, price, availableQuantity, expected) {
-    test('new sku', async () => {
+    test('new_sku', async () => {
         let sku = {
             description: description,
             weight: weight,
@@ -24,15 +24,28 @@ function testNewSKU(description, weight, volume, notes, price, availableQuantity
 
 
 function testGetSKUs(expected) {
-    test('get skus', async () => {
+    test('get_skus', async () => {
         let res = await SKUDaoInstance.getSKUs();
         expect(res).toEqual(expected);
     });
 }
 
+<<<<<<< HEAD
+=======
+function testGetSKUbyID(id, expected) {
+    test('get_sku_by_id', async () => {
+        try {
+            let res = await SKUDaoInstance.getSKUbyID(id);
+            expect(res).toEqual(expected);
+        } catch (err) {
+            expect(err).toEqual(expected);
+        }
+    });
+}
+>>>>>>> da5333087d650478559d4d716969ca4b2e56cd1e
 
 function testModifySKU(id, description, weight, volume, notes, price, availableQuantity, expected) {
-    test('modify sku', async () => {
+    test('modify_sku', async () => {
         let sku = {
             id: id,
             description: description,
@@ -53,7 +66,7 @@ function testModifySKU(id, description, weight, volume, notes, price, availableQ
 }
 
 function testModifySKUPosition(id, position, expected) {
-    test('test modify SKU position', async () => {
+    test('test_modify_SKU_position', async () => {
         let data = {
             id: id,
             position: position
@@ -68,7 +81,7 @@ function testModifySKUPosition(id, position, expected) {
 }
 
 function testDeleteSKUbyID(id, expected){
-    test('test delete sku by id', async () => {
+    test('test_delete_sku_by_id', async () => {
         let res = await SKUDaoInstance.deleteSKUbyID(id);
         expect(res).toEqual(expected);
     });
@@ -161,4 +174,6 @@ describe('test SKUdao', () => {
 
     testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200);
     testModifySKU(18, "description", 14, 12, "note", 10000.56, 13, 404);
+
+    testDeleteSKUbyID(2, 204);
 })

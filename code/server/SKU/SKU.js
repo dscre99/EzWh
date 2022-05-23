@@ -197,6 +197,18 @@ async function deleteSKUbyID(req, res) {
     });
 }
 
+//DELETE /api/clearskutable
+async function clear_sku_table(req, res) {
+    try {
+        let result = await skuDaoInstance.dropSKUTable()
+        let res2 = await skuDaoInstance.newSKUTable()
+        return res.status(200).end();
+    } catch (err) {
+        return res.status(500).end();
+    }
+}
+
+
 
 //module.exports = SKU;
-module.exports = { getSKUbyID, getSKUs, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID };
+module.exports = { getSKUbyID, getSKUs, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID, clear_sku_table };
