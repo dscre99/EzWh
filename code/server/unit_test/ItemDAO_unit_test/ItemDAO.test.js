@@ -67,14 +67,13 @@ function testGetSKUIDbyItemID(SKUId,supplierId,expectedResult){
     });
 }
 
-function testGetItembyIdSupp(supplierId,expectedResult){
+function testGetItembyIdSupp(id,supplierId,expectedResult){
 
     test('testGetItembyIdSupp', async () =>{
         try{
-            let res = await ItemDAOInstance.getItembyIdSupp({id:expectedResult,supplierId:supplierId});
-            expect(res).toEqual({ 
-                id: expectedResult
-            });
+            let res = await ItemDAOInstance.getItembyIdSupp({id:id,supplierId:supplierId});
+            expect(res).toEqual(expectedResult);
+
         }catch(err){
             expect(err).toEqual(expectedResult);
         }
@@ -119,23 +118,25 @@ describe('test ItemDAO.js',  () => {
      testStoreItem(2, 'New item', 10.99, 1, 1, 201); // SKUId Exists 
      testStoreItem(2, 'New item', 10.99, 1, 1, 503); // ItemID already exists  
 
-     testGetItemById(3,{}); // No item with id = 3
-     testGetItemById('A',{}); // No item with id= A
+     testGetItemById(3,undefined); // No item with id = 3
+     testGetItemById('A',undefined); // No item with id= A
 
      testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});
      
 
      testGetSKUIDbyItemID(1,1,{id:2});
-     testGetSKUIDbyItemID(5,5,{}); //No item with SKUID=5 and ID = 5
+     testGetSKUIDbyItemID(5,5,undefined); //No item with SKUID=5 and ID = 5
 
-     testGetItembyIdSupp(1,2);
+     testGetItembyIdSupp(2,1,{id:2});
+     testGetItembyIdSupp(1,2,undefined);
+
      
 
-     testGetItems([{id:2,description:'New item',price:10.99,skuid:1,supplierid:1}]);
+     testGetItems([{id:2,description:'New item',price:10.99,SKUId:1,supplierId:1}]);
      testStoreItem(3, 'New item', 10.99, 1, 1, 201);  
 
      testUpdateItem(2,'New description',9.99,200);
-     testGetItems([{id:2,description:'New description',price:9.99,skuid:1,supplierid:1},{id:3,description:'New item',price:10.99,skuid:1,supplierid:1}]);
+     testGetItems([{id:2,description:'New description',price:9.99,SKUId:1,supplierId:1},{id:3,description:'New item',price:10.99,SKUId:1,supplierId:1}]);
 
      testDeleteItem(2,204);
      

@@ -122,6 +122,27 @@ async function get_internal_order_by_id(req, res) {
 
 //POST /api/internalOrders
 async function create_internal_order(req, res) {
+    
+    requestedFields = [ 'issueDate', 'products', 'customerId' ];
+    console.log('body length:', Object.keys(req.body).length);
+    if(Object.keys(req.body).length == 0 || Object.keys(req.body).length != requestedFields.length) {
+        return res.status(422).end();
+    }
+    
+    for (let i = 0; i < requestedFields.length; i++) {
+        if(!Object.keys(req.body).includes(requestedFields[i])){
+            return res.status(422).end();
+        }
+        
+        if(req.body[requestedFields[i]] == undefined || req.body[requestedFields[i]] == ''){
+            return res.status(422).end();
+        }
+    }
+
+    if(req.body.customerId <= 0){
+        return res.status(422).end();
+    }
+    
 
     let createInternalOrderPromise = InternalOrderDAOinstance.createInternalOrder(req.body);
     await createInternalOrderPromise.then(
@@ -149,6 +170,7 @@ async function modify_internal_order_state(req, res) {
 
     // body validation
     if(!Object.keys(req.body).includes('newState') || !internalOrderStates.includes(req.body.newState)) {
+        console.log('ERROREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
         return res.status(422).end(); // 422 Unprocessable Entity
     }
 

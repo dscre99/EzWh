@@ -360,3 +360,101 @@ describe('test UserAPIreceiver.js', () => {
     testDELETEuser('user3@ezwh.com', 'customer', 204);
 
 });
+
+describe('test UC4-1 - Create user and define rights', () => {
+    // restores DB to a known state before start testing
+    before(async () => {
+        await agent.delete('/api/clearusertable');
+    });
+
+    // inserts manager in DB
+    testPOSTnewuser('dscre@ezwh.com', 'Simone', 'Crescenzo', 'testpassword', 'manager', 201);
+
+    // creates user
+    testPOSTnewuser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'customer', 201);
+
+    // verify user is added correctly
+    testGETusers([
+        {
+            id:2,
+            name:'John1',
+            surname:'Smith1',
+            email:'user1@ezwh.com',
+            type:'customer'
+        }
+    ], 200);
+});
+
+describe('test UC4-2 - Modify user rights', () => {
+    // restores DB to a known state before start testing
+    before(async () => {
+        await agent.delete('/api/clearusertable');
+    });
+
+    // -SCENARIO PREPARATION-
+
+    // inserts manager in DB
+    testPOSTnewuser('dscre@ezwh.com', 'Simone', 'Crescenzo', 'testpassword', 'manager', 201);
+
+    // creates user
+    testPOSTnewuser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'customer', 201);
+
+    // verify user is added correctly
+    testGETusers([
+        {
+            id:2,
+            name:'John1',
+            surname:'Smith1',
+            email:'user1@ezwh.com',
+            type:'customer'
+        }
+    ], 200);
+
+    // -ACTUAL SCENARIO TESTING-
+
+    // change user type
+    testPUTusertype('user1@ezwh.com', {oldType:'customer', newType:'clerk'}, 200);
+
+    // verify user is modified correctly
+    testGETusers([
+        {
+            id:2,
+            name:'John1',
+            surname:'Smith1',
+            email:'user1@ezwh.com',
+            type:'clerk'
+        }
+    ], 200);
+});
+
+describe('test UC4-3 - Delete user', () => {
+    // restores DB to a known state before start testing
+    before(async () => {
+        await agent.delete('/api/clearusertable');
+    });
+
+    // -SCENARIO PREPARATION-
+
+    // inserts manager in DB
+    testPOSTnewuser('dscre@ezwh.com', 'Simone', 'Crescenzo', 'testpassword', 'manager', 201);
+
+    // creates user
+    testPOSTnewuser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'customer', 201);
+
+    // verify user is added correctly
+    testGETusers([
+        {
+            id:2,
+            name:'John1',
+            surname:'Smith1',
+            email:'user1@ezwh.com',
+            type:'customer'
+        }
+    ], 200);
+
+    // -ACTUAL SCENARIO TESTING-
+    testDELETEuser('user1@ezwh.com', 'customer', 204);
+
+    // verify user is deleted correctly
+    testGETusers([], 200);
+});

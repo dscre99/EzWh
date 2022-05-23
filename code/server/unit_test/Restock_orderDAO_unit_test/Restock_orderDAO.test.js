@@ -257,6 +257,7 @@ describe('test Restock_orderDAO.js', ()=>{
     testStoreProducts(1,30,1.99,'New PC',201);
     testStoreProducts(2,15,10.99,'New Pen',201);
 
+
     testGetRestockOrders([{
         id:1,
         issueDate: "2021/11/29 09:33",
@@ -360,14 +361,14 @@ describe('test Restock_orderDAO.js', ()=>{
         rfid: "12345678901234567890123456789015"
     }]);
 
-    testNewSKUItemList(2,"12325678901534567790123456789015",200);
+    testNewSKUItemList(2,"12345678901234567890123456789014",200);
 
     testGetItemList(2,[{
         SKUId: 1,
         rfid: "12345678901234567890123456789015"
     },{
-        SKUId: 2,
-        rfid: "12325678901534567790123456789015"
+        SKUId: 1,
+        rfid: "12345678901234567890123456789014"
     }]);
 
     testAddTransportNote(1,{deliveryDate:"2022/05/20 09:33"},422); // Staus != delivered

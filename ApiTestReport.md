@@ -86,14 +86,11 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 
 
 
-| Scenario ID | Functional Requirements covered | Mocha  Test(s) | 
-| ----------- | ------------------------------- | ----------- | 
-|  ..         | FRx                             |             |             
-|  ..         | FRy                             |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
-| ...         |                                 |             |             
+| Scenario ID | Functional Requirements covered |                Mocha Test(s)               |
+|:-----------:|:-------------------------------:|:------------------------------------------:|
+|     4-1     |           FR1.1, FR1.3          | test UC4-1 - Create user and define rights |
+|     4-2     |       FR1.1, FR1.3, FR1.5       |       test UC4-2 - Modify user rights      |
+|     4-3     |       FR1.1, FR1.2, FR1.3       |          test UC4-3 - Delete user          |            
 
 
 

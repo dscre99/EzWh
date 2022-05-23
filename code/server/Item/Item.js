@@ -129,4 +129,15 @@ async function delete_item(req, res) {
   }
 }
 
-module.exports = { get_items, get_item_by_id, store_item, update_item, delete_item }
+//DELETE /api/clearitemtable
+async function clear_item_table(req,res){
+  try {
+    let result = await DAO.dropTableItem();
+    let res2 = await DAO.newTableItem();
+    res.status(200).end();
+  }catch(err){
+    res.status(500).end();
+  }
+}
+
+module.exports = { clear_item_table, get_items, get_item_by_id, store_item, update_item, delete_item }

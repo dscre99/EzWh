@@ -26,6 +26,7 @@ function testGetSKUs(expected, expectedHTTPStatus) {
             }
         });
     });
+<<<<<<< HEAD
 }
 
 function testGetSKUByID(id, expected, expectedHTTPStatus) {
@@ -78,4 +79,6 @@ function testModifySKU(id, modifications, expectedHTTPStatus) {
             res.should.have.status(expectedHTTPStatus);
         });
     })
+=======
+>>>>>>> 5b94f0fb38d71a2de642a91d6c211514283c27ef
 }

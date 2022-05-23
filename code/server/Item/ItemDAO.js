@@ -41,8 +41,8 @@ class ItemDAO {
                         id:r.ID,
                         description:r.DESCRIPTION,
                         price:r.PRICE,
-                        skuid:r.SKUID,
-                        supplierid:r.SUPPLIERID
+                        SKUId:r.SKUID,
+                        supplierId:r.SUPPLIERID
                     }
                 ));
                 resolve(products);
@@ -59,7 +59,7 @@ class ItemDAO {
                     reject(err);
                 }else{
                     if(rows.length===0){
-                        resolve({});
+                        resolve(undefined);
                     }else{
                         const products = rows.map((r) => (
                             {
@@ -85,7 +85,7 @@ class ItemDAO {
                     reject(err);
                 }else{
                     if(rows.length===0){
-                        resolve({});
+                        resolve(undefined);
                     }else{
                         const products = rows.map((r) => (
                             {
@@ -107,7 +107,7 @@ class ItemDAO {
                     reject(err);
                 }else{
                     if(rows.length===0){
-                        resolve({});
+                        resolve(undefined);
                     }else{
                         const products = rows.map((r) => (
                             {
