@@ -83,10 +83,11 @@ async function store_restock_order(req, res) {
     if(err===0){
         try{
           
-          let insert = await DAO.storeRestockOrder(req.body);
           req.body.products.forEach(prod=>{
             let insertproducts = DAO.storeProducts(prod);
           })
+          let insert = await DAO.storeRestockOrder(req.body);
+
           res.status(201).end();
         }catch(error){
           res.status(503).json(error)
@@ -147,7 +148,7 @@ async function add_skuitems_to_restock_order(req, res) {
 
 
   let robyid = await DAO.getRestockOrderByID(req.params);
-  if (robyid===undefined) return res.status(422).json({error: 'Not found - No restock order associated to id'}).end(); 
+  if (robyid===undefined) return res.status(404).json({error: 'Not found - No restock order associated to id'}).end(); 
 
   robyid = await DAO.getRestockOrderDeliveredByID(req.params);
   if (robyid===undefined) return res.status(422).json({error: 'Unprocessable Entity'}).end(); 
@@ -158,7 +159,6 @@ async function add_skuitems_to_restock_order(req, res) {
 
       let s = await DAO.checkItemList(req.params,item);
       if (s===undefined){
-        console.log("sono un nuovo item");
         let db = DAO.newSKUItemList(item,req.params);
       }
 
@@ -173,7 +173,7 @@ async function add_skuitems_to_restock_order(req, res) {
 async function add_tnote_to_restock_order(req, res) {
   const requiredKeys = ['transportNote'];
 
-  if (Object.keys(req.body).length === 0 ) {
+  if (Object.keys(req.body).length === 0 ||Object.keys(req.body).length >1 ) {
       return res.status(422).json({ error: 'Unprocessable Entity - Empty/Too much field' }).end();
   } else{
     if(!Object.keys(req.body).includes('transportNote')){
@@ -194,18 +194,21 @@ async function add_tnote_to_restock_order(req, res) {
     
   }
   
+  
   if (!parseInt(req.params['id'])) {
     return res.status(422).json({ error: 'Unprocessable Entity ' }).end();
   }
   let robyid = await DAO.getRestockOrderByID(req.params);
   if (robyid===undefined) return res.status(404).json({error: 'Not found - No restock order associated to id'}).end(); 
-    robyid = await DAO.getRestockOrderDeliveredByID(req.params);
-  if (robyid===undefined) return res.status(422).json({error: 'Unprocessable Entity'}).end(); 
 
 
   try{
     let db = await DAO.addTransportNote(req.body['transportNote'],req.params);
+    if(db===422){
+      res.status(422).end(); // State != Delivery or DeliveryDate is antecedent IssueDate
+    }else{
       res.status(200).end();
+    }
     }catch (error){
       res.status(503).json(error).end();
     }
@@ -214,6 +217,10 @@ async function add_tnote_to_restock_order(req, res) {
 // DELETE /api/restockOrder/:id
 async function delete_restock_order(req, res) {
   let robyid = await DAO.getRestockOrderByID(req.params);
+  if (!parseInt(req.params['id'])) {
+    return res.status(422).json({ error: 'Unprocessable Entity ' }).end();
+  }
+
   if (robyid===undefined) return res.status(422).json({error: 'Not found - No restock order associated to id'}).end(); 
   
   try{
@@ -224,6 +231,23 @@ async function delete_restock_order(req, res) {
   }
 }
 
+async function clear_restock_order_table(req,res){
+  try{
+    let res1 = await DAO.dropTableRestockOrder();
+    let res2= await DAO.dropTableProducts();
+    let res3 = await DAO.dropTableItemlist();
+    
+    let new1 = await DAO.newTableRestockOrder();
+    let new2 = await DAO.newTableProducts();
+    let new3 = await DAO.newTableItemlist();
+
+    res.status(200).end();
+
+  }catch(err){
+    res.status(500).end();
+  }
+}
+
 module.exports = { get_restock_order, get_restock_order_issued, get_restock_order_by_id, get_item_list,
                     store_restock_order, update_restock_order_state, add_skuitems_to_restock_order,
-                    add_tnote_to_restock_order, delete_restock_order }
+                    add_tnote_to_restock_order, delete_restock_order, clear_restock_order_table }

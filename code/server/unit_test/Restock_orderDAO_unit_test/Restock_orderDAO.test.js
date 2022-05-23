@@ -371,7 +371,10 @@ describe('test Restock_orderDAO.js', ()=>{
         rfid: "12345678901234567890123456789014"
     }]);
 
-    testAddTransportNote(1,{deliveryDate:"2022/05/20 09:33"},422); // Staus != delivered
+    testUpdateState(2,"DELIVERY",200);
+
+
+    testAddTransportNote(1,{deliveryDate:"2022/05/20 09:33"},422); // Staus != delivery
     testAddTransportNote(2,{deliveryDate:"2022/05/20 09:33"},422); // Delivery date is before issueDate
     testAddTransportNote(2,{deliveryDate:"2022/05/22 09:33"},200);
 
