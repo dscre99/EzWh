@@ -408,13 +408,14 @@ class Restock_orderDAO{
 
     addTransportNote(data,params) {
         return new Promise((resolve, reject) => {
-            const sql1= 'SELECT * FROM RESTOCK_ORDER WHERE ID=? AND ISSUEDATE<? AND STATE= "DELIVERED" ';
+            const sql1= 'SELECT * FROM RESTOCK_ORDER WHERE ID=? AND ISSUEDATE<? AND STATE= "DELIVERY" ';
             this.db.all(sql1,[params.id,data.deliveryDate],(err,rows)=>{
                 if(err){
                     reject(err);
                 }
                 if(rows.length===0){
                     resolve(422);
+                    return;
                 }else{
                     const sql = ' UPDATE RESTOCK_ORDER  SET TRANSPORTNOTE= ? WHERE ID=? ';
                     this.db.run(sql, [data.deliveryDate, params.id], (err) => {

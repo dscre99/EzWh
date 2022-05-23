@@ -72,7 +72,7 @@ function testDELETEItem(id,expectedHTTPStatus) {
     });
 }
 
-describe('test ItemAPIreceiver.js', () => {
+describe('test Item.js', () => {
 
     before(async () => {
         await agent.delete('/api/clearitemtable');

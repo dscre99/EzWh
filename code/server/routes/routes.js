@@ -19,7 +19,7 @@ const { clear_user_table, new_user, get_user, get_suppliers, get_users, manager_
 // RESTOCK ORDER receivers
 const { get_restock_order, get_restock_order_issued, get_restock_order_by_id, get_item_list,
         store_restock_order, update_restock_order_state, add_skuitems_to_restock_order,
-        add_tnote_to_restock_order, delete_restock_order } = require('../Restock_order/Restock_order');
+        add_tnote_to_restock_order, delete_restock_order, clear_restock_order_table } = require('../Restock_order/Restock_order');
 
 // RETURN ORDER receivers
 const { get_return_orders, get_return_order_by_id, store_return_order, delete_return_order } = require('../Return_order/Return_order');
@@ -86,6 +86,7 @@ router.put('/restockOrder/:id', update_restock_order_state);    // PUT /api/rest
 router.put('/restockOrder/:id/skuItems', add_skuitems_to_restock_order);    // PUT /api/restockOrder/:id/skuItems
 router.put('/restockOrder/:id/transportNote', add_tnote_to_restock_order);  // PUT /api/restockOrder/:id/transportNote
 router.delete('/restockOrder/:id', delete_restock_order);   // DELETE /api/restockOrder/:id
+router.delete('/clearRestockOrdertable',clear_restock_order_table); // DELETE /api/clearRestockOrdertable
 
 // RETURN ORDER routes
 router.get('/returnOrders', get_return_orders); //GET /api/returnOrders
