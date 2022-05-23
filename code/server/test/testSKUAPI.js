@@ -11,7 +11,7 @@ function testGetSKUs(expected, expectedHTTPStatus) {
         await agent.get('/api/skus').then(function (res) {
             res.should.have.status(expectedHTTPStatus);
             if (expected.length != 0 && res.status==200) {
-                res.body.length.should.equal(expected.length);
+                //res.body.length.should.equal(expected.length);
                 for (let i = 0; i < expected.length; i++) {
                     res.body[i].id.should.equal(expected[i].id);
                     res.body[i].description.should.equal(expected[i].description);
@@ -26,14 +26,17 @@ function testGetSKUs(expected, expectedHTTPStatus) {
             }
         });
     });
+<<<<<<< HEAD
+
+=======
+>>>>>>> d49dbcf88c574923c1dff27c943c5fbece387c1a
 }
 
 function testGetSKUByID(id, expected, expectedHTTPStatus) {
     it('testing GET /api/skus/:id', async function () {
         await agent.get('/api/skus/'+id).then(function (res) {
             res.should.have.status(expectedHTTPStatus);
-            if (res.status == 200) {
-                res.body.length.should.equal(expected.length);
+            if (res.status == 200 && id != "") {
                 res.body.id.should.equal(expected.id);
                 res.body.description.should.equal(expected.description);
                 res.body.weight.should.equal(expected.weight);
@@ -43,6 +46,8 @@ function testGetSKUByID(id, expected, expectedHTTPStatus) {
                 res.body.availableQuantity.should.equal(expected.availableQuantity);
                 res.body.price.should.equal(expected.price);
                 res.body.testDescriptors.should.equal(expected.testDescriptors);
+            } else {
+                res.should.have.status(expectedHTTPStatus);
             }
         });
     });
@@ -61,12 +66,12 @@ function testNewSKU(description, weight, volume, notes, price, availableQuantity
         await agent.post('/api/sku').send(sku).then(function (res) {
             res.should.have.status(expectedHTTPStatus);
             if (expectedHTTPStatus == 201) {
-                res.body.description.should.equal(expected.description);
-                res.body.weight.should.equal(expected.weight);
-                res.body.volume.should.equal(expected.volume);
-                res.body.notes.should.equal(expected.notes);
-                res.body.price.should.equal(expected.price);
-                res.body.availableQuantity.should.equal(expected.availableQuantity);
+                (res.body).description.should.equal(expected.description);
+                (res.body).weight.should.equal(expected.weight);
+                (res.body).volume.should.equal(expected.volume);
+                (res.body).notes.should.equal(expected.notes);
+                (res.body).price.should.equal(expected.price);
+                (res.body).availableQuantity.should.equal(expected.availableQuantity);
             }
         })
     })
@@ -77,5 +82,57 @@ function testModifySKU(id, modifications, expectedHTTPStatus) {
         await agent.put('/api/sku/' + id).send(modifications).then(function (res) {
             res.should.have.status(expectedHTTPStatus);
         });
+<<<<<<< HEAD
+    });
+}
+
+function testModifySKUPosition(id, position, expectedHTTPStatus) {
+    it('testing PUT /api/sku/:id/position', async function () {
+        let data = {
+            id: id,
+            position: position
+        }
+        await agent.put('/api/sku/' + id + '/position').send(data).then(function (res) {
+            res.should.have.status(expectedHTTPStatus);
+        });
+    });
+}
+
+function testDeleteSKU(id, expectedHTTPStatus) {
+    it('testing DELETE /api/skus/:id', async function () {
+        await (await agent.delete('/api/skus/' + id)).then(function (res) {
+            res.should.have.status(expectedHTTPStatus);
+        });
+    });
+}
+
+
+describe('test sku apis', () => {
+    beforeEach(async () => {
+        await agent.delete('/api/clearskutable');
+    });
+
+    //testGetSKUs([], 200);
+    testGetSKUByID(1,[], 200);
+
+    exp = [{
+        "id": 1,
+        "description": "a new sku",
+        "weight": 100,
+        "volume": 50,
+        "notes": "first sku",
+        "position": "",
+        "availableQuantity": 50,
+        "price": 10.99,
+        "testDescriptors": []
+    }]
+
+    testNewSKU("a new sku", 100, 50, "first SKU", 10.99, 50, exp, 201);
+
+    testGetSKUByID(1, exp[0], 200);
+    testGetSKUs(exp, 200);
+});
+=======
     })
 }
+>>>>>>> d49dbcf88c574923c1dff27c943c5fbece387c1a
