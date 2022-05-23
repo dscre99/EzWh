@@ -30,16 +30,6 @@ function testGetSKUs(expected) {
     });
 }
 
-function testGetSKUbyID(id, expected) {
-    test('get sku by id', async () => {
-        try {
-            let res = await SKUDaoInstance.getSKUbyID(id);
-            expect(res).toEqual(expected);
-        } catch (err) {
-            expect(err).toEqual(expected);
-        }
-    });
-}
 
 function testModifySKU(id, description, weight, volume, notes, price, availableQuantity, expected) {
     test('modify sku', async () => {

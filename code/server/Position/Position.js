@@ -1,4 +1,4 @@
-const { isAllowed, isEmpty, validatePositionBody, validatePositionID } = require("../utils/utils");
+const { isAllowed, isEmpty, validatePositionBody, validatePositionID, positionBodyLength } = require("../utils/utils");
 
 class PositionService {
     
@@ -53,9 +53,9 @@ class PositionService {
             return;
         }
 
-        if(positionBodyLength(req.body, "post") && validatePositionBody(req.body, "post")) {
+        if(positionBodyLength(req.body, "post")) {
             this.#dao.storePosition(req.body).then((position) => {
-                res.status(200).json(position);
+                res.status(201).json(position);
             }).catch((error) => res.status(503).json("Error!"))
         } else {
             res.status(422).json("Validation of request body failed!");
@@ -132,6 +132,12 @@ class PositionService {
             res.status(422).json("Validation of requested positionID failed!");
             return;
         }
+    }
+
+    deleteAllPositions = async(req, res) => {
+        this.#dao.delete_all_positions().then(() => {
+            res.status(204).json("Deleted All Positions!");
+        }).catch((error) => res.status(503).json(error));
     }
         
 }

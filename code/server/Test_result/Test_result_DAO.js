@@ -1,179 +1,202 @@
 const DB = require('../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 
-function get_test_results_DB(rfid) {
+class TestResultDAO {
+    #db = undefined;
 
-    return new Promise((resolve, reject) => {
+    constructor() {
+        this.#db = DBinstance;
+    }
 
-        const check_rfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?'
-        let exist = 0;
-        
-        DBinstance.all(check_rfid, [rfid], (err, result) => {
-            
-            if(err) {
-                reject(err);
-                return;
-            }
-            
-            result[0]['COUNT(*)'] > 0 ? exist=1 : exist
-
-            if(exist) {
-                const sql = 'SELECT * FROM TEST_RESULT WHERE RFID=?';
-                DBinstance.all(sql, [rfid], (err, rows) => {
-                    if(err){
-                        reject(err);
-                        return;
-                    }
-                    const test_results = rows.map((test_result) => (
-                        {
-                            id:test_result.ID,
-                            rfid:test_result.RFID,
-                            date:test_result.DATE,
-                            result:test_result.RESULT,
-                            idTestDescriptor:test_result.IDTESTDESCRIPTOR
-                        }
-                    ));
-                    resolve(test_results);
-                });   
-            } else {
-                reject("The requested RFID doesn't exist!")
-            }
-        }) 
-    });
-}
-
-function get_test_result_with_id_from_rfid_DB(id, rfid) {
-    return new Promise((resolve, reject) => {
-
-        const check_rfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?'
-        let exist = 0;
-        
-        DBinstance.all(check_rfid, [rfid], (err, result) => {
-            
-            if(err) {
-                reject(err);
-                return;
-            }
-            
-            result[0]['COUNT(*)'] > 0 ? exist=1 : exist
-
-            if(exist) {
-                const sql = 'SELECT * FROM TEST_RESULT WHERE RFID=? AND ID=?';
-                DBinstance.all(sql, [rfid, id], (err, rows) => {
-                    if(err){
-                        reject(err);
-                        return;
-                    }
-                    const test_results = rows.map((test_result) => (
-                        {
-                            id:test_result.ID,
-                            rfid:test_result.RFID,
-                            date:test_result.DATE,
-                            result:test_result.RESULT,
-                            idTestDescriptor:test_result.IDTESTDESCRIPTOR
-                        }
-                    ));
-                    resolve(test_results);
-                });   
-            } else {
-                reject("The requested RFID doesn't exist!")
-            }
-        }) 
-    });
-}
-
-function post_test_result_DB(data) { 
-    return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO TEST_RESULT(RFID, DATE, RESULT, IDTESTDESCRIPTOR) VALUES (?,?,?,?)';
-        DBinstance.run(sql, [data.rfid, data.Date, data.Result, data.idTestDescriptor], (err) => {
-            if (err) {
-                reject(err);
-                return
-            }
-            resolve("Test Result succesfully added to the Database!");
+    dropTestResultTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DROP TABLE IF EXISTS TEST_RESULT';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(200)
+            })
         });
-    });
-}
+    }
 
-function put_test_result_with_id_from_rfid_DB(id, rfid, data) {
+    newTestResultTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE TEST_RESULT("ID" INTEGER, "RFID" TEXT, "DATE" TEXT, "RESULT" TEXT, "IDTESTDESCRIPTOR" INTEGER, PRIMARY KEY("ID" AUTOINCREMENT), FOREIGN KEY("IDTESTDESCRIPTOR") REFERENCES TEST_DESCRIPTOR("ID"))';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(200);
+            });
+        });
+    }
 
-    return new Promise((resolve, reject) => {
+    get_test_results_DB(rfid) {
 
-        const check_rfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?'
-        let exist = 0;
-        
-        DBinstance.all(check_rfid, [rfid], (err, result) => {
+        return new Promise((resolve, reject) => {
+    
+            const check_rfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?'
+            let exist = 0;
             
-            if(err) {
-                reject(err);
-                return;
-            }
-            
-            result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+            this.#db.all(check_rfid, [rfid], (err, result) => {
+                
+                if(err) {
+                    reject(err);
+                }
+                
+                result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+    
+                if(exist) {
+                    const sql = 'SELECT * FROM TEST_RESULT WHERE RFID=?';
 
-            if(exist) {
-                const sql = 'UPDATE TEST_RESULT SET IDTESTDESCRIPTOR=?, DATE=?, RESULT= ? WHERE ID=? AND RFID=?';
-                DBinstance.all(sql, [data.newIdTestDescriptor, data.newDate, data.newResult, id, rfid], (err, rows) => {
-                    if(err){
-                        reject(err);
-                        return;
-                    }
-                    const test_results = rows.map((test_result) => (
-                        {
-                            id:test_result.ID,
-                            rfid:test_result.RFID,
-                            date:test_result.DATE,
-                            result:test_result.RESULT,
-                            idTestDescriptor:test_result.IDTESTDESCRIPTOR
+                    this.#db.all(sql, [rfid], (err, rows) => {
+                        if(err){
+                            reject(err);
                         }
-                    ));
-                    resolve(test_results);
-                });   
-            } else {
-                reject("The requested RFID doesn't exist!")
-            }
-        }) 
-    });
+                        const test_results = rows.map((test_result) => (
+                            {
+                                ID:test_result.ID,
+                                RFID:test_result.RFID,
+                                DATE:test_result.DATE,
+                                RESULT:test_result.RESULT,
+                                IDTESTDESCRIPTOR:test_result.IDTESTDESCRIPTOR
+                            }
+                        ));
+                        resolve(test_results);
+                    });   
+                } else {
+                    reject("The requested RFID doesn't exist!")
+                }
+            }) 
+        });
+    }
+    
+    get_test_result_with_id_from_rfid_DB(id, rfid) {
+        return new Promise((resolve, reject) => {
+    
+            const check_rfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?'
+            let exist = 0;
+            
+            this.#db.all(check_rfid, [rfid], (err, result) => {
+                
+                if(err) {
+                    reject(err);
+                }
+                
+                result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+    
+                if(exist) {
+                    const sql = 'SELECT * FROM TEST_RESULT WHERE RFID=? AND ID=?';
+                    this.#db.all(sql, [rfid, id], (err, rows) => {
+                        if(err){
+                            reject(err);
+                        }
+                        const test_results = rows.map((test_result) => (
+                            {
+                                ID:test_result.ID,
+                                RFID:test_result.RFID,
+                                DATE:test_result.DATE,
+                                RESULT:test_result.RESULT,
+                                IDTESTDESCRIPTOR:test_result.IDTESTDESCRIPTOR
+                            }
+                        ));
+                        resolve(test_results);
+                    });   
+                } else {
+                    reject("The requested RFID doesn't exist!")
+                }
+            }) 
+        });
+    }
+    
+    post_test_result_DB(data) { 
+        return new Promise((resolve, reject) => {
+            const sql = 'INSERT INTO TEST_RESULT(RFID, DATE, RESULT, IDTESTDESCRIPTOR) VALUES (?,?,?,?)';
+            this.#db.run(sql, [data.RFID, data.DATE, data.RESULT, data.IDTESTDESCRIPTOR], (err) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve("Test Result succesfully added to the Database!");
+            });
+        });
+    }
+    
+    put_test_result_with_id_from_rfid_DB(id, rfid, data) {
+    
+        return new Promise((resolve, reject) => {
+    
+            const check_rfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?'
+            let exist = 0;
+            
+            this.#db.all(check_rfid, [rfid], (err, result) => {
+                
+                if(err) {
+                    reject(err);
+                }
+                
+                result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+
+    
+                if(exist) {
+                    const sql = 'UPDATE TEST_RESULT SET IDTESTDESCRIPTOR=?, DATE=?, RESULT=? WHERE ID=? AND RFID=?';
+                    this.#db.all(sql, [data.IDTESTDESCRIPTOR, data.DATE, data.RESULT, id, rfid], (err, rows) => {
+                        if(err){
+                            reject(err);
+                        }
+                        const test_results = rows.map((test_result) => (
+                            {
+                                ID:test_result.ID,
+                                RFID:test_result.RFID,
+                                DATE:test_result.DATE,
+                                RESULT:test_result.RESULT,
+                                IDTESTDESCRIPTOR:test_result.IDTESTDESCRIPTOR
+                            }
+                        ));
+                        resolve(test_results);
+                    });   
+                } else {
+                    reject("The requested RFID doesn't exist!")
+                }
+            }) 
+        });
+    }
+    
+    
+    delete_test_result_with_id_from_rfid_DB(id, rfid) {
+    
+        return new Promise((resolve, reject) => {
+    
+            const check_rfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?'
+            let exist = 0;
+            
+            this.#db.all(check_rfid, [rfid], (err, result) => {
+                
+                if(err) {
+                    reject(err);
+                }
+                
+                result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+    
+                if(exist) {
+                    const sql = 'DELETE FROM TEST_RESULT WHERE ID=? AND RFID=? ';
+                    this.#db.all(sql, [id, rfid], (err, rows) => {
+                        if(err){
+                            reject(err);
+                        } else {
+                            resolve(true);
+                        }
+                        
+                    });   
+                } else {
+                    reject("The requested RFID doesn't exist!")
+                }
+            }) 
+        });
+    
+    }
+    
+    
 }
 
-
-function delete_test_result_with_id_from_rfid_DB(id, rfid) {
-
-    return new Promise((resolve, reject) => {
-
-        const check_rfid = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?'
-        let exist = 0;
-        
-        DBinstance.all(check_rfid, [rfid], (err, result) => {
-            
-            if(err) {
-                reject(err);
-                return;
-            }
-            
-            result[0]['COUNT(*)'] > 0 ? exist=1 : exist
-
-            if(exist) {
-                const sql = 'DELETE FROM TEST_RESULT WHERE ID=? AND RFID=? ';
-                DBinstance.all(sql, [id, rfid], (err, rows) => {
-                    if(err){
-                        reject(err);
-                        return;
-                    } else {
-                        resolve(true);
-                    }
-                    
-                });   
-            } else {
-                reject("The requested RFID doesn't exist!")
-            }
-        }) 
-    });
-
-}
-
-
-
-
-
-module.exports = {get_test_results_DB, get_test_result_with_id_from_rfid_DB, post_test_result_DB, put_test_result_with_id_from_rfid_DB, delete_test_result_with_id_from_rfid_DB}
+module.exports = TestResultDAO;

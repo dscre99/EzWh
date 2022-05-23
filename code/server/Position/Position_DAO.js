@@ -10,13 +10,39 @@ class PositionDAO {
         this.#db = DBinstance;
     }
 
+    dropPositionTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DROP TABLE IF EXISTS POSITION';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    //return;
+                }
+                resolve(200)
+            })
+        });
+    }
+
+    newPositionTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE POSITION ( "positionID" TEXT, "aisleID" TEXT, "row" INTEGER, "col" INTEGER, "maxWeight" INTEGER,"maxVolume" INTEGER,"occupiedWeight"	INTEGER,"occupiedVolume" INTEGER, PRIMARY KEY("positionID"))';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    //return;
+                }
+                resolve(200);
+            });
+        });
+    }
+
     getPositions() {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM POSITION;';
             this.#db.all(sql, [], (err, rows) => {
                 if(err){
                     reject(err);
-                    return;
+                    //return;
                 }
                 const positions = rows.map((position) => (
                     {
@@ -46,7 +72,7 @@ class PositionDAO {
             this.#db.run(sql, [data.positionID, data.aisleID, data.row, data.col, data.maxWeight, data.maxVolume, 0, 0], (err) => {
                 if (err) {
                     reject(err);
-                    return
+                    //return
                 }
                 resolve(data.positionID);
             });
@@ -85,6 +111,20 @@ class PositionDAO {
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM POSITION WHERE positionID = ?';
             this.#db.run(sql, [positionID], (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(true);
+                    }
+                });
+    
+        });
+    }
+
+    delete_all_positions() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DELETE FROM POSITION';
+            this.#db.run(sql, [], (err) => {
                     if (err) {
                         reject(err);
                     } else {

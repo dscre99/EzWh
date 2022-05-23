@@ -11,6 +11,11 @@ const TestDescriptorService = require('../Test_descriptor/Test_Descriptor');
 const test_descriptor_DAO = new TestDescriptorDAO();
 const test_descriptor_service = new TestDescriptorService(test_descriptor_DAO);
 
+const TestResultDAO = require('../Test_result/Test_result_DAO');
+const TestResultService = require('../Test_result/Test_result');
+const test_result_DAO = new TestResultDAO();
+const test_result_service = new TestResultService(test_result_DAO);
+
 
 
 const { get_test_results, get_test_result_with_id_from_rfid, post_test_result, put_test_result_with_id_from_rfid, delete_test_result_with_id_from_rfid } = require('../Test_result/Test_result');
@@ -49,6 +54,7 @@ router.post('/position', positionService.post_position);
 router.put('/position/:positionID', positionService.put_position_by_ID);
 router.put('/position/:positionID/changeID', positionService.put_positionID_by_ID);
 router.delete('/position/:positionID', positionService.delete_position_by_ID);
+router.delete('/position/deleteAll', positionService.deleteAllPositions);
 
 // TEST DESCRIPTOR routes
 router.get('/testDescriptors', test_descriptor_service.get_test_descriptors);
@@ -58,11 +64,11 @@ router.put('/testDescriptor/:id', test_descriptor_service.put_test_descriptor_by
 router.delete('/testDescriptor/:id', test_descriptor_service.delete_test_descriptor_by_ID)
 
 // TEST RESULT routes
-router.get('/skuitems/:rfid/testResults', get_test_results)
-router.get('/skuitems/:rfid/testResults/:id', get_test_result_with_id_from_rfid)
-router.post('/skuitems/testResult', post_test_result)
-router.put('/skuitems/:rfid/testResult/:id', put_test_result_with_id_from_rfid)
-router.delete('/skuitems/:rfid/testResult/:id', delete_test_result_with_id_from_rfid)
+router.get('/skuitems/:rfid/testResults', test_result_service.get_test_results)
+router.get('/skuitems/:rfid/testResults/:id', test_result_service.get_test_result_with_id_from_rfid)
+router.post('/skuitems/testResult', test_result_service.post_test_result)
+router.put('/skuitems/:rfid/testResult/:id', test_result_service.put_test_result_with_id_from_rfid)
+router.delete('/skuitems/:rfid/testResult/:id', test_result_service.delete_test_result_with_id_from_rfid)
 
 // USER routes
 router.delete('/clearusertable', clear_user_table);  //DELETE /api/clearusertable (custom api)

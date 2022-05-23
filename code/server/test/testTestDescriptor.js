@@ -8,15 +8,15 @@ const { isEmpty, validatePositionID, validatePositionData } = require('../utils/
 let agent = chai.request.agent(app);
  
 
-describe('Test Position A.P.I.s', () => {
+describe('Test Test Descriptor A.P.I.s', () => {
 
     before(async () => {
-        await agent.delete('/position/allPositions');
+        await agent.delete('/testDescriptor/allTestDescriptor');
     })
 
 
     // Testing POST Requests
-    let position = {
+    let test_descriptor = {
         "positionID":"300234543415",
         "aisleID":"8002",
         "row":3454,
@@ -25,7 +25,7 @@ describe('Test Position A.P.I.s', () => {
         "maxVolume":250
     }
 
-    let incorrect_position_data = {
+    let incorrect_test_descriptor = {
         "positionID":"1910as",
         "aisleID":"8002",
         "row":3454,
@@ -44,7 +44,7 @@ describe('Test Position A.P.I.s', () => {
     getPositions(503, non_empty_body);
 
     // Testing PUT Requests
-    let new_position = {
+    let new_test_descriptor = {
         "AisleID": "8000",
         "Row": "3404",
         "Col": "3212",
@@ -63,10 +63,10 @@ describe('Test Position A.P.I.s', () => {
 });
 
 
-function newPosition(expectedHTTPStatus, position) {
+function newTestDescriptor(expectedHTTPStatus, test_descriptor) {
     
-    it('Adding a new Position', function (done) {
-        if (validatePositionData(position, "post")) {  // TO-DO : call the Body Validation function
+    it('Adding a new Test Descriptor', function (done) {
+        if (validateTestDescriptorData(test_descriptor, "post")) {  // TO-DO : call the Body Validation function
             agent.post("/api/position").send(position).then((res) => {
                 res.should.have.status(expectedHTTPStatus);
                 done();

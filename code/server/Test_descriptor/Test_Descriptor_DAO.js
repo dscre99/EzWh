@@ -10,20 +10,44 @@ class TestDescriptorDAO {
         this.#db = DBinstance;
     }
 
+    dropTestDescriptorTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'DROP TABLE IF EXISTS TEST_DESCRIPTOR';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(200)
+            })
+        });
+    }
+
+    newTestDescriptorTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE TEST_DESCRIPTOR ( "ID" INTEGER, "NAME" TEXT, "PROCEDUREDESCRIPTION" TEXT, "IDSKU" INTEGER, PRIMARY KEY("ID" AUTOINCREMENT))';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(200);
+            });
+        });
+    }
+
+
     get_test_descriptors_DB() {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT * FROM TEST_DESCRIPTOR;';
             this.#db.all(sql, [], (err, rows) => {
                 if(err){
                     reject(err);
-                    return;
                 }
                 const test_descriptors = rows.map((test_descriptor) => (
                     {
-                        id:test_descriptor.id,
-                        name:test_descriptor.name,
-                        procedureDescription:test_descriptor.procedureDescription,
-                        idSKU:test_descriptor.idSKU
+                        ID:test_descriptor.ID,
+                        NAME:test_descriptor.NAME,
+                        PROCEDUREDESCRIPTION:test_descriptor.PROCEDUREDESCRIPTION,
+                        IDSKU:test_descriptor.IDSKU
                     }
                 ));
                 resolve(test_descriptors);
@@ -40,10 +64,10 @@ class TestDescriptorDAO {
                     } else {
                         const test_descriptor = rows.map((test_descriptor) => (
                             {
-                                id:test_descriptor.id,
-                                name:test_descriptor.name,
-                                procedureDescription:test_descriptor.procedureDescription,
-                                idSKU:test_descriptor.idSKU
+                                ID:test_descriptor.ID,
+                                NAME:test_descriptor.NAME,
+                                PROCEDUREDESCRIPTION:test_descriptor.PROCEDUREDESCRIPTION,
+                                IDSKU:test_descriptor.IDSKU
                             }
                         ));
                         test_descriptor.length === 0 ? reject(`Test Descriptor with id=${id} doesn't exist!`) : resolve(test_descriptor);
@@ -54,13 +78,12 @@ class TestDescriptorDAO {
     
     post_test_descriptor_DB(data) { 
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO TEST_DESCRIPTOR(id, name, procedureDescription, idSKU) VALUES (?,?,?,?)';
-            this.#db.run(sql, [data.id, data.name, data.procedureDescription, data.idSKU], (err) => {
+            const sql = 'INSERT INTO TEST_DESCRIPTOR(NAME, PROCEDUREDESCRIPTION, IDSKU) VALUES (?,?,?)';
+            this.#db.run(sql, [data.NAME, data.PROCEDUREDESCRIPTION, data.IDSKU], (err) => {
                 if (err) {
                     reject(err);
-                    return
                 }
-                resolve(data.id);
+                resolve(true);
             });
         });
     }
@@ -68,7 +91,7 @@ class TestDescriptorDAO {
     put_test_descriptor_by_ID_DB(id, body) {
         return new Promise((resolve, reject) => {
             const sql = 'UPDATE TEST_DESCRIPTOR SET name=?,procedureDescription=?, idSKU= ? WHERE id = ?';
-            this.#db.run(sql, [body.name, body.procedureDescription, body.idSKU, id], (err) => {
+            this.#db.run(sql, [body.NAME, body.PROCEDUREDESCRIPTION, body.IDSKU, id], (err) => {
                     if (err) {
                         reject(err);
                     } else {
