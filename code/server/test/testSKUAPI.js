@@ -38,7 +38,7 @@ function testGetSKUByID(id, expected, expectedHTTPStatus) {
             console.log(res.body);
             console.log(expected);
             console.log(res.status);
-            if (res.status == 200) {
+            if (expectedHTTPStatus == 200) {
                 res.body.description.should.equal(expected.description);
                 res.body.weight.should.equal(expected.weight);
                 res.body.volume.should.equal(expected.volume);
@@ -81,7 +81,6 @@ function testModifySKU(id, modifications, expectedHTTPStatus) {
 
 function testModifySKUPosition(id, position, expectedHTTPStatus) {
     it('testing PUT /api/sku/:id/position', async function () {
-        console.log(position, id )
         await agent.put('/api/sku/'+ id + '/position')
             .send(position)
             .then(function (res) {
@@ -94,16 +93,27 @@ function testModifySKUPosition(id, position, expectedHTTPStatus) {
 
 function testDeleteSKU(id, expectedHTTPStatus) {
     it('testing DELETE /api/skus/:id', async function () {
-        await (await agent.delete('/api/skus/' + id)).then(function (res) {
+        await agent.delete('/api/skus/' + id).then(function (res) {
             res.should.have.status(expectedHTTPStatus);
         });
     });
 }
 
+function testClearskutable() {
+    it('testing DELETE /api/clearskutable', async function () {
+        await agent.delete('/api/clearskutable').then(function (res) {
+            res.should.have.status(200);
+        });
+    });
+}
+
+
 describe('test sku apis', () => {
     before(async () => {
         await agent.delete('/api/clearskutable');
     });
+
+    testClearskutable();
 
     testGetSKUs([], 200);
     testGetSKUByID(10,[], 404);
@@ -140,10 +150,12 @@ describe('test sku apis', () => {
     }
         
     testNewSKU("a new sku", 100, 50, "first sku", 10.99, 50, exp1[0], 201);
+    testNewSKU("sku", -1, -3, "second", 5.00, 1, {}, 422);
     testModifySKU(1, modifications, 200);
     testModifySKUPosition(1, "800234523412", 200);
     testGetSKUs(exp2, 200);
 
     testGetSKUByID(1, exp2[0], 200);
     //testGetSKUs(exp, 200);
+    testDeleteSKU(1, 200);
 });

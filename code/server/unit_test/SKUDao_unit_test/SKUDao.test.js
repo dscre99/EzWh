@@ -3,6 +3,7 @@ const DB = require('../../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const SKUDaoInstance = new SKUDao(DBinstance);
 const position = require('../../Position/Position_DAO');
+const { expect } = require('../../node_modules/expect/build/index');
 const positionInstance = new position(DBinstance);
 
 
@@ -16,7 +17,6 @@ function testNewSKU(description, weight, volume, notes, price, availableQuantity
             price: price,
             availableQuantity: availableQuantity
         }
-
         let res = await SKUDaoInstance.newSKU(sku);
         expect(res).toEqual(expected);
     });
@@ -30,8 +30,7 @@ function testGetSKUs(expected) {
     });
 }
 
-<<<<<<< HEAD
-=======
+
 function testGetSKUbyID(id, expected) {
     test('get_sku_by_id', async () => {
         try {
@@ -42,7 +41,7 @@ function testGetSKUbyID(id, expected) {
         }
     });
 }
->>>>>>> da5333087d650478559d4d716969ca4b2e56cd1e
+
 
 function testModifySKU(id, description, weight, volume, notes, price, availableQuantity, expected) {
     test('modify_sku', async () => {

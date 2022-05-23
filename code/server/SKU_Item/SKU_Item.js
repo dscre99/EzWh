@@ -4,10 +4,6 @@ const DB = require('../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const skuItemDaoInstance = new skuItemDao(DBinstance);
 
-function verifyDate(date) {
-    var regex = /(\d{ 4})-(\d{ 2 }) -(\d{ 2 }) (\d{ 2 }): (\d{ 2 }): (\d{ 2 })/;
-    return regex.test(date);
-}
 
 
 //DELETE /api/clearskuitemtable
@@ -104,10 +100,7 @@ async function newSKUItem(req, res) {
                 return res.status(422).end();
             }
         });
-        if ((req.body).RFID.length != 32) {
-            return res.status(422).end();
-        }
-        if (!verifyDate((req.body).DateOfStock)) {
+       if ((req.body).RFID.length != 32) {
             return res.status(422).end();
         }
     }
