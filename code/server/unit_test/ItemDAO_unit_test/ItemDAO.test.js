@@ -7,15 +7,16 @@ const ItemDAOInstance = new ItemDAO(db);
 
 function testStoreItem(id,description,price,SKUId,supplierId,expectedResult){
 
-    test('Store item', async ()=>{
-        let item = {
-            id:id,
-            description:description,
-            price:price,
-            SKUId:SKUId,
-            supplierId:supplierId
-        }
+    test('testStoreItem', async ()=>{
+        
         try{
+            let item = {
+                id:id,
+                description:description,
+                price:price,
+                SKUId:SKUId,
+                supplierId:supplierId
+            }
             let res= await ItemDAOInstance.storeItem(item);
             expect(res).toStrictEqual(expectedResult);
         }catch(err){
@@ -26,7 +27,7 @@ function testStoreItem(id,description,price,SKUId,supplierId,expectedResult){
 
 function testUpdateItem(id,description,price,expectedResult){
 
-    test('Update item', async ()=>{
+    test('testUpdateItem', async ()=>{
         let item = {
             newDescription:description,
             newPrice:price,
@@ -40,18 +41,12 @@ function testUpdateItem(id,description,price,expectedResult){
     });
 }
 
-function testGetItemById(id,description, price, SKUId, supplierId){
+function testGetItemById(id,expectedRes){
 
-    test('Get item by id', async () =>{
+    test('testGetItemById', async () =>{
         try{
             let res = await ItemDAOInstance.getItemByID({id:id});
-            expect(res).toEqual({ 
-                id: id,
-                description: description,
-                price: price,
-                SKUId: SKUId,
-                supplierId: supplierId
-            });
+            expect(res).toStrictEqual(expectedRes);
         }catch(err){
             expect(err).toEqual(err);
         }
@@ -61,33 +56,45 @@ function testGetItemById(id,description, price, SKUId, supplierId){
 
 function testGetSKUIDbyItemID(SKUId,supplierId,expectedResult){
 
-    test('Get SKUID by item id', async () =>{
-        let res = await ItemDAOInstance.getSKUIDbyItemID({SKUId:SKUId,supplierId:supplierId});
-        expect(res).toEqual({ 
-            id: expectedResult
-        });
+    test('testGetSKUIDbyItemID', async () =>{
+        try{
+            let res = await ItemDAOInstance.getSKUIDbyItemID({SKUId:SKUId,supplierId:supplierId});
+            expect(res).toEqual(expectedResult);
+        }catch(err){
+            expect(err).toEqual(expectedResult);
+        }
+        
     });
 }
 
-function testGetItembyIdSupp(supplierId,expectedResult){
+function testGetItembyIdSupp(id,supplierId,expectedResult){
 
-    test('Get ID by Supplier id', async () =>{
-        let res = await ItemDAOInstance.getItembyIdSupp({id:expectedResult,supplierId:supplierId});
-        expect(res).toEqual({ 
-            id: expectedResult
-        });
+    test('testGetItembyIdSupp', async () =>{
+        try{
+            let res = await ItemDAOInstance.getItembyIdSupp({id:id,supplierId:supplierId});
+            expect(res).toEqual(expectedResult);
+
+        }catch(err){
+            expect(err).toEqual(expectedResult);
+        }
+        
     });
 }
 
 function testGetItems(resExpected){
-    test('Get items',async ()=>{
-        let res = await ItemDAOInstance.getItems();
-        expect(res).toEqual(resExpected);
-    });
+    try{
+        test('testGetItems',async ()=>{
+            let res = await ItemDAOInstance.getItems();
+            expect(res).toEqual(resExpected);
+        });
+    }catch(err){
+        expect(err).toEqual(resExpected);
+    }
+    
 }
 
-function deleteItem(id,expectedResult){
-    test('Delete item', async () =>{
+function testDeleteItem(id,expectedResult){
+    test('testDeleteItem', async () =>{
         try{
             let res = await ItemDAOInstance.deleteItem({id:id});
             expect(res).toEqual(expectedResult);
@@ -97,8 +104,6 @@ function deleteItem(id,expectedResult){
     })
 }
 
-
-
 describe('test ItemDAO.js',  () => {
 
     beforeAll(async () => {
@@ -107,19 +112,33 @@ describe('test ItemDAO.js',  () => {
         let res1 = await ItemDAOInstance.newTableItem();
         expect(res1).toEqual(200);
     });
-    testGetItems([]);
+     testGetItems([]); // No items stored 
 
-     testStoreItem(1, 'New item', 10.99, 2, 1, 404);
+     testStoreItem(1, 'New item', 10.99, 2, 1, 404); // Not stored
      testStoreItem(2, 'New item', 10.99, 1, 1, 201); // SKUId Exists 
+     testStoreItem(2, 'New item', 10.99, 1, 1, 503); // ItemID already exists  
 
-     testGetItemById(2, 'New item', 10.99, 1, 1);
-     testGetItemById('due', 'New item', 10.99, 1, 1);
+     testGetItemById(3,undefined); // No item with id = 3
+     testGetItemById('A',undefined); // No item with id= A
 
-     testGetSKUIDbyItemID(1,1,2);
-     testGetItembyIdSupp(1,2);
+     testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});
+     
+
+     testGetSKUIDbyItemID(1,1,{id:2});
+     testGetSKUIDbyItemID(5,5,undefined); //No item with SKUID=5 and ID = 5
+
+     testGetItembyIdSupp(2,1,{id:2});
+     testGetItembyIdSupp(1,2,undefined);
+
+     
+
+     testGetItems([{id:2,description:'New item',price:10.99,SKUId:1,supplierId:1}]);
+     testStoreItem(3, 'New item', 10.99, 1, 1, 201);  
 
      testUpdateItem(2,'New description',9.99,200);
-     deleteItem(2,204);
+     testGetItems([{id:2,description:'New description',price:9.99,SKUId:1,supplierId:1},{id:3,description:'New item',price:10.99,SKUId:1,supplierId:1}]);
+
+     testDeleteItem(2,204);
      
 });
 

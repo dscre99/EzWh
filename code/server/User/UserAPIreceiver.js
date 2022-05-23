@@ -3,7 +3,25 @@ const DBinstance = DB.DBinstance;
 const UserDAO = require('./UserDAO.js')
 const UserDAOinstance = new UserDAO(DBinstance);
 
-const userTypes = ['customer', 'qualityEmployee', 'clerk', 'deliveryEmployee', 'supplier'];
+const userTypes = ['customer', 'qualityEmployee', 'clerk', 'deliveryEmployee', 'supplier', 'manager'];
+
+//DELETE /api/clearusertable
+async function clear_user_table(req, res) {
+    let clearUserTablePromise = UserDAOinstance.clearUserTable();
+    await clearUserTablePromise.then(
+        function(value) {
+            console.log('clearUserTable resolve');
+            return res.status(200).end();
+        },
+        function(error){
+            console.log('clearUserTable reject');
+            return res.status(error).end();
+        }
+    ).catch(err => function(err) {
+        console.log('clearUserTable error', err);
+        return res.status(500).end();
+    });
+}
 
 //GET /api/userinfo
 async function get_user(req, res) {
@@ -20,7 +38,7 @@ async function get_user(req, res) {
     }
     ).catch(err => function(err) {
     console.log('getUser error: ', err);
-    return res.status(500).end(err);
+    return res.status(500).end();
     });
 }
 
@@ -71,55 +89,63 @@ async function new_user(req, res) {
     }
   
     let userData = req.body;
-    //console.log(tmp_user_data);
+    //console.log(userData);
   
     // Request Body Validation
     const requiredKeys = ['name', 'surname', 'username', 'password', 'type'];
   
     // checks passed number of fields is the required one
     if (Object.keys(userData).length != requiredKeys.length) {
-      return res.status(422).end(); // 422 Unprocessable Entity
+        console.log('not enough fields');
+        return res.status(422).end(); // 422 Unprocessable Entity
     } else {
-      requiredKeys.forEach(key => {
-        //console.log(key);
-        // checks for necessary field presence
-        if(!Object.keys(userData).includes(key)){
-          return res.status(422).end(); // 422 Unprocessable Entity
+      
+        for (let i = 0; i < requiredKeys.length; i++) {
+            let key = requiredKeys[i];
+
+            // checks for necessary field presence
+            if(!Object.keys(userData).includes(key)){
+                console.log('failed checking fields');
+                return res.status(422).end(); // 422 Unprocessable Entity
+            }
+
+            // checks for fields not empty
+            if(userData[key] == undefined || userData[key] == ''){
+                
+                console.log('empty field', key);
+                return res.status(422).end(); // 422 Unprocessable Entity
+            }
+
+            // checks for minimum password length (8 chars)
+            if(userData['password'].length < 8){
+                console.log('short password');
+                return res.status(422).end(); // 422 Unprocessable Entity
+            }
+        
+            if(!userTypes.includes(userData['type'])){
+                console.log('not a user type', userData['type']);
+                return res.status(422).end(); // 422 Unprocessable Entity
+            }
         }
-        // checks for fields not empty
-        if(userData[key] == undefined || userData[key] == ''){
-          return res.status(422).end(); // 422 Unprocessable Entity
+
+        const addUserPromise = UserDAOinstance.newUser(userData);
+        await addUserPromise.then(
+        function(value) {
+            console.log('addUser resolve');
+            return res.status(value).end();
+        },
+        function(error) {
+            console.log('addUser reject: ', error);
+            return res.status(error).end();
         }
-      });
+        ).catch( err => function(err) {
+        console.log('addUser catch error', err);
+        console.log(err);
+        return res.status(500).end(err);   // 500 Internal Server Error
+        });
   
-      // checks for minimum password length (8 chars)
-      if(userData['password'].length < 8){
-        return res.status(422).end(); // 422 Unprocessable Entity
-      }
-  
-      if(!userTypes.includes(userData['type'])){
-        return res.status(422).end(); // 422 Unprocessable Entity
-      }
     }
-    console.log('after');
-  
-    //let tmp_user = new User(tmp_user_data['name'], tmp_user_data['surname'], tmp_user_data['username'], tmp_user_data['password'], tmp_user_data['type']);
-  
-    const addUserPromise = UserDAOinstance.newUser(userData);
-    await addUserPromise.then(
-      function(value) {
-        console.log('addUser resolve');
-        return res.status(value).end();
-      },
-      function(error) {
-        console.log('addUser reject: ', error);
-        return res.status(error).end();
-      }
-    ).catch( err => function(err) {
-      console.log('addUser catch error', err);
-      console.log(err);
-      return res.status(500).end(err);   // 500 Internal Server Error
-    });
+        
 }
 
 //POST /api/managerSessions
@@ -374,6 +400,12 @@ async function deliveryEmployee_sessions(req, res) {
     });
 }
 
+//POST /api/logout
+async function user_logout(req, res) {
+    // --- TO BE IMPLEMENTED TOGETHER WITH SESSIONS ---
+    return res.status(200).end();
+}
+
 //PUT /api/users/:username
 async function modify_user_type(req, res) {
 // check input
@@ -386,10 +418,9 @@ async function modify_user_type(req, res) {
     // Request Body Validation
     let valid = true;
     const requiredKeys = ['oldType', 'newType'];
-
+    
     requiredKeys.forEach(key => {
-        //console.log(key);
-
+        
         if(!Object.keys(userData).includes(key)){
             // checks for necessary field presence
             valid = false;
@@ -449,10 +480,13 @@ async function delete_user(req, res) {
             valid = false;
     } else if(!userTypes.includes(userData.type)){
       // checks for correct user types in request body
+      console.log('WORKING');
+      console.log(userData.type);
       valid = false;
     }
   
     if(!valid) {
+        
       return res.status(422).end(); // 422 Unprocessable Entity
     } else {
       let deleteUserPromise = UserDAOinstance.deleteUser(userData);
@@ -472,6 +506,6 @@ async function delete_user(req, res) {
     }
 }
 
-module.exports = { new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
-                    supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions,
+module.exports = { clear_user_table, new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
+                    supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions, user_logout,
                     modify_user_type, delete_user }

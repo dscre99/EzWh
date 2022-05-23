@@ -15,6 +15,10 @@ class PositionService {
         this.#loggedUser = logged;
     })
 
+    get_permission = (() => {
+        return this.#loggedUser;
+    })
+
     // GET /api/positions
 
     get_positions = async(req,res) => {

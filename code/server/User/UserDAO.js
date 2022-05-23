@@ -114,9 +114,9 @@ class UserDAO {
                         const userData = rows.map((r) => (
                             {
                                 id:r.ID,
-                                username:r.EMAIL,
                                 name:r.NAME,
-                                surname:r.SURNAME
+                                surname:r.SURNAME,
+                                email:r.EMAIL
                             }
                         ));
 

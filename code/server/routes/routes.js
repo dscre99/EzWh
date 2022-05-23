@@ -12,8 +12,8 @@ const { get_test_descriptors, get_test_descriptor_by_ID, post_test_descriptor, p
 const { get_test_results, get_test_result_with_id_from_rfid, post_test_result, put_test_result_with_id_from_rfid, delete_test_result_with_id_from_rfid } = require('../Test_result/Test_result');
 
 // USER receives
-const { new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
-        supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions,
+const { clear_user_table, new_user, get_user, get_suppliers, get_users, manager_sessions, customer_sessions,
+        supplier_sessions, clerk_sessions, qualityEmployee_sessions, deliveryEmployee_sessions, user_logout,
         modify_user_type, delete_user } = require('../User/UserAPIreceiver');
 
 // RESTOCK ORDER receivers
@@ -29,7 +29,7 @@ const { get_internal_orders, get_issued_orders, get_accepted_orders, get_interna
         create_internal_order, modify_internal_order_state, delete_internal_order } = require('../Internal_order/InternalOrderAPIreceiver')
 
 // ITEM receivers
-const { get_items, get_item_by_id, store_item, update_item, delete_item } = require('../Item/Item')
+const { get_items, get_item_by_id, store_item, update_item, delete_item , clear_item_table} = require('../Item/Item')
 
 const { getSKUs, getSKUbyID, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID } = require('../SKU/SKU')
 
@@ -61,6 +61,7 @@ router.put('/skuitems/:rfid/testResult/:id', put_test_result_with_id_from_rfid)
 router.delete('/skuitems/:rfid/testResult/:id', delete_test_result_with_id_from_rfid)
 
 // USER routes
+router.delete('/clearusertable', clear_user_table);  //DELETE /api/clearusertable (custom api)
 router.get('/userinfo', get_user);  //GET /api/userinfo
 router.get('/suppliers', get_suppliers);  //GET /api/suppliers
 router.get('/users', get_users);  //GET /api/users
@@ -71,6 +72,7 @@ router.post('/supplierSessions', supplier_sessions);  //POST /api/supplierSessio
 router.post('/clerkSessions', clerk_sessions);  //POST /api/clerkSessions
 router.post('/qualityEmployeeSessions', qualityEmployee_sessions);  //POST /api/qualityEmployeeSessions
 router.post('/deliveryEmployeeSessions', deliveryEmployee_sessions);  //POST /api/deliveryEmployeeSessions
+router.post('/logout', user_logout);
 router.put('/users/:username', modify_user_type);  //PUT /api/users/:username
 router.delete('/users/:username/:type', delete_user);  //DELETE /api/users/:username/:type
 
@@ -103,10 +105,10 @@ router.delete('/internalOrders/:id', delete_internal_order); //DELETE /api/inter
 // ITEM routes
 router.get('/items', get_items);    //GET /api/items
 router.get('/items/:id', get_item_by_id);    //GET /api/items/:id
-router.post('/items', store_item);    //POST /api/item
+router.post('/item', store_item);    //POST /api/item
 router.put('/item/:id', update_item);   //PUT /api/item/:id
 router.delete('/items/:id', delete_item);    // DELETE /api/items/:id
-
+router.delete('/clearitemtable',clear_item_table);
 
 /***********************************************************************/
 

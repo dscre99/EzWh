@@ -41,8 +41,8 @@ class ItemDAO {
                         id:r.ID,
                         description:r.DESCRIPTION,
                         price:r.PRICE,
-                        skuid:r.SKUID,
-                        supplierid:r.SUPPLIERID
+                        SKUId:r.SKUID,
+                        supplierId:r.SUPPLIERID
                     }
                 ));
                 resolve(products);
@@ -58,16 +58,20 @@ class ItemDAO {
                 if(err){
                     reject(err);
                 }else{
-                    const products = rows.map((r) => (
-                        {
-                            id:r.ID,
-                            description:r.DESCRIPTION,
-                            price:r.PRICE,
-                            SKUId:r.SKUID,
-                            supplierId:r.SUPPLIERID
-                        }
-                    ));
-                    resolve(products[0]);
+                    if(rows.length===0){
+                        resolve(undefined);
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ID,
+                                description:r.DESCRIPTION,
+                                price:r.PRICE,
+                                SKUId:r.SKUID,
+                                supplierId:r.SUPPLIERID
+                            }
+                        ));
+                        resolve(products[0]);
+                    }
                 }
             });
         });
@@ -80,12 +84,16 @@ class ItemDAO {
                 if(err){
                     reject(err);
                 }else{
-                    const products = rows.map((r) => (
-                        {
-                            id:r.ID,
-                        }
-                    ));
-                    resolve(products[0]);
+                    if(rows.length===0){
+                        resolve(undefined);
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ID,
+                            }
+                        ));
+                        resolve(products[0]);
+                    }
                 }
             });
         });
@@ -98,21 +106,25 @@ class ItemDAO {
                 if(err){
                     reject(err);
                 }else{
-                    const products = rows.map((r) => (
-                        {
-                            id:r.ID,
-                        }
-                    ));
-                    resolve(products[0]);
+                    if(rows.length===0){
+                        resolve(undefined);
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ID,
+                            }
+                        ));
+                        resolve(products[0]);
+                    }
                 }
             });
         });
     }
 
     storeItem(data) {
-        return new Promise((resolve, reject) => {
+        return new Promise( async (resolve, reject) => {
             const sql1 = 'SELECT * FROM SKU WHERE ID = ?';
-            this.db.all(sql1, data.SKUId, (err,rows)=>{
+              await this.db.all(sql1, data.SKUId, (err,rows)=>{
                 if(err){
                     reject(503);
                 }
@@ -121,7 +133,7 @@ class ItemDAO {
                     return;
                 }else{
                     const sql = ' INSERT INTO ITEM (ID,DESCRIPTION, PRICE, SKUID, SUPPLIERID) VALUES (?,?,?,?,?) ';
-                    this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
+                      this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
                         if (err) {
                             reject(503);
                         }

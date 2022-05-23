@@ -11,11 +11,12 @@ app.use(express.json());
 app.use('/api', router);
 app.use(express.json());
 
-// *****SERVER APP PROTOTYPE*********
-
-//new UserDAO().newUserTable();
-
-// ***********************************
+app.get('/api/hello', (req, res) => {
+  let retBody = {
+    message:'Hello world!'
+  }
+  return res.status(200).json(retBody).end();
+});
 
 // activate the server
 app.listen(port, () => {

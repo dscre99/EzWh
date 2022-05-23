@@ -1,10 +1,7 @@
-//const EZWH_db = require('../../EZWH_db/EZWH_db');
 const DB = require('../../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const UserDAO = require('../../User/UserDAO');
 const UserDAOinstance = new UserDAO(DBinstance);
-//const DB = require('./mockDB')
-//const UserDAOinstance = new UserDAO(DB);
 
 
 function testSample(expectedString) {
@@ -137,14 +134,19 @@ describe('test UserDAO.js', () => {
         expect(res).toEqual(200);
     });
 
+
+    // empty user array
+    testGetUsers([]);
+
     // empty supplier array
     testGetSuppliers([]);
+    
 
     // tests inserting new users, error code if duplicates are detected
     testNewUser('dscre@ezwh.com', 'Simone', 'Crescenzo', 'testpassword', 'manager', 201);
     testNewUser('dscre@ezwh.com', 'Simone', 'Crescenzo', 'testpassword', 'manager', 409);
     testNewUser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'customer', 201);
-    testNewUser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'clerk', 201);;
+    testNewUser('user1@ezwh.com', 'John1', 'Smith1', 'testpassword', 'clerk', 201);
     testNewUser('qemp1@ezwh.com', 'Qual1', 'Emp1', 'testpassword', 'qualityEmployee', 201);
     testNewUser('demp1@ezwh.com', 'Deli1', 'Emp1', 'testpassword', 'deliveryEmployee', 201);
     testNewUser('supp1@ezwh.com', 'Hasit1', 'All1', 'testpassword', 'supplier', 201);
@@ -197,7 +199,7 @@ describe('test UserDAO.js', () => {
             id:6,
             name:'Hasit1',
             surname:'All1',
-            username:'supp1@ezwh.com'
+            email:'supp1@ezwh.com'
         }
     ]);
 
@@ -209,19 +211,19 @@ describe('test UserDAO.js', () => {
             id:6,
             name:'Hasit1',
             surname:'All1',
-            username:'supp1@ezwh.com'
+            email:'supp1@ezwh.com'
         },
         {
             id:7,
             name:'Hasit2',
             surname:'All2',
-            username:'supp2@ezwh.com'
+            email:'supp2@ezwh.com'
         },
         {
             id:8,
             name:'Hasit3',
             surname:'All3',
-            username:'supp3@ezwh.com'
+            email:'supp3@ezwh.com'
         }
     ]);
 

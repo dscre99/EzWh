@@ -13,8 +13,21 @@ class SKUDao {
                     reject(err);
                     return;
                 }
-                resolve(this.id)
+                resolve(200)
             })
+        });
+    }
+
+    newSKUTable() {
+        return new Promise((resolve, reject) => {
+            const sql = 'CREATE TABLE SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
+            this.#db.run(sql, (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(200);
+            });
         });
     }
 
@@ -28,7 +41,7 @@ class SKUDao {
                         reject(503);
                         return;
                     }
-                    resolve(sku);
+                    resolve(201);
                 });
             } else {
                 console.log('Not logged in or authorized');
@@ -59,7 +72,7 @@ class SKUDao {
                             price: r.PRICE,
                             testDescriptors: r.TESTDESCRIPTORS
                         }));
-                    console.log(skus);
+                    //console.log(skus);
                     resolve(skus);
                 });
             } else {
@@ -103,7 +116,7 @@ class SKUDao {
                                     testDescriptors: r.TESTDESCRIPTORS
                                 }
                             ));
-                            resolve(sku[0]);
+                            resolve(sku);
                         });
                     } else {
                         console.log('No SKU associated to ID');
@@ -132,21 +145,14 @@ class SKUDao {
                     res.length > 0 ? exists = 1 : exists;
 
                     if (exists) {
-                        let loggedAndAuthorized = true;
-                        if (loggedAndAuthorized) {
-                            const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT= ?, VOLUME= ?, NOTES= ?, AVAILABLEQUANTITY= ?, PRICE= ? WHERE ID = ?';
-                            this.#db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, sku.id], (err) => {
-                                if (err) {
+                        const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT= ?, VOLUME= ?, NOTES= ?, AVAILABLEQUANTITY= ?, PRICE= ? WHERE ID = ?';
+                        this.#db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, sku.id], (err) => {
+                            if (err) {
                                     reject(err);
-                                } else {
-                                    resolve(true);
-                                }
-                            });
-                        } else {
-                            console.log('SKUID not authorized');
-                            reject(401);
-                        }
-
+                             } else {
+                                    resolve(200);
+                             }
+                        });
                     } else {
                         console.log('SKU Id does not exist');
                         reject(404);
@@ -209,7 +215,7 @@ class SKUDao {
                                                     if (err) {
                                                         reject(err);
                                                     } else {
-                                                        resolve(true);
+                                                        resolve(200);
                                                     }
                                                 });
                                                 let occVolume = res.occupiedVolume + res.volume;
@@ -219,7 +225,7 @@ class SKUDao {
                                                     if (err) {
                                                         reject(err);
                                                     } else {
-                                                        resolve(true);
+                                                        resolve(200);
                                                     }
                                                 });
                                             } else {
@@ -261,7 +267,7 @@ class SKUDao {
                     if (err) {
                         reject(err);
                     } else {
-                        resolve(true);
+                        resolve(204);
                     }
                 });
             } else {
