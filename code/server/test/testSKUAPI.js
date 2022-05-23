@@ -4,7 +4,6 @@ chai.use(chaiHttp);
 chai.should();
 
 const app = require('../server');
-const { modifySKU } = require('../SKU/SKU');
 let agent = chai.request.agent(app);
 
 

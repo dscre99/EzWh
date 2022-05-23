@@ -6,8 +6,21 @@ const skuItemDaoInstance = new skuItemDao(DBinstance);
 
 function verifyDate(date) {
     var regex = /(\d{ 4})-(\d{ 2 }) -(\d{ 2 }) (\d{ 2 }): (\d{ 2 }): (\d{ 2 })/;
-    return re.test(date);
+    return regex.test(date);
 }
+
+
+//DELETE /api/clearskuitemtable
+async function clear_skuitem_table(req, res) {
+    try {
+        let result = await skuItemDaoInstance.dropSKUItemTable();
+        let res2 = await skuItemDaoInstance.newSKUItemTable();
+        res.status(200).end();
+    } catch (err) {
+        res.status(500).end();
+    }
+}
+
 
 
 // GET /api/skuitems
@@ -187,4 +200,4 @@ async function deleteSKUItembyRfid(req, res) {
     });
 }
 
-module.exports = { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid };
+module.exports = { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid, clear_skuitem_table };
