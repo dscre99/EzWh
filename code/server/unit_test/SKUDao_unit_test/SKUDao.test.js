@@ -171,4 +171,6 @@ describe('test SKUdao', () => {
 
     testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200);
     testModifySKU(18, "description", 14, 12, "note", 10000.56, 13, 404);
+
+    testDeleteSKUbyID(2, 204);
 })
