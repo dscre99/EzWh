@@ -4,7 +4,7 @@ const InternalOrderDAO = require('./InternalOrderDAO.js')
 const InternalOrderDAOinstance = new InternalOrderDAO(DBinstance);
 
 
-const internalOrderStates = [ 'ISSUED', 'ACCEPTED', 'REFUSED', 'CANCELED', 'COMPLETED' ];
+const internalOrderStates = [ 'ISSUED', 'ACCEPTED', 'REFUSED', 'CANCELLED', 'COMPLETED' ];
 
 //GET /api/internalOrders
 async function get_internal_orders(req, res) {
@@ -14,8 +14,6 @@ async function get_internal_orders(req, res) {
         function(value) {
             console.log('getInternalOrders resolve');
             return res.status(200).json(value).end();
-            //console.log(value);
-            //return res.status(200).end(value);
         },
         function(error) {
             console.log('getInternalOrders reject');
@@ -84,14 +82,11 @@ async function get_accepted_orders(req, res) {
 //GET /api/internalOrders/:id
 async function get_internal_order_by_id(req, res) {
 
-    console.log(Number.parseInt(req.params.id));
     if(Number.parseInt(req.params.id) > 0){
         let getInternalOrderPromise = InternalOrderDAOinstance.getInternalOrders(req.params);
         await getInternalOrderPromise.then(
             function(value) {
                 console.log('getInternalOrders resolve');
-                //console.log(req.params);
-                // check for empty params
                 let order = undefined;
                 for (let i = 0; i < value.length; i++) {
                     if(value[i].id == req.params.id){
@@ -101,7 +96,6 @@ async function get_internal_order_by_id(req, res) {
                 }
 
                 if(order != undefined) {
-                    console.log(order);
                     return res.status(200).json(order).end();
                 } else {
                     return res.status(404).end();   // 404 Not Found
@@ -124,7 +118,6 @@ async function get_internal_order_by_id(req, res) {
 async function create_internal_order(req, res) {
     
     requestedFields = [ 'issueDate', 'products', 'customerId' ];
-    console.log('body length:', Object.keys(req.body).length);
     if(Object.keys(req.body).length == 0 || Object.keys(req.body).length != requestedFields.length) {
         return res.status(422).end();
     }
@@ -170,7 +163,6 @@ async function modify_internal_order_state(req, res) {
 
     // body validation
     if(!Object.keys(req.body).includes('newState') || !internalOrderStates.includes(req.body.newState)) {
-        console.log('ERROREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
         return res.status(422).end(); // 422 Unprocessable Entity
     }
 

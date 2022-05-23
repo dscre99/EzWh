@@ -24,10 +24,8 @@ class UserDAO {
                         if(err){
                             console.log('clearUserTable() error:', err);
                             reject(500);
-                            return;
                         } else {
                             resolve(200);
-                            return;
                         }
                     });
                 }
@@ -57,14 +55,12 @@ class UserDAO {
                         // reports error while querying database
                         console.log('getUser() sql.run error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
-                        return;
                     }
                     //console.log(rows);
 
                     if(rows.length == 0){
                         // 401 if username is not found in DB
                         reject(401);    // 401 Unauthorized
-                        return;
                     } else {
                         // collects user data into a dictionary
                         const userData = rows.map((r) => (
@@ -78,13 +74,11 @@ class UserDAO {
                         ));
 
                         resolve(userData);  // returns userData dictionary to be sent as JSON response body
-                        return;
                     }
                 });
             } else {
                 // if USER is not logged in, returns 401 Unauthorized
                 reject(401);    // 401 Unauthorized
-                return;
             }
         });
     }
@@ -101,14 +95,12 @@ class UserDAO {
                         // reports error while querying database
                         console.log('getUser() sql.run error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
-                        return;
                     }
                     //console.log(rows);
 
                     if(rows.length == 0){
                         // no supplier found in DB
                         resolve(rows);  // returns empty array
-                        return;
                     } else {
                         // collects suppliers data into a dictionary
                         const userData = rows.map((r) => (
@@ -121,14 +113,12 @@ class UserDAO {
                         ));
 
                         resolve(userData);  // returrns userData dictionary to be sent as JSON response body
-                        return;
                     }
                 })
 
             } else {
                 // if USER is not logged in or it is not a Manager, returns 401 Unauthorized
                 reject(401);    // 401 Unauthorized
-                return;
             }
 
         });
@@ -148,7 +138,6 @@ class UserDAO {
                         // reports error while querying database
                         console.log('getUser() sql.run error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
-                        return;
                     }
                     //console.log(rows);
 
@@ -165,11 +154,9 @@ class UserDAO {
                     //console.log(users);
 
                     resolve(users);
-                    return;
                 });
             } else {
                 reject(401);    // 401 Unauthorized
-                return;
             }
         });
     }
@@ -189,36 +176,33 @@ class UserDAO {
                         // reports error while querying database
                         console.log('newUser() sql1.run error:: ', err);
                         reject(503);    // 503 Service Unavailable (generic error)
-                        return;
-                    }
-                    //console.log(rows);
-                    // if tuples are found, new USER cannot be accepted
-                    if(rows.length != 0){
-                        reject(409);    // 409 Conflict
-                        return;
-                    }
+                    } else {
 
-                    // query to DB to insert new USER
-                    const cipher = crypto.createCipher('aes-256-cbc', key);
-                    let cipheredpw = cipher.update(newUserData.password, 'base64');
-                    cipheredpw = cipher.final('base64');
+                        // if tuples are found, new USER cannot be accepted
+                        if(rows.length != 0){
+                            reject(409);    // 409 Conflict
+                        } else {
+                            
+                            // query to DB to insert new USER
+                            const cipher = crypto.createCipher('aes-256-cbc', key);
+                            let cipheredpw = cipher.update(newUserData.password, 'base64');
+                            cipheredpw = cipher.final('base64');
 
-                    const sql2 = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES (?, ?, ?, ?, ?)';
-                    this.#db.run(sql2, [newUserData.name, newUserData.surname, newUserData.username, cipheredpw, newUserData.type], (err) => {
-                        if (err) {
-                            // reports error while querying database
-                            console.log('newUser() sql2.run error:: ', err);
-                            reject(503);    // 503 Service Unavailable (generic error)
-                            return;
+                            const sql2 = 'INSERT INTO USERS(NAME, SURNAME, EMAIL, PASSWORD, TYPE) VALUES (?, ?, ?, ?, ?)';
+                            this.#db.run(sql2, [newUserData.name, newUserData.surname, newUserData.username, cipheredpw, newUserData.type], (err) => {
+                                if (err) {
+                                    // reports error while querying database
+                                    console.log('newUser() sql2.run error:: ', err);
+                                    reject(503);    // 503 Service Unavailable (generic error)
+                                }
+                                // USER added successfully
+                                resolve(201);
+                            });
                         }
-                        // USER added successfully
-                        resolve(201);
-                        return;
-                    });
+                    }
                 });
             } else {
                 reject(401); // 401 Unauthorized
-                return;
             }
         });
 
@@ -240,11 +224,9 @@ class UserDAO {
                         // reports error while querying database
                         console.log('userSession() sql.all error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
-                        return;
                     } else if (rows.length == 0) {
                         // rejects session if no USER corresponding to data is found
                         reject(401);    // 401 Unauthorized
-                        return;
                     } else {
                         // prepares response body (customer info: id, username, name)
                         const userInfo = rows.map((r) => (
@@ -256,12 +238,10 @@ class UserDAO {
                         ));
 
                         resolve(userInfo[0]);
-                        return;
                     }
                 });
             } else {
                 reject(401);    // 401 Unauthorized
-                return;
             }
         });
     }
@@ -278,11 +258,9 @@ class UserDAO {
                         // reports error while querying database
                         console.log('modifyUserType() sql1.all error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
-                        return;
                     } else if (rows.length == 0) {
                         // wrong username or oldType fields or user doesn't exists
                         reject(404);    // 404 Not Found
-                        return;
                     } else {
                         let userID = rows.map((r) => r.ID);
                         userID = userID[0];
@@ -293,10 +271,8 @@ class UserDAO {
                                 // reports error while querying database
                                 console.log('modifyUserType() sql2.all error:: ', err);
                                 reject(500);    // 500 Internal Server Error (generic error)
-                                return;
                             } else {
                                 resolve(200);   // 200 OK
-                                return;
                             }
                         });
                     }
@@ -304,7 +280,6 @@ class UserDAO {
 
             } else {
                 reject(401);    // 401 Unauthorized
-                return
             }
         });
     }
@@ -320,15 +295,12 @@ class UserDAO {
                         // reports error while querying database
                         console.log('deleteUser() sql.all error:: ', err);
                         reject(503);    // 500 Service Unavailable (generic error)
-                        return;
                     } else {
                         resolve(204);   // 204 No Content (success)
-                        return;
                     }
                 });
             } else {
                 reject(401);    // 401 Unauthorized
-                return;
             }
         });
     }
