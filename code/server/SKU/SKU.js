@@ -3,6 +3,25 @@ const DB = require('../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const skuDaoInstance = new SKUDao(DBinstance);
 
+//DELETE /api/clearskutable
+async function clear_sku_table(req, res) {
+    let clearSKUTablePromise = skuDaoInstance.dropSKUTable().then(skuDaoInstance.newSKUTable());
+
+    await clearSKUTablePromise.then(
+        function (value) {
+            console.log('clearSKUTable resolve');
+            return res.status(200).end();
+        },
+        function (error) {
+            console.log('clearSKUTable reject');
+            return res.status(error).end();
+        }
+    ).catch(err => function (err) {
+        console.log('clearSKUTable error', err);
+        return res.status(500).end();
+    });
+}
+
 // GET /api/skus
 
  async function getSKUs(req, res) {
@@ -52,15 +71,18 @@ async function newSKU(req, res) {
     }
     const required = ['description', 'weight', 'volume', 'notes', 'price', 'availableQuantity'];
     if (Object.keys(req.body).length != required.length) {
+        console.log('body length');
         return res.status(422).end();
-    } else {
+    } else { 
         required.forEach(key => {
             if (!Object.keys(req.body).includes(key)) {
+                console.log('not includes key')
                 return res.status(422).end();
             }
             if (req.body[key] == undefined || req.body[key] == '') {
+                console.log('undefined');
                 return res.status(422).end();
-            }
+            } 
         });
     }
 
@@ -197,16 +219,7 @@ async function deleteSKUbyID(req, res) {
     });
 }
 
-//DELETE /api/clearskutable
-async function clear_sku_table(req, res) {
-    try {
-        let result = await skuDaoInstance.dropSKUTable()
-        let res2 = await skuDaoInstance.newSKUTable()
-        return res.status(200).end();
-    } catch (err) {
-        return res.status(500).end();
-    }
-}
+
 
 
 

@@ -13,7 +13,6 @@ class SKUItemDao {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve(200)
             })
@@ -26,7 +25,6 @@ class SKUItemDao {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve(200);
             });
@@ -42,7 +40,6 @@ class SKUItemDao {
                 this.#db.all(check, [skuItem.SKUId], (err, res) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
 
                     res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
@@ -52,7 +49,6 @@ class SKUItemDao {
                             console.log('query error', err);
                             if (err) {
                                 reject(503);
-                                return;
                             }
                             resolve(201);
                         });
@@ -77,7 +73,6 @@ class SKUItemDao {
                 this.#db.all(sql, [], (err, rows) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
                     const skuItems = rows.map((r) => (
                         {
@@ -104,7 +99,6 @@ class SKUItemDao {
                 this.#db.all(checkSKUId, [SKUId], (err, res) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
 
                     res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
@@ -115,7 +109,6 @@ class SKUItemDao {
                         ], (err, rows) => {
                             if (err) {
                                 reject(err);
-                                return;
                             }
                             const skuItems = rows.map((r) => (
                                 {
@@ -148,7 +141,6 @@ class SKUItemDao {
                 this.#db.all(checkRfid, [rfid], (err, res) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
 
                     res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
@@ -158,7 +150,6 @@ class SKUItemDao {
                         this.#db.all(sql, [rfid], (err, rows) => {
                             if (err) {
                                 reject(err);
-                                return;
                             }
                             const skuItems = rows.map((r) => (
                                 {
@@ -191,7 +182,6 @@ class SKUItemDao {
                 this.#db.all(checkRfid, [data.oldRfid], (err, res) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
 
                     res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
