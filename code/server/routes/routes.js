@@ -40,9 +40,11 @@ const { get_internal_orders, get_issued_orders, get_accepted_orders, get_interna
 // ITEM receivers
 const { get_items, get_item_by_id, store_item, update_item, delete_item , clear_item_table} = require('../Item/Item')
 
-const { getSKUs, getSKUbyID, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID } = require('../SKU/SKU')
+// SKU receivers
+const { getSKUs, getSKUbyID, newSKU, modifySKU, modifySKUPosition, deleteSKUbyID, clear_sku_table } = require('../SKU/SKU')
 
-const { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid} = require('../SKU_Item/SKU_Item');
+// SKU ITEM receivers
+const { getSKUItems, getSKUItemBySKUID, getSKUItemsByRfid, newSKUItem, modifySKUItem, deleteSKUItembyRfid, clear_skuitem_table} = require('../SKU_Item/SKU_Item');
 
 
 
@@ -132,6 +134,7 @@ router.post('/sku', newSKU);  //POST /api/sku
 router.put('/sku/:id', modifySKU);  //PUT /api/sku/:id
 router.put('/sku/:id/position', modifySKUPosition);  //PUT /api/sku/:id/position
 router.delete('/skus/:id', deleteSKUbyID);  //DELETE /api/skus/:id
+router.delete('/clearskutable', clear_sku_table); //DELETE /api/clearskutable
 
 // SKU Item routes
 
@@ -141,5 +144,6 @@ router.get('/skuitems/:rfid', getSKUItemsByRfid); //GET /api/skuitems/:rfid
 router.post('/skuitem', newSKUItem); // POST /api/skuitem
 router.put('/skuitems/:rfid', modifySKUItem); // PUT /api/skuitems/:rfid
 router.delete('/skuitems/:rfid', deleteSKUItembyRfid); // DELETE /api/skuitems/:rfid
+router.delete('/clearskuitemtable', clear_skuitem_table); //DELETE /api/clearskuitemtable
 
 module.exports = router;

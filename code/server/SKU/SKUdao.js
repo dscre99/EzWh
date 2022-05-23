@@ -11,7 +11,6 @@ class SKUDao {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve(200)
             })
@@ -24,7 +23,6 @@ class SKUDao {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
-                    return;
                 }
                 resolve(200);
             });
@@ -39,7 +37,6 @@ class SKUDao {
                 this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity], (err, rows) => {
                     if (err) {
                         reject(503);
-                        return;
                     }
                     resolve(201);
                 });
@@ -58,7 +55,6 @@ class SKUDao {
                 this.#db.all(sql, [], (err, rows) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
                     const skus = rows.map((r) => (
                         {
@@ -91,7 +87,6 @@ class SKUDao {
                 this.#db.all(checkSKUId, [id], (err, res) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
 
                     res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
@@ -139,7 +134,6 @@ class SKUDao {
                 this.#db.all(checkId, [sku.id], (err, res) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
 
                     res.length > 0 ? exists = 1 : exists;
@@ -175,7 +169,6 @@ class SKUDao {
                 this.#db.all(checkAvailability, [data.id], (err, res) => {
                     if (err) {
                         reject(err);
-                        return;
                     }
                     res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
                     if (exists) {
@@ -183,7 +176,6 @@ class SKUDao {
                         this.#db.all(checkPosition, [data.position], (err, res2) => {
                             if (err) {
                                 reject(err);
-                                return;
                             }
                             let alreadyIn = 0;
                             res2[0]['COUNT(*)'] > 0 ? alreadyIn = true : alreadyIn = false;
@@ -192,7 +184,6 @@ class SKUDao {
                                 this.#db.all(checkPosInSKU, [data.position], (err, res3) => {
                                     if (err) {
                                         reject(err);
-                                        return;
                                     }
                                     let posInSKU = 0;
                                     res3[0]['COUNT(*)'] > 0 ? posInSKU = true : posInSKU = false;
@@ -204,7 +195,6 @@ class SKUDao {
                                         this.#db.all(checkVolumeAndWeight, [data.position, data.id], (err, rows) => {
                                             if (err) {
                                                 reject(err);
-                                                return;
                                             }
                                             let result = rows[0];
                                             if ((result.VOLUME <= (result.maxVolume - result.occupiedVolume)) && (result.WEIGHT <= (res.maxWeight - res.occupiedWeight)))
