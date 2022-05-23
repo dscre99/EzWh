@@ -14,7 +14,7 @@ class InternalOrderDAO {
                     // reports error while querying database
                     console.log('clearInternalOrdersTable() sql1.run error:: ', err1);
                     reject(500);    // 500 Internal Server Error (generic error)
-                    return;
+
                 } else {
 
                     let sql2 = `CREATE TABLE IF NOT EXISTS INTERNAL_ORDER(
@@ -28,10 +28,10 @@ class InternalOrderDAO {
                             // reports error while querying database
                             console.log('clearInternalOrdersTable() sql2.run error:: ', err2);
                             reject(500);    // 500 Internal Server Error (generic error)
-                            return;
+        
                         } else {
                             resolve(200);
-                            return;
+        
                         }
                     });
                 }
@@ -48,7 +48,7 @@ class InternalOrderDAO {
                     // reports error while querying database
                     console.log('clearSKUinInternalOrdersTable() sql1.run error:: ', err1);
                     reject(500);    // 500 Internal Server Error (generic error)
-                    return;
+
                 } else {
 
                     let sql2 = `CREATE TABLE IF NOT EXISTS SKU_IN_INTERNALORDER(
@@ -65,10 +65,10 @@ class InternalOrderDAO {
                             // reports error while querying database
                             console.log('clearSKUinInternalOrdersTable() sql2.run error:: ', err2);
                             reject(500);    // 500 Internal Server Error (generic error)
-                            return;
+        
                         } else {
                             resolve(200);
-                            return;
+        
                         }
                     });
                 }
@@ -85,7 +85,7 @@ class InternalOrderDAO {
                     // reports error while querying database
                     console.log('clearSKUITEMinInternalOrdersTable() sql1.run error:: ', err1);
                     reject(500);    // 500 Internal Server Error (generic error)
-                    return;
+
                 } else {
 
                     let sql2 = `CREATE TABLE IF NOT EXISTS SKUITEM_IN_INTERNALORDER(
@@ -100,10 +100,10 @@ class InternalOrderDAO {
                             // reports error while querying database
                             console.log('clearSKUITEMinInternalOrdersTable() sql2.run error:: ', err2);
                             reject(500);    // 500 Internal Server Error (generic error)
-                            return;
+        
                         } else {
                             resolve(200);
-                            return;
+        
                         }
                     });
                 }
@@ -124,7 +124,7 @@ class InternalOrderDAO {
                         // reports error while querying database
                         console.log('getInternalOrders() sql1.run error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
-                        return;
+    
                     } else {
 
                         //let internalOrders = [];
@@ -143,7 +143,7 @@ class InternalOrderDAO {
                                 // reports error while querying database
                                 console.log('getInternalOrders() sql2.run error:: ', err2);
                                 reject(500);    // 500 Internal Server Error (generic error)
-                                return;
+            
                             } else {
                                 const SKUSperOrder = rows2.map((r2) => (
                                     {
@@ -181,7 +181,7 @@ class InternalOrderDAO {
                                         // reports error while querying database
                                         console.log('getInternalOrders() sql3.run error:: ', err3);
                                         reject(500);    // 500 Internal Server Error (generic error)
-                                        return;
+                    
                                     } else {
                                         const SKUItems = rows3.map((r3 => (
                                             {
@@ -215,7 +215,7 @@ class InternalOrderDAO {
                                         }
 
                                         resolve(internalOrders); 
-                                        return;
+                    
                                     }
                                 });
                             }
@@ -242,7 +242,7 @@ class InternalOrderDAO {
                         // reports error while querying database
                         console.log('createInternalOrder() sql.run error:: ', err);
                         reject(503);    // 503 Service Unavailable (generic error)
-                        return;
+    
                     }
                 });
 
@@ -252,7 +252,7 @@ class InternalOrderDAO {
                         // reports error while querying database
                         console.log('createInternalOrder() sql2.all error:: ', err2);
                         reject(503);    // 503 Service Unavailable (generic error)
-                        return;
+    
                     } else {
                         let id = rows2.map((r) => (
                             r.ID
@@ -267,10 +267,10 @@ class InternalOrderDAO {
                                         // reports error while querying database
                                         console.log('createInternalOrder() sql3.all error:: ', err3);
                                         reject(503);    // 503 Service Unavailable (generic error)
-                                        return;
+                    
                                     } else {
                                         resolve(201);
-                                        return;
+                    
                                     }
                                 });
                             });
@@ -294,7 +294,7 @@ class InternalOrderDAO {
                         // reports error while querying database
                         console.log('modifyInternalOrder() sql1.run error:: ', err1);
                         reject(503);    // 503 Service Unavailable (generic error)
-                        return;
+    
                     } else {
                         const id = rows1.map((r) => (
                             r.ID
@@ -302,7 +302,7 @@ class InternalOrderDAO {
 
                         if(id.length == 0) {
                             reject(404);    // 404 Not Found
-                            return;
+        
                         } else {
 
                             let sql2 = 'UPDATE INTERNAL_ORDER SET STATE=? WHERE ID=?';
@@ -311,7 +311,7 @@ class InternalOrderDAO {
                                     // reports error while querying database
                                     console.log('modifyInternalOrder() sql2.run error:: ', err2);
                                     reject(503);    // 503 Service Unavailable (generic error)
-                                    return;
+                
                                 } else {
                                     if(data.newState == 'COMPLETED') {
 
@@ -328,10 +328,10 @@ class InternalOrderDAO {
                                                     // reports error while querying database
                                                     console.log('modifyInternalOrder() sql3.run error:: ', err3);
                                                     reject(503);    // 503 Service Unavailable (generic error)
-                                                    return;
+                                
                                                 } else if(i == data.products.length-1) {
                                                     resolve(200);   // 202 OK Success
-                                                    return;
+                                
                                                 }
                                             });
                                             
@@ -339,7 +339,7 @@ class InternalOrderDAO {
                                         resolve(200);
                                     } else {
                                         resolve(200);   // 200 OK
-                                        return; 
+                     
                                     }
                                 }
                             });
@@ -349,7 +349,6 @@ class InternalOrderDAO {
                 })
             } else {
                 reject(401);
-                return;
             }
         });
     }
@@ -366,7 +365,7 @@ class InternalOrderDAO {
                         // reports error while querying database
                         console.log('deleteInternalOrder() sql.run error:: ', err);
                         reject(503);    // 503 Service Unavailable (generic error)
-                        return;
+    
                     } else {
 
                         let sql2 = 'DELETE FROM SKU_IN_INTERNALORDER  WHERE INTERNAL_ORDER_ID=?';
@@ -375,7 +374,7 @@ class InternalOrderDAO {
                                 // reports error while querying database
                                 console.log('deleteInternalOrder() sql.run error:: ', err2);
                                 reject(503);    // 503 Service Unavailable (generic error)
-                                return;
+            
                             } else {
                                 let sql3 = 'DELETE FROM INTERNAL_ORDER WHERE ID=?';
                                 this.db.run(sql3, [orderId], (err3) => {
@@ -383,11 +382,11 @@ class InternalOrderDAO {
                                         // reports error while querying database
                                         console.log('deleteInternalOrder() sql2.run error:: ', err3);
                                         reject(503);    // 503 Service Unavailable (generic error)
-                                        return;
+                    
                                     } else {
 
-                                        resolve(204);
-                                        return; // 204 No Content (success)
+                                        resolve(204);   // 204 No Content (success)
+                                        
                                     }
                                 });
                             }
@@ -396,7 +395,6 @@ class InternalOrderDAO {
                 });
             } else {
                 reject(401);    // 401 Unauthorized
-                return;
             }
         });
     }

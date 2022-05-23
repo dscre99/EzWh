@@ -106,11 +106,15 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 
 
 
-| Scenario ID | Functional Requirements covered |                Mocha Test(s)               |
-|:-----------:|:-------------------------------:|:------------------------------------------:|
-|     4-1     |           FR1.1, FR1.3          | test UC4-1 - Create user and define rights |
-|     4-2     |       FR1.1, FR1.3, FR1.5       |       test UC4-2 - Modify user rights      |
-|     4-3     |       FR1.1, FR1.2, FR1.3       |          test UC4-3 - Delete user          |            
+| Scenario ID |      Functional Requirements covered     |                Mocha Test(s)               |
+|:-----------:|:----------------------------------------:|:------------------------------------------:|
+|     4-1     |               FR1.1, FR1.3               | test UC4-1 - Create user and define rights |
+|     4-2     |            FR1.1, FR1.3, FR1.5           |       test UC4-2 - Modify user rights      |
+|     4-3     |            FR1.1, FR1.2, FR1.3           |          test UC4-3 - Delete user          |
+|     9-1     | FR6.1, FR6.2, FR6.3, FR6.5, FR6.6, FR6.7 |   test UC9-1 - Internal Order IO accepted  |
+|     9-2     |               FR6.6, FR6.7               |   test UC9-2 - Internal Order IO refused   |
+|     9-3     |               FR6.6, FR6.7               |  test UC9-3 - Internal Order IO cancelled  |
+|     10-1    |            FR6.6, FR6.7, FR6.8           |  test UC10-1 - Internal Order IO Completed |          
 
 
 

@@ -664,3 +664,80 @@ describe('test UC9-3 - Internal Order IO cancelled', () => {
     ], 200);
     
 });
+
+describe('test UC10-1 - Internal Order IO Completed', () => {
+
+    // restores DB to a known state before start testing
+    before(async () => {
+        let res = await InternalOrderDAOinstance.clearSKUITEMinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearSKUinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearInternalOrdersTable();
+        res.should.equal(200);
+    });
+
+    // issues internal order
+    testPOSTinternalOrder({
+        "issueDate": "2022/05/15 21:12",
+        "products": [
+            {
+                "SKUId": 15,
+                "description": "a product",
+                "price": 17.99,
+                "qty": 1
+            },
+            {
+                "SKUId": 23,
+                "description": "another product",
+                "price": 7.99,
+                "qty": 1
+            }
+        ],
+        "customerId": 2
+    }, 201);
+
+    // accepts order
+        // missing prodicts list
+    testPUTinternalOrder(1, {"newState": "COMPLETED"}, 422);
+    testPUTinternalOrder(1, {
+        "newState": "COMPLETED",
+        "products": [
+            {
+                "SkuID": 15,
+                "RFID": "12345678901234567890123456789015"
+            },
+            {
+                "SkuID": 23,
+                "RFID": "12345678901234567890123456789023"
+            }
+        ]
+    }, 200);
+
+    // check internal order has been accepted
+    testGETinternalOrders([
+        {
+            "id": 1,
+            "issueDate": "2022/05/15 21:12",
+            "state": "COMPLETED",
+            "customerId": 2,
+            "products": [
+                {
+                    "SKUId": 15,
+                    "description": "a product",
+                    "price": 17.99,
+                    "qty": 1,
+                    "RFID": "12345678901234567890123456789015"
+                },
+                {
+                    "SKUId": 23,
+                    "description": "another product",
+                    "price": 7.99,
+                    "qty": 1,
+                    "RFID": "12345678901234567890123456789023"
+                }
+            ]
+        }
+    ], 200);
+    
+});
