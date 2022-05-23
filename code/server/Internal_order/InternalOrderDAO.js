@@ -137,9 +137,6 @@ class InternalOrderDAO {
                             }
                         ));
 
-                        //this.storeInternalOrders(intOrds);
-                        //this.internalOrders = intOrds;
-
                         let sql2 = 'SELECT * FROM SKU_IN_INTERNALORDER';
                         this.db.all(sql2, (err2, rows2) => {
                             if(err2){
@@ -317,19 +314,13 @@ class InternalOrderDAO {
                                     return;
                                 } else {
                                     if(data.newState == 'COMPLETED') {
-                                        // TO-DO: REGISTER NEW SKU_ITEMS
 
                                         for (let i = 0; i < data.products.length; i++) {
-                                            let p = data.products[i];
-
-                                            //let actualDate = new Date();
-                                            //let date = actualDate.getFullYear() + '/' + (actualDate.getMonth()+1) + '/' + actualDate.getDate() + ' ' + actualDate.getHours() + ':' + actualDate.getMinutes();
-                                            
+                                            let p = data.products[i];                                            
 
                                             // SIMPLY ADD RFID IN SKUITEM_IN_INTERNALORDER TABLE AT INTERNAL_ORDER_ID ENTRY
                                             let sql3 = `INSERT INTO SKUITEM_IN_INTERNALORDER (INTERNAL_ORDER_ID, SKU_ID, RFID)
                                                         VALUES (?,?,?);`;
-                                            console.log(data.id, p.SkuID, p.RFID);
                                             this.db.run(sql3, [data.id, p.SkuID, p.RFID], (err3) => {
                                                 //console.log('i', i);
                                                 //console.log('tot', data.products.length-1);
