@@ -1051,31 +1051,31 @@ No boundaries for boolean values
 
 | Unit name | Jest test case |
 |--|--|
-|ItemDAO.storeItem|ItemDAO.test.js-> testStoreItem|
-|ItemDAO.updateItem|ItemDAO.test.js-> testUpdateItem|
-|ItemDAO.getItemByID|ItemDAO.test.js-> testGetItemById|
-|ItemDAO.getSKUIDbyItemID|ItemDAO.test.js-> testGetSKUIDbyItemID|
-|ItemDAO.getItembyIdSupp|ItemDAO.test.js-> testGetItembyIdSupp|
-|ItemDAO.getItems|ItemDAO.test.js-> testGetItems|
-|ItemDAO.deleteItem|ItemDAO.test.js-> testDeleteItem|
-|Restock_orderDAO.getRestockOrders|Restock_orderDAO.test.js-> testGetRestockOrders|
-|Restock_orderDAO.getRestockOrdersIssued|Restock_orderDAO.test.js-> testGetRestockOrdersIssued|
-|Restock_orderDAO.getRestockOrderDeliveredByID|Restock_orderDAO.test.js-> testGetRestockOrderDeliveredByID|
-|Restock_orderDAO.getItemList|Restock_orderDAO.test.js-> testGetItemList|
-|Restock_orderDAO.checkItemList|Restock_orderDAO.test.js-> testCheckItemList|
-|Restock_orderDAO.getRestockOrderByID|Restock_orderDAO.test.js-> testGetRestockOrderByID|
-|Restock_orderDAO.storeRestockOrder|Restock_orderDAO.test.js-> testStoreRestockOrder|
-|Restock_orderDAO.storeProducts|Restock_orderDAO.test.js-> testStoreProducts|
-|Restock_orderDAO.updateState|Restock_orderDAO.test.js-> testUpdateState|
-|Restock_orderDAO.newSKUItemList|Restock_orderDAO.test.js-> testNewSKUItemList|
-|Restock_orderDAO.addTransportNote|Restock_orderDAO.test.js-> testAddTransportNote|
-|Restock_orderDAO.deleteRestockOrder|Restock_orderDAO.test.js-> testDeleteRestockOrder|
-|Return_orderDAO.getReturnOrders|Return_orderDAO.test.js-> testGetReturnOrders|
-|Return_orderDAO.getRestockOrderbyID|Return_orderDAO.test.js-> testGetRestockOrderbyID|
-|Return_orderDAO.getReturnOrderbyId|Return_orderDAO.test.js-> testGetReturnOrderById|
-|Return_orderDAO.storeReturnOrder|Return_orderDAO.test.js-> testStoreReturnOrder|
-|Return_orderDAO.setReturnItem|Return_orderDAO.test.js-> testSetReturnItem|
-|Return_orderDAO.deleteReturnOrder|Return_orderDAO.test.js-> testDeleteReturnOrder|
+|storeItem|testStoreItem|
+|updateItem|testUpdateItem|
+|getItemByID|testGetItemById|
+|getSKUIDbyItemID|testGetSKUIDbyItemID|
+|getItembyIdSupp|testGetItembyIdSupp|
+|getItems|testGetItems|
+|deleteItem|testDeleteItem|
+|getRestockOrders|testGetRestockOrders|
+|getRestockOrdersIssued|testGetRestockOrdersIssued|
+|getRestockOrderDeliveredByID|testGetRestockOrderDeliveredByID|
+|getItemList|testGetItemList|
+|checkItemList|testCheckItemList|
+|getRestockOrderByID|testGetRestockOrderByID|
+|storeRestockOrder|testStoreRestockOrder|
+|storeProducts|testStoreProducts|
+|updateState|testUpdateState|
+|newSKUItemList|testNewSKUItemList|
+|addTransportNote|testAddTransportNote|
+|deleteRestockOrder|testDeleteRestockOrder|
+|getReturnOrders|testGetReturnOrders|
+|getRestockOrderbyID|testGetRestockOrderbyID|
+|getReturnOrderbyId|testGetReturnOrderById|
+|storeReturnOrder|testStoreReturnOrder|
+|setReturnItem|testSetReturnItem|
+|deleteReturnOrder|testDeleteReturnOrder|
 |InternalOrderDAO.getInternalOrders()|InternalOrderDAO.test.js -> testGetInternalOrders(resExpected)|
 |InternalOrderDAO.createInternalOrder(orderData)|InternalOrderDAO.test.js -> testCreateInternalOrder(orderData, resExpected)|
 |InternalOrderDAO.modifyInternalOrderState(data)|InternalOrderDAO.test.js -> testModifyInternalOrder(orderData, resExpected)|
