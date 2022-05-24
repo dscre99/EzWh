@@ -41,7 +41,7 @@ function test_modify_test_descriptor(ID, newTestDescriptor, expected) {
 }
 
 function test_delete_test_descriptor(ID, expected) {
-    test('Delete Position', async () => {
+    test('Delete Test Descriptor', async () => {
         try {
             let res = await test_descriptor_dao.delete_test_descriptor_by_ID_DB(ID);
             expect(res).toEqual(expected);
@@ -80,15 +80,11 @@ describe('Test Test Descriptor', () => {
         }
     ])
 
+    test_delete_test_descriptor(1, true);
+
     test_new_test_descriptor("Test Descriptor 2", "Procedure Description 2 ...", 2, true);
 
     test_get_test_descriptor([
-        {
-            "ID": 1,
-            "NAME": "Test Descriptor 1",
-            "PROCEDUREDESCRIPTION": "Procedure Description 1 ...",
-            "IDSKU": 1
-        }, 
         {
             "ID": 2,
             "NAME": "Test Descriptor 2",
@@ -101,6 +97,39 @@ describe('Test Test Descriptor', () => {
     test_modify_test_descriptor(1, {"NAME": "Test Descriptor 1 updated", "PROCEDUREDESCRIPTION":"Procedure Description 1 updated ...", "IDSKU":1}, true);
 	test_delete_test_descriptor(2,true);
 
+    test_get_test_descriptor([]);
+
+    test_new_test_descriptor("Test Descriptor 3", "Procedure Description 3 ...", 3, true);
+    test_new_test_descriptor("Test Descriptor 4", "Procedure Description 4 ...", 4, true);
+    test_new_test_descriptor("Test Descriptor 5", "Procedure Description 5 ...", 5, true);
+    test_new_test_descriptor("Test Descriptor 6", "Procedure Description 6 ...", 6, true);
+
+    test_get_test_descriptor([
+        {
+            "ID": 3,
+            "NAME": "Test Descriptor 3",
+            "PROCEDUREDESCRIPTION": "Procedure Description 3 ...",
+            "IDSKU": 3   
+        },
+        {
+            "ID": 4,
+            "NAME": "Test Descriptor 4",
+            "PROCEDUREDESCRIPTION": "Procedure Description 4 ...",
+            "IDSKU": 4   
+        },
+        {
+            "ID": 5,
+            "NAME": "Test Descriptor 5",
+            "PROCEDUREDESCRIPTION": "Procedure Description 5 ...",
+            "IDSKU": 5   
+        },
+        {
+            "ID": 6,
+            "NAME": "Test Descriptor 6",
+            "PROCEDUREDESCRIPTION": "Procedure Description 6 ...",
+            "IDSKU": 6   
+        }
+    ])
     
 })
 
