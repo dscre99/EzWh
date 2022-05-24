@@ -138,7 +138,15 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 |11-2|FR7|testPUTItem|
 |4.2|FR5.4|getPositions|
 |6.2|FR5.7|newTestResult|
-||||
+|1-1|FR2.1|testNewSKU|
+|1-2|FR2.1|testModifySKUPosition|
+|1-3|FR2.1|testModifySKU|
+||FR2.2|testDeleteSKU|
+||FR2.3|testGetSKUs|
+||FR2.4|testGetSKUByID|
+||FR5.8.3|testNewSKUItem|
+||FR6.10|testDeleteSKUItemByRfid|
+||FR6.9| testGetSKUItemBySKUId, testGetSKUItemByRfid, testGetSKUItems|
 
 
 
