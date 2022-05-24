@@ -328,6 +328,144 @@ No boundaries for boolean predicates.
 |           F          |          -          |     Invalid     |                          Test descriptor with 'id' doesn't exist, test fails.                          |  test_delete_test_descriptor(); |
 
 
+## **Class *TestResultDAO***
+
+ ### **Class *TestResultDAO* - method *get_test_results_DB(rfid)***
+
+**Criteria for method *get_test_results_DB(rfid)*:**
+ - SkuItem with 'rfid' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| SkuItem with 'rfid' exists (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| SkuItem with 'rfid' exists (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               SkuItem with 'rfid' exists and user has right permission, correct data is returned.               | test_get_test_result(); |
+|           T          |          F          |     Invalid     | SkuItem with 'rfid' exists but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_get_test_result(); |
+|           F          |          -          |     Invalid     |                          SkuItem with 'rfid' doesn't exists, test fails.                          |  test_get_test_result(); |
+
+
+
+### **Class *TestResultDAO* - method *get_test_result_with_id_from_rfid_DB(id, rfid)***
+
+**Criteria for method *get_test_result_with_id_from_rfid_DB(id, rfid)*:**
+ - SkuItem with 'rfid' exists
+ - Test Result with 'id' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| SkuItem with 'rfid' exists (C1) | True, False |
+| Test Result with 'id' exists (C2) | True, False |
+| User has right permission (C3)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| SkuItem with 'rfid' exists (C1) | Test Result with 'id' exists (C2)  | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          | T |     Valid      |               SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB and user has right permission, correct data is returned.               | test_get_test_result_with_ID_by_RFID(); |
+|           T          |          T          | F|     Invalid     | Test SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_get_test_result_with_ID_by_RFID(); |
+|           F          |          -         | -|    Invalid     |                          SkuItem with 'rfid' doesn't exists, test fails.                          |  test_get_test_result_with_ID_by_RFID(); |
+|           T          |          F          | -|    Invalid     |                          SkuItem with 'rfid' exists, but Test Result with 'id' doesn't exists in the DB, test fails.                          |  test_get_test_result_with_ID_by_RFID(); |
+
+
+### **Class *TestResultDAO* - method *post_test_result_DB(data)***
+
+**Criteria for method *post_test_result_DB(data)*:**
+ - Data are valid
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Data are valid (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Data are valid (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Data are valid and user has right permission, 'Test Result succesfully added to the Database!' is returned.               | test_new_test_result(); |
+|           T          |          F          |     Invalid     | Data are valid but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_new_test_result(); |
+|           F          |          -          |     Invalid     |                          Data are not valid, test fails.                          |  test_new_test_result(); |
+
+
+### **Class *TestResultDAO* - method *put_test_result_with_id_from_rfid_DB(id, rfid, data)***
+
+**Criteria for method *put_test_result_with_id_from_rfid_DB(id, rfid, data)*:**
+ - SkuItem with 'rfid' exists
+ - Test Result with 'id' exists
+ - Data are valid
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| SkuItem with 'rfid' exists (C1) | True, False |
+| Test Result with 'id' exists (C2) | True, False |
+| Data are valid (C3)  | True, False |
+| User has right permission (C4)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| SkuItem with 'rfid' exists (C1) | Test Result with 'id' exists (C2)  | Data are valid (C3) | User has right permission (C4) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|--------|
+|           T          |  T  | T | T |     Valid      |               SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB, Data are valid and user has right permission, correct data is returned.               | test_modify_test_result_with_ID_from_RFID(); |
+|           T          |          T          | T| F |   Invalid     | Test SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB, Data are valid but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_modify_test_result_with_ID_from_RFID(); |
+|           F          |          -         | -| -|   Invalid     |                          SkuItem with 'rfid' doesn't exists, test fails.                          |  test_modify_test_result_with_ID_from_RFID(); |
+|           T          |          F          | -| - |   Invalid     |                          SkuItem with 'rfid' exists, but Test Result with 'id' doesn't exists in the DB, test fails.                          |  test_modify_test_result_with_ID_from_RFID(); |
+|           T          |          T          | F| - |   Invalid     |                          SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB but data are not valid, test fails.                          |  test_modify_test_result_with_ID_from_RFID(); |
+
+
+### **Class *TestResultDAO* - method *delete_test_result_with_id_from_rfid_DB(id, rfid)***
+
+**Criteria for method *delete_test_result_with_id_from_rfid_DB(id, rfid)*:**
+ - Test Result with 'id' exists
+ - SkuItem with 'rfid' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Test Result with 'id' exists (C1) | True, False |
+| SkuItem with 'rfid' exists (C2)  | True, False |
+| User has right permission (C3)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Test Result with 'id' exists (C1) | SkuItem with 'rfid' exists (C2) | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|-------|
+|           T          |          T          | T |     Valid      |               Test Result with 'id' exists, SkuItem with 'rfid' exists and user has right permission, 'true' is returned.               | test_delete_test_result_with_id_from_rfid(); |
+|           T          |          T          | F |   Invalid     | Test Result with 'id' exists, SkuItem with 'rfid' exists, but user has not the right permission, test fails. (Sessions still to be implemented) |  test_new_test_result(); |
+|           F          |          -          | - |   Invalid     |                          Test Result with 'id' doesn't exists, test fails.                          |  test_new_test_result(); |
+|           T          |          F          | - |   Invalid     |                          Test Result with 'id' exists but SkuItem with 'rfid' doesn't exists, test fails.                          |  test_new_test_result(); |
 
 
  ## **Class *UserDAO***
@@ -913,31 +1051,31 @@ No boundaries for boolean values
 
 | Unit name | Jest test case |
 |--|--|
-|ItemDAO.storeItem|ItemDAO.test.js-> testStoreItem|
-|ItemDAO.updateItem|ItemDAO.test.js-> testUpdateItem|
-|ItemDAO.getItemByID|ItemDAO.test.js-> testGetItemById|
-|ItemDAO.getSKUIDbyItemID|ItemDAO.test.js-> testGetSKUIDbyItemID|
-|ItemDAO.getItembyIdSupp|ItemDAO.test.js-> testGetItembyIdSupp|
-|ItemDAO.getItems|ItemDAO.test.js-> testGetItems|
-|ItemDAO.deleteItem|ItemDAO.test.js-> testDeleteItem|
-|Restock_orderDAO.getRestockOrders|Restock_orderDAO.test.js-> testGetRestockOrders|
-|Restock_orderDAO.getRestockOrdersIssued|Restock_orderDAO.test.js-> testGetRestockOrdersIssued|
-|Restock_orderDAO.getRestockOrderDeliveredByID|Restock_orderDAO.test.js-> testGetRestockOrderDeliveredByID|
-|Restock_orderDAO.getItemList|Restock_orderDAO.test.js-> testGetItemList|
-|Restock_orderDAO.checkItemList|Restock_orderDAO.test.js-> testCheckItemList|
-|Restock_orderDAO.getRestockOrderByID|Restock_orderDAO.test.js-> testGetRestockOrderByID|
-|Restock_orderDAO.storeRestockOrder|Restock_orderDAO.test.js-> testStoreRestockOrder|
-|Restock_orderDAO.storeProducts|Restock_orderDAO.test.js-> testStoreProducts|
-|Restock_orderDAO.updateState|Restock_orderDAO.test.js-> testUpdateState|
-|Restock_orderDAO.newSKUItemList|Restock_orderDAO.test.js-> testNewSKUItemList|
-|Restock_orderDAO.addTransportNote|Restock_orderDAO.test.js-> testAddTransportNote|
-|Restock_orderDAO.deleteRestockOrder|Restock_orderDAO.test.js-> testDeleteRestockOrder|
-|Return_orderDAO.getReturnOrders|Return_orderDAO.test.js-> testGetReturnOrders|
-|Return_orderDAO.getRestockOrderbyID|Return_orderDAO.test.js-> testGetRestockOrderbyID|
-|Return_orderDAO.getReturnOrderbyId|Return_orderDAO.test.js-> testGetReturnOrderById|
-|Return_orderDAO.storeReturnOrder|Return_orderDAO.test.js-> testStoreReturnOrder|
-|Return_orderDAO.setReturnItem|Return_orderDAO.test.js-> testSetReturnItem|
-|Return_orderDAO.deleteReturnOrder|Return_orderDAO.test.js-> testDeleteReturnOrder|
+|storeItem|testStoreItem|
+|updateItem|testUpdateItem|
+|getItemByID|testGetItemById|
+|getSKUIDbyItemID|testGetSKUIDbyItemID|
+|getItembyIdSupp|testGetItembyIdSupp|
+|getItems|testGetItems|
+|deleteItem|testDeleteItem|
+|getRestockOrders|testGetRestockOrders|
+|getRestockOrdersIssued|testGetRestockOrdersIssued|
+|getRestockOrderDeliveredByID|testGetRestockOrderDeliveredByID|
+|getItemList|testGetItemList|
+|checkItemList|testCheckItemList|
+|getRestockOrderByID|testGetRestockOrderByID|
+|storeRestockOrder|testStoreRestockOrder|
+|storeProducts|testStoreProducts|
+|updateState|testUpdateState|
+|newSKUItemList|testNewSKUItemList|
+|addTransportNote|testAddTransportNote|
+|deleteRestockOrder|testDeleteRestockOrder|
+|getReturnOrders|testGetReturnOrders|
+|getRestockOrderbyID|testGetRestockOrderbyID|
+|getReturnOrderbyId|testGetReturnOrderById|
+|storeReturnOrder|testStoreReturnOrder|
+|setReturnItem|testSetReturnItem|
+|deleteReturnOrder|testDeleteReturnOrder|
 |InternalOrderDAO.getInternalOrders()|InternalOrderDAO.test.js -> testGetInternalOrders(resExpected)|
 |InternalOrderDAO.createInternalOrder(orderData)|InternalOrderDAO.test.js -> testCreateInternalOrder(orderData, resExpected)|
 |InternalOrderDAO.modifyInternalOrderState(data)|InternalOrderDAO.test.js -> testModifyInternalOrder(orderData, resExpected)|
@@ -949,8 +1087,21 @@ No boundaries for boolean values
 |UserDAO.userSession(userData)|UserDAO.test.js -> testUserSession(username, password, type, idExpected, nameExpected, errExpected)|
 |UserDAO.modifyUserType(newUserData)|UserDAO.test.js -> testModifyUserType(username, oldType, newType, resExpected)|
 |UserDAO.deleteUser(userData)|UserDAO.test.js -> testDeleteUser(username, type)|
-
-
+|getPositions|test_get_positions|
+|storePosition|test_new_position|
+|put_position_by_ID_DB|test_modify_position|
+|put_positionID_by_ID_DB|test_modify_position_ID|
+|delete_position_by_ID_DB|test_delete_position|
+|get_test_descriptors_DB|test_get_test_descriptor|
+|get_test_descriptor_by_ID_DB|test_get_test_descriptor_by_ID|
+|post_test_descriptor_DB|test_new_test_descriptor|
+|put_test_descriptor_by_ID_DB|test_modify_test_descriptor|
+|delete_test_descriptor_by_ID_DB|test_delete_test_descriptor|
+|get_test_results_DB|test_get_test_result|
+|get_test_result_with_id_from_rfid_DB|test_get_test_result_with_ID_by_RFID|
+|post_test_result_DB|test_new_test_result|
+|put_test_result_with_id_from_rfid_DB|test_modify_test_result_with_ID_from_RFID|
+|delete_test_result_with_id_from_rfid_DB|test_delete_test_result_with_id_from_rfid|
 
 
 
