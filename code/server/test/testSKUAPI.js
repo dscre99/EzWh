@@ -3,9 +3,14 @@ const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 chai.should();
 
+
 const app = require('../server');
 let agent = chai.request.agent(app);
 
+const Position = require('../Position/Position_DAO');
+const DB = require('../EZWH_db/RunDB');
+const DBinstance = DB.DBinstance;
+const positionInstance = new Position(DBinstance);
 
 function testGetSKUs(expected, expectedHTTPStatus) {
     it('testing GET /api/skus', async function () {
@@ -52,7 +57,7 @@ function testGetSKUByID(id, expected, expectedHTTPStatus) {
     });
 }
 
-function testNewSKU(description, weight, volume, notes, price, availableQuantity, expected, expectedHTTPStatus) {
+function testNewSKU(description, weight, volume, notes, price, availableQuantity, expectedHTTPStatus) {
     it('testing POST /api/sku', async function () {
         let sku = {
             description: description,
@@ -83,8 +88,6 @@ function testModifySKUPosition(id, position, expectedHTTPStatus) {
         await agent.put('/api/sku/'+ id + '/position')
             .send(position)
             .then(function (res) {
-                console.log(res.body);
-                console.log(res.status);
                 res.should.have.status(expectedHTTPStatus);
         });
     });
@@ -110,12 +113,22 @@ function testClearskutable() {
 describe('test sku apis', () => {
     before(async () => {
         await agent.delete('/api/clearskutable');
+        let pos = {
+            "positionID": "800234543456",
+            "aisleID": "8002",
+            "row": "3454",
+            "col": "3456",
+            "maxWeight": 1000,
+            "maxVolume": 1000
+        }
+
+        let position = positionInstance.storePosition(pos);
     });
 
     testClearskutable();
 
     testGetSKUs([], 200);
-    testGetSKUByID(10,[], 404);
+    //testGetSKUByID(10,[], 404);
 
 
     let exp1 = {
@@ -127,34 +140,41 @@ describe('test sku apis', () => {
         price: 10.99
     }
 
-    let exp2 = {
+    let exp2 = [{
         id:1,
         description: "a new sku",
         weight: 100,
         volume: 50,
         notes: "first sku",
+        position: "800234543456",
         availableQuantity: 50,
         price: 10.99,
-        position: "800234523412",
         testDescriptors: []
-    }
+    }]
 
     let modifications = {
-        "newDescription": "a new sku",
-        "newWeight": 100,
-        "newVolume": 50,
-        "newNotes": "first SKU",
-        "newPrice": 10.99,
-        "newAvailableQuantity": 50
+        newDescription: "a new sku",
+        newWeight: 100,
+        newVolume: 50,
+        newNotes: "first sku",
+        newPrice: 10.99,
+        newAvailableQuantity: 50
     }
-        
-    testNewSKU("a new sku", 100, 50, "first sku", 10.99, 50, exp1[0], 201);
-    testNewSKU("sku", -1, -3, "second", 5.00, 1, {}, 422);
-    testModifySKU(1, modifications, 200);
-    testModifySKUPosition(1, "800234523412", 200);
+
+    posSku = {
+        "position": "800234543456"
+    }
+
+    posSKU2 = {
+        "position": "800234543451"
+    }
+    testNewSKU("a new sku", 100, 50, "first sku", 10.99, 50, 201); //scenario 1.1
+    testNewSKU("sku", -1, -3, "second", 5.00, 1, 422);
+    testModifySKU(1, modifications, 200);  //scenario 1.3
+    testModifySKUPosition(2, posSKU2, 422);  //position does not exist, scenario 1.2
+    testModifySKUPosition(1, posSku, 200);  
     testGetSKUs(exp2, 200);
 
     testGetSKUByID(1, exp2[0], 200);
-    //testGetSKUs(exp, 200);
     testDeleteSKU(1, 200);
 });

@@ -65,7 +65,7 @@ describe('Test Position A.P.I.s', () => {
 
 function newPosition(expectedHTTPStatus, position) {
     
-    it('Adding a new Position', function (done) {
+    it('POST /api/position', function (done) {
         if (validatePositionData(position, "post")) {  // TO-DO : call the Body Validation function
             agent.post("/api/position").send(position).then((res) => {
                 res.should.have.status(expectedHTTPStatus);
@@ -85,7 +85,7 @@ function newPosition(expectedHTTPStatus, position) {
 
 
 function getPositions(expectedHTTPStatus, body) {
-    it('Getting all the Positions', function (done) {
+    it('GET /api/positions', function (done) {
         if (!isEmpty(body)) {
             agent.get('/api/positions').then((res) => {
                 res.should.have.status(expectedHTTPStatus);
@@ -112,7 +112,7 @@ function getPositions(expectedHTTPStatus, body) {
 
 
 function modifyPosition(expectedHTTPStatus, positionID, newPosition) {
-    it('Modify a Position', function (done) {
+    it('PUT /api/position/:positionID', function (done) {
         if (positionID !== undefined) {  // TO-DO : call the Body Validation function
             agent.put("/api/position/:positionID").send(positionID, newPosition).then((res) => {
                 res.should.have.status(expectedHTTPStatus);
@@ -131,7 +131,7 @@ function modifyPosition(expectedHTTPStatus, positionID, newPosition) {
 }
 
 function modifyPositionID(expectedHTTPStatus, positionID, newID) {
-    it('Modify a Position ID', function (done) {
+    it('PUT /api/position/:positionID/changeID', function (done) {
         if (positionID !== undefined) {  // TO-DO : call the Body Validation function
             agent.put("/api/position/:positionID/changeID").send(positionID, newID).then((res) => {
                 res.should.have.status(expectedHTTPStatus);
@@ -151,7 +151,7 @@ function modifyPositionID(expectedHTTPStatus, positionID, newID) {
 
 
 function deletePosition(expectedHTTPStatus, positionID) {
-    it('Delete a Position', function (done) {
+    it('DELETE /api/position/:positionID', function (done) {
         if (validatePositionID(positionID)) {  // TO-DO : call the Body Validation function
             agent.delete("/api/position/:positionID").send(positionID).then((res) => {
                 res.should.have.status(expectedHTTPStatus);

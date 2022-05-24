@@ -124,6 +124,7 @@ async function modifySKU(req, res) {
     let data = {
         "id": req.params.id,
         "newDescription": req.body.newDescription,
+        "newWeight": req.body.newWeight,
         "newVolume": req.body.newVolume,
         "newNotes": req.body.newNotes,
         "newPrice": req.body.newPrice,

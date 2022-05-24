@@ -64,6 +64,7 @@ router.get('/testDescriptors/:id', test_descriptor_service.get_test_descriptor_b
 router.post('/testDescriptor', test_descriptor_service.post_test_descriptor);
 router.put('/testDescriptor/:id', test_descriptor_service.put_test_descriptor_by_ID)
 router.delete('/testDescriptor/:id', test_descriptor_service.delete_test_descriptor_by_ID)
+router.delete('/deleteAll', test_descriptor_service.deleteAllTestDescriptors)
 
 // TEST RESULT routes
 router.get('/skuitems/:rfid/testResults', test_result_service.get_test_results)

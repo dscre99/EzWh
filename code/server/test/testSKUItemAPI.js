@@ -31,30 +31,45 @@ describe('testing sku item apis', () => {
 
     testNewSKUItem("12345678901234567890123456789015", 2, "2021/11/29 12:30", 404);
     testNewSKUItem("12345678901234567890123456789014", 1, "2021/11/29 12:30", 201);
+    testNewSKUItem("12345678901234567890123456789114", 1, "2021/5/26 12:30", 201);
 
     let skuitem = [{
-        rfid: "12345678901234567890123456789014",
+        RFID: "12345678901234567890123456789014",
         SKUId: 1,
+        Available: 0,
         DateOfStock: "2021/11/29 12:30"
     }]
 
     testGetSKUItems(skuitem, 200);
 
-    testGetSKUItemBySKUId(1, skuitem, 200);
+    testGetSKUItemBySKUId(1, [], 200);
+    testGetSKUItemBySKUId(2, [], 404);
+
+    testGetSKUItemByRfid("12345678901234567890123456789014", skuitem, 200);
+    testGetSKUItemByRfid("12345678901234567890123456789015", [], 404);
+
+    let newData = {
+        "newRFID": "12345678901234567890123456789016",
+        "newAvailable": 1,
+        "newDateOfStock": "2021/5/26 12:30"
+    }
+
+    //testModifySKUItem("12345678901234567890123456789014", newData, 200)
+
+    testDeleteSKUItemByRfid("12345678901234567890123456789114", 204);
+
 });
 
 function testNewSKUItem(rfid, skuid, dateOfStock, expectedHTTPStatus) {
     it('testing POST /api/skuitem', async function () {
         let skuitem = {
-            "rfid": rfid,
+            "RFID": rfid,
             "SKUId": skuid,
             "DateOfStock": dateOfStock
         }
         await agent.post('/api/skuitem')
             .send(skuitem)
             .then(function (res) {
-                console.log(res.error);
-                console.log(res.status);
                 res.should.have.status(expectedHTTPStatus);
             });
     });
@@ -67,8 +82,7 @@ function testGetSKUItems(expected, expectedHTTPStatus) {
             res.should.have.status(expectedHTTPStatus);
             if (expected.length != 0) {
                 for (let i = 0; i < expected.length; i++) {
-                    console.log(res.body);
-                    res.body[i].rfid.should.equal(expected[i].rfid);
+                    res.body[i].rfid.should.equal(expected[i].RFID);
                     res.body[i].SKUId.should.equal(expected[i].SKUId);
                     res.body[i].Available.should.equal(expected[i].Available);
                     res.body[i].DateOfStock.should.equal(expected[i].DateOfStock);
@@ -84,7 +98,7 @@ function testGetSKUItemBySKUId(skuid, expected, expectedHTTPStatus) {
             res.should.have.status(expectedHTTPStatus);
             if (expected.length != 0) {
                 for (let i = 0; i < expected.length; i++) {
-                    res.body[i].rfid.should.equal(expected[i].rfid);
+                    res.body[i].rfid.should.equal(expected[i].RFID);
                     res.body[i].Available.should.equal(expected[i].Available);
                     res.body[i].DateOfStock.should.equal(expected[i].DateOfStock);
                 }
@@ -109,22 +123,18 @@ function testGetSKUItemByRfid(rfid, expected, expectedHTTPStatus) {
     });
 }
 
-function testModifySKUItem(rfid, newRfid, newAvailable, newDateOfStock, expectedHTTPStatus) {
+function testModifySKUItem(rfid, newData , expectedHTTPStatus) {
     it('testing PUT /api/skuitems/:rfid', async function () {
-        let data = {
-            "oldRfid": rfid,
-            "newRfid": newRfid,
-            "newAvailable": newAvailable,
-            "newDateOfStock": newDateOfStock
-        }
-        //maybe shouldn't send it like this
         await agent.put('/api/skuitems/' + rfid)
-            .send(data)
+            .send(newData)
             .then(function (res) {
+                console.log(res.body);
+                console.log(res.status)
                 res.should.have.status(expectedHTTPStatus);
             });
     });
 }
+
 
 function testDeleteSKUItemByRfid(rfid, expectedHTTPStatus) {
     it('testing DELETE /api/skuitems/:rfid', async function () {

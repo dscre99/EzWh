@@ -71,7 +71,7 @@ class TestDescriptorService {
         }
         
         this.#dao.post_test_descriptor_DB(req.body).then((test_descriptor) => {
-            res.status(200).json(test_descriptor);
+            res.status(201).json(test_descriptor);
         }).catch((error) => res.status(500).json(error))
     }
 
@@ -111,6 +111,13 @@ class TestDescriptorService {
         this.#dao.delete_test_descriptor_by_ID_DB(req.params.id).then(() => {
             res.status(200).json(`Test Descriptor with id=${req.params.id} has been deleted!`);
         }).catch((error) => res.status(500).json(error));
+    }
+
+
+    deleteAllTestDescriptors = async(req, res) => {
+        this.#dao.delete_all_test_descriptors().then(() => {
+            res.status(204).json("Deleted All Test Descriptors!");
+        }).catch((error) => res.status(503).json(error));
     }
 
 }

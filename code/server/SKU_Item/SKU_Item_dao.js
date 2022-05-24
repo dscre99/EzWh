@@ -21,7 +21,7 @@ class SKUItemDao {
 
     newSKUItemTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE "SKU_ITEM" ("RFID"	TEXT,"SKUID"	INTEGER,"AVAILABLE"	INTEGER,"DATEOFSTOCK" TEXT,PRIMARY KEY("RFID"))';
+            const sql = 'CREATE TABLE "SKU_ITEM" ("RFID"	TEXT,"SKUID"	INTEGER,"AVAILABLE"	INTEGER,"DATEOFSTOCK" TEXT, PRIMARY KEY("RFID"))';
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -156,7 +156,7 @@ class SKUItemDao {
                                     rfid: r.RFID,
                                     SKUId: r.SKUID,
                                     Available: r.AVAILABLE,
-                                    DateOfStock: r.DATAOFSTOCK
+                                    DateOfStock: r.DATEOFSTOCK
                                 }));
                             resolve(skuItems);
                         });

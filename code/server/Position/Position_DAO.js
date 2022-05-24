@@ -81,6 +81,7 @@ class PositionDAO {
     
     put_position_by_ID_DB(positionID, body) {
         return new Promise((resolve, reject) => {
+            console.log("ID TO MODIFY = ", positionID);
             const sql = 'UPDATE POSITION SET aisleID = ? ,row= ?,col= ?,maxWeight= ?,maxVolume= ?,occupiedWeight= ?, occupiedVolume= ? WHERE positionID = ?';
             this.#db.run(sql, [body.aisleID, body.row, body.col, body.maxWeight, body.maxVolume, body.occupiedWeight, body.occupiedVolume,  positionID], (err) => {
                     if (err) {

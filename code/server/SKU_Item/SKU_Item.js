@@ -144,9 +144,6 @@ async function modifySKUItem(req, res) {
         if ((req.body).RFID.length != 32) {
             return res.status(422).end();
         }
-        if (!verifyDate((req.body).DateOfStock)) {
-            return res.status(422).end();
-        }
     }
     let data = {
         "oldRfid": req.params.rfid,

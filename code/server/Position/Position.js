@@ -1,4 +1,4 @@
-const { isAllowed, isEmpty, validatePositionBody, validatePositionID, positionBodyLength } = require("../utils/utils");
+const { isAllowed, isEmpty, validatePositionBody, validatePositionID, positionBodyLength, validatePositionData } = require("../utils/utils");
 
 class PositionService {
     
@@ -76,7 +76,8 @@ class PositionService {
             return;
         }
 
-        if(positionBodyLength(req.body, "put") && validatePositionBody(req.body, "put")) {
+        if(positionBodyLength(req.body, "put") && validatePositionData(req.body, "put")) {
+
             this.#dao.put_position_by_ID_DB(req.params.positionID, req.body).then(() => {
                 res.status(200).json("Position updated!");
             }).catch((error) => res.status(503).json(error));

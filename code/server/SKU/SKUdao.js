@@ -33,8 +33,8 @@ class SKUDao {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY) VALUES (?, ?, ?, ?, ?, ?)';
-                this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity], (err, rows) => {
+                const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err, rows) => {
                     if (err) {
                         reject(503);
                     }
@@ -188,8 +188,6 @@ class SKUDao {
                                     let posInSKU = 0;
                                     res3[0]['COUNT(*)'] > 0 ? posInSKU = true : posInSKU = false;
                                     if (!posInSKU) {
-                                        //const checkVolumeAndWeight = "SELECT * FROM SKU S WHERE ID = ?"
-
                                         const checkVolumeAndWeight = 'SELECT * FROM POSITION P, SKU S WHERE P.positionID=? AND S.ID = ?';
                                         let checked = false;
                                         this.#db.all(checkVolumeAndWeight, [data.position, data.id], (err, rows) => {
