@@ -7,7 +7,7 @@ const app = require('../server');
 let agent = chai.request.agent(app);
 
 function testGETRestockOrders(expectedData, expectedHTTPstatus) {
-    it('GET /api/restockOrders', async function() {
+    it('GET/api/restockOrders', async function() {
         await agent.get('/api/restockOrders')
                     .then(function(res) {
                         res.should.have.status(expectedHTTPstatus);
@@ -41,7 +41,7 @@ function testGETRestockOrders(expectedData, expectedHTTPstatus) {
 }
 
 function testGETRestockOrdersIssued(expectedData, expectedHTTPstatus) {
-    it('GET /api/restockOrdersIssued', async function() {
+    it('GET/api/restockOrdersIssued', async function() {
         await agent.get('/api/restockOrdersIssued')
                     .then(function(res) {
                         res.should.have.status(expectedHTTPstatus);
@@ -71,7 +71,7 @@ function testGETRestockOrdersIssued(expectedData, expectedHTTPstatus) {
 }
 
 function testGETRestockOrderById(id, issueDate, state, products, supplierid,transportNote,skuItems, expectedHTTPstatus) {
-    it('GET /api/restockOrders/:id', async function() {
+    it('GET/api/restockOrders/:id', async function() {
         await agent.get('/api/restockOrders/'+id).then(function(res) {
             res.should.have.status(expectedHTTPstatus);
             if(res.status == 200) {
@@ -98,7 +98,7 @@ function testGETRestockOrderById(id, issueDate, state, products, supplierid,tran
 }
 
 function testGETItemList(id, SKUId, rfid, expectedHTTPstatus) {
-    it('GET /api/restockOrders/:id/returnItems', async function() {
+    it('GET/api/restockOrders/:id/returnItems', async function() {
         await agent.get('/api/restockOrders/'+id+'/returnItems').then(function(res) {
             res.should.have.status(expectedHTTPstatus);
             if(res.status == 200) {
@@ -110,7 +110,7 @@ function testGETItemList(id, SKUId, rfid, expectedHTTPstatus) {
 }
 
 function testPOSTRestockOrder(expectedData, expectedHTTPStatus) {
-    it('testing POST /api/restockOrder', async function() {
+    it('POST/api/restockOrder', async function() {
         await agent.post('/api/restockOrder')
             .send(expectedData)
             .then(function(res) {
@@ -120,7 +120,7 @@ function testPOSTRestockOrder(expectedData, expectedHTTPStatus) {
 }
 
 function testPUTRestockOrder(id,expectedData, expectedHTTPStatus) {
-    it('testing PUT /api/restockOrder/:id', async function() {
+    it('PUT/api/restockOrder/:id', async function() {
         await agent.put('/api/restockOrder/'+id)
             .send(expectedData)
             .then(function(res) {
@@ -130,7 +130,7 @@ function testPUTRestockOrder(id,expectedData, expectedHTTPStatus) {
 }
 
 function testPUTnewSKUItemList(id,expectedData, expectedHTTPStatus) {
-    it('testing PUT /api/restockOrder/:id/skuItems', async function() {
+    it('PUT/api/restockOrder/:id/skuItems', async function() {
         await agent.put('/api/restockOrder/'+id+'/skuItems')
             .send(expectedData)
             .then(function(res) {
@@ -140,7 +140,7 @@ function testPUTnewSKUItemList(id,expectedData, expectedHTTPStatus) {
 }
 
 function testPUTaddTransportNote(id,expectedData, expectedHTTPStatus) {
-    it('testing PUT /api/restockOrder/:id/transportNote', async function() {
+    it('PUT/api/restockOrder/:id/transportNote', async function() {
         await agent.put('/api/restockOrder/'+id+'/transportNote')
             .send(expectedData)
             .then(function(res) {
@@ -150,7 +150,7 @@ function testPUTaddTransportNote(id,expectedData, expectedHTTPStatus) {
 }
 
 function testDELETERestockOrder(id,expectedHTTPStatus) {
-    it('testing DELETE /api/restockOrder/:id', async function() {
+    it('DELETE/api/restockOrder/:id', async function() {
         await agent.delete('/api/restockOrder/'+id)
                     .then(function(res) {
                         res.should.have.status(expectedHTTPStatus);
