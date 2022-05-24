@@ -1109,14 +1109,17 @@ No boundaries for boolean values
 ### Code coverage report
 
 <img src="./UnitTestCoverage_images/UserDAO_unit_test_coverage.png" alt="Context Diagram">
+
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
 
 <img src="./UnitTestCoverage_images/InternalOrderDAO_unit_test_coverage.png" alt="Context Diagram">
+
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
 
 <img src="./UnitTestCoverage_images/ReturnOrderDAO_unit_test_coverage.png" alt="Context Diagram">
+
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
 <img src="./UnitTestCoverage_images/RestockOrderDAO_unit_test_coverage.png" alt="Context Diagram">
@@ -1124,6 +1127,7 @@ Note: uncovered branches refer to SQL queries errors, since queries are defined 
 
 
 <img src="./UnitTestCoverage_images/ItemDAO_unit_test_coverage.png" alt="Context Diagram">
+
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
 
