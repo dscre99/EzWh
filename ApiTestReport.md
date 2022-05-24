@@ -1,4 +1,4 @@
-﻿# Integration and API Test Report
+# Integration and API Test Report
 
 Date:
 
@@ -66,8 +66,8 @@ Ex.
 |Position_DAO||test_get_positions, test_new_position, test_modify_position, test_modify_position_ID, test_delete_position|
 |Restock_orderDAO||testGetRestockOrders, testGetRestockOrdersIssued, testGetRestockOrderDeliveredByID, testGetItemList, testCheckItemList, testGetRestockOrderByID, testStoreRestockOrder, testStoreProducts, testUpdateState, testNewSKUItemList, testAddTransportNote, testDeleteRestockOrder|
 |Return_orderDAO||testGetReturnOrders, testGetRestockOrderbyID, testGetReturnOrderById, testStoreReturnOrder, testSetReturnItem, testDeleteReturnOrder|
-|SKUdao||new_sku, get_skus, get_sku_by_id, modify_sku, test_modify_SKU_position, test_delete_sku_by_id|
-|SKU_Item||test_new_SKU_Item, get_sku_Items, get_sku_Items_by_SKU_id, get_SKU_Items_by_RFID, modify_SKU_Item, delete_SKU_Item_by_rfid|
+|SKUdao||testGetSKUs,testGetSKUByID, testNewSKU, testModifySKU, testModifySKUPosition, testDeleteSKU|
+|SKUItemDao||testNewSKUItem, testGetSKUItems, testGetSKUItemBySKUId, testGetSKUItemByRfid, testModifySKUItem, testDeleteSKUItemByRfid|
 |Test_Descriptor_DAO||test_get_test_descriptor, test_new_test_descriptor, test_get_test_descriptor_by_ID, test_modify_test_descriptor, test_delete_test_descriptor|
 |Test_result_DAO||test_get_test_result, test_new_test_result, test_get_test_result_with_ID_by_RFID, test_modify_test_result_with_ID_from_RFID, test_delete_test_result_with_id_from_rfid|
 |UserDAO||new_user, get_user, get_suppliers, get_users, get_users_sessions, modify_user_type, delete_user, |
@@ -84,6 +84,8 @@ Ex.
 |Position.js, Position_DAO.js||GET /api/positions, POST /api/position, PUT /api/position/:positionID, PUT /api/position/:positionID/changeID, DELETE /api/position/:positionID|
 |Test_Descriptor.js, Test_Descriptor_DAO.js||GET /api/testDescriptors, GET /api/testDescriptors/:id, POST /api/testDescriptor, PUT /api/testDescriptor/:id, DELETE /api/testDescriptor/:id|
 |Test_Result.js, Test_Result_DAO.js||GET /api/skuitems/:rfid/testResults, GET /api/skuitems/:rfid/testResults/:id, POST /api/skuitems/testResult, PUT /api/skuitems/:rfid/testResult/:id, DELETE /api/skuitems/:rfid/testResult/:id|
+|SKU.js, SKUdao.js || GET /api/skus, GET /api/skus/:id, POST /api/sku,PUT /api/sku/:id , PUT /api/sku/:id/position, DELETE /api/skus/:id|
+|SKU_Item.js, SKU_Item_dao.js || POST /api/skuitem, GET /api/skuitems, GET /api/skuitems/sku/:id, GET /api/skuitems/:rfid, PUT /api/skuitems/:rfid, DELETE /api/skuitems/:rfid |
 
 
 
