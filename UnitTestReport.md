@@ -1134,6 +1134,8 @@ Note: uncovered branches refer to SQL queries errors, since queries are defined 
 
 <img src="./UnitTestCoverage_images/TestDescriptorDAO_unit_test_coverage.png" alt="Context Diagram">
 
+<img src="./UnitTestCoverage_images/TestResultDAO_unit_test_coverage.png" alt="Context Diagram">
+
 
 ### Loop coverage analysis
 
