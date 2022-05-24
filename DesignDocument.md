@@ -56,7 +56,7 @@ EZWH is a client server application composed of one executable generating one si
 
 # Low level design
 
-<img src="./DesignDocumentIMG/ClassDiagramDM.png">
+<img src="./DesignDocumentIMG/ClassDiagramNEW.png">
 
 
 # Verification traceability matrix
