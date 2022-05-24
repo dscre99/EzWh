@@ -1076,6 +1076,82 @@ Volume == availableVolume, Weight == availableWeight
 |T|T|T|T|-|-| Invalid | The test returns a 422 error | testModifySKUPosition(2, "800234525144", 422)|
 
 
+### **Class *SKUItemDao* - method *newSKUItem(skuItem)***
+
+**Criteria for method *newSKUItem(skuItem)*:**
+	
+- SKU exists
+
+**Predicates for method *name*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|SKU exists | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean values
+
+**Combination of predicates**:
+
+
+|SKU exists | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+|F| Invalid | Test returns 404 |testNewSKUItem("12345678901234567890123456789015", 2, "2021/11/29 12:30", 404) |
+|T| Valid | Test is successful | testNewSKUItem("12345678901234567890123456789015", 1, "2021/11/29 12:30", 201)|
+
+### **Class *SKUItemDao* - method *getSKUItemsBySKUID(skuid)***
+
+**Criteria for method *getSKUItemsBySKUID(skuid)*:**
+	
+- SKU exists
+-User logged in
+
+**Predicates for method *name*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|SKU exists | True, False |
+| User logged in | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean values
+
+**Combination of predicates**:
+
+
+|SKU exists | User logged in| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+|F| T| Invalid | Test returns error 401 |testGetSKUItemsBySKUId(2, 404) |
+|T| T| Valid | Test is successful | testGetSKUItemsBySKUId(1, skuitem)|
+|-| F| Invalid | Test returns error 401 | |
+
+### **Class *SKUItemDao* - method *modifySKUItem(data)***
+
+**Criteria for method *modifySKUItem(data)*:**
+	
+- SKU Item Rfid exists
+
+**Predicates for method *name*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|SKU Item Rfid exists | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean values
+
+**Combination of predicates**:
+
+
+|SKU Item Rfid exists| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+|T| Valid | Test is successful | testModifySKUItem("12345678901234567890123456789014", "12345678901234567890123456789014", 1, "2021/11/29 12:31", 200)|
+|F| Invalid | Test returns error 404| testModifySKUItem("12345678901234567890123456789015", "12345678901234567890123456789015", 1, "2021/11/29 12:30", 404)|
+
+
 
 
 
@@ -1188,6 +1264,10 @@ Note: uncovered branches refer to SQL queries errors, since queries are defined 
 
 <img src="./UnitTestCoverage_images/TestResultDAO_unit_test_coverage.png" alt="Context Diagram">
 
+<img src="./UnitTestCoverage_images/SKUDao_unit_test_coverage.png" alt="Context Diagram">
+
+<img src="./UnitTestCoverage_images/SKUItemDAO_unit_test_coverage.png" alt="Context Diagram">
+
 
 ### Loop coverage analysis
 
@@ -1217,7 +1297,7 @@ Note: uncovered branches refer to SQL queries errors, since queries are defined 
 |createInternalOrder|265-279|0|InternalOrderDAO.test.js - line 327|
 |createInternalOrder|265-279|1|InternalOrderDAO.test.js - line 334|
 |createInternalOrder|265-279|2|InternalOrderDAO.test.js - line 151|
-|||||
+
 
 
 
