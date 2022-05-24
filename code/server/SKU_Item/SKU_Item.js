@@ -142,7 +142,10 @@ async function modifySKUItem(req, res) {
             }
         });
         if ((req.body).newRFID.length != 32) {
+<<<<<<< HEAD
             
+=======
+>>>>>>> 19c970ecd6b7ec6875d464b42951eac93dc24b9a
             return res.status(422).end();
         }
     }
