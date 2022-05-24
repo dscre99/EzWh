@@ -141,18 +141,21 @@ async function modifySKUItem(req, res) {
                 return res.status(422).end();
             }
         });
-        if ((req.body).RFID.length != 32) {
+        if ((req.body).newRFID.length != 32) {
+            
             return res.status(422).end();
         }
     }
     let data = {
         "oldRfid": req.params.rfid,
-        "newRfid": req.body.newRfid,
+        "newRfid": req.body.newRFID,
         "newAvailable": req.body.newAvailable,
         "newDateOfStock": req.body.newDateOfStock
     }
 
+
     let modifySKUItemPromise = skuItemDaoInstance.modifySKUItem(data);
+    
     await modifySKUItemPromise.then(
         function (value) {
             console.log('modifySKUItem resolve');
