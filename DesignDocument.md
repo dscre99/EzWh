@@ -23,6 +23,7 @@ Version: 1.5
 | 1.4 | Sequence Diagrams for Scenarios 10-1, links fix |
 | 1.5 | Added modified class diagram following the implementation of APIs|
 | 1.6 | Updated traceability matrix to verify new Class Diagram |
+| 1.7 | Updated Sequence Diagrams for Scenario 1-1, 1-2, 1-3 |
 
 
 # Contents
