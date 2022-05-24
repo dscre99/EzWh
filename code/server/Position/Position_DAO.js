@@ -120,22 +120,7 @@ class PositionDAO {
                 });
     
         });
-    }
-
-    delete_all_positions() {
-        return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM POSITION';
-            this.#db.run(sql, [], (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(true);
-                    }
-                });
-    
-        });
-    }
-    
+    }  
 }
 
 

@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 const DB = require('../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 
@@ -137,6 +138,7 @@ class TestResultDAO {
                 
                 result[0]['COUNT(*)'] > 0 ? exist=1 : exist
 
+                
     
                 if(exist) {
                     const sql = 'UPDATE TEST_RESULT SET IDTESTDESCRIPTOR=?, DATE=?, RESULT=? WHERE ID=? AND RFID=?';
@@ -153,7 +155,7 @@ class TestResultDAO {
                                 IDTESTDESCRIPTOR:test_result.IDTESTDESCRIPTOR
                             }
                         ));
-                        resolve(test_results);
+                        resolve("Test Result Updated!");
                     });   
                 } else {
                     reject("The requested RFID doesn't exist!")
@@ -177,6 +179,8 @@ class TestResultDAO {
                 }
                 
                 result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+
+                
     
                 if(exist) {
                     const sql = 'DELETE FROM TEST_RESULT WHERE ID=? AND RFID=? ';

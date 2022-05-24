@@ -34,7 +34,7 @@ class TestResultService {
 
         this.#dao.get_test_results_DB(req.params.rfid).then((test_results) => {
             res.status(200).json(test_results);
-        }).catch((error) => res.status(500).json(error));
+        }).catch((error) => res.status(404).json(error));
     }
 
     // GET /api/skuitems/:rfid/testResults/:id
@@ -102,7 +102,7 @@ class TestResultService {
 
         this.#dao.delete_test_result_with_id_from_rfid_DB(req.params.id, req.params.rfid).then(() => {
             res.status(200).json(`Test Result with id=${req.params.id} has been deleted!`);
-        }).catch((error) => res.status(500).json(error));
+        }).catch((error) => res.status(422).json(error));
     }
 }
 

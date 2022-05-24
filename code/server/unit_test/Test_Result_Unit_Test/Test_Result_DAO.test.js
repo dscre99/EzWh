@@ -35,7 +35,6 @@ function test_modify_test_result_with_ID_from_RFID(ID, RFID, newTestResult, expe
     test('Modify Test Result', async () => {
         try {
             let res = await test_result_dao.put_test_result_with_id_from_rfid_DB(ID, RFID, newTestResult);
-            console.log("RES=", res);
             expect(res).toEqual(expected);
         } catch (err) {
             expect(err).toEqual(expected);
@@ -77,80 +76,39 @@ describe('Test Test Result', () => {
 
     test_get_test_result("118129282192", "The requested RFID doesn't exist!");
 
-    let another_test_result = {"RFID":"12345678901234567890123456789014", "DATE":"2022/05/23", "RESULT":"false", "IDTESTDESCRIPTOR":13};
+    let another_test_result = {"RFID":"12345678901234567890123456789015", "DATE":"2022/05/23", "RESULT":"false", "IDTESTDESCRIPTOR":13};
 
     test_new_test_result(another_test_result, "Test Result succesfully added to the Database!");
 
-    test_get_test_result("12345678901234567890123456789014", [
-        {
-            "ID": 2,
-            "RFID": "12345678901234567890123456789014",
-            "DATE": "2022/05/23",
-            "RESULT": "false",
-            "IDTESTDESCRIPTOR":13
-        }
-    ])
+    test_get_test_result("12345678901234567890123456789017", 
+        "The requested RFID doesn't exist!"
+    )
 
-    test_get_test_result_with_ID_by_RFID(2, "12345678901234567890123456789014", [
-        {
-            "ID": 2,
-            "RFID": "12345678901234567890123456789014",
-            "DATE": "2022/05/23",
-            "RESULT": "false",
-            "IDTESTDESCRIPTOR":13
-        }
-    ] );
+    test_new_test_result({"RFID":"12345678901234567890123456789014", "DATE":"2022/02/20", "RESULT":"true", "IDTESTDESCRIPTOR":10}, "Test Result succesfully added to the Database!");
+
+
+    test_get_test_result("12345678901234567890123456789014", 
+        [{"ID":3, "RFID":"12345678901234567890123456789014", "DATE":"2022/02/20", "RESULT":"true", "IDTESTDESCRIPTOR":10}]
+    )
 
     let new_test_result = {"IDTESTDESCRIPTOR":1, "DATE":"2022/05/24", "RESULT":"true"};
-
-    // test_modify_test_result_with_ID_from_RFID(2,"12345678901234567890123456789014", new_test_result, [
-    //     {
-    //         "ID": 2,
-    //         "RFID": "12345678901234567890123456789014",
-    //         "DATE": "2022/05/24",
-    //         "RESULT": "true",
-    //         "IDTESTDESCRIPTOR":1
-    //     }
-    // ]);
-
-
-    test_delete_test_result_with_id_from_rfid(2, "12345678901234567890123456789014", true);
+    
+    test_modify_test_result_with_ID_from_RFID(2,"12345678901234567890123456789013", new_test_result, "The requested RFID doesn't exist!");
+    test_delete_test_result_with_id_from_rfid(2, "12345678901234567890123456789013", "The requested RFID doesn't exist!");
     test_delete_test_result_with_id_from_rfid(2, "42345678901234567890123456789015", "The requested RFID doesn't exist!");
-    
-})
+    test_delete_test_result_with_id_from_rfid(3, "12345678901234567890123456789014", true);
+
+    test_get_test_result("12345678901234567890123456789014", []);
+
+
+    test_new_test_result({"RFID":"12345678901234567890123456789014", "DATE":"2021/10/12", "RESULT":"false", "IDTESTDESCRIPTOR":1}, "Test Result succesfully added to the Database!");
+
+    test_get_test_result_with_ID_by_RFID(4, "12345678901234567890123456789014", [{"ID":4, "RFID":"12345678901234567890123456789014", "DATE":"2021/10/12", "RESULT":"false", "IDTESTDESCRIPTOR":1}])    
+
+    test_modify_test_result_with_ID_from_RFID(4, "12345678901234567890123456789014", new_test_result, "Test Result Updated!");
+
+
+})  
 
 
 
-// describe('Test Test Descriptor', () => {
-
-//     let test_descriptor = {
-// 		"NAME": "Test Descriptor 1",
-// 		"PROCEDUREDESCRIPTION": "Procedure Description 1 ...",
-// 		"IDSKU": 1
-// 	}
-
-
-//     beforeAll(async () => {
-//         let drop = await test_descriptor_dao.dropPositionTable();
-//         expect(drop).toEqual(200);
-//         let table = await test_descriptor_dao.newTestDescriptorTable();
-//         expect(table).toEqual(200);
-//         let test_descriptor = await test_descriptor_dao.post_test_descriptor_DB(test_descriptor);
-//         expect(pos).toEqual(true);
-//     });
-
-//     test_get_test_descriptor([
-// 		{
-// 			"NAME": "Test Descriptor 1",
-// 		    "PROCEDUREDESCRIPTION": "Procedure Description 1 ...",
-// 		    "IDSKU": 1
-// 		}
-// 	])
-
-// 	// test_new_position("800234545410", "6000", 2000, 1200, 300, 200, "800234545410");
-// 	// test_modify_position("800234545410", "500", 14, 12, 30, 10, 3, 5, true);
-// 	// test_modify_position_ID("800234545410", "500234545417", true);
-// 	// test_delete_position("800234545410", true);
-
-    
-// })

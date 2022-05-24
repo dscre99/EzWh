@@ -56,7 +56,6 @@ router.post('/position', positionService.post_position);
 router.put('/position/:positionID', positionService.put_position_by_ID);
 router.put('/position/:positionID/changeID', positionService.put_positionID_by_ID);
 router.delete('/position/:positionID', positionService.delete_position_by_ID);
-router.delete('/position/deleteAll', positionService.deleteAllPositions);
 
 // TEST DESCRIPTOR routes
 router.get('/testDescriptors', test_descriptor_service.get_test_descriptors);
@@ -64,7 +63,6 @@ router.get('/testDescriptors/:id', test_descriptor_service.get_test_descriptor_b
 router.post('/testDescriptor', test_descriptor_service.post_test_descriptor);
 router.put('/testDescriptor/:id', test_descriptor_service.put_test_descriptor_by_ID)
 router.delete('/testDescriptor/:id', test_descriptor_service.delete_test_descriptor_by_ID)
-router.delete('/deleteAll', test_descriptor_service.deleteAllTestDescriptors)
 
 // TEST RESULT routes
 router.get('/skuitems/:rfid/testResults', test_result_service.get_test_results)
