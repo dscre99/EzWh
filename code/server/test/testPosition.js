@@ -7,11 +7,14 @@ const app = require('../server');
 const { isEmpty, validatePositionID, validatePositionData } = require('../utils/utils');
 let agent = chai.request.agent(app);
  
+const dao = require('../Position/Position_DAO');
+const db = new dao();
 
 describe('Test Position A.P.I.s', () => {
 
     before(async () => {
-        await agent.delete('/position/allPositions');
+        await db.dropPositionTable();
+        await db.newPositionTable();
     })
 
 
@@ -71,7 +74,6 @@ function newPosition(expectedHTTPStatus, position) {
                 res.should.have.status(expectedHTTPStatus);
                 done();
             })
-            done();
         } else {
             agent.post('/api/position') // Body is empty or incorrect
                 .then(function (res) {

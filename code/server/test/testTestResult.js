@@ -19,69 +19,51 @@ describe('Test Test Result A.P.I.s', () => {
     
     testGetTestResults(404,"1234","The requested RFID doesn't exist!");
 
+    let test_result = {
+        "RFID":"12345678901234567890123456789016",
+        "DATE":"2021/11/28",
+        "RESULT":"true",
+        "IDTESTDESCRIPTOR":9
+    }
+
+    newTestResult(200, test_result);
+
+    testGetTestResults(404, "32345678901234567890123456789017", "The requested RFID doesn't exist!");
+    testGetTestResults(200, "12345678901234567890123456789016", {"ID":1, "RFID":"12345678901234567890123456789016",
+    "DATE":"2021/11/28",
+    "RESULT":"true",
+    "IDTESTDESCRIPTOR":9});
     
-    // let test_descriptor = {
-    //     "NAME":"test descriptor 1",
-    //     "PROCEDUREDESCRIPTION":"This test is described by...",
-    //     "IDSKU" :1
-    // }
+    let incorrect_test_result = {};
+    newTestResult(422, incorrect_test_result);
 
-    // let incorrect_test_descriptor = {};
+    let newData = {"IDTESTDESCRIPTOR":3, "DATE":"2021/12/11", "RESULT":"false"};
     
-    // newTestDescriptor(201, test_descriptor);
-    // newTestDescriptor(422, incorrect_test_descriptor);
+    testModifyTestResult(1, "12345678901234567890123456789016", newData, 200);
 
-    // let data = {
-    //     "ID":1,
-    //     "NAME":"test descriptor 1",
-    //     "PROCEDUREDESCRIPTION":"This test is described by...",
-    //     "IDSKU":1
-    // }
+    testDeleteTestResult(1, "testIncorrectRFID", 422);
 
-    // testgetTestDescriptors(200, data);
+    testDeleteTestResult(1, "12345678901234567890123456789016", 200);
 
-    // let new_test_descriptor = {
-    //     "NAME":"test descriptor 1 UPDATED",
-    //     "PROCEDUREDESCRIPTION":"This test is described by...",
-    //     "IDSKU" :1
-    // }
+    testGetTestResults(200, "12345678901234567890123456789016", [{}]);
 
-    // testModifyTestDescriptor(1, new_test_descriptor, 200);
-
-    // testgetTestDescriptors(200, {"ID":1, "NAME":"test descriptor 1 UPDATED",
-    // "PROCEDUREDESCRIPTION":"This test is described by...",
-    // "IDSKU" :1 });
-
-    // testDeleteTestDescriptor(1, 204);
-
-    // testgetTestDescriptors(200, []);
-
-    // let another_test_descriptor = {
-    //     "NAME":"test descriptor 2 ",
-    //     "PROCEDUREDESCRIPTION":"This test is described by...",
-    //     "IDSKU" :2
-    // }
-
-    // newTestDescriptor(201, another_test_descriptor);
-
-    // testgetTestDescriptors(200, {"ID":2, "NAME":"test descriptor 2 ", "PROCEDUREDESCRIPTION":"This test is described by...","IDSKU" :2 });
+  
 
 });
 
 
-function newTestDescriptor(expectedHTTPStatus, test_descriptor) {
+function newTestResult(expectedHTTPStatus, test_result) {
     
-    it('POST /api/testDescriptor', function (done) {
-        if (test_descriptor !== {}) {  // TO-DO : call the Body Validation function
-            agent.post("/api/testResults").send(test_descriptor).then((res) => {
+    it('POST /api/skuitems/testResult', async function() {
+        if (test_result !== {}) {  // TO-DO : call the Body Validation function
+            await agent.post("/api/skuitems/testResult").send(test_result).then((res) => {
                 res.should.have.status(expectedHTTPStatus);
-                done();
+
             })
         } else {
-            agent.post('/api/testDescriptor') // Body is empty or incorrect
+            await agent.post('/api/skuitems/testResult') // Body is empty or incorrect
                 .then(function (res) {
                     res.should.have.status(expectedHTTPStatus);
-                    done();
                 });
         }
 
@@ -96,9 +78,10 @@ function testGetTestResults(expectedHTTPstatus, rfid,  expectedData) {
                         if(Object.keys(expectedData).length !== 0 && expectedHTTPstatus===200){
                             for (let i = 0; i < Object.keys(res.body).length; i++) {
                                 res.body[i].ID.should.equal(expectedData.ID);
-                                res.body[i].NAME.should.equal(expectedData.NAME);
-                                res.body[i].PROCEDUREDESCRIPTION.should.equal(expectedData.PROCEDUREDESCRIPTION);
-                                res.body[i].IDSKU.should.equal(expectedData.IDSKU);
+                                res.body[i].RFID.should.equal(expectedData.RFID);
+                                res.body[i].DATE.should.equal(expectedData.DATE);
+                                res.body[i].RESULT.should.equal(expectedData.RESULT);
+                                res.body[i].IDTESTDESCRIPTOR.should.equal(expectedData.IDTESTDESCRIPTOR);
                             }
 
                         
@@ -114,10 +97,10 @@ function testGetTestResults(expectedHTTPstatus, rfid,  expectedData) {
 
 
 
-function testModifyTestDescriptor(id,expectedData, expectedHTTPStatus) {
-    it('PUT /api/testDescriptor/:id', async function() {
-        await agent.put('/api/testDescriptor/'+id)
-            .send(expectedData)
+function testModifyTestResult(id, rfid, newData, expectedHTTPStatus) {
+    it('PUT /api/skuitems/:rfid/testResult/:id', async function() {
+        await agent.put('/api/skuitems/' + rfid + '/testResult/' +id)
+            .send(newData)
             .then(function(res) {
                 res.should.have.status(expectedHTTPStatus);
             });
@@ -125,9 +108,9 @@ function testModifyTestDescriptor(id,expectedData, expectedHTTPStatus) {
 }
 
 
-function testDeleteTestDescriptor(id, expectedHTTPStatus) {
-    it('DELETE /api/testDescriptor/:id', async function() {
-        await agent.delete('/api/testDescriptor/'+id)
+function testDeleteTestResult(id, rfid, expectedHTTPStatus) {
+    it('DELETE /api/skuitems/:rfid/testResult/:id', async function() {
+        await agent.delete('/api/skuitems/' + rfid + '/testResult/' + id)
                     .then(function(res) {
                         res.should.have.status(expectedHTTPStatus);
                     })

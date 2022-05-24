@@ -179,6 +179,8 @@ class TestResultDAO {
                 }
                 
                 result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+
+                
     
                 if(exist) {
                     const sql = 'DELETE FROM TEST_RESULT WHERE ID=? AND RFID=? ';
