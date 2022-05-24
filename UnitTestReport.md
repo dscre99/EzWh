@@ -1087,8 +1087,21 @@ No boundaries for boolean values
 |UserDAO.userSession(userData)|UserDAO.test.js -> testUserSession(username, password, type, idExpected, nameExpected, errExpected)|
 |UserDAO.modifyUserType(newUserData)|UserDAO.test.js -> testModifyUserType(username, oldType, newType, resExpected)|
 |UserDAO.deleteUser(userData)|UserDAO.test.js -> testDeleteUser(username, type)|
-
-
+|getPositions|test_get_positions|
+|storePosition|test_new_position|
+|put_position_by_ID_DB|test_modify_position|
+|put_positionID_by_ID_DB|test_modify_position_ID|
+|delete_position_by_ID_DB|test_delete_position|
+|get_test_descriptors_DB|test_get_test_descriptor|
+|get_test_descriptor_by_ID_DB|test_get_test_descriptor_by_ID|
+|post_test_descriptor_DB|test_new_test_descriptor|
+|put_test_descriptor_by_ID_DB|test_modify_test_descriptor|
+|delete_test_descriptor_by_ID_DB|test_delete_test_descriptor|
+|get_test_results_DB|test_get_test_result|
+|get_test_result_with_id_from_rfid_DB|test_get_test_result_with_ID_by_RFID|
+|post_test_result_DB|test_new_test_result|
+|put_test_result_with_id_from_rfid_DB|test_modify_test_result_with_ID_from_RFID|
+|delete_test_result_with_id_from_rfid_DB|test_delete_test_result_with_id_from_rfid|
 
 
 
