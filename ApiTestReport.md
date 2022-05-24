@@ -8,7 +8,18 @@ Version:
 
 - [Dependency graph](#dependency graph)
 
-- [Integration approach](#integration)
+- [Integration and API Test Report](#integration-and-api-test-report)
+- [Contents](#contents)
+- [Dependency graph](#dependency-graph)
+- [Integration approach](#integration-approach)
+- [Integration Tests](#integration-tests)
+  - [Step 1 (A)](#step-1-a)
+  - [Step 2 (A+B, B)](#step-2-ab-b)
+- [API testing - Scenarios](#api-testing---scenarios)
+  - [Scenario UCx.y](#scenario-ucxy)
+- [Coverage of Scenarios and FR](#coverage-of-scenarios-and-fr)
+- [Coverage of Non Functional Requirements](#coverage-of-non-functional-requirements)
+    - [](#)
 
 - [Tests](#tests)
 
@@ -30,14 +41,15 @@ Version:
     <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
     <One step will  correspond to API testing>
 
-The integration sequence adopted is top down: starting from DAO classes, we have developed testing because no dependencies were present, witouth the use of mock-ups and interacting directly with the DB. This step corresponds to unit testing.
+The integration sequence adopted is bottom-up: 
+1)  Starting from DAO classes, we have developed unit testing because no dependencies were present, witouth the use of any driver and interacting directly with the DB. The reason of this choice is that methods of each DAO are supposed to interact with the database only and perform just some minor check and validation on data received: all the major checks are performed on API level. No drivers have been developed because the interaction with the higer level classes is tested further with integration tests.
 
-The reason of this choice is that methods of each DAO are supposed to interact with the database only and perform just some minor check and validation on data received: all the major checks are performed on API level (A).
+2.  Once unit test have been done and validated, integration test is performed: receiver classes have been integrated with corresponding DAO classes and tested both.
+Also in this case, since the connection with the DB is performed by DAO classes already tested before, no stubs or mock-ups have been used. This step correspond to API testing (A+B).
 
-Once unit test have been done and validated, integration test has been performed using receiver classes.
-Also in this case, since the connection with the DB is performed by DAO classes already tested, no mock-ups have been used. This step correspond to API testing (A+B).
+Ex.
 
-
+<img src="./UnitTestCoverage_images/bottomup.png" alt="Dependency Graph">
 
     
 
@@ -46,7 +58,7 @@ Also in this case, since the connection with the DB is performed by DAO classes 
    <define below a table for each integration step. For each integration step report the group of classes under test, and the names of
      Jest test cases applied to them, and the mock ups used, if any> Jest test cases should be here code/server/unit_test
 
-## Step 1
+## Step 1 (A)
 | Classes  | mock up used |Jest test cases |
 |--|--|--|
 |InternalOrderDAO|| getInternalOrders, createInternalOrder,  modifyInternalOrder, modifyInternalOrder|
@@ -63,18 +75,19 @@ Also in this case, since the connection with the DB is performed by DAO classes 
 
 
 
-## Step 2
-| Classes  | mock up used |Jest test cases |
+## Step 2 (A+B, B)
+| Classes  | mock up used |Mocha test cases |
 |--|--|--|
+|testItemAPI.js, ItemDAO.test.js||GET/api/items/:id, GET/api/items, POST/api/item, PUT/api/item/:id, DELETE/api/items/:id |
+| testRestock_orderAPI.js, Restock_orderDAO.test.js||GET/api/restockOrders, GET/api/restockOrdersIssued, GET/api/restockOrders/:id, GET/api/restockOrders/:id/returnItems, POST/api/restockOrder, PUT/api/restockOrder/:id, PUT/api/restockOrder/:id/skuItems, PUT/api/restockOrder/:id/transportNote, DELETE/api/restockOrder/:id,   |
+|testReturn_orderAPI.js, Return_orderDAO.test.js||GET/api/returnOrders, GET/api/returnOrders/:id, POST/api/returnOrder, DELETE/api/returnOrder/:id,  |
+||||
+||||
 ||||
 
 
-## Step n 
 
-   
-| Classes  | mock up used |Jest test cases |
-|--|--|--|
-||||
+
 
 
 
@@ -114,7 +127,16 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 |     9-1     | FR6.1, FR6.2, FR6.3, FR6.5, FR6.6, FR6.7 |   test UC9-1 - Internal Order IO accepted  |
 |     9-2     |               FR6.6, FR6.7               |   test UC9-2 - Internal Order IO refused   |
 |     9-3     |               FR6.6, FR6.7               |  test UC9-3 - Internal Order IO cancelled  |
-|     10-1    |            FR6.6, FR6.7, FR6.8           |  test UC10-1 - Internal Order IO Completed |          
+|     10-1    |            FR6.6, FR6.7, FR6.8           |  test UC10-1 - Internal Order IO Completed |
+|3-1, 3-2|FR5.1, FR5.2, FR5.3, FR5.5, FR5.6 |testPOSTRestockOrder|
+|5-1-1|FR5.2, FR5.3, FR5.5, FR5.7 |testPUTnewSKUItemList|
+|5-2-1, 5-2-2, 5-2-3, 5-3-1, 5-3-2, 5-3-3|FR5.3, FR5.5, FR5.7|testPUTRestockOrder|
+|6-1, 6-2|FR5.9, FR5.11, |testPOSTReturnOrder|
+|11-1|FR7|testPOSTItem|
+|11-2|FR7|testPUTItem|
+||||
+||||
+||||
 
 
 
@@ -128,5 +150,5 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
-|                            |           |
+|    NFR1                        |    Test cases execution time       |
 
