@@ -75,7 +75,6 @@ function testModifySKU(id, modifications, expectedHTTPStatus) {
         await agent.put('/api/sku/' + id).send(modifications).then(function (res) {
             res.should.have.status(expectedHTTPStatus);
         });
-
     });
 }
 

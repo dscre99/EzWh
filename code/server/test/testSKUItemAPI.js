@@ -67,6 +67,7 @@ function testGetSKUItems(expected, expectedHTTPStatus) {
             res.should.have.status(expectedHTTPStatus);
             if (expected.length != 0) {
                 for (let i = 0; i < expected.length; i++) {
+                    console.log(res.body);
                     res.body[i].rfid.should.equal(expected[i].rfid);
                     res.body[i].SKUId.should.equal(expected[i].SKUId);
                     res.body[i].Available.should.equal(expected[i].Available);

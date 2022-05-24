@@ -1,4 +1,4 @@
-# Unit Testing Report
+﻿# Unit Testing Report
 
 Date:
 
@@ -57,6 +57,415 @@ Version:
 |||||||
 
 
+ ## **Class *PositionDAO***
+
+ ### **Class *PositionDAO* - method *getPositions()***
+
+**Criteria for method *getPositions()*:**
+ - Position exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position exists (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position exists (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Position exists and user has right permission, correct data is returned.               | test_get_positions(); |
+|           T          |          F          |     Invalid     | Position exists but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_get_positions(); |
+|           F          |          -          |     Invalid     |                          Position does not exists, test fails.                          |  test_get_positions(); |
+
+
+ ### **Class *PositionDAO* - method *storePosition(position)***
+
+**Criteria for method *storePosition(position)*:**
+ - Position data are valid
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position data are valid (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position data are valid (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Position data are valid and user has right permission, positionID is returned.               | test_new_position(); |
+|           T          |          F          |     Invalid     | Position data are valid but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_new_position(); |
+|           F          |          -          |     Invalid     |                          Position date are not valid, test fails.                          |  test_new_position(); |
+
+
+
+ ### **Class *PositionDAO* - method *put_position_by_ID_DB(positionID, body)***
+
+**Criteria for method *put_position_by_ID_DB(positionID, body)*:**
+ - Position data are valid
+ -  Position with positionID exists
+ - User has right permission
+
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position data are valid (C1) | True, False |
+| Position with positionID exists (C2)  | True, False |
+| User has right permission (C3)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position data are valid (C1) | Position with positionID exists (C2)  | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          | T |     Valid      |               Position data are valid, position with positionID exists in the DB and user has right permission, 'true' is returned.               | test_modify_position(); |
+|           T          |          T          | F|     Invalid     | Position data are valid and the position to modify exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_modify_position(); |
+|           F          |          T          | -|    Invalid     |                          Position data are not valid, test fails.                          |  test_modify_position(); |
+|           T          |          F          | -|    Invalid     |                          Position data is valid, but the position to modify doesn't exist in the DB, test fails.                          |  test_modify_position(); |
+
+
+
+ ### **Class *PositionDAO* - method *put_positionID_by_ID_DB(positionID, body)***
+
+**Criteria for method *put_positionID_by_ID_DB(positionID, body)*:**
+ - New positionID ( from the body ) is valid
+ - Position with positionID exists
+ - User has right permission
+
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position ID is valid (C1) | True, False |
+| Position with positionID exists (C2)  | True, False |
+| User has right permission (C3)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position ID is valid (C1) | Position with positionID exists (C2)  | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          | T |     Valid      |               Position ID is valid, position with positionID exists in the DB and user has right permission, 'true' is returned.               | test_modify_position_ID(); |
+|           T          |          T          | F|     Invalid     | Position ID is valid, position with positionID exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_modify_position_ID(); |
+|           F          |          T          | -|    Invalid     |                          Position ID is not valid, test fails.                          |  test_modify_position_ID(); |
+|           T          |          F          | -|    Invalid     |                          Position ID is valid, but the position with positionID doesn't exist in the DB, test fails.                          |  test_modify_position_ID(); |
+
+
+
+ ### **Class *PositionDAO* - method *delete_position_by_ID_DB(positionID)***
+
+**Criteria for method *delete_position_by_ID_DB(positionID)*:**
+ - Position with positionID exists in the DB
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position with positionID exists in the DB (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position with positionID exists in the DB (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Position with positionID exists in the DB and user has right permission, 'true' is returned.               | test_delete_position(); |
+|           T          |          F          |     Invalid     | Position with positionID exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_delete_position(); |
+|           F          |          -          |     Invalid     |                          Position with positionID doesn't exist in the DB, test fails.                          |  test_delete_position(); |
+
+
+## **Class *TestDescriptorDAO***
+
+ ### **Class *TestDescriptorDAO* - method *get_test_descriptors_DB()***
+
+**Criteria for method *get_test_descriptors_DB()*:**
+ - Test descriptor exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Test descriptor exists (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Test descriptor exists (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Test descriptor exists and user has right permission, correct data is returned.               | test_get_test_descriptor(); |
+|           T          |          F          |     Invalid     | Test descriptor exists but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_get_test_descriptor(); |
+|           F          |          -          |     Invalid     |                          Test Descriptor does not exists, test fails.                          |  test_get_test_descriptor(); |
+
+
+ ### **Class *TestDescriptorDAO* - method *get_test_descriptor_by_ID_DB(id)***
+
+**Criteria for method *get_test_descriptor_by_ID_DB(id)*:**
+ - Test descriptor with 'id' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Test descriptor with 'id' exists (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Test descriptor with 'id' exists (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Test descriptor with 'id' exists and user has right permission, correct data is returned.               | test_get_test_descriptor_by_ID(); |
+|           T          |          F          |     Invalid     | Test descriptor with 'id' exists but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_get_test_descriptor_by_ID(); |
+|           F          |          -          |     Invalid     |                          Test descriptor with 'id' does not exists, test fails.                          |  test_get_test_descriptor_by_ID(); |
+
+
+
+### **Class *TestDescriptorDAO* - method *post_test_descriptor_DB(data)***
+
+**Criteria for method *post_test_descriptor_DB(data)*:**
+ - Test descriptor data are valid
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Test descriptor data are valid (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Test descriptor data are valid (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Test descriptor data are valid and user has right permission, 'true' is returned.               | test_new_test_descriptor(); |
+|           T          |          F          |     Invalid     | Test descriptor data are valid but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_new_test_descriptor(); |
+|           F          |          -          |     Invalid     |                          Test descriptor data are not valid, test fails.                          |  test_new_test_descriptor(); |
+
+
+
+### **Class *TestDescriptorDAO* - method *put_test_descriptor_by_ID_DB(id, body)***
+
+**Criteria for method *put_test_descriptor_by_ID_DB(id, body)*:**
+ - Test descriptor data ( body ) are valid
+ - Test descriptor with 'id' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Test descriptor data ( body ) are valid (C1) | True, False |
+| Test descriptor with 'id' exists (C2) | True, False |
+| User has right permission (C3)  | True, False |
+
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Test descriptor data ( body ) are valid (C1) | Test descriptor with 'id' exists (C2)  | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          | T |     Valid      |               Test Descriptor data are valid, Test Descriptor with id exists in the DB and user has right permission, 'true' is returned.               | test_modify_test_descriptor(); |
+|           T          |          T          | F|     Invalid     | Test Descriptor data are valid, Test Descriptor with id exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_modify_test_descriptor(); |
+|           F          |          T          | -|    Invalid     |                          Test Descriptor data are not valid, test fails.                          |  test_modify_position_ID(); |
+|           T          |          F          | -|    Invalid     |                          Test Descriptor data are valid, but Test Descriptor with id doesn't exist in the DB, test fails.                          |  test_modify_test_descriptor(); |
+
+
+### **Class *TestDescriptorDAO* - method *delete_test_descriptor_by_ID_DB(id)***
+
+**Criteria for method *delete_test_descriptor_by_ID_DB(id)*:**
+ - Test descriptor with 'id' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Test descriptor with 'id' exists (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Test descriptor with 'id' exists (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Test descriptor with 'id' exists and user has right permission, 'true' is returned.               | test_delete_test_descriptor(); |
+|           T          |          F          |     Invalid     | Test descriptor with 'id' exists but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_delete_test_descriptor(); |
+|           F          |          -          |     Invalid     |                          Test descriptor with 'id' doesn't exist, test fails.                          |  test_delete_test_descriptor(); |
+
+
+## **Class *TestResultDAO***
+
+ ### **Class *TestResultDAO* - method *get_test_results_DB(rfid)***
+
+**Criteria for method *get_test_results_DB(rfid)*:**
+ - SkuItem with 'rfid' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| SkuItem with 'rfid' exists (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| SkuItem with 'rfid' exists (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               SkuItem with 'rfid' exists and user has right permission, correct data is returned.               | test_get_test_result(); |
+|           T          |          F          |     Invalid     | SkuItem with 'rfid' exists but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_get_test_result(); |
+|           F          |          -          |     Invalid     |                          SkuItem with 'rfid' doesn't exists, test fails.                          |  test_get_test_result(); |
+
+
+
+### **Class *TestResultDAO* - method *get_test_result_with_id_from_rfid_DB(id, rfid)***
+
+**Criteria for method *get_test_result_with_id_from_rfid_DB(id, rfid)*:**
+ - SkuItem with 'rfid' exists
+ - Test Result with 'id' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| SkuItem with 'rfid' exists (C1) | True, False |
+| Test Result with 'id' exists (C2) | True, False |
+| User has right permission (C3)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| SkuItem with 'rfid' exists (C1) | Test Result with 'id' exists (C2)  | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          | T |     Valid      |               SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB and user has right permission, correct data is returned.               | test_get_test_result_with_ID_by_RFID(); |
+|           T          |          T          | F|     Invalid     | Test SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_get_test_result_with_ID_by_RFID(); |
+|           F          |          -         | -|    Invalid     |                          SkuItem with 'rfid' doesn't exists, test fails.                          |  test_get_test_result_with_ID_by_RFID(); |
+|           T          |          F          | -|    Invalid     |                          SkuItem with 'rfid' exists, but Test Result with 'id' doesn't exists in the DB, test fails.                          |  test_get_test_result_with_ID_by_RFID(); |
+
+
+### **Class *TestResultDAO* - method *post_test_result_DB(data)***
+
+**Criteria for method *post_test_result_DB(data)*:**
+ - Data are valid
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Data are valid (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Data are valid (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Data are valid and user has right permission, 'Test Result succesfully added to the Database!' is returned.               | test_new_test_result(); |
+|           T          |          F          |     Invalid     | Data are valid but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_new_test_result(); |
+|           F          |          -          |     Invalid     |                          Data are not valid, test fails.                          |  test_new_test_result(); |
+
+
+### **Class *TestResultDAO* - method *put_test_result_with_id_from_rfid_DB(id, rfid, data)***
+
+**Criteria for method *put_test_result_with_id_from_rfid_DB(id, rfid, data)*:**
+ - SkuItem with 'rfid' exists
+ - Test Result with 'id' exists
+ - Data are valid
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| SkuItem with 'rfid' exists (C1) | True, False |
+| Test Result with 'id' exists (C2) | True, False |
+| Data are valid (C3)  | True, False |
+| User has right permission (C4)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| SkuItem with 'rfid' exists (C1) | Test Result with 'id' exists (C2)  | Data are valid (C3) | User has right permission (C4) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|--------|
+|           T          |  T  | T | T |     Valid      |               SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB, Data are valid and user has right permission, correct data is returned.               | test_modify_test_result_with_ID_from_RFID(); |
+|           T          |          T          | T| F |   Invalid     | Test SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB, Data are valid but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_modify_test_result_with_ID_from_RFID(); |
+|           F          |          -         | -| -|   Invalid     |                          SkuItem with 'rfid' doesn't exists, test fails.                          |  test_modify_test_result_with_ID_from_RFID(); |
+|           T          |          F          | -| - |   Invalid     |                          SkuItem with 'rfid' exists, but Test Result with 'id' doesn't exists in the DB, test fails.                          |  test_modify_test_result_with_ID_from_RFID(); |
+|           T          |          T          | F| - |   Invalid     |                          SkuItem with 'rfid' exists, Test Result with 'id' exists in the DB but data are not valid, test fails.                          |  test_modify_test_result_with_ID_from_RFID(); |
+
+
+### **Class *TestResultDAO* - method *delete_test_result_with_id_from_rfid_DB(id, rfid)***
+
+**Criteria for method *delete_test_result_with_id_from_rfid_DB(id, rfid)*:**
+ - Test Result with 'id' exists
+ - SkuItem with 'rfid' exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Test Result with 'id' exists (C1) | True, False |
+| SkuItem with 'rfid' exists (C2)  | True, False |
+| User has right permission (C3)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Test Result with 'id' exists (C1) | SkuItem with 'rfid' exists (C2) | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|-------|
+|           T          |          T          | T |     Valid      |               Test Result with 'id' exists, SkuItem with 'rfid' exists and user has right permission, 'true' is returned.               | test_delete_test_result_with_id_from_rfid(); |
+|           T          |          T          | F |   Invalid     | Test Result with 'id' exists, SkuItem with 'rfid' exists, but user has not the right permission, test fails. (Sessions still to be implemented) |  test_new_test_result(); |
+|           F          |          -          | - |   Invalid     |                          Test Result with 'id' doesn't exists, test fails.                          |  test_new_test_result(); |
+|           T          |          F          | - |   Invalid     |                          Test Result with 'id' exists but SkuItem with 'rfid' doesn't exists, test fails.                          |  test_new_test_result(); |
 
 
  ## **Class *UserDAO***
@@ -686,19 +1095,22 @@ No boundaries for boolean values
 
 ### Code coverage report
 
-    <Add here the screenshot report of the statement and branch coverage obtained using
-    the coverage tool. >
-
 <img src="./UnitTestCoverage_images/UserDAO_unit_test_coverage.png" alt="Context Diagram">
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
+
 <img src="./UnitTestCoverage_images/InternalOrderDAO_unit_test_coverage.png" alt="Context Diagram">
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
+
 
 <img src="./UnitTestCoverage_images/ReturnOrderDAO_unit_test_coverage.png" alt="Context Diagram">
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
 <img src="./UnitTestCoverage_images/RestockOrderDAO_unit_test_coverage.png" alt="Context Diagram">
+Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase. Although all functions have been called more times, the % Funct fails to reach 100%.
+
+
+<img src="./UnitTestCoverage_images/ItemDAO_unit_test_coverage.png" alt="Context Diagram">
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
 

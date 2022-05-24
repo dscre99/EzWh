@@ -7,7 +7,7 @@ const app = require('../server');
 let agent = chai.request.agent(app);
 
 function testGETItembyId(id, description, price, skuid, supplierid, expectedHTTPstatus) {
-    it('GET /api/items/:id', async function() {
+    it('GET/api/items/:id', async function() {
         await agent.get('/api/items/'+id).then(function(res) {
             res.should.have.status(expectedHTTPstatus);
             if(res.status == 200) {
@@ -22,7 +22,7 @@ function testGETItembyId(id, description, price, skuid, supplierid, expectedHTTP
 }
 
 function testGETItems(expectedData, expectedHTTPstatus) {
-    it('GET /api/items', async function() {
+    it('GET/api/items', async function() {
         await agent.get('/api/items')
                     .then(function(res) {
                         res.should.have.status(expectedHTTPstatus);
@@ -44,7 +44,7 @@ function testGETItems(expectedData, expectedHTTPstatus) {
 }
 
 function testPOSTItem(expectedData, expectedHTTPStatus) {
-    it('testing POST /api/item', async function() {
+    it('POST/api/item', async function() {
         await agent.post('/api/item')
             .send(expectedData)
             .then(function(res) {
@@ -54,7 +54,7 @@ function testPOSTItem(expectedData, expectedHTTPStatus) {
 }
 
 function testPUTItem(id,expectedData, expectedHTTPStatus) {
-    it('testing PUT /api/item/:id', async function() {
+    it('PUT/api/item/:id', async function() {
         await agent.put('/api/item/'+id)
             .send(expectedData)
             .then(function(res) {
@@ -64,7 +64,7 @@ function testPUTItem(id,expectedData, expectedHTTPStatus) {
 }
 
 function testDELETEItem(id,expectedHTTPStatus) {
-    it('testing DELETE /api/items/:id', async function() {
+    it('DELETE/api/items/:id', async function() {
         await agent.delete('/api/items/'+id)
                     .then(function(res) {
                         res.should.have.status(expectedHTTPStatus);

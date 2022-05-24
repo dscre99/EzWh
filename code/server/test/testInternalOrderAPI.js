@@ -147,6 +147,8 @@ function testDELETEinternalOrder(id, expectedHTTPstatus) {
 }
 
 describe('test InternalOrderAPIreceiver.js', () => {
+
+    // restores DB to a known state before start testing
     before(async () => {
         let res = await InternalOrderDAOinstance.clearSKUITEMinInternalOrdersTable();
         res.should.equal(200);
@@ -405,4 +407,337 @@ describe('test InternalOrderAPIreceiver.js', () => {
     testGETinternalOrders([], 200);
     testGETinternalOrder(1, {}, 404);
 
+});
+
+// -TO ADD SCENARIO-LIKE API TESTING
+describe('test UC9-1 - Internal Order IO accepted', () => {
+
+    // restores DB to a known state before start testing
+    before(async () => {
+        let res = await InternalOrderDAOinstance.clearSKUITEMinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearSKUinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearInternalOrdersTable();
+        res.should.equal(200);
+    });
+
+    // issues internal order
+    testPOSTinternalOrder({
+        "issueDate": "2022/05/15 21:12",
+        "products": [
+            {
+                "SKUId": 15,
+                "description": "a product",
+                "price": 17.99,
+                "qty": 1
+            },
+            {
+                "SKUId": 23,
+                "description": "another product",
+                "price": 7.99,
+                "qty": 1
+            }
+        ],
+        "customerId": 2
+    }, 201);
+
+    // check internal order has been issued
+    testGETinternalOrders([
+        {
+            "id": 1,
+            "issueDate": "2022/05/15 21:12",
+            "state": "ISSUED",
+            "customerId": 2,
+            "products": [
+                {
+                    "SKUId": 15,
+                    "description": "a product",
+                    "price": 17.99,
+                    "qty": 1
+                },
+                {
+                    "SKUId": 23,
+                    "description": "another product",
+                    "price": 7.99,
+                    "qty": 1
+                }
+            ]
+        }
+    ], 200);
+
+    // accepts order
+    testPUTinternalOrder(1, {"newState": "ACCEPTED"}, 200);
+
+    // check internal order has been accepted
+    testGETinternalOrders([
+        {
+            "id": 1,
+            "issueDate": "2022/05/15 21:12",
+            "state": "ACCEPTED",
+            "customerId": 2,
+            "products": [
+                {
+                    "SKUId": 15,
+                    "description": "a product",
+                    "price": 17.99,
+                    "qty": 1
+                },
+                {
+                    "SKUId": 23,
+                    "description": "another product",
+                    "price": 7.99,
+                    "qty": 1
+                }
+            ]
+        }
+    ], 200);
+    
+});
+
+describe('test UC9-2 - Internal Order IO refused', () => {
+
+    // restores DB to a known state before start testing
+    before(async () => {
+        let res = await InternalOrderDAOinstance.clearSKUITEMinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearSKUinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearInternalOrdersTable();
+        res.should.equal(200);
+    });
+
+    // issues internal order
+    testPOSTinternalOrder({
+        "issueDate": "2022/05/15 21:12",
+        "products": [
+            {
+                "SKUId": 15,
+                "description": "a product",
+                "price": 17.99,
+                "qty": 1
+            },
+            {
+                "SKUId": 23,
+                "description": "another product",
+                "price": 7.99,
+                "qty": 1
+            }
+        ],
+        "customerId": 2
+    }, 201);
+
+    // check internal order has been issued
+    testGETinternalOrders([
+        {
+            "id": 1,
+            "issueDate": "2022/05/15 21:12",
+            "state": "ISSUED",
+            "customerId": 2,
+            "products": [
+                {
+                    "SKUId": 15,
+                    "description": "a product",
+                    "price": 17.99,
+                    "qty": 1
+                },
+                {
+                    "SKUId": 23,
+                    "description": "another product",
+                    "price": 7.99,
+                    "qty": 1
+                }
+            ]
+        }
+    ], 200);
+
+    // accepts order
+    testPUTinternalOrder(1, {"newState": "REFUSED"}, 200);
+
+    // check internal order has been accepted
+    testGETinternalOrders([
+        {
+            "id": 1,
+            "issueDate": "2022/05/15 21:12",
+            "state": "REFUSED",
+            "customerId": 2,
+            "products": [
+                {
+                    "SKUId": 15,
+                    "description": "a product",
+                    "price": 17.99,
+                    "qty": 1
+                },
+                {
+                    "SKUId": 23,
+                    "description": "another product",
+                    "price": 7.99,
+                    "qty": 1
+                }
+            ]
+        }
+    ], 200);
+    
+});
+
+describe('test UC9-3 - Internal Order IO cancelled', () => {
+
+    // restores DB to a known state before start testing
+    before(async () => {
+        let res = await InternalOrderDAOinstance.clearSKUITEMinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearSKUinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearInternalOrdersTable();
+        res.should.equal(200);
+    });
+
+    // issues internal order
+    testPOSTinternalOrder({
+        "issueDate": "2022/05/15 21:12",
+        "products": [
+            {
+                "SKUId": 15,
+                "description": "a product",
+                "price": 17.99,
+                "qty": 1
+            },
+            {
+                "SKUId": 23,
+                "description": "another product",
+                "price": 7.99,
+                "qty": 1
+            }
+        ],
+        "customerId": 2
+    }, 201);
+
+    // check internal order has been issued
+    testGETinternalOrders([
+        {
+            "id": 1,
+            "issueDate": "2022/05/15 21:12",
+            "state": "ISSUED",
+            "customerId": 2,
+            "products": [
+                {
+                    "SKUId": 15,
+                    "description": "a product",
+                    "price": 17.99,
+                    "qty": 1
+                },
+                {
+                    "SKUId": 23,
+                    "description": "another product",
+                    "price": 7.99,
+                    "qty": 1
+                }
+            ]
+        }
+    ], 200);
+
+    // accepts order
+    testPUTinternalOrder(1, {"newState": "CANCELLED"}, 200);
+
+    // check internal order has been accepted
+    testGETinternalOrders([
+        {
+            "id": 1,
+            "issueDate": "2022/05/15 21:12",
+            "state": "CANCELLED",
+            "customerId": 2,
+            "products": [
+                {
+                    "SKUId": 15,
+                    "description": "a product",
+                    "price": 17.99,
+                    "qty": 1
+                },
+                {
+                    "SKUId": 23,
+                    "description": "another product",
+                    "price": 7.99,
+                    "qty": 1
+                }
+            ]
+        }
+    ], 200);
+    
+});
+
+describe('test UC10-1 - Internal Order IO Completed', () => {
+
+    // restores DB to a known state before start testing
+    before(async () => {
+        let res = await InternalOrderDAOinstance.clearSKUITEMinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearSKUinInternalOrdersTable();
+        res.should.equal(200);
+        res = await InternalOrderDAOinstance.clearInternalOrdersTable();
+        res.should.equal(200);
+    });
+
+    // issues internal order
+    testPOSTinternalOrder({
+        "issueDate": "2022/05/15 21:12",
+        "products": [
+            {
+                "SKUId": 15,
+                "description": "a product",
+                "price": 17.99,
+                "qty": 1
+            },
+            {
+                "SKUId": 23,
+                "description": "another product",
+                "price": 7.99,
+                "qty": 1
+            }
+        ],
+        "customerId": 2
+    }, 201);
+
+    // accepts order
+        // missing prodicts list
+    testPUTinternalOrder(1, {"newState": "COMPLETED"}, 422);
+    testPUTinternalOrder(1, {
+        "newState": "COMPLETED",
+        "products": [
+            {
+                "SkuID": 15,
+                "RFID": "12345678901234567890123456789015"
+            },
+            {
+                "SkuID": 23,
+                "RFID": "12345678901234567890123456789023"
+            }
+        ]
+    }, 200);
+
+    // check internal order has been accepted
+    testGETinternalOrders([
+        {
+            "id": 1,
+            "issueDate": "2022/05/15 21:12",
+            "state": "COMPLETED",
+            "customerId": 2,
+            "products": [
+                {
+                    "SKUId": 15,
+                    "description": "a product",
+                    "price": 17.99,
+                    "qty": 1,
+                    "RFID": "12345678901234567890123456789015"
+                },
+                {
+                    "SKUId": 23,
+                    "description": "another product",
+                    "price": 7.99,
+                    "qty": 1,
+                    "RFID": "12345678901234567890123456789023"
+                }
+            ]
+        }
+    ], 200);
+    
 });

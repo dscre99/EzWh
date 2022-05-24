@@ -7,7 +7,7 @@ const app = require('../server');
 let agent = chai.request.agent(app);
 
 function testGETReturnOrders(expectedData, expectedHTTPstatus) {
-    it('GET /api/returnOrders', async function() {
+    it('GET/api/returnOrders', async function() {
         await agent.get('/api/returnOrders')
                     .then(function(res) {
                         res.should.have.status(expectedHTTPstatus);
@@ -32,7 +32,7 @@ function testGETReturnOrders(expectedData, expectedHTTPstatus) {
 }
 
 function testGETReturnOrderById(id, returnDate, products, restockOrderId,expectedHTTPstatus) {
-    it('GET /api/returnOrders/:id', async function() {
+    it('GET/api/returnOrders/:id', async function() {
         await agent.get('/api/returnOrders/'+id).then(function(res) {
             res.should.have.status(expectedHTTPstatus);
             if(res.status == 200) {
@@ -52,7 +52,7 @@ function testGETReturnOrderById(id, returnDate, products, restockOrderId,expecte
 }
 
 function testPOSTReturnOrder(expectedData, expectedHTTPStatus) {
-    it('testing POST /api/returnOrder', async function() {
+    it('POST/api/returnOrder', async function() {
         await agent.post('/api/returnOrder')
             .send(expectedData)
             .then(function(res) {
@@ -62,7 +62,7 @@ function testPOSTReturnOrder(expectedData, expectedHTTPStatus) {
 }
 
 function testDELETEReturnOrder(id,expectedHTTPStatus) {
-    it('testing DELETE /api/returnOrder/:id', async function() {
+    it('DELETE/api/returnOrder/:id', async function() {
         await agent.delete('/api/returnOrder/'+id)
                     .then(function(res) {
                         res.should.have.status(expectedHTTPStatus);
