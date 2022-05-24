@@ -134,8 +134,8 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 |6-1, 6-2|FR5.9, FR5.11, |testPOSTReturnOrder|
 |11-1|FR7|testPOSTItem|
 |11-2|FR7|testPUTItem|
-||||
-||||
+|4.2|FR5.4|getPositions|
+|6.2|FR5.7|newTestResult|
 ||||
 
 
