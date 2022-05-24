@@ -1,4 +1,4 @@
-﻿# Unit Testing Report
+# Unit Testing Report
 
 Date:
 
@@ -1009,12 +1009,13 @@ No boundaries for boolean predicates.
 |T|F|Valid|Test is successful, an empty array is returned|testGetSKUs([])|
 |T|T|Valid|Skus are returned| testGetSKUs(skus)|
 
- ### **Class *SKUDao* - method *modifySKU(sku)***
+ ### **Class *SKUDao* - method *modifySKU(id, description, weight, volume, notes, price, availableQuantity, expected)***
 
-**Criteria for method *modifySKU(sku)*:**
+**Criteria for method *modifySKU(...)*:**
 	
  - SKUId exists
 - Queries are successful
+-User is logged in
 
 **Predicates for method *name*:**
 
@@ -1022,6 +1023,7 @@ No boundaries for boolean predicates.
 | -------- | --------- |
 |     SKUId exists     |      True, False     |
 |     Queries are successful     |     True, False      |
+| User is logged in | True, False |
 
 **Boundaries**:
 
@@ -1030,11 +1032,48 @@ No boundaries for boolean values
 **Combination of predicates**:
 
 
-| SKUId exists | Queries are successful | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-|T|F|Invalid|Test fails because of a DB error|testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200)|
-|T|T|Valid|The SKU with ID= skuid is modified|testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200)|
-|F|-|Invalid|The test is expected to return error 404 |testModifySKU(18, "description", 14, 12, "note", 10000.56, 13, 404)|
+| SKUId exists | Queries are successful | User is logged in| Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|
+|T|F| T|Invalid|Test fails because of a DB error|testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200)|
+|T|T| T|Valid|The SKU with ID= skuid is modified|testModifySKU(2, "description", 14, 12, "note", 10000.56, 13, 200)|
+|F|-| T|Invalid|The test is expected to return error 404 |testModifySKU(18, "description", 14, 12, "note", 10000.56, 13, 404)|
+|-|-|F|Invalid| Test returns error 401| |
+
+ ### **Class *SKUDao* - method *modifySKUPosition(id, position, expected)***
+
+**Criteria for method *modifySKUPosition(...)*:**
+	
+ - SKUId exists
+- Queries are successful
+-Position id exists
+-Position associated to another SKU
+
+**Predicates for method *name*:**
+
+| Criteria | Predicate |
+| -------- | --------- |
+|     SKUId exists     |      True, False     |
+|     Queries are successful     |     True, False      |
+| Position id exists | True, False |
+|Position associated to another SKU| True, False|
+|Volume<availableVolume and weight< availableWeight C5| True, False |
+|Volume>0 and Weight>0 C6| True, False|
+
+**Boundaries**:
+
+Volume == 0, Weight == 0
+Volume == availableVolume, Weight == availableWeight
+
+**Combination of predicates**:
+
+
+| SKUId exists | Queries are successful | Position id exists|Position associated to another SKU| C5 | C6 |Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|-------|-------|-------|
+|F| -|-|-|-|-| Invalid| The test returns the error code 422 | testModifySKUPosition(16, "800234523412", 422)|
+|T| F | T| T|-|-| Invalid | The tests return a sqlite error||
+|T|T|F|F|-|-| Invalid | The test returns a 422 error| testModifySKUPosition(1, "800234523", 422)||
+|T|T| T| F|T|T| Valid | The test is successful |testModifySKUPosition(2, "800234525144", 200)|
+|T|T|T|T|-|-| Invalid | The test returns a 422 error | testModifySKUPosition(2, "800234525144", 422)|
 
 
 
@@ -1102,6 +1141,19 @@ No boundaries for boolean values
 |post_test_result_DB|test_new_test_result|
 |put_test_result_with_id_from_rfid_DB|test_modify_test_result_with_ID_from_RFID|
 |delete_test_result_with_id_from_rfid_DB|test_delete_test_result_with_id_from_rfid|
+|newSKU| testNewSKU|
+|getSKUs | testGetSKUs|
+|getSKUbyID| testGetSKUbyID|
+|modifySKU|testModifySKU|
+|modifySKUPosition| testModifySKUPosition|
+|deleteSKUbyID|testDeleteSKUbyID|
+|newSKUItem|testNewSKUItem|
+|getSKUItems|testGetSKUItems|
+|getSKUItemsBySKUID|testGetSKUItemsBySKUID|
+|getSKUItemsByRfid| testGetSKUItemsByRfid|
+|modifySKUItem|testModifySKUItem|
+|deleteSKUItembyRfid|testDeleteSKUItembyRfid|
+
 
 
 
