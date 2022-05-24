@@ -3,7 +3,6 @@ const DB = require('../../EZWH_db/RunDB');
 const DBinstance = DB.DBinstance;
 const SKUDaoInstance = new SKUDao(DBinstance);
 const position = require('../../Position/Position_DAO');
-const { expect } = require('../../node_modules/expect/build/index');
 const positionInstance = new position(DBinstance);
 
 
@@ -115,6 +114,10 @@ describe('test SKUdao', () => {
         expect(drop).toEqual(200);
         let table = await SKUDaoInstance.newSKUTable();
         expect(table).toEqual(200);
+        let drop2 = await positionInstance.dropPositionTable();
+        expect(drop2).toEqual(200);
+        let table2 = await positionInstance.newPositionTable();
+        expect(table2).toEqual(200);
         let pos1 = await positionInstance.storePosition(position1);
         expect(pos1).toEqual(position1.positionID);
         let pos2 = await positionInstance.storePosition(position2);

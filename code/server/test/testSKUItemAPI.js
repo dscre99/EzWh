@@ -54,7 +54,7 @@ describe('testing sku item apis', () => {
         "newDateOfStock": "2021/5/26 12:30"
     }
 
-    //testModifySKUItem("12345678901234567890123456789014", newData, 200)
+    testModifySKUItem("12345678901234567890123456789014", newData, 200)
 
     testDeleteSKUItemByRfid("12345678901234567890123456789114", 204);
 
@@ -128,8 +128,6 @@ function testModifySKUItem(rfid, newData , expectedHTTPStatus) {
         await agent.put('/api/skuitems/' + rfid)
             .send(newData)
             .then(function (res) {
-                console.log(res.body);
-                console.log(res.status)
                 res.should.have.status(expectedHTTPStatus);
             });
     });

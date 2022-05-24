@@ -141,7 +141,7 @@ async function modifySKUItem(req, res) {
                 return res.status(422).end();
             }
         });
-        if ((req.body).RFID.length != 32) {
+        if ((req.body).newRFID.length != 32) {
             return res.status(422).end();
         }
     }
