@@ -1130,9 +1130,9 @@ Note: uncovered branches refer to SQL queries errors, since queries are defined 
 
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
 
-<img src="./UnitTestCoverage_images/PositionDAO_unit_test_coverage" alt="Context Diagram">
+<img src="./UnitTestCoverage_images/PositionDAO_unit_test_coverage.png" alt="Context Diagram">
 
-<img src="./UnitTestCoverage_images/TestDescriptorDAO_unit_test_coverage" alt="Context Diagram">
+<img src="./UnitTestCoverage_images/TestDescriptorDAO_unit_test_coverage.png" alt="Context Diagram">
 
 
 ### Loop coverage analysis
