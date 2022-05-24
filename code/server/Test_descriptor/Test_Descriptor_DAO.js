@@ -116,22 +116,6 @@ class TestDescriptorDAO {
     
         });
     }
-
-    delete_all_test_descriptors() {
-        return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM TEST_DESCRIPTOR';
-            this.#db.run(sql, [], (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(true);
-                    }
-                });
-        });
-    }
-    
-
-
 }
 
 module.exports = TestDescriptorDAO;

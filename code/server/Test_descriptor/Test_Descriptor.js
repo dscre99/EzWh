@@ -109,7 +109,7 @@ class TestDescriptorService {
         }
         
         this.#dao.delete_test_descriptor_by_ID_DB(req.params.id).then(() => {
-            res.status(200).json(`Test Descriptor with id=${req.params.id} has been deleted!`);
+            res.status(204).json(`Test Descriptor with id=${req.params.id} has been deleted!`);
         }).catch((error) => res.status(500).json(error));
     }
 

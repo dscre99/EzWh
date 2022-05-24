@@ -132,39 +132,3 @@ describe('Test Test Descriptor', () => {
     ])
     
 })
-
-
-
-// describe('Test Test Descriptor', () => {
-
-//     let test_descriptor = {
-// 		"NAME": "Test Descriptor 1",
-// 		"PROCEDUREDESCRIPTION": "Procedure Description 1 ...",
-// 		"IDSKU": 1
-// 	}
-
-
-//     beforeAll(async () => {
-//         let drop = await test_descriptor_dao.dropPositionTable();
-//         expect(drop).toEqual(200);
-//         let table = await test_descriptor_dao.newTestDescriptorTable();
-//         expect(table).toEqual(200);
-//         let test_descriptor = await test_descriptor_dao.post_test_descriptor_DB(test_descriptor);
-//         expect(pos).toEqual(true);
-//     });
-
-//     test_get_test_descriptor([
-// 		{
-// 			"NAME": "Test Descriptor 1",
-// 		    "PROCEDUREDESCRIPTION": "Procedure Description 1 ...",
-// 		    "IDSKU": 1
-// 		}
-// 	])
-
-// 	// test_new_position("800234545410", "6000", 2000, 1200, 300, 200, "800234545410");
-// 	// test_modify_position("800234545410", "500", 14, 12, 30, 10, 3, 5, true);
-// 	// test_modify_position_ID("800234545410", "500234545417", true);
-// 	// test_delete_position("800234545410", true);
-
-    
-// })
