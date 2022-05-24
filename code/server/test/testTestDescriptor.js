@@ -6,7 +6,7 @@ chai.should();
 const app = require('../server');
 const { isEmpty, validatePositionID, validatePositionData } = require('../utils/utils');
 let agent = chai.request.agent(app);
- 
+
 
 describe('Test Test Descriptor A.P.I.s', () => {
 
@@ -168,3 +168,4 @@ function deletePosition(expectedHTTPStatus, positionID) {
 
     });
 }
+
