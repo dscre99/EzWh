@@ -5,7 +5,7 @@ Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone
 
 Date: 27/04/2022
 
-Version: 1.4
+Version: 1.5
 
 | **Version Number** | **Change** |
 |--------------------|------------|
@@ -21,6 +21,7 @@ Version: 1.4
 | 1.2 | Sequence Diagrams for Scenario 9-1, 12-1, 12-2 and 12-3. |
 | 1.3 | Sequence Diagrams for Scenarios 9-2, 9-3 |
 | 1.4 | Sequence Diagrams for Scenarios 10-1, links fix |
+| 1.5 | Added modified class diagram following the implementation of APIs|
 | 1.6 | Updated traceability matrix to verify new Class Diagram |
 
 
@@ -57,7 +58,7 @@ EZWH is a client server application composed of one executable generating one si
 
 # Low level design
 
-<img src="./DesignDocumentIMG/ClassDiagramDM.png">
+<img src="./DesignDocumentIMG/ClassDiagramNEW.png">
 
 
 # Verification traceability matrix
