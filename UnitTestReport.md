@@ -1,4 +1,4 @@
-# Unit Testing Report
+﻿# Unit Testing Report
 
 Date:
 
@@ -57,6 +57,146 @@ Version:
 |||||||
 
 
+ ## **Class *PositionDAO***
+
+ ### **Class *PositionDAO* - method *getPositions()***
+
+**Criteria for method *getPositions()*:**
+ - Position exists
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position exists (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position exists (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Position exists and user has right permission, correct data is returned.               | test_get_positions(); |
+|           T          |          F          |     Invalid     | Position exists but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_get_positions(); |
+|           F          |          -          |     Invalid     |                          Position does not exists, test fails.                          |  test_get_positions(); |
+
+ ## **Class *PositionDAO***
+
+ ### **Class *PositionDAO* - method *storePosition(position)***
+
+**Criteria for method *storePosition(position)*:**
+ - Position data are valid
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position data are valid (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position data are valid (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Position data are valid and user has right permission, positionID is returned.               | test_new_position(); |
+|           T          |          F          |     Invalid     | Position data are valid but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_new_position(); |
+|           F          |          -          |     Invalid     |                          Position date are not valid, test fails.                          |  test_new_position(); |
+
+
+## **Class *PositionDAO***
+
+ ### **Class *PositionDAO* - method *put_position_by_ID_DB(positionID, body)***
+
+**Criteria for method *put_position_by_ID_DB(positionID, body)*:**
+ - Position data are valid
+ -  Position with positionID exists
+ - User has right permission
+
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position data are valid (C1) | True, False |
+| Position with positionID exists (C2)  | True, False |
+| User has right permission (C3)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position data are valid (C1) | Position with positionID exists (C2)  | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          | T |     Valid      |               Position data are valid, position with positionID exists in the DB and user has right permission, 'true' is returned.               | test_modify_position(); |
+|           T          |          T          | F|     Invalid     | Position data are valid and the position to modify exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_modify_position(); |
+|           F          |          T          | -|    Invalid     |                          Position data are not valid, test fails.                          |  test_modify_position(); |
+|           T          |          F          | -|    Invalid     |                          Position data is valid, but the position to modify doesn't exist in the DB, test fails.                          |  test_modify_position(); |
+
+
+## **Class *PositionDAO***
+
+ ### **Class *PositionDAO* - method *put_positionID_by_ID_DB(positionID, body)***
+
+**Criteria for method *put_positionID_by_ID_DB(positionID, body)*:**
+ - New positionID ( from the body ) is valid
+ - Position with positionID exists
+ - User has right permission
+
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position ID is valid (C1) | True, False |
+| Position with positionID exists (C2)  | True, False |
+| User has right permission (C3)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position ID is valid (C1) | Position with positionID exists (C2)  | User has right permission (C3) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          | T |     Valid      |               Position ID is valid, position with positionID exists in the DB and user has right permission, 'true' is returned.               | test_modify_position_ID(); |
+|           T          |          T          | F|     Invalid     | Position ID is valid, position with positionID exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_modify_position_ID(); |
+|           F          |          T          | -|    Invalid     |                          Position ID is not valid, test fails.                          |  test_modify_position_ID(); |
+|           T          |          F          | -|    Invalid     |                          Position ID is valid, but the position with positionID doesn't exist in the DB, test fails.                          |  test_modify_position_ID(); |
+
+
+## **Class *PositionDAO***
+
+ ### **Class *PositionDAO* - method *delete_position_by_ID_DB(positionID)***
+
+**Criteria for method *delete_position_by_ID_DB(positionID)*:**
+ - Position with positionID exists in the DB
+ - User has right permission
+
+**Predicates for method *name*:**
+
+| Criteria        | Predicate   |
+|-----------------|-------------|
+| Position with positionID exists in the DB (C1) | True, False |
+| User has right permission (C2)  | True, False |
+
+**Boundaries**:
+
+No boundaries for boolean predicates.
+
+**Combination of predicates**:
+| Position with positionID exists in the DB (C1) | User has right permission (C2) | Valid / Invalid | Description of the test case                                                        | Jest test case  |
+|----------------------|---------------------|-----------------|-------------------------------------------------------------------------------------|-----------------|
+|           T          |          T          |      Valid      |               Position with positionID exists in the DB and user has right permission, 'true' is returned.               | test_delete_position(); |
+|           T          |          F          |     Invalid     | Position with positionID exists in the DB but the user has not the right permission, test fails. (Sessions still to be implemented) |  test_delete_position(); |
+|           F          |          -          |     Invalid     |                          Position with positionID doesn't exist in the DB, test fails.                          |  test_delete_position(); |
 
 
  ## **Class *UserDAO***
