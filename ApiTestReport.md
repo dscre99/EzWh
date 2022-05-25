@@ -14,7 +14,6 @@ Version:
 - [Integration approach](#integration-approach)
 - [Integration Tests](#integration-tests)
   - [Step 1 (A)](#step-1-a)
-  - [Step 2 (A+B, B)](#step-2-ab-b)
 - [API testing - Scenarios](#api-testing---scenarios)
   - [Scenario UCx.y](#scenario-ucxy)
 - [Coverage of Scenarios and FR](#coverage-of-scenarios-and-fr)
@@ -72,20 +71,6 @@ Ex.
 |Test_result_DAO||test_get_test_result, test_new_test_result, test_get_test_result_with_ID_by_RFID, test_modify_test_result_with_ID_from_RFID, test_delete_test_result_with_id_from_rfid|
 |UserDAO||new_user, get_user, get_suppliers, get_users, get_users_sessions, modify_user_type, delete_user, |
 
-
-
-
-## Step 2 (A+B, B)
-| Classes  | mock up used |Mocha test cases |
-|--|--|--|
-|testItemAPI.js, ItemDAO.test.js||GET/api/items/:id, GET/api/items, POST/api/item, PUT/api/item/:id, DELETE/api/items/:id |
-| testRestock_orderAPI.js, Restock_orderDAO.test.js||GET/api/restockOrders, GET/api/restockOrdersIssued, GET/api/restockOrders/:id, GET/api/restockOrders/:id/returnItems, POST/api/restockOrder, PUT/api/restockOrder/:id, PUT/api/restockOrder/:id/skuItems, PUT/api/restockOrder/:id/transportNote, DELETE/api/restockOrder/:id,   |
-|testReturn_orderAPI.js, Return_orderDAO.test.js||GET/api/returnOrders, GET/api/returnOrders/:id, POST/api/returnOrder, DELETE/api/returnOrder/:id,  |
-|Position.js, Position_DAO.js||GET /api/positions, POST /api/position, PUT /api/position/:positionID, PUT /api/position/:positionID/changeID, DELETE /api/position/:positionID|
-|Test_Descriptor.js, Test_Descriptor_DAO.js||GET /api/testDescriptors, GET /api/testDescriptors/:id, POST /api/testDescriptor, PUT /api/testDescriptor/:id, DELETE /api/testDescriptor/:id|
-|Test_Result.js, Test_Result_DAO.js||GET /api/skuitems/:rfid/testResults, GET /api/skuitems/:rfid/testResults/:id, POST /api/skuitems/testResult, PUT /api/skuitems/:rfid/testResult/:id, DELETE /api/skuitems/:rfid/testResult/:id|
-|SKU.js, SKUdao.js || GET /api/skus, GET /api/skus/:id, POST /api/sku,PUT /api/sku/:id , PUT /api/sku/:id/position, DELETE /api/skus/:id|
-|SKU_Item.js, SKU_Item_dao.js || POST /api/skuitem, GET /api/skuitems, GET /api/skuitems/sku/:id, GET /api/skuitems/:rfid, PUT /api/skuitems/:rfid, DELETE /api/skuitems/:rfid |
 
 
 

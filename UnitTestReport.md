@@ -1096,7 +1096,7 @@ No boundaries for boolean values
 
 
 |SKU exists | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
+|-------|-------|-------|-------|
 |F| Invalid | Test returns 404 |testNewSKUItem("12345678901234567890123456789015", 2, "2021/11/29 12:30", 404) |
 |T| Valid | Test is successful | testNewSKUItem("12345678901234567890123456789015", 1, "2021/11/29 12:30", 201)|
 
@@ -1147,7 +1147,7 @@ No boundaries for boolean values
 
 
 |SKU Item Rfid exists| Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
+|-------|-------|-------|-------|
 |T| Valid | Test is successful | testModifySKUItem("12345678901234567890123456789014", "12345678901234567890123456789014", 1, "2021/11/29 12:31", 200)|
 |F| Invalid | Test returns error 404| testModifySKUItem("12345678901234567890123456789015", "12345678901234567890123456789015", 1, "2021/11/29 12:30", 404)|
 
