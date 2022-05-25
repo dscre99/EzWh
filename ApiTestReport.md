@@ -1,12 +1,11 @@
 # Integration and API Test Report
 
-Date:
+Date: 25/05/2022
 
-Version:
+Version: 1.0
 
 # Contents
 
-- [Dependency graph](#dependency graph)
 
 - [Integration and API Test Report](#integration-and-api-test-report)
 - [Contents](#contents)
@@ -14,11 +13,8 @@ Version:
 - [Integration approach](#integration-approach)
 - [Integration Tests](#integration-tests)
   - [Step 1 (A)](#step-1-a)
-- [API testing - Scenarios](#api-testing---scenarios)
-  - [Scenario UCx.y](#scenario-ucxy)
 - [Coverage of Scenarios and FR](#coverage-of-scenarios-and-fr)
 - [Coverage of Non Functional Requirements](#coverage-of-non-functional-requirements)
-    - [](#)
 
 - [Tests](#tests)
 
@@ -35,10 +31,6 @@ Version:
      
 # Integration approach
 
-    <Write here the integration sequence you adopted, in general terms (top down, bottom up, mixed) and as sequence
-    (ex: step1: class A, step 2: class A+B, step 3: class A+B+C, etc)> 
-    <Some steps may  correspond to unit testing (ex step1 in ex above), presented in other document UnitTestReport.md>
-    <One step will  correspond to API testing>
 
 The integration sequence adopted is bottom-up: 
 1)  Starting from DAO classes, we have developed unit testing because no dependencies were present, witouth the use of any driver and interacting directly with the DB. The reason of this choice is that methods of each DAO are supposed to interact with the database only and perform just some minor check and validation on data received: all the major checks are performed on API level. No drivers have been developed because the interaction with the higer level classes is tested further with integration tests.
@@ -54,8 +46,6 @@ Ex.
 
 #  Integration Tests
 
-   <define below a table for each integration step. For each integration step report the group of classes under test, and the names of
-     Jest test cases applied to them, and the mock ups used, if any> Jest test cases should be here code/server/unit_test
 
 ## Step 1 (A)
 | Classes  | mock up used |Jest test cases |
@@ -79,29 +69,11 @@ Ex.
 
 
 
-# API testing - Scenarios
-
-
-<If needed, define here additional scenarios for the application. Scenarios should be named
- referring the UC in the OfficialRequirements that they detail>
-
-## Scenario UCx.y
-
-| Scenario |  name |
-| ------------- |:-------------:| 
-|  Precondition     |  |
-|  Post condition     |   |
-| Step#        | Description  |
-|  1     |  ... |  
-|  2     |  ... |
 
 
 
 # Coverage of Scenarios and FR
 
-
-<Report in the following table the coverage of  scenarios (from official requirements and from above) vs FR. 
-Report also for each of the scenarios the (one or more) API Mocha tests that cover it. >  Mocha test cases should be here code/server/test
 
 
 
@@ -138,12 +110,8 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 # Coverage of Non Functional Requirements
 
 
-<Report in the following table the coverage of the Non Functional Requirements of the application - only those that can be tested with automated testing frameworks.>
-
-
-### 
-
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
 |    NFR5                       |    testing POST /api/skuitem      |
+| NFR4 | POST /api/position |
 
