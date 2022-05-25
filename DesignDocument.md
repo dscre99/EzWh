@@ -3,9 +3,9 @@
 
 Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone CRESCENZO
 
-Date: 27/04/2022
+Date: 25/05/2022
 
-Version: 1.5
+Version: 1.8
 
 | **Version Number** | **Change** |
 |--------------------|------------|
@@ -24,6 +24,7 @@ Version: 1.5
 | 1.5 | Added modified class diagram following the implementation of APIs|
 | 1.6 | Updated traceability matrix to verify new Class Diagram |
 | 1.7 | Updated Sequence Diagrams for Scenario 1-1, 1-2, 1-3 |
+| 1.8 | Updated Sequence Diagrams for Scenario 2-1, 3-1, 4-1, 4-3, 5-1-1, 6-1, 7-1, 9-1, 9-2, and 9-3 |
 
 
 # Contents
@@ -136,38 +137,41 @@ EZWH is a client server application composed of one executable generating one si
 ## Sequence diagram of Scenario 2.1 (Scenario ID: Scenario 2-1)
 <img src="./SequenceDiagram/scenario2_1.png">
 
-## Sequence diagram of Scenario 2.2 (Scenario ID: Scenario 2-2)
-<img src="./SequenceDiagram/scenario2_2.png">
+<!-- ## Sequence diagram of Scenario 2.2 (Scenario ID: Scenario 2-2)
+<img src="./SequenceDiagram/scenario2_2.png"> -->
 
-## Sequence diagram of Scenario 2.3 (Scenario ID: Scenario 2-3)
-<img src="./SequenceDiagram/scenario2_3.png">
+<!-- ## Sequence diagram of Scenario 2.3 (Scenario ID: Scenario 2-3)
+<img src="./SequenceDiagram/scenario2_3.png"> -->
 
-## Sequence diagram of Scenario 2.4 (Scenario ID: Scenario 2-4)
-<img src="./SequenceDiagram/scenario2_4.png">
+<!-- ## Sequence diagram of Scenario 2.4 (Scenario ID: Scenario 2-4)
+<img src="./SequenceDiagram/scenario2_4.png"> -->
 
-## Sequence diagram of Scenario 2.5 (Scenario ID: Scenario 2-5)
-<img src="./SequenceDiagram/scenario2_5.png">
+<!-- ## Sequence diagram of Scenario 2.5 (Scenario ID: Scenario 2-5)
+<img src="./SequenceDiagram/scenario2_5.png"> -->
 
 ## Sequence diagram of Scenario 3.1 (Scenario ID: Scenario 3-1)
 <img src="./SequenceDiagram/scenario3_1.png">
 
-## Sequence diagram of Scenario 3.2 (Scenario ID: Scenario 3-2)
-<img src="./SequenceDiagram/scenario3_2.png">
+<!-- ## Sequence diagram of Scenario 3.2 (Scenario ID: Scenario 3-2)
+<img src="./SequenceDiagram/scenario3_2.png"> -->
 
 ## Sequence diagram of Scenario 4.1 (Scenario ID: Scenario 4-1)
 <img src="./SequenceDiagram/scenario4_1.png">
 
+## Sequence diagram of Scenario 4.3 (Scenario ID: Scenario 4-3)
+<img src="./SequenceDiagram/scenario4_3.png">
+
 ## Sequence diagram of Scenario 5.1.1 (Scenario ID: Scenario 5-1-1)
 <img src="./SequenceDiagram/scenario5_1_1.png">
 
-## Sequence diagram of Scenario 5.2.1 (Scenario ID: Scenario 5-2-1)
-<img src="./SequenceDiagram/scenario5_2_1.png">
+<!-- ## Sequence diagram of Scenario 5.2.1 (Scenario ID: Scenario 5-2-1)
+<img src="./SequenceDiagram/scenario5_2_1.png"> -->
 
-## Sequence diagram of Scenario 5.3.1 (Scenario ID: Scenario 5-3-1)
-<img src="./SequenceDiagram/scenario5_3_1.png">
+<!-- ## Sequence diagram of Scenario 5.3.1 (Scenario ID: Scenario 5-3-1)
+<img src="./SequenceDiagram/scenario5_3_1.png"> -->
 
-## Sequence diagram of Scenario 5.3.2 (Scenario ID: Scenario 5-3-2)
-<img src="./SequenceDiagram/scenario5_3_2.png">
+<!-- ## Sequence diagram of Scenario 5.3.2 (Scenario ID: Scenario 5-3-2)
+<img src="./SequenceDiagram/scenario5_3_2.png"> -->
 
 ## Sequence diagram of Scenario 6.1 (Scenario ID: Scenario 6-1)
 <img src="./SequenceDiagram/scenario6_1.png">
@@ -175,8 +179,8 @@ EZWH is a client server application composed of one executable generating one si
 ## Sequence diagram of Scenario 7.1 (Scenario ID: Scenario 7-1)
 <img src="./SequenceDiagram/scenario7_1.png">
 
-## Sequence diagram of Scenario 7.2 (Scenario ID: Scenario 7-2)
-<img src="./SequenceDiagram/scenario7_2.png">
+<!-- ## Sequence diagram of Scenario 7.2 (Scenario ID: Scenario 7-2)
+<img src="./SequenceDiagram/scenario7_2.png"> -->
 
 ## Sequence diagram of Scenario 9.1 (Scenario ID: Scenario 9-1)
 <img src="./SequenceDiagram/scenario9_1.png">
@@ -187,20 +191,20 @@ EZWH is a client server application composed of one executable generating one si
 ## Sequence diagram of Scenario 9.3 (Scenario ID: Scenario 9-3)
 <img src="./SequenceDiagram/scenario9_3.png">
 
-## Sequence diagram of Scenario 10.1 (Scenario ID: Scenario 10-1)
-<img src="./SequenceDiagram/scenario10_1.png">
+<!-- ## Sequence diagram of Scenario 10.1 (Scenario ID: Scenario 10-1)
+<img src="./SequenceDiagram/scenario10_1.png"> -->
 
-## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
-<img src="./SequenceDiagram/scenario11_1.png">
+<!-- ## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
+<img src="./SequenceDiagram/scenario11_1.png"> -->
 
-## Sequence diagram of Scenario 11.2 (Scenario ID: Scenario 11-2)
-<img src="./SequenceDiagram/scenario11_2.png">
+<!-- ## Sequence diagram of Scenario 11.2 (Scenario ID: Scenario 11-2)
+<img src="./SequenceDiagram/scenario11_2.png"> -->
 
-## Sequence diagram of Scenario 12.1 (Scenario ID: Scenario 12-1)
-<img src="./SequenceDiagram/scenario12_1.png">
+<!-- ## Sequence diagram of Scenario 12.1 (Scenario ID: Scenario 12-1)
+<img src="./SequenceDiagram/scenario12_1.png"> -->
 
-## Sequence diagram of Scenario 12.2 (Scenario ID: Scenario 12-2)
-<img src="./SequenceDiagram/scenario12_2.png">
+<!-- ## Sequence diagram of Scenario 12.2 (Scenario ID: Scenario 12-2)
+<img src="./SequenceDiagram/scenario12_2.png"> -->
 
-## Sequence diagram of Scenario 12.3 (Scenario ID: Scenario 12-3)
-<img src="./SequenceDiagram/scenario12_3.png">
+<!-- ## Sequence diagram of Scenario 12.3 (Scenario ID: Scenario 12-3)
+<img src="./SequenceDiagram/scenario12_3.png"> -->
