@@ -16,7 +16,6 @@ Version: 1.0
 
 # Black Box Unit Tests
 
-
  ## **Class *PositionDAO***
 
  ### **Class *PositionDAO* - method *getPositions()***
