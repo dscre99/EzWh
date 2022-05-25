@@ -41,7 +41,7 @@ class SKUDao {
                     resolve(201);
                 });
             } else {
-                console.log('Not logged in or authorized');
+                //console.log('Not logged in or authorized');
                 reject(401);
             }
         });
@@ -72,7 +72,7 @@ class SKUDao {
                     resolve(skus);
                 });
             } else {
-                console.log("Not logged in or wrong permission");
+                //console.log("Not logged in or wrong permission");
                 reject(401);
             }
         });
@@ -96,7 +96,6 @@ class SKUDao {
                         this.#db.all(sql, [id], (err, rows) => {
                             if (err) {
                                 reject(err);
-                                return;
                             }
                             const sku = rows.map((r) => (
                                 {
@@ -119,7 +118,7 @@ class SKUDao {
                     }
                 });
             } else {
-                console.log('Not logged in or wrong permissions');
+                //console.log('Not logged in or wrong permissions');
                 reject(401);
             }
         });
@@ -153,7 +152,7 @@ class SKUDao {
                     }
                 });
             } else {
-                console.log('Not logged in or wrong permissions');
+                //console.log('Not logged in or wrong permissions');
                 reject(401);
             }
 
@@ -217,13 +216,13 @@ class SKUDao {
                                                     }
                                                 });
                                             } else {
-                                                console.log('Position not capable of satisfying volume and weight constraints');
+                                                //console.log('Position not capable of satisfying volume and weight constraints');
                                                 reject(422);
                                             }
                                         });
 
                                     } else {
-                                        console.log('Position already assigned to a sku');
+                                        //console.log('Position already assigned to a sku');
                                         reject(422);
                                     }
                                 });
@@ -240,7 +239,7 @@ class SKUDao {
                     }
                 });
             } else {
-                console.log('Not logged in or wrong permission');
+                //console.log('Not logged in or wrong permission');
                 reject(401);
             }
         });
@@ -259,7 +258,7 @@ class SKUDao {
                     }
                 });
             } else {
-                console.log('Not logged in or wrong permission');
+                //console.log('Not logged in or wrong permission');
                 reject(401);
             }
         });
