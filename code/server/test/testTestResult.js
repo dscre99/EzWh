@@ -7,50 +7,6 @@ const app = require('../server');
 let agent = chai.request.agent(app);
 let dao = require('../Test_result/Test_result_DAO');
 let db = new dao();
- 
-
-describe('Test Test Result A.P.I.s', () => {
-
-    before(async () => {
-        await db.dropTestResultTable();
-        await db.newTestResultTable();
-    });
-
-    
-    testGetTestResults(404,"1234","The requested RFID doesn't exist!");
-
-    let test_result = {
-        "RFID":"12345678901234567890123456789016",
-        "DATE":"2021/11/28",
-        "RESULT":"true",
-        "IDTESTDESCRIPTOR":9
-    }
-
-    newTestResult(200, test_result);
-
-    testGetTestResults(404, "32345678901234567890123456789017", "The requested RFID doesn't exist!");
-    testGetTestResults(200, "12345678901234567890123456789016", {"ID":1, "RFID":"12345678901234567890123456789016",
-    "DATE":"2021/11/28",
-    "RESULT":"true",
-    "IDTESTDESCRIPTOR":9});
-    
-    let incorrect_test_result = {};
-    newTestResult(422, incorrect_test_result);
-
-    let newData = {"IDTESTDESCRIPTOR":3, "DATE":"2021/12/11", "RESULT":"false"};
-    
-    testModifyTestResult(1, "12345678901234567890123456789016", newData, 200);
-
-    testDeleteTestResult(1, "testIncorrectRFID", 422);
-
-    testDeleteTestResult(1, "12345678901234567890123456789016", 200);
-
-    testGetTestResults(200, "12345678901234567890123456789016", [{}]);
-
-  
-
-});
-
 
 function newTestResult(expectedHTTPStatus, test_result) {
     
@@ -116,3 +72,47 @@ function testDeleteTestResult(id, rfid, expectedHTTPStatus) {
                     })
     });
 }
+
+describe('Test Test Result A.P.I.s', () => {
+
+    before(async () => {
+        await db.dropTestResultTable();
+        await db.newTestResultTable();
+    });
+
+    
+    testGetTestResults(404,"1234","The requested RFID doesn't exist!");
+
+    let test_result = {
+        "RFID":"12345678901234567890123456789016",
+        "DATE":"2021/11/28",
+        "RESULT":"true",
+        "IDTESTDESCRIPTOR":9
+    }
+
+    newTestResult(200, test_result);
+
+    testGetTestResults(404, "32345678901234567890123456789017", "The requested RFID doesn't exist!");
+    testGetTestResults(200, "12345678901234567890123456789016", {"ID":1, "RFID":"12345678901234567890123456789016",
+    "DATE":"2021/11/28",
+    "RESULT":"true",
+    "IDTESTDESCRIPTOR":9});
+    
+    let incorrect_test_result = {};
+    newTestResult(422, incorrect_test_result);
+
+    let newData = {"IDTESTDESCRIPTOR":3, "DATE":"2021/12/11", "RESULT":"false"};
+    
+    testModifyTestResult(1, "12345678901234567890123456789016", newData, 200);
+
+    testDeleteTestResult(1, "testIncorrectRFID", 422);
+
+    testDeleteTestResult(1, "12345678901234567890123456789016", 200);
+
+    testGetTestResults(200, "12345678901234567890123456789016", [{}]);
+
+  
+
+});
+
+
