@@ -145,5 +145,5 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
-|    NFR1                        |    Test cases execution time       |
+|    NFR5                       |    testing POST /api/skuitem      |
 
