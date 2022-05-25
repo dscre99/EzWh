@@ -123,15 +123,7 @@ class ItemDAO {
 
     storeItem(data) {
         return new Promise( async (resolve, reject) => {
-            const sql1 = 'SELECT * FROM SKU WHERE ID = ?';
-              await this.db.all(sql1, data.SKUId, (err,rows)=>{
-                if(err){
-                    reject(503);
-                }
-                if(rows.length === 0){
-                    reject(404);    //SKUId not found
-                    return;
-                }else{
+            
                     const sql = ' INSERT INTO ITEM (ID,DESCRIPTION, PRICE, SKUID, SUPPLIERID) VALUES (?,?,?,?,?) ';
                       this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
                         if (err) {
@@ -139,9 +131,8 @@ class ItemDAO {
                         }
                         resolve(201);
                     });
-                }
                 
-            });
+            
             
         });
     }
