@@ -59,7 +59,7 @@ class SKUItemDao {
                 });
 
             } else {
-                console.log('Not logged in or wrong permissions');
+                //console.log('Not logged in or wrong permissions');
                 reject(401);
             }
         });
@@ -84,7 +84,7 @@ class SKUItemDao {
                     resolve(skuItems);
                 });
             } else {
-                console.log('Not logged in or wrong permissions');
+                //console.log('Not logged in or wrong permissions');
                 reject(401);
             }
         });
@@ -125,7 +125,7 @@ class SKUItemDao {
                     }
                 });
             } else {
-                console.log('Not logged in or wrong permissions');
+                //console.log('Not logged in or wrong permissions');
                 reject(401);
             }
 
@@ -166,7 +166,7 @@ class SKUItemDao {
                     }
                 });
             } else {
-                console.log('Not logged in or wrong permission');
+                //console.log('Not logged in or wrong permission');
                 reject(401);
             }
 
@@ -201,7 +201,7 @@ class SKUItemDao {
                     }
                 });
             } else {
-                console.log('Not logged in or wrong permissions');
+                //console.log('Not logged in or wrong permissions');
                 reject(401);
             }
         });
@@ -220,7 +220,7 @@ class SKUItemDao {
                     }
                 });
             } else {
-                console.log('Not logged in or wrong permissions');
+                //console.log('Not logged in or wrong permissions');
                 reject(401);
             }
         });

@@ -25,6 +25,7 @@ Version: 1.8
 | 1.6 | Updated traceability matrix to verify new Class Diagram |
 | 1.7 | Updated Sequence Diagrams for Scenario 1-1, 1-2, 1-3 |
 | 1.8 | Updated Sequence Diagrams for Scenario 2-1, 3-1, 4-1, 4-3, 5-1-1, 6-1, 7-1, 9-1, 9-2, and 9-3 |
+| 1.9 | Updated Sequence Diagrams for Scenario 10-1, 11-1, 11-2, 12-1, 12-2, 12-3|
 
 
 # Contents
@@ -191,20 +192,20 @@ EZWH is a client server application composed of one executable generating one si
 ## Sequence diagram of Scenario 9.3 (Scenario ID: Scenario 9-3)
 <img src="./SequenceDiagram/scenario9_3.png">
 
-<!-- ## Sequence diagram of Scenario 10.1 (Scenario ID: Scenario 10-1)
-<img src="./SequenceDiagram/scenario10_1.png"> -->
+## Sequence diagram of Scenario 10.1 (Scenario ID: Scenario 10-1)
+<img src="./SequenceDiagram/scenario10_1.png"> 
 
-<!-- ## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
-<img src="./SequenceDiagram/scenario11_1.png"> -->
+## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
+<img src="./SequenceDiagram/scenario11_1.png"> 
 
-<!-- ## Sequence diagram of Scenario 11.2 (Scenario ID: Scenario 11-2)
-<img src="./SequenceDiagram/scenario11_2.png"> -->
+ ## Sequence diagram of Scenario 11.2 (Scenario ID: Scenario 11-2)
+<img src="./SequenceDiagram/scenario11_2.png"> 
 
-<!-- ## Sequence diagram of Scenario 12.1 (Scenario ID: Scenario 12-1)
-<img src="./SequenceDiagram/scenario12_1.png"> -->
+ ## Sequence diagram of Scenario 12.1 (Scenario ID: Scenario 12-1)
+<img src="./SequenceDiagram/scenario12_1.png"> 
 
-<!-- ## Sequence diagram of Scenario 12.2 (Scenario ID: Scenario 12-2)
-<img src="./SequenceDiagram/scenario12_2.png"> -->
+ ## Sequence diagram of Scenario 12.2 (Scenario ID: Scenario 12-2)
+<img src="./SequenceDiagram/scenario12_2.png"> 
 
-<!-- ## Sequence diagram of Scenario 12.3 (Scenario ID: Scenario 12-3)
-<img src="./SequenceDiagram/scenario12_3.png"> -->
+ ## Sequence diagram of Scenario 12.3 (Scenario ID: Scenario 12-3)
+<img src="./SequenceDiagram/scenario12_3.png"> 
