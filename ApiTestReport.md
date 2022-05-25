@@ -1,4 +1,4 @@
-﻿# Integration and API Test Report
+# Integration and API Test Report
 
 Date:
 
@@ -14,7 +14,6 @@ Version:
 - [Integration approach](#integration-approach)
 - [Integration Tests](#integration-tests)
   - [Step 1 (A)](#step-1-a)
-  - [Step 2 (A+B, B)](#step-2-ab-b)
 - [API testing - Scenarios](#api-testing---scenarios)
   - [Scenario UCx.y](#scenario-ucxy)
 - [Coverage of Scenarios and FR](#coverage-of-scenarios-and-fr)
@@ -66,24 +65,12 @@ Ex.
 |Position_DAO||test_get_positions, test_new_position, test_modify_position, test_modify_position_ID, test_delete_position|
 |Restock_orderDAO||testGetRestockOrders, testGetRestockOrdersIssued, testGetRestockOrderDeliveredByID, testGetItemList, testCheckItemList, testGetRestockOrderByID, testStoreRestockOrder, testStoreProducts, testUpdateState, testNewSKUItemList, testAddTransportNote, testDeleteRestockOrder|
 |Return_orderDAO||testGetReturnOrders, testGetRestockOrderbyID, testGetReturnOrderById, testStoreReturnOrder, testSetReturnItem, testDeleteReturnOrder|
-|SKUdao||new_sku, get_skus, get_sku_by_id, modify_sku, test_modify_SKU_position, test_delete_sku_by_id|
-|SKU_Item||test_new_SKU_Item, get_sku_Items, get_sku_Items_by_SKU_id, get_SKU_Items_by_RFID, modify_SKU_Item, delete_SKU_Item_by_rfid|
+|SKUdao||testGetSKUs,testGetSKUByID, testNewSKU, testModifySKU, testModifySKUPosition, testDeleteSKU|
+|SKUItemDao||testNewSKUItem, testGetSKUItems, testGetSKUItemBySKUId, testGetSKUItemByRfid, testModifySKUItem, testDeleteSKUItemByRfid|
 |Test_Descriptor_DAO||test_get_test_descriptor, test_new_test_descriptor, test_get_test_descriptor_by_ID, test_modify_test_descriptor, test_delete_test_descriptor|
 |Test_result_DAO||test_get_test_result, test_new_test_result, test_get_test_result_with_ID_by_RFID, test_modify_test_result_with_ID_from_RFID, test_delete_test_result_with_id_from_rfid|
 |UserDAO||new_user, get_user, get_suppliers, get_users, get_users_sessions, modify_user_type, delete_user, |
 
-
-
-
-## Step 2 (A+B, B)
-| Classes  | mock up used |Mocha test cases |
-|--|--|--|
-|testItemAPI.js, ItemDAO.test.js||GET/api/items/:id, GET/api/items, POST/api/item, PUT/api/item/:id, DELETE/api/items/:id |
-| testRestock_orderAPI.js, Restock_orderDAO.test.js||GET/api/restockOrders, GET/api/restockOrdersIssued, GET/api/restockOrders/:id, GET/api/restockOrders/:id/returnItems, POST/api/restockOrder, PUT/api/restockOrder/:id, PUT/api/restockOrder/:id/skuItems, PUT/api/restockOrder/:id/transportNote, DELETE/api/restockOrder/:id,   |
-|testReturn_orderAPI.js, Return_orderDAO.test.js||GET/api/returnOrders, GET/api/returnOrders/:id, POST/api/returnOrder, DELETE/api/returnOrder/:id,  |
-|Position.js, Position_DAO.js||GET /api/positions, POST /api/position, PUT /api/position/:positionID, PUT /api/position/:positionID/changeID, DELETE /api/position/:positionID|
-|Test_Descriptor.js, Test_Descriptor_DAO.js||GET /api/testDescriptors, GET /api/testDescriptors/:id, POST /api/testDescriptor, PUT /api/testDescriptor/:id, DELETE /api/testDescriptor/:id|
-|Test_Result.js, Test_Result_DAO.js||GET /api/skuitems/:rfid/testResults, GET /api/skuitems/:rfid/testResults/:id, POST /api/skuitems/testResult, PUT /api/skuitems/:rfid/testResult/:id, DELETE /api/skuitems/:rfid/testResult/:id|
 
 
 
@@ -136,7 +123,15 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 |11-2|FR7|testPUTItem|
 |4.2|FR5.4|getPositions|
 |6.2|FR5.7|newTestResult|
-||||
+|1-1|FR2.1|testNewSKU|
+|1-2|FR2.1|testModifySKUPosition|
+|1-3|FR2.1|testModifySKU|
+||FR2.2|testDeleteSKU|
+||FR2.3|testGetSKUs|
+||FR2.4|testGetSKUByID|
+||FR5.8.3|testNewSKUItem|
+||FR6.10|testDeleteSKUItemByRfid|
+||FR6.9| testGetSKUItemBySKUId, testGetSKUItemByRfid, testGetSKUItems|
 
 
 
@@ -150,5 +145,5 @@ Report also for each of the scenarios the (one or more) API Mocha tests that cov
 
 | Non Functional Requirement | Test name |
 | -------------------------- | --------- |
-|    NFR1                        |    Test cases execution time       |
+|    NFR5                       |    testing POST /api/skuitem      |
 
