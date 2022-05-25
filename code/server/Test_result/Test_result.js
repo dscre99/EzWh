@@ -99,7 +99,6 @@ class TestResultService {
             res.status(503).json("Body must be empty!");
             return;
         }
-
         this.#dao.delete_test_result_with_id_from_rfid_DB(req.params.id, req.params.rfid).then(() => {
             res.status(200).json(`Test Result with id=${req.params.id} has been deleted!`);
         }).catch((error) => res.status(422).json(error));
