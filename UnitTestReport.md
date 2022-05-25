@@ -16,47 +16,6 @@ Version:
 
 # Black Box Unit Tests
 
-    <Define here criteria, predicates and the combination of predicates for each function of each class.
-    Define test cases to cover all equivalence classes and boundary conditions.
-    In the table, report the description of the black box test case and (traceability) the correspondence with the Jest test case writing the 
-    class and method name that contains the test case>
-    <Jest tests  must be in code/server/unit_test  >
-
- ### **Class *class_name* - method *name***
-
-**Criteria for method *name*:**
-	
- - 
- - 
-
-**Predicates for method *name*:**
-
-| Criteria | Predicate |
-| -------- | --------- |
-|          |           |
-|          |           |
-|          |           |
-|          |           |
-
-**Boundaries**:
-
-| Criteria | Boundary values |
-| -------- | --------------- |
-|          |                 |
-|          |                 |
-
-**Combination of predicates**:
-
-
-| Criteria 1 | Criteria 2 | ... | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|-------|
-|||||||
-|||||||
-|||||||
-|||||||
-|||||||
-
-
  ## **Class *PositionDAO***
 
  ### **Class *PositionDAO* - method *getPositions()***
