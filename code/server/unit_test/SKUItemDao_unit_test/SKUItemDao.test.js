@@ -133,6 +133,7 @@ describe('test SKU Item dao', () => {
 
     testGetSKUItemsBySKUId(1, skuitem);
     testGetSKUItems(skuitems);
+    testGetSKUItemsByRfid("12345678901234567890123456789014", skuitem);
     
     testDeleteSKUItemByRfid("12345678901234567890123456789015", 204);
     
