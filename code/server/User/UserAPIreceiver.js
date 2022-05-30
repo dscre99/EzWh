@@ -476,14 +476,10 @@ async function delete_user(req, res) {
   
     if(!(typeof userData.username === 'string' && typeof userData.type === 'string') || 
           userData.username == '' || userData.type == '' || userData.type == 'manager' ||
-          userData.type == 'administrator') {
+          userData.type == 'administrator' || !userData['username'].includes('@') ||
+          !userTypes.includes(userData['type'])) {
             valid = false;
-    } else if(!userTypes.includes(userData.type)){
-      // checks for correct user types in request body
-      console.log('WORKING');
-      console.log(userData.type);
-      valid = false;
-    }
+    } 
   
     if(!valid) {
         
