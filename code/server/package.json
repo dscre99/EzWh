@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "server",
   "version": "1.0.0",
   "description": "- Open a terminal - Open the code/server folder - Input ```npm install``` - Input ```node server.js``` - This message will be shown: Server listening at http://localhost:3001 - Do not close the terminal window, otherwise the server will be shut down",
@@ -28,29 +27,5 @@
     "mochawesome-report-generator": "^6.2.0",
     "nodemon": "^2.0.16",
     "nyc": "^15.1.0"
-=======
-  "scripts": {
-    "start": "node ./bin/www",
-    "apiTest": ".\\node_modules\\.bin\\mocha test --exit",
-    "ap": ".\\node_modules\\.bin\\mocha test\\testPosition.js --exit",
-    "atd": ".\\node_modules\\.bin\\mocha test\\testTestDescriptor.js --exit",
-    "atr": ".\\node_modules\\.bin\\mocha test\\testTestResult.js --exit",
-    "asi": ".\\node_modules\\.bin\\mocha test\\testSKUItemAPI.js --exit",
-    "test": ".\\node_modules\\.bin\\jest",
-    "acp": ".\\node_modules\\.bin\\mocha acceptanceTest\\utils-positions.js --exit",
-    "acpc": ".\\node_modules\\.bin\\mocha acceptanceTest\\crud\\test-CRUD-Position.js --exit",
-    "actd": ".\\node_modules\\.bin\\mocha acceptanceTest\\utils-testdescriptor.js --exit",
-    "actdc": ".\\node_modules\\.bin\\mocha acceptanceTest\\crud\\test-CRUD-TestDescriptor.js --exit"
-  },
-  "dependencies": {
-    "chai": "^4.3.6",
-    "chai-http": "^4.3.0",
-    "express": "^4.18.1",
-    "express-validator": "^6.14.1",
-    "jest": "^28.1.0",
-    "mocha": "^10.0.0",
-    "sqlite": "^4.1.1",
-    "sqlite3": "^5.0.8"
->>>>>>> 6591cf0d7a864b8f98231f11750198785790dfc5
   }
 }
