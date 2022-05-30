@@ -12,7 +12,7 @@ function positionBodyLength(body, req_type) {
 
     switch(req_type) {
         case "post":
-            if(Object.keys(body).length !== 6) return 0;
+            if(Object.keys(body).length !== 8) return 0;
             break;
         case "put":
             if(Object.keys(body).length !== 6) return 0;
@@ -21,7 +21,14 @@ function positionBodyLength(body, req_type) {
             return 0;
     }
 
-    return 1;
+    const regex = new RegExp(/^[0-9]*$/);
+
+    const {positionID, aisleID, row, col, maxWeight, maxVolume} = body; 
+    if ((regex.test(positionID) && positionID.length === 12)) {
+        return 1;
+    } 
+
+    return 0;
     
 }
 
