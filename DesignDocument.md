@@ -3,9 +3,9 @@
 
 Authors: Antonello CAPUTO, Daniele DI BATTISTA, Agnese SERAFINO, Diamante Simone CRESCENZO
 
-Date: 27/04/2022
+Date: 25/05/2022
 
-Version: 1.4
+Version: 1.8
 
 | **Version Number** | **Change** |
 |--------------------|------------|
@@ -21,6 +21,11 @@ Version: 1.4
 | 1.2 | Sequence Diagrams for Scenario 9-1, 12-1, 12-2 and 12-3. |
 | 1.3 | Sequence Diagrams for Scenarios 9-2, 9-3 |
 | 1.4 | Sequence Diagrams for Scenarios 10-1, links fix |
+| 1.5 | Added modified class diagram following the implementation of APIs|
+| 1.6 | Updated traceability matrix to verify new Class Diagram |
+| 1.7 | Updated Sequence Diagrams for Scenario 1-1, 1-2, 1-3 |
+| 1.8 | Updated Sequence Diagrams for Scenario 2-1, 3-1, 4-1, 4-3, 5-1-1, 6-1, 7-1, 9-1, 9-2, and 9-3 |
+| 1.9 | Updated Sequence Diagrams for Scenario 10-1, 11-1, 11-2, 12-1, 12-2, 12-3|
 
 
 # Contents
@@ -56,67 +61,67 @@ EZWH is a client server application composed of one executable generating one si
 
 # Low level design
 
-<img src="./DesignDocumentIMG/ClassDiagramDM.png">
+<img src="./DesignDocumentIMG/ClassDiagramNEW.png">
 
 
 # Verification traceability matrix
 
-|         | Warehouse | User | InternalOrder | Aisle | SKUItem | Position | SKU | Item | Supplier | Order | TestResult | TestDescriptor |
-|---------|:---------:|:----:|:-------------:|:-----:|:-------:|:--------:|:---:|:----:|:--------:|:-----:|:----------:|:--------------:|
-| FR1     |     X     |   X  |               |       |         |          |     |      |          |       |            |                |
-| FR1.1   |     X     |   X  |               |       |         |          |     |      |          |       |            |                |
-| FR1.2   |     X     |   X  |               |       |         |          |     |      |          |       |            |                |
-| FR1.3   |     X     |   X  |               |       |         |          |     |      |          |       |            |                |
-| FR1.4   |     X     |   X  |               |       |         |          |     |      |          |       |            |                |
-| FR1.5   |     X     |   X  |               |       |         |          |     |      |          |       |            |                |
-| FR2     |     X     |      |               |       |         |          |  X  |      |          |       |            |                |
-| FR2.1   |     X     |      |               |       |         |          |  X  |      |          |       |            |                |
-| FR2.2   |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR2.3   |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR2.4   |     X     |      |               |       |         |          |  X  |      |          |       |            |                |
-| FR3     |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR3.1   |     X     |      |               |   X   |         |     X    |     |      |          |       |            |                |
-| FR3.1.1 |     X     |      |               |   X   |         |     X    |     |      |          |       |            |                |
-| FR3.1.2 |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR3.1.3 |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR3.1.4 |     X     |      |               |   X   |         |     X    |     |      |          |       |            |                |
-| FR3.2   |     X     |      |               |       |         |          |     |      |          |       |      X     |        X       |
-| FR3.2.1 |     X     |      |               |       |         |          |     |      |          |       |      X     |                |
-| FR3.2.2 |     X     |      |               |       |         |          |     |      |          |       |      X     |                |
-| FR3.2.3 |     X     |      |               |       |         |          |     |      |          |       |      X     |                |
-| FR4     |     X     |   X  |               |       |         |          |     |      |          |       |            |                |
-| FR4.1   |     X     |   X  |               |       |         |          |     |      |          |       |            |                |
-| FR4.2   |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR4.3   |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR4.4   |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR5     |     X     |      |               |   X   |    X    |     X    |  X  |   X  |     X    |   X   |            |                |
-| FR5.1   |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR5.2   |     X     |      |               |       |         |          |  X  |      |          |   X   |            |                |
-| FR5.3   |     X     |      |               |       |         |          |  X  |      |          |   X   |            |                |
-| FR5.4   |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR5.5   |     X     |      |               |       |         |          |     |      |     X    |   X   |            |                |
-| FR5.6   |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR5.7   |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR5.8   |     X     |      |               |   X   |    X    |     X    |     |      |          |   X   |            |                |
-| FR5.8.1 |     X     |      |               |       |    X    |          |     |      |          |       |            |                |
-| FR5.8.2 |     X     |      |               |       |         |          |     |      |          |       |      X     |        X       |
-| FR5.8.3 |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR5.9   |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR5.10  |     X     |      |               |       |         |          |  X  |      |          |   X   |            |                |
-| FR5.11  |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR5.12  |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR6     |     X     |      |       X       |       |         |          |     |      |          |       |            |                |
-| FR6.1   |     X     |      |       X       |       |         |          |     |      |          |       |            |                |
-| FR6.2   |     X     |      |               |       |         |          |  X  |      |          |   X   |            |                |
-| FR6.3   |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR6.4   |     X     |      |               |       |         |          |  X  |      |          |   X   |            |                |
-| FR6.5   |     X     |      |       X       |       |         |          |     |      |          |       |            |                |
-| FR6.6   |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR6.7   |     X     |      |       X       |       |         |          |     |      |          |       |            |                |
-| FR6.8   |     X     |      |               |       |         |          |     |      |          |   X   |            |                |
-| FR6.9   |           |      |               |       |         |     X    |     |      |          |       |            |                |
-| FR6.10  |     X     |      |               |       |         |          |     |      |          |       |            |                |
-| FR7     |     X     |      |               |       |         |          |     |   X  |          |       |            |                |
+|         | InternalOrder API & DAO | Item API & DAO | Position API & DAO | RestockOrder API & DAO | ReturnOrder API & DAO | SKU API & DAO | SKUItem API & DAO | TestDescriptor API & DAO | TestResult API & DAO | User API & DAO |
+|:-------:|:-----------------------:|:--------------:|:------------------:|:----------------------:|:---------------------:|:-------------:|:-----------------:|:------------------------:|:--------------------:|:--------------:|
+|   FR1   |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR1.1  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR1.2  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR1.3  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR1.4  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR1.5  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|   FR2   |                         |                |                    |                        |                       |       X       |                   |                          |                      |                |
+|  FR2.1  |                         |                |                    |                        |                       |       X       |                   |                          |                      |                |
+|  FR2.2  |                         |                |                    |                        |                       |       X       |                   |                          |                      |                |
+|  FR2.3  |                         |                |                    |                        |                       |       X       |                   |                          |                      |                |
+|  FR2.4  |                         |                |                    |                        |                       |       X       |                   |                          |                      |                |
+|   FR3   |                         |                |          X         |                        |                       |               |                   |             X            |           X          |                |
+|  FR3.1  |                         |                |          X         |                        |                       |               |                   |                          |                      |                |
+| FR3.1.1 |                         |                |          X         |                        |                       |               |                   |                          |                      |                |
+| FR3.1.2 |                         |                |          X         |                        |                       |               |                   |                          |                      |                |
+| FR3.1.3 |                         |                |          X         |                        |                       |               |                   |                          |                      |                |
+| FR3.1.4 |                         |                |          X         |                        |                       |               |                   |                          |                      |                |
+|  FR3.2  |                         |                |                    |                        |                       |               |                   |             X            |           X          |                |
+| FR3.2.1 |                         |                |                    |                        |                       |               |                   |             X            |                      |                |
+| FR3.2.2 |                         |                |                    |                        |                       |               |                   |             X            |                      |                |
+| FR3.2.3 |                         |                |                    |                        |                       |               |                   |             X            |                      |                |
+|   FR4   |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR4.1  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR4.2  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR4.3  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|  FR4.4  |                         |                |                    |                        |                       |               |                   |                          |                      |        X       |
+|   FR5   |                         |                |          X         |            X           |                       |       X       |         X         |             X            |           X          |        X       |
+|  FR5.1  |                         |                |                    |            X           |                       |               |                   |                          |                      |                |
+|  FR5.2  |                         |                |                    |            X           |                       |               |                   |                          |                      |                |
+|  FR5.3  |                         |                |                    |            X           |                       |               |                   |                          |                      |                |
+|  FR5.4  |                         |                |                    |            X           |                       |               |                   |                          |                      |                |
+|  FR5.5  |                         |                |                    |            X           |                       |               |                   |                          |                      |        X       |
+|  FR5.6  |                         |                |                    |            X           |                       |               |                   |                          |                      |                |
+|  FR5.7  |                         |                |                    |            X           |                       |               |                   |                          |                      |                |
+|  FR5.8  |                         |                |          X         |            X           |                       |       X       |         X         |             X            |           X          |        X       |
+| FR5.8.1 |                         |                |                    |                        |                       |               |         X         |                          |                      |                |
+| FR5.8.2 |                         |                |                    |                        |                       |               |                   |                          |           X          |                |
+| FR5.8.3 |                         |                |          X         |                        |                       |               |         X         |                          |                      |                |
+|  FR5.9  |                         |                |                    |                        |           X           |               |                   |                          |                      |                |
+|  FR5.10 |                         |                |                    |            X           |           X           |               |         X         |                          |           X          |                |
+|  FR5.11 |                         |                |                    |                        |           X           |               |                   |                          |                      |                |
+|  FR5.12 |                         |                |                    |                        |           X           |               |                   |                          |                      |                |
+|   FR6   |            X            |                |                    |                        |                       |       X       |                   |                          |                      |                |
+|  FR6.1  |            X            |                |                    |                        |                       |               |                   |                          |                      |                |
+|  FR6.2  |            X            |                |                    |                        |                       |       X       |                   |                          |                      |                |
+|  FR6.3  |            X            |                |                    |                        |                       |       X       |                   |                          |                      |                |
+|  FR6.4  |            X            |                |                    |                        |                       |               |                   |                          |                      |                |
+|  FR6.5  |            X            |                |                    |                        |                       |               |                   |                          |                      |                |
+|  FR6.6  |            X            |                |                    |                        |                       |               |                   |                          |                      |                |
+|  FR6.7  |            X            |                |                    |                        |                       |               |                   |                          |                      |                |
+|  FR6.8  |            X            |                |                    |                        |                       |               |                   |                          |                      |                |
+|  FR6.9  |            X            |        X       |                    |                        |                       |               |         X         |                          |                      |                |
+|  FR6.10 |                         |                |          X         |                        |                       |               |         X         |                          |                      |                |
+|   FR7   |                         |        X       |                    |                        |                       |               |                   |                          |                      |                |
 
 
 # Verification sequence diagrams 
@@ -133,38 +138,41 @@ EZWH is a client server application composed of one executable generating one si
 ## Sequence diagram of Scenario 2.1 (Scenario ID: Scenario 2-1)
 <img src="./SequenceDiagram/scenario2_1.png">
 
-## Sequence diagram of Scenario 2.2 (Scenario ID: Scenario 2-2)
-<img src="./SequenceDiagram/scenario2_2.png">
+<!-- ## Sequence diagram of Scenario 2.2 (Scenario ID: Scenario 2-2)
+<img src="./SequenceDiagram/scenario2_2.png"> -->
 
-## Sequence diagram of Scenario 2.3 (Scenario ID: Scenario 2-3)
-<img src="./SequenceDiagram/scenario2_3.png">
+<!-- ## Sequence diagram of Scenario 2.3 (Scenario ID: Scenario 2-3)
+<img src="./SequenceDiagram/scenario2_3.png"> -->
 
-## Sequence diagram of Scenario 2.4 (Scenario ID: Scenario 2-4)
-<img src="./SequenceDiagram/scenario2_4.png">
+<!-- ## Sequence diagram of Scenario 2.4 (Scenario ID: Scenario 2-4)
+<img src="./SequenceDiagram/scenario2_4.png"> -->
 
-## Sequence diagram of Scenario 2.5 (Scenario ID: Scenario 2-5)
-<img src="./SequenceDiagram/scenario2_5.png">
+<!-- ## Sequence diagram of Scenario 2.5 (Scenario ID: Scenario 2-5)
+<img src="./SequenceDiagram/scenario2_5.png"> -->
 
 ## Sequence diagram of Scenario 3.1 (Scenario ID: Scenario 3-1)
 <img src="./SequenceDiagram/scenario3_1.png">
 
-## Sequence diagram of Scenario 3.2 (Scenario ID: Scenario 3-2)
-<img src="./SequenceDiagram/scenario3_2.png">
+<!-- ## Sequence diagram of Scenario 3.2 (Scenario ID: Scenario 3-2)
+<img src="./SequenceDiagram/scenario3_2.png"> -->
 
 ## Sequence diagram of Scenario 4.1 (Scenario ID: Scenario 4-1)
 <img src="./SequenceDiagram/scenario4_1.png">
 
+## Sequence diagram of Scenario 4.3 (Scenario ID: Scenario 4-3)
+<img src="./SequenceDiagram/scenario4_3.png">
+
 ## Sequence diagram of Scenario 5.1.1 (Scenario ID: Scenario 5-1-1)
 <img src="./SequenceDiagram/scenario5_1_1.png">
 
-## Sequence diagram of Scenario 5.2.1 (Scenario ID: Scenario 5-2-1)
-<img src="./SequenceDiagram/scenario5_2_1.png">
+<!-- ## Sequence diagram of Scenario 5.2.1 (Scenario ID: Scenario 5-2-1)
+<img src="./SequenceDiagram/scenario5_2_1.png"> -->
 
-## Sequence diagram of Scenario 5.3.1 (Scenario ID: Scenario 5-3-1)
-<img src="./SequenceDiagram/scenario5_3_1.png">
+<!-- ## Sequence diagram of Scenario 5.3.1 (Scenario ID: Scenario 5-3-1)
+<img src="./SequenceDiagram/scenario5_3_1.png"> -->
 
-## Sequence diagram of Scenario 5.3.2 (Scenario ID: Scenario 5-3-2)
-<img src="./SequenceDiagram/scenario5_3_2.png">
+<!-- ## Sequence diagram of Scenario 5.3.2 (Scenario ID: Scenario 5-3-2)
+<img src="./SequenceDiagram/scenario5_3_2.png"> -->
 
 ## Sequence diagram of Scenario 6.1 (Scenario ID: Scenario 6-1)
 <img src="./SequenceDiagram/scenario6_1.png">
@@ -172,8 +180,8 @@ EZWH is a client server application composed of one executable generating one si
 ## Sequence diagram of Scenario 7.1 (Scenario ID: Scenario 7-1)
 <img src="./SequenceDiagram/scenario7_1.png">
 
-## Sequence diagram of Scenario 7.2 (Scenario ID: Scenario 7-2)
-<img src="./SequenceDiagram/scenario7_2.png">
+<!-- ## Sequence diagram of Scenario 7.2 (Scenario ID: Scenario 7-2)
+<img src="./SequenceDiagram/scenario7_2.png"> -->
 
 ## Sequence diagram of Scenario 9.1 (Scenario ID: Scenario 9-1)
 <img src="./SequenceDiagram/scenario9_1.png">
@@ -185,19 +193,19 @@ EZWH is a client server application composed of one executable generating one si
 <img src="./SequenceDiagram/scenario9_3.png">
 
 ## Sequence diagram of Scenario 10.1 (Scenario ID: Scenario 10-1)
-<img src="./SequenceDiagram/scenario10_1.png">
+<img src="./SequenceDiagram/scenario10_1.png"> 
 
 ## Sequence diagram of Scenario 11.1 (Scenario ID: Scenario 11-1)
-<img src="./SequenceDiagram/scenario11_1.png">
+<img src="./SequenceDiagram/scenario11_1.png"> 
 
-## Sequence diagram of Scenario 11.2 (Scenario ID: Scenario 11-2)
-<img src="./SequenceDiagram/scenario11_2.png">
+ ## Sequence diagram of Scenario 11.2 (Scenario ID: Scenario 11-2)
+<img src="./SequenceDiagram/scenario11_2.png"> 
 
-## Sequence diagram of Scenario 12.1 (Scenario ID: Scenario 12-1)
-<img src="./SequenceDiagram/scenario12_1.png">
+ ## Sequence diagram of Scenario 12.1 (Scenario ID: Scenario 12-1)
+<img src="./SequenceDiagram/scenario12_1.png"> 
 
-## Sequence diagram of Scenario 12.2 (Scenario ID: Scenario 12-2)
-<img src="./SequenceDiagram/scenario12_2.png">
+ ## Sequence diagram of Scenario 12.2 (Scenario ID: Scenario 12-2)
+<img src="./SequenceDiagram/scenario12_2.png"> 
 
-## Sequence diagram of Scenario 12.3 (Scenario ID: Scenario 12-3)
-<img src="./SequenceDiagram/scenario12_3.png">
+ ## Sequence diagram of Scenario 12.3 (Scenario ID: Scenario 12-3)
+<img src="./SequenceDiagram/scenario12_3.png"> 
