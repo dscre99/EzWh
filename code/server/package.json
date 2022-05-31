@@ -11,7 +11,10 @@
     "start": "node server.js",
     "apiTest": "mocha test --exit",
     "acceptanceTest": "npx mocha --spec acceptanceTest/testEzWhAPI.js --reporter mochawesome",
-    "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --timeout 10000 --exit"
+    "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --timeout 10000 --exit",
+    "atp": "npx mocha --spec acceptanceTest/crud/test-CRUD-Position.js --exit",
+    "attd": "npx mocha --spec acceptanceTest/crud/test-CRUD-TestDescriptor.js --exit",
+    "atsi": "npx mocha --spec acceptanceTest/crud/test-CRUD-SKUitems.js --exit"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +23,7 @@
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "check-code-coverage": "^1.10.0",
+    "express": "^4.18.1",
     "express-validator": "^6.14.1",
     "jest": "^27.5.1",
     "mocha": "^9.2.2",
