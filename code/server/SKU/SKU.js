@@ -35,35 +35,39 @@ async function clear_sku_table(req, res) {
 // GET /api/skus/:id
 
 async function getSKUbyID(req, res) {
-    if (Object.keys(req.params.id).length == 0) {
-        return res.status(422).json({ error: 'Invalid id' });
-    }
-    let getSKUbyIDPromise = skuDaoInstance.getSKUbyID(req.params.id);
-    await getSKUbyIDPromise.then(
-        function (value) {
-            console.log('getSKUbyID resolve');
-            return res.status(200).json(value).end();
-        },
-        function (error) {
-            console.log('getSKUbyID reject');
-            return res.status(error).end();
+    if(Number.parseInt(req.params.id) >= 0){
+        if (Object.keys(req.params.id).length == 0) {
+            return res.status(422).json({ error: 'Invalid id' });
         }
-    ).catch(err => function (err) {
-        console.log('getSKUbyID error', err);
-        return res.status(500).end();
-    });
+        let getSKUbyIDPromise = skuDaoInstance.getSKUbyID(req.params.id);
+        await getSKUbyIDPromise.then(
+            function (value) {
+                console.log('getSKUbyID resolve');
+                return res.status(200).json(value).end();
+            },
+            function (error) {
+                console.log('getSKUbyID reject');
+                return res.status(error).end();
+            }
+        ).catch(err => function (err) {
+            console.log('getSKUbyID error', err);
+            return res.status(500).end();
+        });
+    }else{
+        return res.status(422).json({error: 'Unprocessable entity'}).end(); 
+
+    }
+
+       
 }
 
 // POST /api/sku
 
 async function newSKU(req, res) {
-    if (Object.keys(req.body).length == 0 ) {
-        return res.status(422).json({ error: 'Invalid body' });
-    }
     const required = ['description', 'weight', 'volume', 'notes', 'price', 'availableQuantity'];
-    if (Object.keys(req.body).length != required.length) {
-        console.log('body length');
-        return res.status(422).end();
+
+    if (Object.keys(req.body).length == 0 || Object.keys(req.body).length != required.length  ) {
+        return res.status(422).json({ error: 'Invalid body' });
     } else { 
         required.forEach(key => {
             if (!Object.keys(req.body).includes(key)) {
@@ -102,49 +106,52 @@ async function newSKU(req, res) {
 // PUT /api/sku/:id
 
 async function modifySKU(req, res) {
-    if (Object.keys(req.body).length == 0) {
-        return res.status(422).json({ error: 'Empty body' });
-    }
-    const required = ['newDescription', 'newWeight', 'newVolume', 'newNotes', 'newPrice', 'newAvailableQuantity'];
-    if (Object.keys(req.body).length != required.length) {
-        return res.status(422).end();
-    } else {
-        required.forEach(key => {
-            if (!Object.keys(req.body).includes(key)) {
-                return res.status(422).end();
-            }
-            if (req.body[key] == undefined || req.body[key] == '') {
-                return res.status(422).end();
-            }
-        });
-    }
-    if (Object.keys(req.params.id).length == 0) {
-        return res.status(422).json({ error: 'Invalid id' });
-    }
-    let data = {
-        "id": req.params.id,
-        "newDescription": req.body.newDescription,
-        "newWeight": req.body.newWeight,
-        "newVolume": req.body.newVolume,
-        "newNotes": req.body.newNotes,
-        "newPrice": req.body.newPrice,
-        "newAvailableQuantity": req.body.newAvailableQuantity
-    }
-
-    let modifySKUPromise = skuDaoInstance.modifySKU(data);
-    await modifySKUPromise.then(
-        function (value) {
-            console.log('modifySKU resolve');
-            return res.status(200).json(value).end();
-        },
-        function (error) {
-            console.log('modifySKU reject');
-            return res.status(error).end();
+    
+    if(Number.parseInt(req.params.id) >= 0){
+        if (Object.keys(req.body).length == 0) {
+            return res.status(422).json({ error: 'Empty body' });
         }
-    ).catch(err => function (err) {
-        console.log('modifySKU error', err);
-        return res.status(503).end();
-    });
+        const required = ['newDescription', 'newWeight', 'newVolume', 'newNotes', 'newPrice', 'newAvailableQuantity'];
+        if (Object.keys(req.body).length != required.length) {
+            return res.status(422).end();
+        } else {
+            required.forEach(key => {
+                if (!Object.keys(req.body).includes(key)) {
+                    return res.status(422).end();
+                }
+                if (req.body[key] == undefined || req.body[key] == '') {
+                    return res.status(422).end();
+                }
+            });
+        }
+        let data = {
+            "id": req.params.id,
+            "newDescription": req.body.newDescription,
+            "newWeight": req.body.newWeight,
+            "newVolume": req.body.newVolume,
+            "newNotes": req.body.newNotes,
+            "newPrice": req.body.newPrice,
+            "newAvailableQuantity": req.body.newAvailableQuantity
+        }
+    
+        let modifySKUPromise = skuDaoInstance.modifySKU(data);
+        await modifySKUPromise.then(
+            function (value) {
+                console.log('modifySKU resolve');
+                return res.status(200).json(value).end();
+            },
+            function (error) {
+                console.log('modifySKU reject');
+                return res.status(error).end();
+            }
+        ).catch(err => function (err) {
+            console.log('modifySKU error', err);
+            return res.status(503).end();
+        });
+    }else{
+        return res.status(422).json({error: 'Unprocessable entity'}).end(); 
+    }
+    
 }
 
 
