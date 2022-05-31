@@ -15,7 +15,7 @@ async function clear_sku_table(req, res) {
 }
 // GET /api/skus
 
- async function getSKUs(req, res) {
+async function getSKUs(req, res) {
     let getSKUSPromise = skuDaoInstance.getSKUs();
     await getSKUSPromise.then(
         function (value) {
@@ -30,12 +30,12 @@ async function clear_sku_table(req, res) {
         console.log('getSKUs error', err);
         return res.status(500).end();
     });
- }
+}
 
 // GET /api/skus/:id
 
 async function getSKUbyID(req, res) {
-    if(Number.parseInt(req.params.id) >= 0){
+    if (Number.parseInt(req.params.id) >= 0) {
         if (Object.keys(req.params.id).length == 0) {
             return res.status(422).json({ error: 'Invalid id' });
         }
@@ -53,12 +53,12 @@ async function getSKUbyID(req, res) {
             console.log('getSKUbyID error', err);
             return res.status(500).end();
         });
-    }else{
-        return res.status(422).json({error: 'Unprocessable entity'}).end(); 
+    } else {
+        return res.status(422).json({ error: 'Unprocessable entity' }).end();
 
     }
 
-       
+
 }
 
 // POST /api/sku
@@ -66,9 +66,9 @@ async function getSKUbyID(req, res) {
 async function newSKU(req, res) {
     const required = ['description', 'weight', 'volume', 'notes', 'price', 'availableQuantity'];
 
-    if (Object.keys(req.body).length == 0 || Object.keys(req.body).length != required.length  ) {
+    if (Object.keys(req.body).length == 0 || Object.keys(req.body).length != required.length) {
         return res.status(422).json({ error: 'Invalid body' });
-    } else { 
+    } else {
         required.forEach(key => {
             if (!Object.keys(req.body).includes(key)) {
                 console.log('not includes key')
@@ -77,12 +77,22 @@ async function newSKU(req, res) {
             if (req.body[key] == undefined || req.body[key] == '') {
                 console.log('undefined');
                 return res.status(422).end();
-            } 
+            }
         });
     }
 
-    if (req.body.weight < 0 || req.body.volume < 0 || req.body.price < 0) {
+    if (req.body.weight < 0 || req.body.volume < 0 || req.body.price < 0 || req.body.availableQuantity < 0) {
         console.log('Values must be larger or equal than 0')
+        return res.status(422).end();
+    }
+
+    if (!Number.isInteger(req.body.weight) || !Number.isInteger(req.body.volume) || !Number.isInteger(req.body.availableQuantity)) {
+        console.log('Values must be integers')
+        return res.status(422).end();
+    }
+
+    if (!Number.isInteger(req.body.price)) {
+        console.log('Price must be a number')
         return res.status(422).end();
     }
 
@@ -106,8 +116,8 @@ async function newSKU(req, res) {
 // PUT /api/sku/:id
 
 async function modifySKU(req, res) {
-    
-    if(Number.parseInt(req.params.id) >= 0){
+
+    if (Number.parseInt(req.params.id) >= 0) {
         if (Object.keys(req.body).length == 0) {
             return res.status(422).json({ error: 'Empty body' });
         }
@@ -133,7 +143,7 @@ async function modifySKU(req, res) {
             "newPrice": req.body.newPrice,
             "newAvailableQuantity": req.body.newAvailableQuantity
         }
-    
+
         let modifySKUPromise = skuDaoInstance.modifySKU(data);
         await modifySKUPromise.then(
             function (value) {
@@ -148,10 +158,10 @@ async function modifySKU(req, res) {
             console.log('modifySKU error', err);
             return res.status(503).end();
         });
-    }else{
-        return res.status(422).json({error: 'Unprocessable entity'}).end(); 
+    } else {
+        return res.status(422).json({ error: 'Unprocessable entity' }).end();
     }
-    
+
 }
 
 
@@ -184,7 +194,7 @@ async function modifySKUPosition(req, res) {
         "position": req.body.position
     }
     //console.log(data);
-   
+
     let modifySKUPositionPromise = skuDaoInstance.modifySKUPosition(data);
     await modifySKUPositionPromise.then(
         function (value) {
@@ -211,7 +221,7 @@ async function deleteSKUbyID(req, res) {
     await deleteSKUbyIDPromise.then(
         function (value) {
             console.log('deleteSKUbyID resolve');
-            return res.status(200).json(value).end();
+            return res.status(204).json(value).end();
         },
         function (error) {
             console.log('deleteSKUbyID reject');

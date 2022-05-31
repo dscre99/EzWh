@@ -41,45 +41,56 @@ async function getSKUItems(req, res) {
 // GET /api/skuitems/sku/:id
 
 async function getSKUItemBySKUID(req, res) {
-    if (Object.keys(req.params.id).length == 0) {
-        return res.status(422).json({ error: 'Invalid id' });
-    }
-    let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemsBySKUID(Number.parseInt(req.params.id));
-    await getSKUItemBySKUIDPromise.then(
-        function (value) {
-            console.log('getSKUItemBySKUID resolve');
-            return res.status(200).json(value).end();
-        },
-        function (error) {
-            console.log('getSKUItemBySKUID reject');
-            return res.status(error).end();
+    if(Number.parseInt(req.params.id) >= 0){
+        if (Object.keys(req.params.id).length == 0) {
+            return res.status(422).json({ error: 'Invalid id' });
         }
-    ).catch(err => function (err) {
-        console.log('getSKUItemBySKUID error', err);
-        return res.status(500).end();
-    });
+        let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemsBySKUID(Number.parseInt(req.params.id));
+        await getSKUItemBySKUIDPromise.then(
+            function (value) {
+                console.log('getSKUItemBySKUID resolve');
+                return res.status(200).json(value).end();
+            },
+            function (error) {
+                console.log('getSKUItemBySKUID reject');
+                return res.status(error).end();
+            }
+        ).catch(err => function (err) {
+            console.log('getSKUItemBySKUID error', err);
+            return res.status(500).end();
+        });
+    }else{
+        return res.status(422).json({error: 'Unprocessable entity'}).end(); 
+    }
+    
 }
 
 // GET /api/skuitems/:rfid
 
 async function getSKUItemsByRfid(req, res) {
-    if (Object.keys(req.params.rfid).length == 0) {
-        return res.status(422).json({ error: 'Invalid id' });
-    }
-    let getSKUItemsByRfidPromise = skuItemDaoInstance.getSKUItemsByRfid(req.params.rfid);
-    await getSKUItemsByRfidPromise.then(
-        function (value) {
-            console.log('getSKUItemsByRfid resolve');
-            return res.status(200).json(value).end();
-        },
-        function (error) {
-            console.log('getSKUItemsByRfid reject');
-            return res.status(error).end();
+    if(Number.parseInt(req.params.rfid) >= 0){
+        if (Object.keys(req.params.rfid).length == 0) {
+            return res.status(422).json({ error: 'Invalid id' });
         }
-    ).catch(err => function (err) {
-        console.log('getSKUItemsByRfid error', err);
-        return res.status(500).end();
-    });
+        let getSKUItemsByRfidPromise = skuItemDaoInstance.getSKUItemsByRfid(req.params.rfid);
+        await getSKUItemsByRfidPromise.then(
+            function (value) {
+                console.log('getSKUItemsByRfid resolve');
+                return res.status(200).json(value).end();
+            },
+            function (error) {
+                console.log('getSKUItemsByRfid reject');
+                return res.status(error).end();
+            }
+        ).catch(err => function (err) {
+            console.log('getSKUItemsByRfid error', err);
+            return res.status(500).end();
+        });
+    }else{
+        return res.status(422).json({error: 'Unprocessable entity'}).end(); 
+    }
+
+    
 }
 
 //POST /api/skuitem
@@ -123,11 +134,12 @@ async function newSKUItem(req, res) {
 //PUT /api/skuitems/:rfid
 
 async function modifySKUItem(req, res) {
+    
     if (Object.keys(req.body).length == 0) {
-        return res.status(422).json({ error: 'Invalid body request' });
+        return res.status(422).json({ error: 'Invalid body request' }).end();
     }
     if (Object.keys(req.params.rfid).length == 0 || (req.params.rfid).length != 32) {
-        return res.status(422).json({ error: 'Invalid rfid' });
+        return res.status(422).json({ error: 'Invalid rfid' }).end;
     }
     const required = ['newRFID', 'newAvailable', 'newDateOfStock'];
     if (Object.keys(req.body).length != required.length) {
@@ -145,29 +157,38 @@ async function modifySKUItem(req, res) {
             return res.status(422).end();
         }
     }
-    let data = {
-        "oldRfid": req.params.rfid,
-        "newRfid": req.body.newRFID,
-        "newAvailable": req.body.newAvailable,
-        "newDateOfStock": req.body.newDateOfStock
+    
+    if(Number.parseInt(req.body.newAvailable) >= 0){
+        let data = {
+            "oldRfid": req.params.rfid,
+            "newRfid": req.body.newRFID,
+            "newAvailable": req.body.newAvailable,
+            "newDateOfStock": req.body.newDateOfStock
+        }
+    
+    
+    
+    
+        let modifySKUItemPromise = skuItemDaoInstance.modifySKUItem(data);
+        
+        await modifySKUItemPromise.then(
+            function (value) {
+                console.log('modifySKUItem resolve');
+                return res.status(200).json(value).end();
+            },
+            function (error) {
+                console.log('modifySKUItem reject');
+                return res.status(error).end();
+            }
+        ).catch(err => function (err) {
+            console.log('modifySKUItem error', err);
+            return res.status(503).end();
+        });
+    }else{
+                return res.status(422).end();
     }
 
-
-    let modifySKUItemPromise = skuItemDaoInstance.modifySKUItem(data);
     
-    await modifySKUItemPromise.then(
-        function (value) {
-            console.log('modifySKUItem resolve');
-            return res.status(200).json(value).end();
-        },
-        function (error) {
-            console.log('modifySKUItem reject');
-            return res.status(error).end();
-        }
-    ).catch(err => function (err) {
-        console.log('modifySKUItem error', err);
-        return res.status(503).end();
-    });
 }
 
 //DELETE /api/skuitems/:rfid

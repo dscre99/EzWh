@@ -57,7 +57,7 @@ function testModifyTestResult(id, rfid, newData, expectedHTTPStatus) {
     it('PUT /api/skuitems/:rfid/testResult/:id', async function() {
         await agent.put('/api/skuitems/' + rfid + '/testResult/' +id)
             .send(newData)
-            .then(function(res) {
+            .then(function (res) {
                 res.should.have.status(expectedHTTPStatus);
             });
     });
@@ -67,7 +67,7 @@ function testModifyTestResult(id, rfid, newData, expectedHTTPStatus) {
 function testDeleteTestResult(id, rfid, expectedHTTPStatus) {
     it('DELETE /api/skuitems/:rfid/testResult/:id', async function() {
         await agent.delete('/api/skuitems/' + rfid + '/testResult/' + id)
-                    .then(function(res) {
+            .then(function (res) {
                         res.should.have.status(expectedHTTPStatus);
                     })
     });

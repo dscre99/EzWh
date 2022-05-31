@@ -153,7 +153,7 @@ class TestResultDAO {
             this.#db.all(check_rfid, [rfid], (err, result) => {
                 
                 if(err) {
-                    reject(err);
+                    resolve(err);
                 }
                 
                 result[0]['COUNT(*)'] > 0 ? exist=1 : exist
