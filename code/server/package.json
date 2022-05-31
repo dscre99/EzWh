@@ -11,7 +11,10 @@
     "start": "node server.js",
     "apiTest": "mocha test --exit",
     "acceptanceTest": "npx mocha --spec acceptanceTest/testEzWhAPI.js --reporter mochawesome",
-    "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --timeout 10000 --exit"
+    "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --timeout 10000 --exit",
+    "atp": "npx mocha --spec acceptanceTest/crud/test-CRUD-Position.js --exit",
+    "attd": "npx mocha --spec acceptanceTest/crud/test-CRUD-TestDescriptor.js --exit",
+    "atsi": "npx mocha --spec acceptanceTest/crud/test-CRUD-SKUitems.js --exit"
   },
   "author": "",
   "license": "ISC",

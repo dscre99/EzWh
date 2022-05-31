@@ -48,6 +48,11 @@ class TestResultService {
             res.status(503).json("Body must be empty!");
             return;
         }
+
+        if(req.params.rfid === 'null') {
+            res.status(422).json("Invalid rfid");
+            return;
+        } 
         
         this.#dao.get_test_result_with_id_from_rfid_DB(req.params.id, req.params.rfid).then((test_result) => {
             res.status(200).json(test_result);
@@ -67,8 +72,8 @@ class TestResultService {
         }
 
         this.#dao.post_test_result_DB(req.body).then((test_result) => {
-            res.status(200).json(test_result);
-        }).catch((error) => res.status(500).json(error))
+            res.status(201).json(test_result);
+        }).catch((error) => res.status(error).json(error))
     }
 
     // // PUT /api/skuitems/:rfid/testResult/:id
