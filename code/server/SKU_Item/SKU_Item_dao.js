@@ -70,13 +70,13 @@ class SKUItemDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU_ITEM';
-                this.#db.all(sql, [], (err, rows) => {
+                this.#db.all(sql, (err, rows) => {
                     if (err) {
                         reject(err);
                     }
                     const skuItems = rows.map((r) => (
                         {
-                            rfid: r.RFID,
+                            RFID: r.RFID, //was rfid 
                             SKUId: r.SKUID,
                             Available: r.AVAILABLE,
                             DateOfStock: r.DATEOFSTOCK
@@ -153,12 +153,12 @@ class SKUItemDao {
                             }
                             const skuItems = rows.map((r) => (
                                 {
-                                    rfid: r.RFID,
+                                    RFID: r.RFID, // was rfid
                                     SKUId: r.SKUID,
                                     Available: r.AVAILABLE,
                                     DateOfStock: r.DATEOFSTOCK
                                 }));
-                            resolve(skuItems);
+                            resolve(skuItems[0]);
                         });
                     } else {
                         console.log('No SKU Item associated to Rfid');
