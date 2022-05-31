@@ -112,7 +112,7 @@ class SKUItemDao {
                             }
                             const skuItems = rows.map((r) => (
                                 {
-                                    rfid: r.RFID,
+                                    RFID: r.RFID, //was rfid 
                                     SKUId: r.SKUID,
                                     Available: r.AVAILABLE,
                                     DateOfStock: r.DATEOFSTOCK
