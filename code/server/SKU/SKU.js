@@ -81,8 +81,18 @@ async function newSKU(req, res) {
         });
     }
 
-    if (req.body.weight < 0 || req.body.volume < 0 || req.body.price < 0) {
+    if (req.body.weight < 0 || req.body.volume < 0 || req.body.price < 0 || req.body.availableQuantity < 0) {
         console.log('Values must be larger or equal than 0')
+        return res.status(422).end();
+    }
+
+    if (!Number.isInteger(req.body.weight) || !Number.isInteger(req.body.volume) || !Number.isInteger(req.body.availableQuantity)) {
+        console.log('Values must be integers')
+        return res.status(422).end();
+    }
+
+    if (Number.isNaN(req.body.price)) {
+        console.log('Price must be a number')
         return res.status(422).end();
     }
 
@@ -211,7 +221,7 @@ async function deleteSKUbyID(req, res) {
     await deleteSKUbyIDPromise.then(
         function (value) {
             console.log('deleteSKUbyID resolve');
-            return res.status(200).json(value).end();
+            return res.status(204).json(value).end();
         },
         function (error) {
             console.log('deleteSKUbyID reject');
