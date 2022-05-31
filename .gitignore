@@ -1,6 +1,6 @@
 *.DS_Store
 *package-lock.json
-#*package.json
+*package.json
 *code/server/coverage/
 *code/server/node_modules/
 *code/client/node_modules/
@@ -9,3 +9,4 @@ code/server/EZWH_db/EZWH_DB_TEST.db
 *node_modules/
 code/server/EZWH_db/*.sql
 code/server/*.sh
+*code/server/mochawesome-report/*

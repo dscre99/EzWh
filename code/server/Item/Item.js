@@ -1,4 +1,5 @@
 const DB = require('../EZWH_db/RunDB');
+const { isEmpty } = require('../utils/utils');
 const DBInstance = DB.DBinstance;
 const ItemDAO = require('./ItemDAO.js');
 const DAO=new ItemDAO(DBInstance);
@@ -20,9 +21,7 @@ async function get_items(req, res) {
 //GET /api/items/:id
 async function get_item_by_id(req, res) {
 
-  if (!parseInt(req.params['id'])) {
-    return res.status(422).json({ error: 'Unprocessable Entity ' }).end();
-  }
+  if(Number.parseInt(req.params.id) >= 0){
 
   let itembyid = DAO.getItemByID(req.params);
   itembyid.then(
@@ -33,6 +32,9 @@ async function get_item_by_id(req, res) {
   ).catch(err => function(err) {
     return res.status(500).json(err).end();
   });
+}else{
+  return res.status(422).json({error: 'Unprocessable entity'}).end(); 
+}
 }
 
 //POST /api/item
@@ -49,7 +51,7 @@ async function store_item(req, res) {
         return err=1, res.status(422).json({ error: 'Unprocessable Entity - Wrong/missing field name' }).end();
       }
       // checks for fields not empty
-      if(req.body[key] == undefined || req.body[key] == ''){
+      if(req.body[key] == undefined){
         return err=1, res.status(422).json({ error: 'Unprocessable Entity - Missing field value' }).end();
       }
     });
@@ -61,6 +63,9 @@ async function store_item(req, res) {
   let skuidbyid = await DAO.getSKUIDbyItemID(req.body);
     if(skuidbyid!==undefined) return res.status(422).json({error: ' Unprocessable Entity - SKUId already there'});
       
+    let skuid= await DAO.getSKUID(req.body);
+    if(skuid===undefined) return res.status(404).json({error: 'SKU Not found'});
+    
       try {
         let db =  await DAO.storeItem(req.body);
         res.status(201).end();
@@ -76,9 +81,7 @@ async function update_item(req,res) {
   const requiredKeys = ['newDescription','newPrice'];
   
   // checks for integer value as id 
-  if (!parseInt(req.params['id'])) {
-     return res.status(422).json({ error: 'Unprocessable Entity ' });
-  }
+  
 
   // checks for number of parameters in body 
   if (Object.keys(req.body).length === 0 || Object.keys(req.body).length !== 2 ) {
@@ -114,9 +117,7 @@ async function update_item(req,res) {
 // DELETE /api/items/:id
 async function delete_item(req, res) {
   // Validation if ID
-  if (!parseInt(req.params['id'])) {
-    return res.status(422).json({ error: 'Unprocessable Entity ' });
-  }
+  
   // Check if ID exists
   let itembyid = await DAO.getItemByID(req.params);
     if (itembyid===undefined) return res.status(422).json({error: 'Not found - Item not existing'}).end(); 

@@ -19,7 +19,7 @@ class ItemDAO {
 
     newTableItem() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM(ID INTEGER, DESCRIPTION VARCHAR, PRICE REAL, SKUID INTEGER REFERENCES SKUS(ID), SUPPLIERID INTEGER REFERENCES USER(ID), PRIMARY KEY(ID,SUPPLIERID,SKUID) )';
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEM(ID INTEGER, DESCRIPTION VARCHAR, PRICE REAL, SKUID INTEGER REFERENCES SKUS(ID), SUPPLIERID INTEGER REFERENCES USER(ID), PRIMARY KEY(ID) )';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(500);
@@ -81,6 +81,28 @@ class ItemDAO {
         return new Promise((resolve, reject) => {
             const sql = 'SELECT ID FROM ITEM WHERE SKUID=? AND SUPPLIERID=? ';
             this.db.all(sql, [data.SKUId,data.supplierId], (err, rows) => {
+                if(err){
+                    reject(err);
+                }else{
+                    if(rows.length===0){
+                        resolve(undefined);
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ID,
+                            }
+                        ));
+                        resolve(products[0]);
+                    }
+                }
+            });
+        });
+    }
+
+    getSKUID(data){
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT ID FROM SKU WHERE ID=? ';
+            this.db.all(sql, [data.SKUId], (err, rows) => {
                 if(err){
                     reject(err);
                 }else{
