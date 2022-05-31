@@ -1,4 +1,4 @@
-const { isAllowed, isEmpty, validatePositionBody, validatePositionID, positionBodyLength, validatePositionData } = require("../utils/utils");
+const { isAllowed, isEmpty, validatePositionBody, validatePositionID, positionBodyLength, validatePositionData, checkPositionUpdate, validateData, validate } = require("../utils/utils");
 
 class PositionService {
     
@@ -34,9 +34,9 @@ class PositionService {
         }
         
         
-        this.#dao.getPositions().then((positions) => {
+        this.#dao.getPositions().then((positions) => {            
             res.status(200).json(positions);
-        }).catch((error) => res.status(500).json("Error!"));
+        }).catch((error) => res.status(error).json("Error!"));
     }
 
 
@@ -56,7 +56,7 @@ class PositionService {
         if(positionBodyLength(req.body, "post")) {
             this.#dao.storePosition(req.body).then((position) => {
                 res.status(201).json(position);
-            }).catch((error) => res.status(503).json("Error!"))
+            }).catch((error) => res.status(error).json("Error!"))
         } else {
             res.status(422).json("Validation of request body failed!");
             return;
@@ -76,11 +76,10 @@ class PositionService {
             return;
         }
 
-        if(positionBodyLength(req.body, "put") && validatePositionData(req.body, "put")) {
-
+        if(validate(req.body)) {
             this.#dao.put_position_by_ID_DB(req.params.positionID, req.body).then(() => {
                 res.status(200).json("Position updated!");
-            }).catch((error) => res.status(503).json(error));
+            }).catch((error) => res.status(error).json(error));
         } else {
             res.status(422).json("Validation of request body failed!");
             return;
@@ -96,15 +95,17 @@ class PositionService {
             return;
         }
 
-        if(!isEmpty(req.body)) {
-            res.status(503).json("Body must be empty!");
+        if(isEmpty(req.body)) {
+            res.status(422).json("Body must not be empty!");
             return;
         }
 
-        if(Object.keys(body).length === 1 && validatePositionID(req.body)) {
+        
+
+        if(req.body.hasOwnProperty("newPositionID") && validatePositionID(req.params.positionID)) {
             this.#dao.put_positionID_by_ID_DB(req.params.positionID, req.body).then(() => {
                 res.status(200).json("PositionID updated!");
-            }).catch((error) => res.status(503).json(error));
+            }).catch((error) => res.status(error).json(error));
         } else {
             res.status(422).json("Validation of request body failed!");
             return;
@@ -125,10 +126,10 @@ class PositionService {
             return;
         }
 
-        if(validatePositionID) {
+        if(validatePositionID(req.params.positionID)) {
             this.#dao.delete_position_by_ID_DB(req.params.positionID).then(() => {
                 res.status(204).json(`Position with positionID=${req.params.positionID} has been deleted!`);
-            }).catch((error) => res.status(503).json(error));
+            }).catch((error) => res.status(error).json(error));
         } else {
             res.status(422).json("Validation of requested positionID failed!");
             return;

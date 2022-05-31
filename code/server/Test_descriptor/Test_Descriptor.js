@@ -1,4 +1,5 @@
-const { isEmpty, isAllowed } = require('../utils/utils');
+const { body } = require('express-validator');
+const { isEmpty, isAllowed, validateTestDescData } = require('../utils/utils');
 
 class TestDescriptorService {
     #dao;
@@ -30,28 +31,30 @@ class TestDescriptorService {
             res.status(503).json("Body must be empty!");
             return;
         }
-        
+
         this.#dao.get_test_descriptors_DB().then((test_descriptors) => {
             res.status(200).json(test_descriptors);
-        }).catch((error) => res.status(500).json(error));
+        }).catch((error) => res.status(error).json(error));
     }
 
     // GET /api/testDescriptors/:id
     get_test_descriptor_by_ID = async(req,res) => {
+        
         if(!isAllowed(this.#loggedUser)) {
             res.status(401).json("You are not allowed!");
             return;
         }
 
         if(!isEmpty(req.body)) {
-            res.status(503).json("Body must be empty!");
+            res.status(422).json("Body must be empty!");
             return;
         }
 
-        if(req.params.id === undefined) {
-            res.status(422).json("Missing id parameter");
+        if(req.params.id === 'null') {
+            res.status(422).json("Null id parameter");
+            return;
         }
-        
+
         this.#dao.get_test_descriptor_by_ID_DB(req.params.id).then((test_descriptor) => {
             res.status(200).json(test_descriptor);
         }).catch((error) => res.status(404).json(error));
@@ -69,10 +72,16 @@ class TestDescriptorService {
             res.status(422).json("Body is empty!");
             return;
         }
+
         
-        this.#dao.post_test_descriptor_DB(req.body).then((test_descriptor) => {
-            res.status(201).json(test_descriptor);
-        }).catch((error) => res.status(500).json(error))
+        if(validateTestDescData(req.body)) {
+            this.#dao.post_test_descriptor_DB(req.body).then((test_descriptor) => {
+                res.status(201).json(test_descriptor);
+            }).catch((error) => res.status(error).json(error))
+        } else {
+            res.status(422).json("Validation of request body failed!");
+        }
+        
     }
 
     // PUT /api/testDescriptor/:id
@@ -91,7 +100,7 @@ class TestDescriptorService {
         
         this.#dao.put_test_descriptor_by_ID_DB(req.params.id, req.body).then(() => {
             res.status(200).json("Test Descriptor updated!");
-        }).catch((error) => res.status(500).json(error));
+        }).catch((error) => res.status(error).json(error));
     }
 
     // DELETE /api/testDescriptor/:id
@@ -107,10 +116,15 @@ class TestDescriptorService {
             res.status(503).json("Body must be empty!");
             return;
         }
+
+        if(req.params.id === 'undefined') {
+            res.status(422).json("Null id parameter");
+            return;
+        }
         
         this.#dao.delete_test_descriptor_by_ID_DB(req.params.id).then(() => {
             res.status(204).json(`Test Descriptor with id=${req.params.id} has been deleted!`);
-        }).catch((error) => res.status(500).json(error));
+        }).catch((error) => res.status(error).json(error));
     }
 
 

@@ -7,6 +7,11 @@ function isAllowed(loggedUser) {
     return loggedUser;
 }
 
+function checkPositionUpdate(body) {
+    if(Object.keys(body).length !== 7) return 0;
+    return 1;
+}
+
 
 function positionBodyLength(body, req_type) {
 
@@ -15,7 +20,7 @@ function positionBodyLength(body, req_type) {
             if(Object.keys(body).length !== 8) return 0;
             break;
         case "put":
-            if(Object.keys(body).length !== 6) return 0;
+            if(Object.keys(body).length !== 7) return 0;
             break;
         default:
             return 0;
@@ -32,50 +37,42 @@ function positionBodyLength(body, req_type) {
     
 }
 
-function validatePositionData(position, req_type) {
+function validate(body) {
     
-    let v = 0;
     const regex = new RegExp(/^[0-9]*$/);
+    const {newAisleID, newRow, newCol, newMaxWeight, newMaxVolume, newOccupiedWeight, newOccupiedVolume} = body;
     
-    switch(req_type) {
-        case "post":
-            const {positionID, aisleID, row, col, maxWeight, maxVolume} = position;  
-            (regex.test(positionID) && positionID.length === 12) ? v++ : v;
-            (regex.test(aisleID) && aisleID.length <= 6) ? v++ : v;
-            (regex.test(row) && row <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            (regex.test(col) && row <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            (regex.test(maxWeight) && maxWeight <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            (regex.test(maxVolume) && maxVolume <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            if(v === 6) return 1;
-            break;
-        case "put":
-            const {newAisleID, newRow, newCol, newMaxWeight, newMaxVolume, newOccupiedWeight, newOccupiedVolume} = body;
-            (regex.test(newAisleID) && newAisleID.length <= 6) ? v++ : v;
-            (regex.test(newRow) && newRow <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            (regex.test(newCol) && newCol <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            (regex.test(newMaxWeight) && newMaxWeight <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            (regex.test(newMaxVolume) && newMaxVolume <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            (regex.test(newOccupiedWeight) && newOccupiedWeight <= Number.MAX_SAFE_INTEGER) ? v++ : v;
-            (regex.test(newOccupiedVolume) && newOccupiedVolume <= Number.MAX_SAFE_INTEGER) ? v++ : v;
+    if(Object.keys(body).length !== 7) {
+        return 0;
+    } 
 
-            if(v === 6) return 1;
-            break;
-
-    }
+    if(Math.sign(newMaxWeight) > 0 && Math.sign(newMaxVolume) > 0 && Math.sign(newOccupiedWeight) > 0 && Math.sign(newOccupiedVolume) > 0) return 1;
 
     return 0;
-}
-
-function validateData(data) {
     
+
+}
+
+function validateTestDescData(body) {
+    if(Object.keys(body).length !== 3) return 0;
+
+    const {name, procedureDescription, idSKU} = body;
+
+    if(name!==null && procedureDescription!==null && idSKU!==null) return 1;
+
+    return 0;
+
 }
 
 
 
-function validatePositionID(body) {
+
+
+
+function validatePositionID(positionID) {
     const regex = new RegExp(/^[0-9]*$/);
 
-    if(regex.test(body.newPositionID) && id.length === 12) {
+    if(regex.test(positionID) === true && positionID.length === 12) {
         return 1;
     }
 
@@ -83,4 +80,4 @@ function validatePositionID(body) {
 }
 
 
-module.exports = {isEmpty, isAllowed, positionBodyLength, validatePositionData, validatePositionID};
+module.exports = {isEmpty, isAllowed, positionBodyLength, validatePositionID, checkPositionUpdate, validate, validateTestDescData};
