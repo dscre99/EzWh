@@ -48,7 +48,7 @@ class PositionService {
             return;
         }
 
-        if(isEmpty(req.body)) {
+        if(isEmpty(req.body) ) {
             res.status(422).json("Body is empty!");
             return;
         }
