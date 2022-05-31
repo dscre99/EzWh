@@ -91,7 +91,7 @@ async function newSKU(req, res) {
         return res.status(422).end();
     }
 
-    if (Number.isNaN(req.body.price)) {
+    if (!Number.isInteger(req.body.price)) {
         console.log('Price must be a number')
         return res.status(422).end();
     }
