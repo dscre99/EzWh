@@ -8,9 +8,9 @@ async function clear_sku_table(req, res) {
     try {
         let result = await skuDaoInstance.dropSKUTable();
         let res2 = await skuDaoInstance.newSKUTable();
-        res.status(200).end();
+        return res.status(200).end();
     } catch (err) {
-        res.status(500).end();
+        return res.status(500).end();
     }
 }
 // GET /api/skus
@@ -37,7 +37,7 @@ async function getSKUs(req, res) {
 async function getSKUbyID(req, res) {
     if (Number.parseInt(req.params.id) >= 0) {
         if (Object.keys(req.params.id).length == 0) {
-            return res.status(422).json({ error: 'Invalid id' });
+            return res.status(422).json({ error: 'Invalid id' }).end();
         }
         let getSKUbyIDPromise = skuDaoInstance.getSKUbyID(req.params.id);
         await getSKUbyIDPromise.then(
@@ -67,7 +67,7 @@ async function newSKU(req, res) {
     const required = ['description', 'weight', 'volume', 'notes', 'price', 'availableQuantity'];
 
     if (Object.keys(req.body).length == 0 || Object.keys(req.body).length != required.length) {
-        return res.status(422).json({ error: 'Invalid body' });
+        return res.status(422).json({ error: 'Invalid body' }).end();
     } else {
         required.forEach(key => {
             if (!Object.keys(req.body).includes(key)) {
@@ -119,7 +119,7 @@ async function modifySKU(req, res) {
 
     if (Number.parseInt(req.params.id) >= 0) {
         if (Object.keys(req.body).length == 0) {
-            return res.status(422).json({ error: 'Empty body' });
+            return res.status(422).json({ error: 'Empty body' }).end();
         }
         const required = ['newDescription', 'newWeight', 'newVolume', 'newNotes', 'newPrice', 'newAvailableQuantity'];
         if (Object.keys(req.body).length != required.length) {
@@ -169,7 +169,7 @@ async function modifySKU(req, res) {
 
 async function modifySKUPosition(req, res) {
     if (Object.keys(req.body).length == 0) {
-        return res.status(422).json({ error: 'Invalid position' });
+        return res.status(422).json({ error: 'Invalid position' }).end();
     }
     const required = ['position'];
     if (Object.keys(req.body).length != required.length) {
@@ -187,7 +187,7 @@ async function modifySKUPosition(req, res) {
 
     }
     if (Object.keys(req.params.id).length == 0) {
-        return res.status(422).json({ error: 'Invalid id' });
+        return res.status(422).json({ error: 'Invalid id' }).end();
     }
     let data = {
         "id": req.params.id,
@@ -216,7 +216,7 @@ async function modifySKUPosition(req, res) {
 async function deleteSKUbyID(req, res) {
     if (Number.parseInt(req.params.id) >= 0) {
         if (Object.keys(req.params.id).length == 0) {
-            return res.status(422).json({ error: 'Invalid id' });
+            return res.status(422).json({ error: 'Invalid id' }).end();
         }
         let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID(req.params.id);
         await deleteSKUbyIDPromise.then(
