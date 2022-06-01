@@ -109,11 +109,12 @@ function newSKU(req, res) {
     }
 
     
-    console.log("REQ BODY IN POST OF SKU = ", req.body);
+    
 
     //let newSKUPromise = skuDaoInstance.newSKU(req.body);
     skuDaoInstance.newSKU(req.body).then((value) => {
             //console.log('newSKU resolve');
+            console.log("newSKU THEN VALUE = ", value);
             return res.status(201).json(value).end();
         },
         // function (error) {
@@ -121,6 +122,7 @@ function newSKU(req, res) {
         //     return res.status(error).end();
         // }
     ).catch((err) => {
+        console.log("newSKU CATCH ERR = ", err.message);
        // console.log('newSKU error', err);
         return res.status(err).end();
     });

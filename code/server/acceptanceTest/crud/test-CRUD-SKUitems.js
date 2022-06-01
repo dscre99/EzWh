@@ -41,10 +41,7 @@ function testSkuItemsCRUD() {
         skus.deleteAllSkus(agent);
         skus.testPostNewSku(agent, myskus[0],201);
         skus.testPostNewSku(agent, myskus[1],201);
-        setTimeout(() => {
-            skus.testGetAllSkus(agent, myskus, 2, 200);
-          }, 3000);
-        // skus.testGetAllSkus(agent, myskus, 2, 200);
+        skus.testGetAllSkus(agent, myskus, 2, 200);
         //POST    
         skuitems.testPostNewSkuItem(agent, myskuitems[0], 201);
         skuitems.testPostNewSkuItem(agent, myskuitems[1], 201);
