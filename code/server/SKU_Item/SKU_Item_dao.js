@@ -46,8 +46,9 @@ class SKUItemDao {
                     if (exists) {
                         const sql = 'INSERT INTO SKU_ITEM(RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?, ?, ?, ?)';
                         this.#db.run(sql, [skuItem.RFID, skuItem.SKUId, 0, skuItem.DateOfStock], (err, rows) => {
-                            console.log('query error', err);
+                            
                             if (err) {
+                                console.log("ERRORRRRR DIOCANE");
                                 reject(503);
                             }
                             resolve(201);
@@ -70,9 +71,9 @@ class SKUItemDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU_ITEM';
-                this.#db.all(sql, (err, rows) => {
-                    if (err) {
-                        reject(err);
+                this.#db.all(sql, [], (err, rows) => {
+                    if(err){
+                        reject(503);
                     }
                     const skuItems = rows.map((r) => (
                         {
@@ -80,9 +81,10 @@ class SKUItemDao {
                             SKUId: r.SKUID,
                             Available: r.AVAILABLE,
                             DateOfStock: r.DATEOFSTOCK
-                        }));
-                    resolve(skuItems);
-                });
+                        }
+                    ))
+                    resolve(skuItems);   
+                }) 
             } else {
                 //console.log('Not logged in or wrong permissions');
                 reject(401);
