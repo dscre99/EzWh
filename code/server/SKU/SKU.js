@@ -16,10 +16,10 @@ async function clear_sku_table(req, res) {
 // GET /api/skus
 
 function getSKUs(req, res) {
-    let getSKUSPromise = skuDaoInstance.getSKUs();
-    getSKUSPromise.then((value) => {
+    // let getSKUSPromise = skuDaoInstance.getSKUs();
+    skuDaoInstance.getSKUs().then((value) => {
             //console.log('Get SKUs resolve');
-            return res.status(200).json(value).end();
+            res.status(200).json(value).end();
         },
         // function (error) {
         //     //console.log('getSKUs reject', error);
@@ -27,7 +27,7 @@ function getSKUs(req, res) {
         // }
     ).catch((err) =>  {
         //console.log('getSKUs error', err);
-        return res.status(err).end();
+        res.status(err).end();
     });
 }
 

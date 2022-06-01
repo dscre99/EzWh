@@ -57,10 +57,12 @@ class SKUDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU';
+                
                 this.#db.all(sql, [], (err, rows) => {
                     if (err) {
-                        reject(err);
-                    } else {
+                        reject(503);
+                    } 
+                    //else {
                         const skus = rows.map((r) => (
                             {
                                 id: r.ID,
@@ -72,10 +74,11 @@ class SKUDao {
                                 availableQuantity: r.AVAILABLEQUANTITY,
                                 price: r.PRICE,
                                 testDescriptors: r.TESTDESCRIPTORS
-                            }));
-                        //console.log(skus);
+                            }
+                        ))
+                        console.log("SKUS FROM getSKUs() = ", skus);
                         resolve(skus);
-                    }
+                    // }
                 });
             } else {
                 //console.log("Not logged in or wrong permission");
