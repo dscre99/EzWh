@@ -40,24 +40,23 @@ function getSKUItems(req, res) {
 
 // GET /api/skuitems/sku/:id
 
-async function getSKUItemBySKUID(req, res) {
+function getSKUItemBySKUID(req, res) {
     if(Number.parseInt(req.params.id) >= 0){
         if (Object.keys(req.params.id).length == 0) {
             return res.status(422).json({ error: 'Invalid id' }).end();
         }
-        let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemsBySKUID(Number.parseInt(req.params.id));
-        await getSKUItemBySKUIDPromise.then(
-            function (value) {
+        skuItemDaoInstance.getSKUItemsBySKUID(Number.parseInt(req.params.id)).then(
+            (value) => {
                 //console.log('getSKUItemBySKUID resolve');
                 return res.status(200).json(value).end();
-            },
-            function (error) {
-                //console.log('getSKUItemBySKUID reject');
-                return res.status(error).end();
             }
-        ).catch(err => function (err) {
+            // function (error) {
+            //     //console.log('getSKUItemBySKUID reject');
+            //     return res.status(error).end();
+            // }
+        ).catch((err) => {
             //console.log('getSKUItemBySKUID error', err);
-            return res.status(500).end();
+            return res.status(err).end();
         });
     }else{
         return res.status(422).json({error: 'Unprocessable entity'}).end(); 
@@ -95,7 +94,7 @@ async function getSKUItemsByRfid(req, res) {
 
 //POST /api/skuitem
 
-async function newSKUItem(req, res) {
+function newSKUItem(req, res) {
     if (Object.keys(req.body).length == 0) {
         return res.status(422).json({ error: 'Invalid body request' }).end();
     }
@@ -115,19 +114,19 @@ async function newSKUItem(req, res) {
             return res.status(422).end();
         }
     }
-    let newSKUItemPromise = skuItemDaoInstance.newSKUItem(req.body);
-    await newSKUItemPromise.then(
-        function (value) {
+    
+    skuItemDaoInstance.newSKUItem(req.body).then(
+        (value) => {
            // console.log('newSKUItem resolve');
             return res.status(201).json(value).end();
-        },
-        function (error) {
-           // console.log('newSKUItem reject');
-            return res.status(error).end();
         }
-    ).catch(err => function (err) {
+        // function (error) {
+        //    // console.log('newSKUItem reject');
+        //     return res.status(error).end();
+        // }
+    ).catch((err) => {
        // console.log('newSKUItem error', err);
-        return res.status(503).end();
+        return res.status(err).end();
     });
 }
 

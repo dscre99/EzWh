@@ -40,7 +40,7 @@ class SKUItemDao {
                 let exists = 0;
                 this.#db.all(check, [skuItem.SKUId], (err, res) => {
                     if (err) {
-                        reject(err);
+                        reject(503);
                     }
 
                     //res.length > 0 ? exists = 1 : exists;
