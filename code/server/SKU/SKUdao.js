@@ -55,21 +55,22 @@ class SKUDao {
                 this.#db.all(sql, [], (err, rows) => {
                     if (err) {
                         reject(err);
+                    } else {
+                        const skus = rows.map((r) => (
+                            {
+                                id: r.ID,
+                                description: r.DESCRIPTION,
+                                weight: r.WEIGHT,
+                                volume: r.VOLUME,
+                                notes: r.NOTES,
+                                position: r.POSITION,
+                                availableQuantity: r.AVAILABLEQUANTITY,
+                                price: r.PRICE,
+                                testDescriptors: r.TESTDESCRIPTORS
+                            }));
+                        //console.log(skus);
+                        resolve(skus);
                     }
-                    const skus = rows.map((r) => (
-                        {
-                            id: r.ID,
-                            description: r.DESCRIPTION,
-                            weight: r.WEIGHT,
-                            volume: r.VOLUME,
-                            notes: r.NOTES,
-                            position: r.POSITION,
-                            availableQuantity: r.AVAILABLEQUANTITY,
-                            price: r.PRICE,
-                            testDescriptors: r.TESTDESCRIPTORS
-                        }));
-                    //console.log(skus);
-                    resolve(skus);
                 });
             } else {
                 //console.log("Not logged in or wrong permission");
