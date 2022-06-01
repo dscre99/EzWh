@@ -104,12 +104,12 @@ function testFR(){
         users.testEditUser(agent, {"oldType":"customer", "newType":"clerk"}, myuser.username, 200);
         users.testGetAllUsers(agent, 200);
         users.testDeleteUser(agent, myuser.username, "clerk", 204);
-        skus.testPostNewSku(agent, mysku[0], 201);
-        skus.testGetAllSkus(agent, mysku, 1, 200);
-        skus.testEditSku(agent, myeditedskuToPut, 0, 0, 200);
-        skus.testDeleteSku(agent, 0, 0, 204);
-        skus.testPostNewSku(agent, mysku[0], 201);
-        skus.testGetSkuById(agent, 0, 0, mysku[0], 200);
+        // skus.testPostNewSku(agent, mysku[0], 201);
+        // skus.testGetAllSkus(agent, mysku, 1, 200);
+        // skus.testEditSku(agent, myeditedskuToPut, 0, 0, 200);
+        // skus.testDeleteSku(agent, 0, 0, 204);
+        // skus.testPostNewSku(agent, mysku[0], 201);
+        // skus.testGetSkuById(agent, 0, 0, mysku[0], 200);
         positions.testPostNewPosition(agent, mypositions[0], 201);
         positions.testEditPosition(agent, updateposition, mypositions[0].positionID, 200);
         positions.testPostNewPosition(agent, mypositions[1], 201);
