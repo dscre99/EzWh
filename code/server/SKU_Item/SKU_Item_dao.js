@@ -35,14 +35,14 @@ class SKUItemDao {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const check = 'SELECT COUNT(*) FROM SKU WHERE ID = ?';
+                const check = 'SELECT ID FROM SKU WHERE ID = ?';
                 let exists = 0;
                 this.#db.all(check, [skuItem.SKUId], (err, res) => {
                     if (err) {
                         reject(err);
                     }
 
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
+                    res.length > 0 ? exists = 1 : exists;
                     if (exists) {
                         const sql = 'INSERT INTO SKU_ITEM(RFID, SKUID, AVAILABLE, DATEOFSTOCK) VALUES (?, ?, ?, ?)';
                         this.#db.run(sql, [skuItem.RFID, skuItem.SKUId, 0, skuItem.DateOfStock], (err, rows) => {
