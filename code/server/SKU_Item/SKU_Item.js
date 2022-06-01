@@ -27,14 +27,14 @@ async function getSKUItems(req, res) {
         function (value) {
             //console.log('getSKUItems resolve');
             return res.status(200).json(value).end();
-        },
-        function (error) {
-            //console.log('getSKUItems reject');
-            return res.status(error).end();
         }
+        // function (error) {
+        //     //console.log('getSKUItems reject');
+        //     return res.status(error).end();
+        // }
     ).catch(err => function (err) {
         //console.log('getSKUItems error', err);
-        return res.status(500).end();
+        return res.status(err).end();
     });
 }
 
