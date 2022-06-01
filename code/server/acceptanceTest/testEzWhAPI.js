@@ -160,8 +160,8 @@ function testFR(){
 
 function testFRCRUD(){
     describe('Testing Functional requirements pt2', () => {
-        skucrud.testSkuCRUD(); 
-        skuitemcrud.testSkuItemsCRUD(); 
+        // skucrud.testSkuCRUD(); 
+        // skuitemcrud.testSkuItemsCRUD(); 
         positioncrud.testPositionCRUD();
         testdescriptorcrud.testTestDescriptorCRUD();
         testresultcrud.testTestResultCRUD();
