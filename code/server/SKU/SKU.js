@@ -214,23 +214,28 @@ async function modifySKUPosition(req, res) {
 //DELETE /api/skus/:id
 
 async function deleteSKUbyID(req, res) {
-    if (Object.keys(req.params.id).length == 0) {
-        return res.status(422).json({ error: 'Invalid id' });
-    }
-    let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID(req.params.id);
-    await deleteSKUbyIDPromise.then(
-        function (value) {
-            console.log('deleteSKUbyID resolve');
-            return res.status(204).json(value).end();
-        },
-        function (error) {
-            console.log('deleteSKUbyID reject');
-            return res.status(error).end();
+    if (Number.parseInt(req.params.id) >= 0) {
+        if (Object.keys(req.params.id).length == 0) {
+            return res.status(422).json({ error: 'Invalid id' });
         }
-    ).catch(err => function (err) {
-        console.log('deleteSKUbyID error', err);
-        return res.status(503).end();
-    });
+        let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID(req.params.id);
+        await deleteSKUbyIDPromise.then(
+            function (value) {
+                console.log('deleteSKUbyID resolve');
+                return res.status(204).json(value).end();
+            },
+            function (error) {
+                console.log('deleteSKUbyID reject');
+                return res.status(error).end();
+            }
+        ).catch(err => function (err) {
+            console.log('deleteSKUbyID error', err);
+            return res.status(503).end();
+        });
+    }else{
+        return res.status(204).json(value).end();
+    }
+    
 }
 
 
