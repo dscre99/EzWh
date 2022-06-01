@@ -61,7 +61,7 @@ class InternalOrderDAO {
                     //                 FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
                     //             )`;
                     let sql2 = `CREATE TABLE IF NOT EXISTS SKU_IN_INTERNALORDER(
-                        INTERNAL_ORDER_ID INTEGER NOT NULL,
+                        INTERNAL_ORDER_ID INTEGER,
                         SKU_ID INTEGER NOT NULL,
                         DESCRIPTION VARCHAR,
                         PRICE FLOAT,
