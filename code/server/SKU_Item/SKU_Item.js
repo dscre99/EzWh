@@ -27,11 +27,11 @@ function getSKUItems(req, res) {
         {
             //console.log('getSKUItems resolve');
             return res.status(200).json(value).end();
-        }
-        // function (error) {
-        //     //console.log('getSKUItems reject');
-        //     return res.status(error).end();
-        // }
+        },
+         function (error) {
+             //console.log('getSKUItems reject');
+             return res.status(error).end();
+         }
     ).catch((err) =>  {
         //console.log('getSKUItems error', err);
         return res.status(err).end();
@@ -49,11 +49,11 @@ function getSKUItemBySKUID(req, res) {
             (value) => {
                 //console.log('getSKUItemBySKUID resolve');
                 return res.status(200).json(value).end();
-            }
-            // function (error) {
-            //     //console.log('getSKUItemBySKUID reject');
-            //     return res.status(error).end();
-            // }
+            },
+             function (error) {
+                //console.log('getSKUItemBySKUID reject');
+                return res.status(error).end();
+             }
         ).catch((err) => {
             //console.log('getSKUItemBySKUID error', err);
             return res.status(err).end();
@@ -119,11 +119,11 @@ function newSKUItem(req, res) {
         (value) => {
            // console.log('newSKUItem resolve');
             return res.status(201).json(value).end();
-        }
-        // function (error) {
-        //    // console.log('newSKUItem reject');
-        //     return res.status(error).end();
-        // }
+        },
+        function (error) {
+             console.log('newSKUItem reject');
+             return res.status(error).end();
+         }
     ).catch((err) => {
        // console.log('newSKUItem error', err);
         return res.status(err).end();
