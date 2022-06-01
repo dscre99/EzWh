@@ -51,15 +51,24 @@ class InternalOrderDAO {
 
                 } else {
 
+                    // let sql2 = `CREATE TABLE IF NOT EXISTS SKU_IN_INTERNALORDER(
+                    //                 INTERNAL_ORDER_ID INTEGER NOT NULL,
+                    //                 SKU_ID INTEGER NOT NULL,
+                    //                 DESCRIPTION VARCHAR,
+                    //                 PRICE FLOAT,
+                    //                 QTY INTEGER,
+                    //                 PRIMARY KEY (INTERNAL_ORDER_ID, SKU_ID),
+                    //                 FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
+                    //             )`;
                     let sql2 = `CREATE TABLE IF NOT EXISTS SKU_IN_INTERNALORDER(
-                                    INTERNAL_ORDER_ID INTEGER NOT NULL,
-                                    SKU_ID INTEGER NOT NULL,
-                                    DESCRIPTION VARCHAR,
-                                    PRICE FLOAT,
-                                    QTY INTEGER,
-                                    PRIMARY KEY (INTERNAL_ORDER_ID, SKU_ID),
-                                    FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
-                                )`;
+                        INTERNAL_ORDER_ID INTEGER NOT NULL,
+                        SKU_ID INTEGER NOT NULL,
+                        DESCRIPTION VARCHAR,
+                        PRICE FLOAT,
+                        QTY INTEGER,
+                        PRIMARY KEY (INTERNAL_ORDER_ID, SKU_ID),
+                        FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
+                    )`;
                     this.db.run(sql2, (err2) => {
                         if(err2){
                             // reports error while querying database
