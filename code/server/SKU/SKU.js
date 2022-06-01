@@ -17,18 +17,17 @@ async function clear_sku_table(req, res) {
 
 async function getSKUs(req, res) {
     let getSKUSPromise = skuDaoInstance.getSKUs();
-    getSKUSPromise.then(
-        function (value) {
+    getSKUSPromise.then((value) => {
             //console.log('Get SKUs resolve');
             return res.status(200).json(value).end();
         },
-        function (error) {
-            //console.log('getSKUs reject', error);
-            return res.status(500).end();
-        }
-    ).catch(err => function (err) {
+        // function (error) {
+        //     //console.log('getSKUs reject', error);
+        //     return res.status(500).end();
+        // }
+    ).catch((err) =>  {
         //console.log('getSKUs error', err);
-        return res.status(500).end();
+        return res.status(err).end();
     });
 }
 
