@@ -23,8 +23,8 @@ async function clear_skuitem_table(req, res) {
 
 async function getSKUItems(req, res) {
     let getSKUItemsPromise = skuItemDaoInstance.getSKUItems();
-    getSKUItemsPromise.then(
-        function (value) {
+    getSKUItemsPromise.then((value) =>
+        {
             //console.log('getSKUItems resolve');
             return res.status(200).json(value).end();
         }
@@ -32,7 +32,7 @@ async function getSKUItems(req, res) {
         //     //console.log('getSKUItems reject');
         //     return res.status(error).end();
         // }
-    ).catch(err => function (err) {
+    ).catch((err) =>  {
         //console.log('getSKUItems error', err);
         return res.status(err).end();
     });

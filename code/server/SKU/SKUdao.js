@@ -57,11 +57,11 @@ class SKUDao {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU';
-                await this.#db.all(sql, [], async (err, rows) => {
+                this.#db.all(sql, [], (err, rows) => {
                     if (err) {
                         reject(err);
                     } else {
-                        const skus = await rows.map((r) => (
+                        const skus = rows.map((r) => (
                             {
                                 id: r.ID,
                                 description: r.DESCRIPTION,
