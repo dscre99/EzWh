@@ -78,7 +78,7 @@ class Return_orderDAO{
                         }
                     ));
                 }
-                console.log(products);
+                // console.log(products);
             });
             
             sql = 'SELECT * FROM RETURN_ORDER';
@@ -146,7 +146,7 @@ class Return_orderDAO{
                         }
                     ));
                 }
-                console.log(products);
+                // console.log(products);
             });
             
 

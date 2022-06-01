@@ -25,15 +25,15 @@ async function getSKUItems(req, res) {
     let getSKUItemsPromise = skuItemDaoInstance.getSKUItems();
     await getSKUItemsPromise.then(
         function (value) {
-            console.log('getSKUItems resolve');
+            //console.log('getSKUItems resolve');
             return res.status(200).json(value).end();
         },
         function (error) {
-            console.log('getSKUItems reject');
+            //console.log('getSKUItems reject');
             return res.status(error).end();
         }
     ).catch(err => function (err) {
-        console.log('getSKUItems error', err);
+        //console.log('getSKUItems error', err);
         return res.status(500).end();
     });
 }
@@ -48,15 +48,15 @@ async function getSKUItemBySKUID(req, res) {
         let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemsBySKUID(Number.parseInt(req.params.id));
         await getSKUItemBySKUIDPromise.then(
             function (value) {
-                console.log('getSKUItemBySKUID resolve');
+                //console.log('getSKUItemBySKUID resolve');
                 return res.status(200).json(value).end();
             },
             function (error) {
-                console.log('getSKUItemBySKUID reject');
+                //console.log('getSKUItemBySKUID reject');
                 return res.status(error).end();
             }
         ).catch(err => function (err) {
-            console.log('getSKUItemBySKUID error', err);
+            //console.log('getSKUItemBySKUID error', err);
             return res.status(500).end();
         });
     }else{
@@ -75,15 +75,15 @@ async function getSKUItemsByRfid(req, res) {
         let getSKUItemsByRfidPromise = skuItemDaoInstance.getSKUItemsByRfid(req.params.rfid);
         await getSKUItemsByRfidPromise.then(
             function (value) {
-                console.log('getSKUItemsByRfid resolve');
+                //console.log('getSKUItemsByRfid resolve');
                 return res.status(200).json(value).end();
             },
             function (error) {
-                console.log('getSKUItemsByRfid reject');
+                //console.log('getSKUItemsByRfid reject');
                 return res.status(error).end();
             }
         ).catch(err => function (err) {
-            console.log('getSKUItemsByRfid error', err);
+           // console.log('getSKUItemsByRfid error', err);
             return res.status(500).end();
         });
     }else{
@@ -118,15 +118,15 @@ async function newSKUItem(req, res) {
     let newSKUItemPromise = skuItemDaoInstance.newSKUItem(req.body);
     await newSKUItemPromise.then(
         function (value) {
-            console.log('newSKUItem resolve');
+           // console.log('newSKUItem resolve');
             return res.status(201).json(value).end();
         },
         function (error) {
-            console.log('newSKUItem reject');
+           // console.log('newSKUItem reject');
             return res.status(error).end();
         }
     ).catch(err => function (err) {
-        console.log('newSKUItem error', err);
+       // console.log('newSKUItem error', err);
         return res.status(503).end();
     });
 }
@@ -173,15 +173,15 @@ async function modifySKUItem(req, res) {
         
         await modifySKUItemPromise.then(
             function (value) {
-                console.log('modifySKUItem resolve');
+               // console.log('modifySKUItem resolve');
                 return res.status(200).json(value).end();
             },
             function (error) {
-                console.log('modifySKUItem reject');
+               // console.log('modifySKUItem reject');
                 return res.status(error).end();
             }
         ).catch(err => function (err) {
-            console.log('modifySKUItem error', err);
+           // console.log('modifySKUItem error', err);
             return res.status(503).end();
         });
     }else{
@@ -200,15 +200,15 @@ async function deleteSKUItembyRfid(req, res) {
     let deleteSKUItembyRfidPromise = skuItemDaoInstance.deleteSKUItembyRfid(req.params.rfid);
     await deleteSKUItembyRfidPromise.then(
         function (value) {
-            console.log('deleteSKUItembyRfid resolve');
+            //console.log('deleteSKUItembyRfid resolve');
             return res.status(204).json(value).end();
         },
         function (error) {
-            console.log('deleteSKUItembyRfid reject');
+          //  console.log('deleteSKUItembyRfid reject');
             return res.status(error).end();
         }
     ).catch(err => function (err) {
-        console.log('deleteSKUItembyRfid error', err);
+        //console.log('deleteSKUItembyRfid error', err);
         return res.status(503).end();
     });
 }

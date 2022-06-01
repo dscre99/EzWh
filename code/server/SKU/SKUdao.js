@@ -118,7 +118,7 @@ class SKUDao {
                                 resolve(sku);
                             });
                         } else {
-                            console.log('No SKU associated to ID');
+                            // console.log('No SKU associated to ID');
                             reject(404);
                         }
                     }
@@ -152,7 +152,7 @@ class SKUDao {
                                 }
                             });
                         } else {
-                            console.log('SKU Id does not exist');
+                            //console.log('SKU Id does not exist');
                             reject(404);
                         }
                     }
@@ -234,13 +234,13 @@ class SKUDao {
                                     });
 
                                 } else {
-                                    console.log('PositionID does not exist');
-                                    console.log('Error', err);
+                                    // console.log('PositionID does not exist');
+                                    // console.log('Error', err);
                                     reject(422);
                                 }
                             });
                         } else {
-                            console.log('SKU id does not exists');
+                            // console.log('SKU id does not exists');
                             reject(422);
                         }
                     }

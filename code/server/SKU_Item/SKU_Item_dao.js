@@ -48,13 +48,12 @@ class SKUItemDao {
                         this.#db.run(sql, [skuItem.RFID, skuItem.SKUId, 0, skuItem.DateOfStock], (err, rows) => {
                             
                             if (err) {
-                                console.log("ERRORRRRR DIOCANE");
                                 reject(503);
                             }
                             resolve(201);
                         });
                     } else {
-                        console.log('No SKU associated to SKUID');
+                        //console.log('No SKU associated to SKUID');
                         reject(404);
                     }
                 });
@@ -122,7 +121,7 @@ class SKUItemDao {
                             resolve(skuItems);
                         });
                     } else {
-                        console.log('No sku associated to ID');
+                        // console.log('No sku associated to ID');
                         reject(404);
                     }
                 });
@@ -163,7 +162,7 @@ class SKUItemDao {
                             resolve(skuItems[0]);
                         });
                     } else {
-                        console.log('No SKU Item associated to Rfid');
+                        // console.log('No SKU Item associated to Rfid');
                         reject(404);
                     }
                 });
@@ -198,7 +197,7 @@ class SKUItemDao {
                             }
                         });
                     } else {
-                        console.log('No SKU Item associated to Rfid');
+                        //console.log('No SKU Item associated to Rfid');
                         reject(404);
                     }
                 });

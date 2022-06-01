@@ -19,15 +19,15 @@ async function getSKUs(req, res) {
     let getSKUSPromise = skuDaoInstance.getSKUs();
     await getSKUSPromise.then(
         function (value) {
-            console.log('Get SKUs resolve');
+            //console.log('Get SKUs resolve');
             return res.status(200).json(value).end();
         },
         function (error) {
-            console.log('getSKUs reject', error);
+            //console.log('getSKUs reject', error);
             return res.status(500).end();
         }
     ).catch(err => function (err) {
-        console.log('getSKUs error', err);
+        //console.log('getSKUs error', err);
         return res.status(500).end();
     });
 }
@@ -42,15 +42,15 @@ async function getSKUbyID(req, res) {
         let getSKUbyIDPromise = skuDaoInstance.getSKUbyID(req.params.id);
         await getSKUbyIDPromise.then(
             function (value) {
-                console.log('getSKUbyID resolve');
+                //console.log('getSKUbyID resolve');
                 return res.status(200).json(value).end();
             },
             function (error) {
-                console.log('getSKUbyID reject');
+                //console.log('getSKUbyID reject');
                 return res.status(error).end();
             }
         ).catch(err => function (err) {
-            console.log('getSKUbyID error', err);
+            //console.log('getSKUbyID error', err);
             return res.status(500).end();
         });
     } else {
@@ -73,11 +73,11 @@ async function newSKU(req, res) {
         for (let i = 0; i < required.length; i++) {
             let key = required[i];
             if (!Object.keys(req.body).includes(key)) {
-                console.log('not includes key')
+                //console.log('not includes key')
                 return res.status(422).end();
             }
             if (req.body[key] == undefined || req.body[key] == '') {
-                console.log('undefined');
+                //console.log('undefined');
                 return res.status(422).end();
             }
             
@@ -95,32 +95,32 @@ async function newSKU(req, res) {
     }
 
     if (req.body.weight < 0 || req.body.volume < 0 || req.body.price < 0 || req.body.availableQuantity < 0) {
-        console.log('Values must be larger or equal than 0')
+        //console.log('Values must be larger or equal than 0')
         return res.status(422).end();
     }
 
     if (!Number.isInteger(req.body.weight) || !Number.isInteger(req.body.volume) || !Number.isInteger(req.body.availableQuantity)) {
-        console.log('Values must be integers')
+       // console.log('Values must be integers')
         return res.status(422).end();
     }
 
     if (!Number.isInteger(req.body.price)) {
-        console.log('Price must be a number')
+        //console.log('Price must be a number')
         return res.status(422).end();
     }
 
     let newSKUPromise = skuDaoInstance.newSKU(req.body);
      newSKUPromise.then(
         function (value) {
-            console.log('newSKU resolve');
+            //console.log('newSKU resolve');
             return res.status(201).json(value).end();
         },
         function (error) {
-            console.log('newSKU reject');
+            //console.log('newSKU reject');
             return res.status(error).end();
         }
     ).catch(err => function (err) {
-        console.log('newSKU error', err);
+       // console.log('newSKU error', err);
         return res.status(503).end();
     });
 }
@@ -234,15 +234,15 @@ async function deleteSKUbyID(req, res) {
         let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID(req.params.id);
         deleteSKUbyIDPromise.then(
             function (value) {
-                console.log('deleteSKUbyID resolve');
+               // console.log('deleteSKUbyID resolve');
                 return res.status(204).json(value).end();
             },
             function (error) {
-                console.log('deleteSKUbyID reject');
+               // console.log('deleteSKUbyID reject');
                 return res.status(error).end();
             }
         ).catch(err => function (err) {
-            console.log('deleteSKUbyID error', err);
+           // console.log('deleteSKUbyID error', err);
             return res.status(503).end();
         });
     }else{

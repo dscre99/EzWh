@@ -61,7 +61,7 @@ function testPostWrongNewInternalOrders(agent, intord, expCode){
             agent.post('/api/internalOrders')
             .send(intord)
             .then(function(res) {
-                console.log(res.body);
+                // console.log(res.body);
                 res.should.have.status(expCode);
                 done();
             }).catch(err => done(err));
@@ -98,10 +98,10 @@ function testGetAllInternalOrders(agent, size, expCode){
                 res.should.have.status(expCode);
                 res.body.should.be.a('array');
                 res.body.length.should.be.eql(size);
-                console.log('body length', res.body.length);
-                for(let i=0; i<res.body.length; i++){
-                    console.log(res.body[i]);
-                }
+                // console.log('body length', res.body.length);
+                // for(let i=0; i<res.body.length; i++){
+                //     console.log(res.body[i]);
+                // }
                 done();
             }).catch(err=>done(err));
         });
@@ -131,9 +131,9 @@ function testGetAllInternalOrdersIssued(agent, expcode){
             .then(function(res){
                 res.should.have.status(expcode);
                 res.body.should.be.a('array');
-                for(let i=0; i<res.body.length; i++){
-                    console.log('inside get order issued', res.body[i]);
-                }
+                // for(let i=0; i<res.body.length; i++){
+                //     console.log('inside get order issued', res.body[i]);
+                // }
                 done();
             }).catch(err=>done(err));
         });
@@ -147,9 +147,9 @@ function testGetAllInternalOrdersAccepted(agent, expcode){
             .then(function(res){
                 res.should.have.status(expcode);
                 res.body.should.be.a('array');
-                for(let i=0; i<res.body.length; i++){
-                    console.log('inside get order accepted', res.body[i]);
-                }
+                // for(let i=0; i<res.body.length; i++){
+                //     console.log('inside get order accepted', res.body[i]);
+                // }
                 done();
             }).catch(err=>done(err));
         });
