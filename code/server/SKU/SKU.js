@@ -110,7 +110,7 @@ async function newSKU(req, res) {
     }
 
     let newSKUPromise = skuDaoInstance.newSKU(req.body);
-    await newSKUPromise.then(
+     newSKUPromise.then(
         function (value) {
             console.log('newSKU resolve');
             return res.status(201).json(value).end();
