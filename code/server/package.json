@@ -1,22 +1,6 @@
 {
   "name": "server",
   "version": "1.0.0",
-<<<<<<< HEAD
-  "description": "- Open a terminal - Open the code/server folder - Input ```npm install``` - Input ```node server.js``` - This message will be shown: Server listening at http://localhost:3001 - Do not close the terminal window, otherwise the server will be shut down",
-  "main": "server.js",
-  "directories": {
-    "test": "test"
-  },
-  "scripts": {
-    "test": "node ./node_modules/.bin/jest",
-    "start": "node server.js",
-    "apiTest": "mocha test --exit",
-    "acceptanceTest": "npx mocha --timeout 10000 --spec  acceptanceTest/testEzWhAPI.js  --reporter mochawesome  --exit",
-    "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --exit",
-    "atp": "npx mocha --spec acceptanceTest/crud/test-CRUD-Position.js --exit",
-    "attd": "npx mocha --spec acceptanceTest/crud/test-CRUD-TestDescriptor.js --exit",
-    "atsi": "npx mocha --spec acceptanceTest/crud/test-CRUD-SKUitems.js --exit"
-=======
   "description": "",
   "main": "server.js",
   "scripts": {
@@ -24,28 +8,10 @@
     "test": "node_modules/.bin/jest --runInBand --coverage > ./unitTestResult.txt",
     "acceptanceTest": "npx mocha --runInBand --spec acceptanceTest/testEzWhAPI.js --reporter mochawesome --timeout 10000 --exit",
     "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --runInBand --timeout 10000 --exit"
->>>>>>> dca347f210ac3497be439dae414cd32068dee9ef
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
-    "babel": "^6.23.0",
-    "chai": "^4.3.6",
-    "chai-http": "^4.3.0",
-    "check-code-coverage": "^1.10.0",
-    "express": "^4.18.1",
-    "express-validator": "^6.14.1",
-    "jest": "^27.5.1",
-    "mocha": "^9.2.2",
-    "mochawesome": "^7.1.3",
-    "mochawesome-report-generator": "^6.2.0",
-    "nodemon": "^2.0.16",
-    "nyc": "^15.1.0",
-    "sqlite3": "^5.0.8"
-  }
-}
-=======
     "api-test": "^4.1.0",
     "dayjs": "^1.11.2",
     "express": "^4.17.3",
@@ -66,4 +32,3 @@
   }
 }
 
->>>>>>> dca347f210ac3497be439dae414cd32068dee9ef
