@@ -62,7 +62,7 @@ async function getSKUbyID(req, res) {
 
 // POST /api/sku
 
-async function newSKU(req, res) {
+function newSKU(req, res) {
     const required = ['description', 'weight', 'volume', 'notes', 'price', 'availableQuantity'];
 
     if (Object.keys(req.body).length == 0 || Object.keys(req.body).length != required.length) {
@@ -108,19 +108,18 @@ async function newSKU(req, res) {
         return res.status(422).end();
     }
 
-    let newSKUPromise = skuDaoInstance.newSKU(req.body);
-     newSKUPromise.then(
-        function (value) {
+    //let newSKUPromise = skuDaoInstance.newSKU(req.body);
+    skuDaoInstance.newSKU(req.body).then((value) => {
             //console.log('newSKU resolve');
             return res.status(201).json(value).end();
         },
-        function (error) {
-            //console.log('newSKU reject');
-            return res.status(error).end();
-        }
-    ).catch(err => function (err) {
+        // function (error) {
+        //     //console.log('newSKU reject');
+        //     return res.status(error).end();
+        // }
+    ).catch((err) => {
        // console.log('newSKU error', err);
-        return res.status(503).end();
+        return res.status(err).end();
     });
 }
 
