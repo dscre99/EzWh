@@ -21,7 +21,7 @@ async function clear_skuitem_table(req, res) {
 
 // GET /api/skuitems
 
-async function getSKUItems(req, res) {
+function getSKUItems(req, res) {
     let getSKUItemsPromise = skuItemDaoInstance.getSKUItems();
     getSKUItemsPromise.then((value) =>
         {
