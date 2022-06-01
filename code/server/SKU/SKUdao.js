@@ -53,7 +53,7 @@ class SKUDao {
     }
 
     getSKUs() {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU';
