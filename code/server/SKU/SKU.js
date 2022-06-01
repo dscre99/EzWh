@@ -17,7 +17,7 @@ async function clear_sku_table(req, res) {
 
 async function getSKUs(req, res) {
     let getSKUSPromise = skuDaoInstance.getSKUs();
-    await getSKUSPromise.then(
+    getSKUSPromise.then(
         function (value) {
             //console.log('Get SKUs resolve');
             return res.status(200).json(value).end();
