@@ -58,12 +58,12 @@ class SKUDao {
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU';
                 
+
                 this.#db.all(sql, [], (err, rows) => {
                     if (err) {
                         reject(503);
                     } 
                     //else {
-                        console.log("SKUS ROWS FROM getSKUs() = ", rows);
                         const skus = rows.map((r) => (
                             {
                                 id: r.ID,
