@@ -32,11 +32,11 @@ class SKUDao {
     }
 
     newSKU(sku) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err, rows) => {
+                await this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err, rows) => {
                     if (err) {
                         reject(503);
                     } else {
@@ -51,15 +51,15 @@ class SKUDao {
     }
 
     getSKUs() {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU';
-                this.#db.all(sql, [], (err, rows) => {
+                await this.#db.all(sql, [], async (err, rows) => {
                     if (err) {
                         reject(err);
                     } else {
-                        const skus = rows.map((r) => (
+                        const skus = await rows.map((r) => (
                             {
                                 id: r.ID,
                                 description: r.DESCRIPTION,

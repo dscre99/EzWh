@@ -129,7 +129,7 @@ router.delete('/clearitemtable',clear_item_table);
 
 router.get('/skus', getSKUs); //GET /api/skus
 router.get('/skus/:id', getSKUbyID); //GET /api/skus/:id
-router.post('/sku/', newSKU);  //POST /api/sku
+router.post('/sku', newSKU);  //POST /api/sku
 router.put('/sku/:id', modifySKU);  //PUT /api/sku/:id
 router.put('/sku/:id/position', modifySKUPosition);  //PUT /api/sku/:id/position
 router.delete('/skus/:id', deleteSKUbyID);  //DELETE /api/skus/:id
