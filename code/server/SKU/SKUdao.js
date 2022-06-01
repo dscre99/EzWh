@@ -63,6 +63,7 @@ class SKUDao {
                         reject(503);
                     } 
                     //else {
+                        console.log("SKUS ROWS FROM getSKUs() = ", rows);
                         const skus = rows.map((r) => (
                             {
                                 id: r.ID,
@@ -76,7 +77,7 @@ class SKUDao {
                                 testDescriptors: r.TESTDESCRIPTORS
                             }
                         ))
-                        console.log("SKUS FROM getSKUs() = ", skus);
+                        
                         resolve(skus);
                     // }
                 });

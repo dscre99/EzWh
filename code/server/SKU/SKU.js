@@ -20,7 +20,7 @@ function getSKUs(req, res) {
     skuDaoInstance.getSKUs().then((value) => {
             //console.log('Get SKUs resolve');
             res.status(200).json(value).end();
-        },
+        }
         // function (error) {
         //     //console.log('getSKUs reject', error);
         //     return res.status(500).end();

@@ -84,6 +84,7 @@ function testGetAllSkus(agent, sku, size, expCode) {
                 let id = [];
                 console.log("RES BODY = ", res.body);
                 console.log("SKU EXPECTED = ", sku);
+                console.log("SIZE = ", size);
                 if (size > 0) {
                     for (let i = 0; i < size; i++) {
                         id[i] = res.body[i].id;
@@ -97,7 +98,7 @@ function testGetAllSkus(agent, sku, size, expCode) {
                     ids.setIdSku(id);
                 }             
                 done();
-            }).catch(err=>{console.log("ERROR = ", err.message);done(err)});
+            }).catch(err=>done(err));
         });     
     });
     
