@@ -23,7 +23,7 @@ async function clear_skuitem_table(req, res) {
 
 async function getSKUItems(req, res) {
     let getSKUItemsPromise = skuItemDaoInstance.getSKUItems();
-    await getSKUItemsPromise.then(
+    getSKUItemsPromise.then(
         function (value) {
             //console.log('getSKUItems resolve');
             return res.status(200).json(value).end();
