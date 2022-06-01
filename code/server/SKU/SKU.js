@@ -108,6 +108,9 @@ function newSKU(req, res) {
         return res.status(422).end();
     }
 
+    
+    console.log("REQ BODY IN POST OF SKU = ", req.body);
+
     //let newSKUPromise = skuDaoInstance.newSKU(req.body);
     skuDaoInstance.newSKU(req.body).then((value) => {
             //console.log('newSKU resolve');

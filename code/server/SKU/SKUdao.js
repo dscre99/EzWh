@@ -34,11 +34,11 @@ class SKUDao {
     
 
     newSKU(sku) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                await this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err, rows) => {
+                this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err, rows) => {
                     if (err) {
                         reject(503);
                     } else {
