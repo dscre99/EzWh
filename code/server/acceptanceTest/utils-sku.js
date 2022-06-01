@@ -97,7 +97,7 @@ function testGetAllSkus(agent, sku, size, expCode) {
                     ids.setIdSku(id);
                 }             
                 done();
-            }).catch(err=>done(err));
+            }).catch(err=>{console.log("ERROR = ", err.message);done(err)});
         });     
     });
     
