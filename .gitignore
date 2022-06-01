@@ -1,4 +1,5 @@
 *.DS_Store
+*package-lock.json
 *code/server/coverage/
 *code/server/node_modules/
 *code/client/node_modules/
