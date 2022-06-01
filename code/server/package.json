@@ -10,7 +10,7 @@
     "test": "node ./node_modules/.bin/jest",
     "start": "node server.js",
     "apiTest": "mocha test --exit",
-    "acceptanceTest": "npx mocha --spec acceptanceTest/testEzWhAPI.js --reporter mochawesome",
+    "acceptanceTest": "npx mocha --spec acceptanceTest/testEzWhAPI.js --reporter mochawesome --exit",
     "totalcoverage": "./node_modules/.bin/nyc ./node_modules/.bin/mocha test --timeout 10000 --exit",
     "atp": "npx mocha --spec acceptanceTest/crud/test-CRUD-Position.js --exit",
     "attd": "npx mocha --spec acceptanceTest/crud/test-CRUD-TestDescriptor.js --exit",
