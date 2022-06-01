@@ -83,6 +83,7 @@ function testGetAllSkus(agent, sku, size, expCode) {
                 res.body.length.should.be.eql(size);
                 let id = [];
                 console.log("RES BODY = ", res.body);
+                console.log("SKU EXPECTED = ", sku);
                 if (size > 0) {
                     for (let i = 0; i < size; i++) {
                         id[i] = res.body[i].id;
