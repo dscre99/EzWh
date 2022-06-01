@@ -11,8 +11,9 @@ class SKUDao {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(200);
                 }
-                resolve(200)
             })
         });
     }
@@ -23,22 +24,24 @@ class SKUDao {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(200);
                 }
-                resolve(200);
             });
         });
     }
 
     newSKU(sku) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err, rows) => {
+                await this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err, rows) => {
                     if (err) {
                         reject(503);
+                    } else {
+                        resolve(201);
                     }
-                    resolve(201);
                 });
             } else {
                 //console.log('Not logged in or authorized');
@@ -48,28 +51,29 @@ class SKUDao {
     }
 
     getSKUs() {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
                 const sql = 'SELECT * FROM SKU';
-                this.#db.all(sql, [], (err, rows) => {
+                await this.#db.all(sql, [], async (err, rows) => {
                     if (err) {
                         reject(err);
+                    } else {
+                        const skus = await rows.map((r) => (
+                            {
+                                id: r.ID,
+                                description: r.DESCRIPTION,
+                                weight: r.WEIGHT,
+                                volume: r.VOLUME,
+                                notes: r.NOTES,
+                                position: r.POSITION,
+                                availableQuantity: r.AVAILABLEQUANTITY,
+                                price: r.PRICE,
+                                testDescriptors: r.TESTDESCRIPTORS
+                            }));
+                        //console.log(skus);
+                        resolve(skus);
                     }
-                    const skus = rows.map((r) => (
-                        {
-                            id: r.ID,
-                            description: r.DESCRIPTION,
-                            weight: r.WEIGHT,
-                            volume: r.VOLUME,
-                            notes: r.NOTES,
-                            position: r.POSITION,
-                            availableQuantity: r.AVAILABLEQUANTITY,
-                            price: r.PRICE,
-                            testDescriptors: r.TESTDESCRIPTORS
-                        }));
-                    //console.log(skus);
-                    resolve(skus);
                 });
             } else {
                 //console.log("Not logged in or wrong permission");
@@ -87,34 +91,34 @@ class SKUDao {
                 this.#db.all(checkSKUId, [id], (err, res) => {
                     if (err) {
                         reject(err);
-                    }
-
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
-
-                    if (exists) {
-                        const sql = 'SELECT * FROM SKU WHERE ID=?';
-                        this.#db.all(sql, [id], (err, rows) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            const sku = rows.map((r) => (
-                                {
-                                    id: r.ID,
-                                    description: r.DESCRIPTION,
-                                    weight: r.WEIGHT,
-                                    volume: r.VOLUME,
-                                    notes: r.NOTES,
-                                    position: r.POSITION,
-                                    availableQuantity: r.AVAILABLEQUANTITY,
-                                    price: r.PRICE,
-                                    testDescriptors: r.TESTDESCRIPTORS
-                                }
-                            ));
-                            resolve(sku);
-                        });
                     } else {
-                        console.log('No SKU associated to ID');
-                        reject(404);
+                        res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
+
+                        if (exists) {
+                            const sql = 'SELECT * FROM SKU WHERE ID=?';
+                            this.#db.all(sql, [id], (err, rows) => {
+                                if (err) {
+                                    reject(err);
+                                }
+                                const sku = rows.map((r) => (
+                                    {
+                                        id: r.ID,
+                                        description: r.DESCRIPTION,
+                                        weight: r.WEIGHT,
+                                        volume: r.VOLUME,
+                                        notes: r.NOTES,
+                                        position: r.POSITION,
+                                        availableQuantity: r.AVAILABLEQUANTITY,
+                                        price: r.PRICE,
+                                        testDescriptors: r.TESTDESCRIPTORS
+                                    }
+                                ));
+                                resolve(sku);
+                            });
+                        } else {
+                            console.log('No SKU associated to ID');
+                            reject(404);
+                        }
                     }
                 });
             } else {
@@ -133,22 +137,22 @@ class SKUDao {
                 this.#db.all(checkId, [sku.id], (err, res) => {
                     if (err) {
                         reject(err);
-                    }
-
-                    res.length > 0 ? exists = 1 : exists;
-
-                    if (exists) {
-                        const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT= ?, VOLUME= ?, NOTES= ?, AVAILABLEQUANTITY= ?, PRICE= ? WHERE ID = ?';
-                        this.#db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, sku.id], (err) => {
-                            if (err) {
-                                    reject(err);
-                             } else {
-                                    resolve(200);
-                             }
-                        });
                     } else {
-                        console.log('SKU Id does not exist');
-                        reject(404);
+                        res.length > 0 ? exists = 1 : exists;
+
+                        if (exists) {
+                            const sql = 'UPDATE SKU SET DESCRIPTION = ?, WEIGHT= ?, VOLUME= ?, NOTES= ?, AVAILABLEQUANTITY= ?, PRICE= ? WHERE ID = ?';
+                            this.#db.run(sql, [sku.newDescription, sku.newWeight, sku.newVolume, sku.newNotes, sku.newAvailableQuantity, sku.newPrice, sku.id], (err) => {
+                                if (err) {
+                                        reject(err);
+                                } else {
+                                        resolve(200);
+                                }
+                            });
+                        } else {
+                            console.log('SKU Id does not exist');
+                            reject(404);
+                        }
                     }
                 });
             } else {
@@ -168,74 +172,75 @@ class SKUDao {
                 this.#db.all(checkAvailability, [data.id], (err, res) => {
                     if (err) {
                         reject(err);
-                    }
-                    res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
-                    if (exists) {
-                        let checkPosition = 'SELECT COUNT(*) FROM POSITION WHERE positionID= ?';
-                        this.#db.all(checkPosition, [data.position], (err, res2) => {
-                            if (err) {
-                                reject(err);
-                            }
-                            let alreadyIn = 0;
-                            res2[0]['COUNT(*)'] > 0 ? alreadyIn = true : alreadyIn = false;
-                            if (alreadyIn) {
-                                let checkPosInSKU = 'SELECT COUNT(*) FROM SKU WHERE POSITION = ?';
-                                this.#db.all(checkPosInSKU, [data.position], (err, res3) => {
-                                    if (err) {
-                                        reject(err);
-                                    }
-                                    let posInSKU = 0;
-                                    res3[0]['COUNT(*)'] > 0 ? posInSKU = true : posInSKU = false;
-                                    if (!posInSKU) {
-                                        const checkVolumeAndWeight = 'SELECT * FROM POSITION P, SKU S WHERE P.positionID=? AND S.ID = ?';
-                                        let checked = false;
-                                        this.#db.all(checkVolumeAndWeight, [data.position, data.id], (err, rows) => {
-                                            if (err) {
-                                                reject(err);
-                                            }
-                                            let result = rows[0];
-                                            if ((result.VOLUME <= (result.maxVolume - result.occupiedVolume)) && (result.WEIGHT <= (res.maxWeight - res.occupiedWeight)))
-                                                checked = true;
-                                            if (!checked) {
-                                                const sql = 'UPDATE SKU SET POSITION = ? WHERE ID = ?';
-                                                this.#db.run(sql, [data.position, data.id], (err) => {
-                                                    if (err) {
-                                                        reject(err);
-                                                    } else {
-                                                        resolve(200);
-                                                    }
-                                                });
-                                                let occVolume = res.occupiedVolume + res.volume;
-                                                let occWeight = res.occupiedWeight + res.weight;
-                                                const modifyPositionTable = 'UPDATE POSITION SET occupiedWeight= ?, occupiedVolume= ? WHERE positionID= ?'
-                                                this.#db.run(modifyPositionTable, [occWeight, occVolume, data.position], (err) => {
-                                                    if (err) {
-                                                        reject(err);
-                                                    } else {
-                                                        resolve(200);
-                                                    }
-                                                });
-                                            } else {
-                                                //console.log('Position not capable of satisfying volume and weight constraints');
-                                                reject(422);
-                                            }
-                                        });
-
-                                    } else {
-                                        //console.log('Position already assigned to a sku');
-                                        reject(422);
-                                    }
-                                });
-
-                            } else {
-                                console.log('PositionID does not exist');
-                                console.log('Error', err);
-                                reject(422);
-                            }
-                        });
                     } else {
-                        console.log('SKU id does not exists');
-                        reject(422);
+                        res[0]['COUNT(*)'] > 0 ? exists = 1 : exists;
+                        if (exists) {
+                            let checkPosition = 'SELECT COUNT(*) FROM POSITION WHERE positionID= ?';
+                            this.#db.all(checkPosition, [data.position], (err, res2) => {
+                                if (err) {
+                                    reject(err);
+                                }
+                                let alreadyIn = 0;
+                                res2[0]['COUNT(*)'] > 0 ? alreadyIn = true : alreadyIn = false;
+                                if (alreadyIn) {
+                                    let checkPosInSKU = 'SELECT COUNT(*) FROM SKU WHERE POSITION = ?';
+                                    this.#db.all(checkPosInSKU, [data.position], (err, res3) => {
+                                        if (err) {
+                                            reject(err);
+                                        }
+                                        let posInSKU = 0;
+                                        res3[0]['COUNT(*)'] > 0 ? posInSKU = true : posInSKU = false;
+                                        if (!posInSKU) {
+                                            const checkVolumeAndWeight = 'SELECT * FROM POSITION P, SKU S WHERE P.positionID=? AND S.ID = ?';
+                                            let checked = false;
+                                            this.#db.all(checkVolumeAndWeight, [data.position, data.id], (err, rows) => {
+                                                if (err) {
+                                                    reject(err);
+                                                }
+                                                let result = rows[0];
+                                                if ((result.VOLUME <= (result.maxVolume - result.occupiedVolume)) && (result.WEIGHT <= (res.maxWeight - res.occupiedWeight)))
+                                                    checked = true;
+                                                if (!checked) {
+                                                    const sql = 'UPDATE SKU SET POSITION = ? WHERE ID = ?';
+                                                    this.#db.run(sql, [data.position, data.id], (err) => {
+                                                        if (err) {
+                                                            reject(err);
+                                                        } else {
+                                                            resolve(200);
+                                                        }
+                                                    });
+                                                    let occVolume = res.occupiedVolume + res.volume;
+                                                    let occWeight = res.occupiedWeight + res.weight;
+                                                    const modifyPositionTable = 'UPDATE POSITION SET occupiedWeight= ?, occupiedVolume= ? WHERE positionID= ?'
+                                                    this.#db.run(modifyPositionTable, [occWeight, occVolume, data.position], (err) => {
+                                                        if (err) {
+                                                            reject(err);
+                                                        } else {
+                                                            resolve(200);
+                                                        }
+                                                    });
+                                                } else {
+                                                    //console.log('Position not capable of satisfying volume and weight constraints');
+                                                    reject(422);
+                                                }
+                                            });
+
+                                        } else {
+                                            //console.log('Position already assigned to a sku');
+                                            reject(422);
+                                        }
+                                    });
+
+                                } else {
+                                    console.log('PositionID does not exist');
+                                    console.log('Error', err);
+                                    reject(422);
+                                }
+                            });
+                        } else {
+                            console.log('SKU id does not exists');
+                            reject(422);
+                        }
                     }
                 });
             } else {
