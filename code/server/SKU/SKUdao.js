@@ -31,6 +31,8 @@ class SKUDao {
         });
     }
 
+    
+
     newSKU(sku) {
         return new Promise(async (resolve, reject) => {
             let loggedAndAuthorized = true;

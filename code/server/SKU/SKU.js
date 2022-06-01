@@ -110,7 +110,7 @@ async function newSKU(req, res) {
     }
 
     let newSKUPromise = skuDaoInstance.newSKU(req.body);
-    await newSKUPromise.then(
+     newSKUPromise.then(
         function (value) {
             console.log('newSKU resolve');
             return res.status(201).json(value).end();
@@ -209,7 +209,7 @@ async function modifySKUPosition(req, res) {
     //console.log(data);
 
     let modifySKUPositionPromise = skuDaoInstance.modifySKUPosition(data);
-    await modifySKUPositionPromise.then(
+     modifySKUPositionPromise.then(
         function (value) {
             console.log('modifySKUPosition resolve');
             return res.status(200).json(value).end();
@@ -232,7 +232,7 @@ async function deleteSKUbyID(req, res) {
             return res.status(422).json({ error: 'Invalid id' }).end();
         }
         let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID(req.params.id);
-        await deleteSKUbyIDPromise.then(
+        deleteSKUbyIDPromise.then(
             function (value) {
                 console.log('deleteSKUbyID resolve');
                 return res.status(204).json(value).end();
