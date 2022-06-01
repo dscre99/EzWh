@@ -43,7 +43,7 @@ async function getSKUItems(req, res) {
 async function getSKUItemBySKUID(req, res) {
     if(Number.parseInt(req.params.id) >= 0){
         if (Object.keys(req.params.id).length == 0) {
-            return res.status(422).json({ error: 'Invalid id' });
+            return res.status(422).json({ error: 'Invalid id' }).end();
         }
         let getSKUItemBySKUIDPromise = skuItemDaoInstance.getSKUItemsBySKUID(Number.parseInt(req.params.id));
         await getSKUItemBySKUIDPromise.then(
@@ -70,7 +70,7 @@ async function getSKUItemBySKUID(req, res) {
 async function getSKUItemsByRfid(req, res) {
     if(Number.parseInt(req.params.rfid) >= 0){
         if (Object.keys(req.params.rfid).length == 0) {
-            return res.status(422).json({ error: 'Invalid id' });
+            return res.status(422).json({ error: 'Invalid id' }).end();
         }
         let getSKUItemsByRfidPromise = skuItemDaoInstance.getSKUItemsByRfid(req.params.rfid);
         await getSKUItemsByRfidPromise.then(
@@ -97,7 +97,7 @@ async function getSKUItemsByRfid(req, res) {
 
 async function newSKUItem(req, res) {
     if (Object.keys(req.body).length == 0) {
-        return res.status(422).json({ error: 'Invalid body request' });
+        return res.status(422).json({ error: 'Invalid body request' }).end();
     }
     const required = ['RFID', 'SKUId', 'DateOfStock'];
     if (Object.keys(req.body).length != required.length) {
@@ -139,7 +139,7 @@ async function modifySKUItem(req, res) {
         return res.status(422).json({ error: 'Invalid body request' }).end();
     }
     if (Object.keys(req.params.rfid).length == 0 || (req.params.rfid).length != 32) {
-        return res.status(422).json({ error: 'Invalid rfid' }).end;
+        return res.status(422).json({ error: 'Invalid rfid' }).end();
     }
     const required = ['newRFID', 'newAvailable', 'newDateOfStock'];
     if (Object.keys(req.body).length != required.length) {
@@ -195,7 +195,7 @@ async function modifySKUItem(req, res) {
 
 async function deleteSKUItembyRfid(req, res) {
     if (Object.keys(req.params.rfid).length == 0 || (req.params.rfid).length !=32 ) {
-        return res.status(422).json({ error: 'Invalid rfid request' });
+        return res.status(422).json({ error: 'Invalid rfid request' }).end();
     }
     let deleteSKUItembyRfidPromise = skuItemDaoInstance.deleteSKUItembyRfid(req.params.rfid);
     await deleteSKUItembyRfidPromise.then(
