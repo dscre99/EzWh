@@ -198,6 +198,7 @@ class SKUItemDao {
                 let exists = 0;
                 this.#db.all(checkRfid, [data.oldRfid], (err, res) => {
                     if (err) {
+                        console.log('modifySKUItem error:', err);
                         reject(err);
                     }
 
