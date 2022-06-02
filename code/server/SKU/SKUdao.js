@@ -36,26 +36,31 @@ class SKUDao {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                let database = this.#db;
-                this.#db.serialize(function() {
 
-                    const sql1 = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
-                    database.run(sql1, (err1) => {
-                        if (err1) {
-                            reject(err1);
-                        }
+                try {
+                    let database = this.#db;
+                    this.#db.serialize(function() {
+
+                        const sql1 = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
+                        database.run(sql1, (err1) => {
+                            if (err1) {
+                                reject(err1);
+                            }
+                        });
+
+                        const sql2 = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                        database.run(sql2, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err2) => {
+                            if (err2) {
+                                console.log('newSKU error:', err2);
+                                
+                            }
+                        });
                     });
 
-                    const sql2 = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                    database.run(sql2, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err2) => {
-                        if (err2) {
-                            console.log('newSKU error:', err2);
-                            reject(503);
-                        } else {
-                            resolve(201);
-                        }
-                    });
-                });
+                    resolve(201);
+                } catch (error) {
+                    reject(503);
+                }
             } else {
                 //console.log('Not logged in or authorized');
                 reject(401);
@@ -67,31 +72,42 @@ class SKUDao {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const sql = 'SELECT * FROM SKU';
-                
 
-                this.#db.all(sql, [], (err, rows) => {
-                    if (err) {
-                        console.log('getSKUs error:', err);
-                        reject(503);
-                    } else {
-                        const skus = rows.map((r) => (
-                            {
-                                id: r.ID,
-                                description: r.DESCRIPTION,
-                                weight: r.WEIGHT,
-                                volume: r.VOLUME,
-                                notes: r.NOTES,
-                                position: r.POSITION,
-                                availableQuantity: r.AVAILABLEQUANTITY,
-                                price: r.PRICE,
-                                testDescriptors: r.TESTDESCRIPTORS
-                            }
-                        ));
-                        
-                        resolve(skus);
-                    }
+                let database = this.#db;
+                this.#db.serialize(function() {
+                    const sql1 = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
+                    database.run(sql1, (err1) => {
+                        if (err1) {
+                            reject(err1);
+                        }
+                    });
+
+                    const sql2 = 'SELECT * FROM SKU';
+                    database.all(sql2, [], (err2, rows2) => {
+                        if (err2) {
+                            console.log('getSKUs error:', err2);
+                            reject(503);
+                        } else {
+                            const skus = rows2.map((r) => (
+                                {
+                                    id: r.ID,
+                                    description: r.DESCRIPTION,
+                                    weight: r.WEIGHT,
+                                    volume: r.VOLUME,
+                                    notes: r.NOTES,
+                                    position: r.POSITION,
+                                    availableQuantity: r.AVAILABLEQUANTITY,
+                                    price: r.PRICE,
+                                    testDescriptors: r.TESTDESCRIPTORS
+                                }
+                            ));
+                            
+                            resolve(skus);
+                        }
+                    });
                 });
+
+                
             } else {
                 //console.log("Not logged in or wrong permission");
                 reject(401);

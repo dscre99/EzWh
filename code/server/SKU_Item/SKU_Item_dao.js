@@ -21,7 +21,7 @@ class SKUItemDao {
 
     newSKUItemTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE "SKU_ITEM" ("RFID"	TEXT,"SKUID"	INTEGER,"AVAILABLE"	INTEGER,"DATEOFSTOCK" TEXT, PRIMARY KEY("RFID"))';
+            const sql = 'CREATE TABLE IF NOT EXISTS "SKU_ITEM" ("RFID"	TEXT,"SKUID"	INTEGER,"AVAILABLE"	INTEGER,"DATEOFSTOCK" TEXT, PRIMARY KEY("RFID"))';
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -71,21 +71,35 @@ class SKUItemDao {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const sql = 'SELECT * FROM SKU_ITEM';
-                this.#db.all(sql, [], (err, rows) => {
-                    if(err){
-                        reject(503);
-                    }
-                    const skuItems = rows.map((r) => (
-                        {
-                            RFID: r.RFID, //was rfid 
-                            SKUId: r.SKUID,
-                            Available: r.AVAILABLE,
-                            DateOfStock: r.DATEOFSTOCK
+
+                let database = this.#db;
+                this.#db.serialize(function() {
+                    const sql1 = 'CREATE TABLE IF NOT EXISTS "SKU_ITEM" ("RFID"	TEXT,"SKUID"	INTEGER,"AVAILABLE"	INTEGER,"DATEOFSTOCK" TEXT, PRIMARY KEY("RFID"))';
+                    database.run(sql1, (err1) => {
+                        if (err1) {
+                            console.log('getSKUItems CREATE TABLE error:', err1);
+                            reject(500);
                         }
-                    ))
-                    resolve(skuItems);   
-                }) 
+                    });
+
+                    const sql2 = 'SELECT * FROM SKU_ITEM';
+                    database.all(sql2, [], (err2, rows2) => {
+                        if(err2){
+                            console.log('getSKUItems error:', err2);
+                            reject(503);
+                        } else {
+                            const skuItems = rows2.map((r) => (
+                                {
+                                    RFID: r.RFID, //was rfid 
+                                    SKUId: r.SKUID,
+                                    Available: r.AVAILABLE,
+                                    DateOfStock: r.DATEOFSTOCK
+                                }
+                            ));
+                            resolve(skuItems);   
+                        }
+                    });
+                });
             } else {
                 //console.log('Not logged in or wrong permissions');
                 reject(401);
