@@ -107,7 +107,7 @@ async function newSKU(req, res) {
             return res.status(201).end();
         },
         function (error) {
-            //console.log('newSKU reject');
+            console.log('newSKU reject:', error);
             return res.status(error).end();
         }
     ).catch((err) => {

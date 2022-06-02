@@ -55,7 +55,7 @@ class SKUItemDao {
                             resolve(201);
                         });
                     } else {
-                        //console.log('No SKU associated to SKUID');
+                        console.log('No SKU associated to SKUID');
                         reject(404);
                     }
                 });

@@ -40,6 +40,7 @@ class SKUDao {
                 const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
                 this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err) => {
                     if (err) {
+                        console.log('newSKU error:', err);
                         reject(503);
                     } else {
                         resolve(201);
