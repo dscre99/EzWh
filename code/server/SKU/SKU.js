@@ -15,16 +15,16 @@ async function clear_sku_table(req, res) {
 }
 // GET /api/skus
 
-function getSKUs(req, res) {
+async function getSKUs(req, res) {
     // let getSKUSPromise = skuDaoInstance.getSKUs();
-    skuDaoInstance.getSKUs().then((value) => {
+    await skuDaoInstance.getSKUs().then((value) => {
             //console.log('Get SKUs resolve');
             res.status(200).json(value).end();
+        },
+        function (error) {
+            //console.log('getSKUs reject', error);
+            return res.status(500).end();
         }
-        // function (error) {
-        //     //console.log('getSKUs reject', error);
-        //     return res.status(500).end();
-        // }
     ).catch((err) =>  {
         //console.log('getSKUs error', err);
         res.status(err).end();
@@ -38,6 +38,7 @@ async function getSKUbyID(req, res) {
         if (Object.keys(req.params.id).length == 0) {
             return res.status(422).json({ error: 'Invalid id' }).end();
         }
+
         let getSKUbyIDPromise = skuDaoInstance.getSKUbyID(req.params.id);
         await getSKUbyIDPromise.then(
             function (value) {
@@ -62,7 +63,7 @@ async function getSKUbyID(req, res) {
 
 // POST /api/sku
 
-function newSKU(req, res) {
+async function newSKU(req, res) {
     const required = ['description', 'weight', 'volume', 'notes', 'price', 'availableQuantity'];
 
     if (Object.keys(req.body).length == 0 || Object.keys(req.body).length != required.length) {
@@ -81,16 +82,6 @@ function newSKU(req, res) {
             }
             
         }
-        // required.forEach(key => {
-        //     if (!Object.keys(req.body).includes(key)) {
-        //         console.log('not includes key')
-        //         return res.status(422).end();
-        //     }
-        //     if (req.body[key] == undefined || req.body[key] == '') {
-        //         console.log('undefined');
-        //         return res.status(422).end();
-        //     }
-        // });
     }
 
     if (req.body.weight < 0 || req.body.volume < 0 || req.body.price < 0 || req.body.availableQuantity < 0) {
@@ -108,20 +99,17 @@ function newSKU(req, res) {
         return res.status(422).end();
     }
 
-    
-    
-
     //let newSKUPromise = skuDaoInstance.newSKU(req.body);
-    skuDaoInstance.newSKU(req.body).then((value) => {
+    await skuDaoInstance.newSKU(req.body).then((value) => {
             //console.log('newSKU resolve');
             console.log("newSKU POST BODY = ", req.body);
             console.log("newSKU THEN VALUE = ", value);
-            return res.status(201).json(value).end();
+            return res.status(201).end();
         },
-        // function (error) {
-        //     //console.log('newSKU reject');
-        //     return res.status(error).end();
-        // }
+        function (error) {
+            //console.log('newSKU reject');
+            return res.status(error).end();
+        }
     ).catch((err) => {
         console.log("newSKU CATCH ERR = ", err.message);
        // console.log('newSKU error', err);
@@ -213,7 +201,7 @@ async function modifySKUPosition(req, res) {
     //console.log(data);
 
     let modifySKUPositionPromise = skuDaoInstance.modifySKUPosition(data);
-     modifySKUPositionPromise.then(
+    await modifySKUPositionPromise.then(
         function (value) {
             console.log('modifySKUPosition resolve');
             return res.status(200).json(value).end();
@@ -236,7 +224,7 @@ async function deleteSKUbyID(req, res) {
             return res.status(422).json({ error: 'Invalid id' }).end();
         }
         let deleteSKUbyIDPromise = skuDaoInstance.deleteSKUbyID(req.params.id);
-        deleteSKUbyIDPromise.then(
+        await deleteSKUbyIDPromise.then(
             function (value) {
                // console.log('deleteSKUbyID resolve');
                 return res.status(204).json(value).end();
