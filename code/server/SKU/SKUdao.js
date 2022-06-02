@@ -20,7 +20,7 @@ class SKUDao {
 
     newSKUTable() {
         return new Promise((resolve, reject) => {
-            const sql = 'CREATE TABLE SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -30,20 +30,26 @@ class SKUDao {
             });
         });
     }
-
     
 
     newSKU(sku) {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const sql = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                this.#db.run(sql, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err) => {
-                    if (err) {
-                        console.log('newSKU error:', err);
-                        reject(503);
+                const sql1 = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
+                this.#db.run(sql1, (err1) => {
+                    if (err1) {
+                        reject(err1);
                     } else {
-                        resolve(201);
+                        const sql2 = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                        this.#db.run(sql2, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err2) => {
+                            if (err2) {
+                                console.log('newSKU error:', err2);
+                                reject(503);
+                            } else {
+                                resolve(201);
+                            }
+                        });
                     }
                 });
             } else {
