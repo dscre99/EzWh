@@ -36,21 +36,25 @@ class SKUDao {
         return new Promise((resolve, reject) => {
             let loggedAndAuthorized = true;
             if (loggedAndAuthorized) {
-                const sql1 = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
-                this.#db.run(sql1, (err1) => {
-                    if (err1) {
-                        reject(err1);
-                    } else {
-                        const sql2 = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
-                        this.#db.run(sql2, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err2) => {
-                            if (err2) {
-                                console.log('newSKU error:', err2);
-                                reject(503);
-                            } else {
-                                resolve(201);
-                            }
-                        });
-                    }
+                let database = this.#db;
+                this.#db.serialize(function() {
+
+                    const sql1 = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
+                    database.run(sql1, (err1) => {
+                        if (err1) {
+                            reject(err1);
+                        }
+                    });
+
+                    const sql2 = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
+                    database.run(sql2, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err2) => {
+                        if (err2) {
+                            console.log('newSKU error:', err2);
+                            reject(503);
+                        } else {
+                            resolve(201);
+                        }
+                    });
                 });
             } else {
                 //console.log('Not logged in or authorized');
