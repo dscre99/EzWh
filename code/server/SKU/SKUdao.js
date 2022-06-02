@@ -72,9 +72,9 @@ class SKUDao {
 
                 this.#db.all(sql, [], (err, rows) => {
                     if (err) {
+                        console.log('getSKUs error:', err);
                         reject(503);
-                    } 
-                    //else {
+                    } else {
                         const skus = rows.map((r) => (
                             {
                                 id: r.ID,
@@ -87,10 +87,10 @@ class SKUDao {
                                 price: r.PRICE,
                                 testDescriptors: r.TESTDESCRIPTORS
                             }
-                        ))
+                        ));
                         
                         resolve(skus);
-                    // }
+                    }
                 });
             } else {
                 //console.log("Not logged in or wrong permission");
