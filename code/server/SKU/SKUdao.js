@@ -44,15 +44,16 @@ class SKUDao {
                         const sql1 = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
                         database.run(sql1, (err1) => {
                             if (err1) {
-                                reject(err1);
+                                console.log('newSKU error1:', err1);
+                                reject(500);
                             }
                         });
 
                         const sql2 = 'INSERT INTO SKU(DESCRIPTION, WEIGHT, VOLUME, NOTES, PRICE, AVAILABLEQUANTITY, POSITION) VALUES (?, ?, ?, ?, ?, ?, ?)';
                         database.run(sql2, [sku.description, sku.weight, sku.volume, sku.notes, sku.price, sku.availableQuantity, null], (err2) => {
                             if (err2) {
-                                console.log('newSKU error:', err2);
-                                
+                                console.log('newSKU error2:', err2);
+                                reject(500);
                             }
                         });
                     });
@@ -78,14 +79,15 @@ class SKUDao {
                     const sql1 = 'CREATE TABLE IF NOT EXISTS SKU ( "ID"	INTEGER, "DESCRIPTION"	TEXT,"WEIGHT"	INTEGER,"VOLUME"	INTEGER,"NOTES"	TEXT,"POSITION"	TEXT,"AVAILABLEQUANTITY"	INTEGER,"PRICE"	REAL,PRIMARY KEY("ID" AUTOINCREMENT))';
                     database.run(sql1, (err1) => {
                         if (err1) {
-                            reject(err1);
+                            console.log('getSKUs error2:', err2);
+                            reject(503);
                         }
                     });
 
                     const sql2 = 'SELECT * FROM SKU';
                     database.all(sql2, [], (err2, rows2) => {
                         if (err2) {
-                            console.log('getSKUs error:', err2);
+                            console.log('getSKUs error2:', err2);
                             reject(503);
                         } else {
                             const skus = rows2.map((r) => (
