@@ -19,7 +19,7 @@ async function getSKUs(req, res) {
     // let getSKUSPromise = skuDaoInstance.getSKUs();
     await skuDaoInstance.getSKUs().then((value) => {
             //console.log('Get SKUs resolve');
-            res.status(200).json(value).end();
+            return res.status(200).json(value).end();
         },
         function (error) {
             //console.log('getSKUs reject', error);
@@ -27,7 +27,7 @@ async function getSKUs(req, res) {
         }
     ).catch((err) =>  {
         //console.log('getSKUs error', err);
-        res.status(err).end();
+        return res.status(err).end();
     });
 }
 
@@ -94,7 +94,7 @@ async function newSKU(req, res) {
         return res.status(422).end();
     }
 
-    if (!Number.isInteger(req.body.price)) {
+    if (typeof (req.body.price) !== 'number') {
         //console.log('Price must be a number')
         return res.status(422).end();
     }

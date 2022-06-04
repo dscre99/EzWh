@@ -77,29 +77,28 @@ class Return_orderDAO{
                             rfid:r.RFID,
                         }
                     ));
-                }
-                // console.log(products);
-            });
-            
-            sql = 'SELECT * FROM RETURN_ORDER';
-            this.db.all(sql, (err, rows) => {
-                if (err) {
-                    reject(err);
-                }else{
-                    const resOrders = rows.map((r) => (
-                        {
-                            id: r.ID,
-                            returnDate: r.RETURNDATE,
-                            products: products.filter(key=>key.returnorderid===r.ID).map((d)=>({
-                                SKUId:d.skuid,
-                                description : d.description,
-                                price: d.price,
-                                RFID: d.rfid
-                            })),
-                            restockOrderId: r.ORDERID,
+
+                    sql = 'SELECT * FROM RETURN_ORDER';
+                    this.db.all(sql, (err, rows) => {
+                        if (err) {
+                            reject(err);
+                        }else{
+                            const resOrders = rows.map((r) => (
+                                {
+                                    id: r.ID,
+                                    returnDate: r.RETURNDATE,
+                                    products: products.filter(key=>key.returnorderid===r.ID).map((d)=>({
+                                        SKUId:d.skuid,
+                                        description : d.description,
+                                        price: d.price,
+                                        RFID: d.rfid
+                                    })),
+                                    restockOrderId: r.ORDERID,
+                                }
+                            ));
+                            resolve(resOrders);
                         }
-                    ));
-                    resolve(resOrders);
+                    });
                 }
             });
         });
@@ -145,36 +144,34 @@ class Return_orderDAO{
                             rfid:r.RFID,
                         }
                     ));
-                }
-                // console.log(products);
-            });
-            
 
-            sql = 'SELECT * FROM RETURN_ORDER WHERE ID=?';
-            this.db.all(sql, [data.id], (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                if(rows.length===0){
-                    resolve(404);
-                }else{
-                    const resOrders = rows.map((r) => (
-                        {
-                            id: r.ID,
-                            returnDate: r.RETURNDATE,
-                            products: products.filter(key=>key.returnorderid===r.ID).map((d)=>({
-                                SKUId:d.skuid,
-                                description : d.description,
-                                price: d.price,
-                                RFID: d.rfid
-                            })),
-                            restockOrderId: r.ORDERID,
+                    sql = 'SELECT * FROM RETURN_ORDER WHERE ID=?';
+                    this.db.all(sql, [data.id], (err, rows) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            if(rows.length===0){
+                                resolve(404);
+                            }else{
+                                const resOrders = rows.map((r) => (
+                                    {
+                                        id: r.ID,
+                                        returnDate: r.RETURNDATE,
+                                        products: products.filter(key=>key.returnorderid===r.ID).map((d)=>({
+                                            SKUId:d.skuid,
+                                            description : d.description,
+                                            price: d.price,
+                                            RFID: d.rfid
+                                        })),
+                                        restockOrderId: r.ORDERID,
+                                    }
+                                ));
+                                resolve(resOrders[0]);
+    
+                            }
                         }
-                    ));
-                    resolve(resOrders[0]);
-
+                    });
                 }
-
             });
         });
     }
@@ -189,7 +186,6 @@ class Return_orderDAO{
                     resolve(201);
                 }
             });
-
         });
     }
     
@@ -197,7 +193,7 @@ class Return_orderDAO{
     setReturnItem(data) {
         return new Promise(async (resolve, reject) => {
             const sql = 'INSERT INTO SKUITEM_IN_RETURNORDER(RFID,RETURNORDERID,DESCRIPTION,PRICE,SKUID) VALUES(?, (SELECT ID FROM RETURN_ORDER ORDER BY ID DESC LIMIT 1) ,?,?,?)';
-           await this.db.run(sql, [data.RFID,data.description,data.price,data.SKUId], (err) => {
+            await this.db.run(sql, [data.RFID,data.description,data.price,data.SKUId], (err) => {
                 if (err) {
                     reject(err);
                 }else{
@@ -215,8 +211,9 @@ deleteReturnOrder(data) {
         this.db.run(sql, [data.id], (err) => {
             if (err) {
                 reject(err);
+            } else {
+                resolve(204);
             }
-            resolve(204);
         });
     });
 }

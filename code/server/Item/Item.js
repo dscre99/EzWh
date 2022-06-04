@@ -2,7 +2,8 @@ const DB = require('../EZWH_db/RunDB');
 const { isEmpty } = require('../utils/utils');
 const DBInstance = DB.DBinstance;
 const ItemDAO = require('./ItemDAO.js');
-const DAO=new ItemDAO(DBInstance);
+const DAO = new ItemDAO(DBInstance);
+
 
 
 // ITEM
@@ -68,9 +69,9 @@ async function store_item(req, res) {
     
       try {
         let db =  await DAO.storeItem(req.body);
-        res.status(201).end();
+        return res.status(201).end();
       }catch(error){
-        res.status(503).json(error);
+        return res.status(503).json(error).end();
       }
     }
 }
@@ -85,17 +86,17 @@ async function update_item(req,res) {
 
   // checks for number of parameters in body 
   if (Object.keys(req.body).length === 0 || Object.keys(req.body).length !== 2 ) {
-       return res.status(422).json({ error: 'Unprocessable Entity - Empty/Too much field' });
+       return res.status(422).json({ error: 'Unprocessable Entity - Empty/Too much field' }).end();
   }
   let err =0;
   requiredKeys.forEach(key => {
     // checks for necessary field presence
     if(!Object.keys(req.body).includes(key)){
-      return err =1, res.status(422).json({ error: 'Unprocessable Entity - Wrong/missing field name' });
+      return err =1, res.status(422).json({ error: 'Unprocessable Entity - Wrong/missing field name' }).end();
     }
     // checks for fields not empty
     if(req.body[key] == undefined || req.body[key] == ''){
-      return err=1, res.status(422).json({ error: 'Unprocessable Entity - Missing field value' });
+      return err=1, res.status(422).json({ error: 'Unprocessable Entity - Missing field value' }).end();
     }
   });
 
@@ -106,9 +107,9 @@ async function update_item(req,res) {
 
   try{
   let db = await DAO.updateItem(req.body,req.params);
-  res.status(200).end();
+  return res.status(200).end();
   }catch (error){
-  res.status(503).json();
+  return res.status(503).json().end();
   }
 
   }
@@ -124,9 +125,9 @@ async function delete_item(req, res) {
 
   try{
     let db = await DAO.deleteItem(req.params);
-    res.status(204).end();
+    return res.status(204).end();
   }catch{
-    res.status(503).end();
+    return res.status(503).end();
   }
 }
 
@@ -135,9 +136,9 @@ async function clear_item_table(req,res){
   try {
     let result = await DAO.dropTableItem();
     let res2 = await DAO.newTableItem();
-    res.status(200).end();
+    return res.status(200).end();
   }catch(err){
-    res.status(500).end();
+    return res.status(500).end();
   }
 }
 

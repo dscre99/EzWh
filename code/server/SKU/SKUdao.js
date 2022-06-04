@@ -15,7 +15,7 @@ class SKUDao {
                 } else {
                     resolve(200);
                 }
-            })
+            });
         });
     }
 

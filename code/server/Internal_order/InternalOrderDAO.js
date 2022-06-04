@@ -330,7 +330,7 @@ class InternalOrderDAO {
                                                         VALUES (?,?,?);`;
                                             this.db.run(sql3, [data.id, p.SkuID, p.RFID], (err3) => {
                                                 //console.log('i', i);
-                                                console.log('tot', data.products.length-1);
+                                                // console.log('tot', data.products.length-1);
                                                 if(err3){
                                                     // reports error while querying database
                                                    // console.log('modifyInternalOrder() sql3.run error:: ', err3);

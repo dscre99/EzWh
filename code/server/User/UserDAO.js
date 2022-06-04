@@ -55,25 +55,26 @@ class UserDAO {
                         // reports error while querying database
                       //  console.log('getUser() sql.run error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
-                    }
-                    //console.log(rows);
-
-                    if(rows.length == 0){
-                        // 401 if username is not found in DB
-                        reject(401);    // 401 Unauthorized
                     } else {
-                        // collects user data into a dictionary
-                        const userData = rows.map((r) => (
-                            {
-                                id:r.ID,
-                                username:r.EMAIL,
-                                name:r.NAME,
-                                surname:r.SURNAME,
-                                type:r.TYPE
-                            }
-                        ));
+                        //console.log(rows);
 
-                        resolve(userData);  // returns userData dictionary to be sent as JSON response body
+                        if(rows.length == 0){
+                            // 401 if username is not found in DB
+                            reject(401);    // 401 Unauthorized
+                        } else {
+                            // collects user data into a dictionary
+                            const userData = rows.map((r) => (
+                                {
+                                    id:r.ID,
+                                    username:r.EMAIL,
+                                    name:r.NAME,
+                                    surname:r.SURNAME,
+                                    type:r.TYPE
+                                }
+                            ));
+
+                            resolve(userData);  // returns userData dictionary to be sent as JSON response body
+                        }
                     }
                 });
             } else {
@@ -95,26 +96,27 @@ class UserDAO {
                         // reports error while querying database
                        // console.log('getUser() sql.run error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
-                    }
-                    //console.log(rows);
-
-                    if(rows.length == 0){
-                        // no supplier found in DB
-                        resolve(rows);  // returns empty array
                     } else {
-                        // collects suppliers data into a dictionary
-                        const userData = rows.map((r) => (
-                            {
-                                id:r.ID,
-                                name:r.NAME,
-                                surname:r.SURNAME,
-                                email:r.EMAIL
-                            }
-                        ));
+                        //console.log(rows);
 
-                        resolve(userData);  // returrns userData dictionary to be sent as JSON response body
+                        if(rows.length == 0){
+                            // no supplier found in DB
+                            resolve(rows);  // returns empty array
+                        } else {
+                            // collects suppliers data into a dictionary
+                            const userData = rows.map((r) => (
+                                {
+                                    id:r.ID,
+                                    name:r.NAME,
+                                    surname:r.SURNAME,
+                                    email:r.EMAIL
+                                }
+                            ));
+
+                            resolve(userData);  // returrns userData dictionary to be sent as JSON response body
+                        }
                     }
-                })
+                });
 
             } else {
                 // if USER is not logged in or it is not a Manager, returns 401 Unauthorized
@@ -138,22 +140,23 @@ class UserDAO {
                         // reports error while querying database
                        // console.log('getUser() sql.run error:: ', err);
                         reject(500);    // 500 Internal Server Error (generic error)
+                    } else {
+                        //console.log(rows);
+
+                        // collects user data into a dictionary (except manager)
+                        const users = rows.map((r) => (
+                            {
+                                id:r.ID,
+                                name:r.NAME,
+                                surname:r.SURNAME,
+                                email:r.EMAIL,
+                                type:r.TYPE
+                            }
+                        ));
+                        //console.log(users);
+
+                        resolve(users);
                     }
-                    //console.log(rows);
-
-                    // collects user data into a dictionary (except manager)
-                    const users = rows.map((r) => (
-                        {
-                            id:r.ID,
-                            name:r.NAME,
-                            surname:r.SURNAME,
-                            email:r.EMAIL,
-                            type:r.TYPE
-                        }
-                    ));
-                    //console.log(users);
-
-                    resolve(users);
                 });
             } else {
                 reject(401);    // 401 Unauthorized
@@ -194,9 +197,10 @@ class UserDAO {
                                     // reports error while querying database
                                    // console.log('newUser() sql2.run error:: ', err);
                                     reject(503);    // 503 Service Unavailable (generic error)
+                                } else {
+                                    // USER added successfully
+                                    resolve(201);
                                 }
-                                // USER added successfully
-                                resolve(201);
                             });
                         }
                     }

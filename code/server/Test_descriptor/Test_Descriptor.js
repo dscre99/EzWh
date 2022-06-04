@@ -33,7 +33,7 @@ class TestDescriptorService {
         }
 
         this.#dao.get_test_descriptors_DB().then((test_descriptors) => {
-            res.status(200).json(test_descriptors).end();
+            return res.status(200).json(test_descriptors).end();
         }).catch((error) => res.status(error).json(error).end());
     }
 
@@ -56,7 +56,7 @@ class TestDescriptorService {
         }
 
         this.#dao.get_test_descriptor_by_ID_DB(req.params.id).then((test_descriptor) => {
-            res.status(200).json(test_descriptor).end();
+            return res.status(200).json(test_descriptor).end();
         }).catch((error) => res.status(404).json(error).end());
     }
 
@@ -76,10 +76,10 @@ class TestDescriptorService {
         
         if(validateTestDescData(req.body)) {
             this.#dao.post_test_descriptor_DB(req.body).then((test_descriptor) => {
-                res.status(201).json(test_descriptor).end();
+                return res.status(201).json(test_descriptor).end();
             }).catch((error) => res.status(error).json(error).end())
         } else {
-            res.status(422).json("Validation of request body failed!");
+            return res.status(422).json("Validation of request body failed!").end();
         }
         
     }
@@ -99,7 +99,7 @@ class TestDescriptorService {
         
         
         this.#dao.put_test_descriptor_by_ID_DB(req.params.id, req.body).then(() => {
-            res.status(200).json("Test Descriptor updated!").end();
+            return res.status(200).json("Test Descriptor updated!").end();
         }).catch((error) => res.status(error).json(error).end());
     }
 
@@ -123,14 +123,14 @@ class TestDescriptorService {
         }
         
         this.#dao.delete_test_descriptor_by_ID_DB(req.params.id).then(() => {
-            res.status(204).json(`Test Descriptor with id=${req.params.id} has been deleted!`).end();
+            return res.status(204).json(`Test Descriptor with id=${req.params.id} has been deleted!`).end();
         }).catch((error) => res.status(error).json(error).end());
     }
 
 
     deleteAllTestDescriptors = async(req, res) => {
         this.#dao.delete_all_test_descriptors().then(() => {
-            res.status(204).json("Deleted All Test Descriptors!").end();
+            return res.status(204).json("Deleted All Test Descriptors!").end();
         }).catch((error) => res.status(503).json(error).end());
     }
 
