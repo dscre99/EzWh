@@ -19,7 +19,7 @@ async function getSKUs(req, res) {
     // let getSKUSPromise = skuDaoInstance.getSKUs();
     await skuDaoInstance.getSKUs().then((value) => {
             //console.log('Get SKUs resolve');
-            res.status(200).json(value).end();
+            return res.status(200).json(value).end();
         },
         function (error) {
             //console.log('getSKUs reject', error);
@@ -27,7 +27,7 @@ async function getSKUs(req, res) {
         }
     ).catch((err) =>  {
         //console.log('getSKUs error', err);
-        res.status(err).end();
+        return res.status(err).end();
     });
 }
 

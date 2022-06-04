@@ -11,9 +11,9 @@ async function clear_skuitem_table(req, res) {
     try {
         let result = await skuItemDaoInstance.dropSKUItemTable();
         let res2 = await skuItemDaoInstance.newSKUItemTable();
-        res.status(200).end();
+        return res.status(200).end();
     } catch (err) {
-        res.status(500).end();
+        return res.status(500).end();
     }
 }
 
@@ -186,7 +186,7 @@ async function modifySKUItem(req, res) {
             return res.status(503).end();
         });
     }else{
-                return res.status(422).end();
+        return res.status(422).end();
     }
 
     
