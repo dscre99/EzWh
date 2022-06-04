@@ -16,8 +16,9 @@ class TestDescriptorDAO {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(200);
                 }
-                resolve(200)
             })
         });
     }
@@ -28,8 +29,10 @@ class TestDescriptorDAO {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(200);
                 }
-                resolve(200);
+
             });
         });
     }
@@ -41,19 +44,20 @@ class TestDescriptorDAO {
             this.#db.all(sql, [], (err, rows) => {
                 if(err){
                     reject(503);
-                }
-                const test_descriptors = rows.map((test_descriptor) => (
+                } else {
+                    const test_descriptors = rows.map((test_descriptor) => (
 
-                    {
-                        id:test_descriptor.ID,
-                        name:test_descriptor.NAME,
-                        procedureDescription:test_descriptor.PROCEDUREDESCRIPTION,
-                        idSKU:test_descriptor.IDSKU
-                    }
-                ))
-                resolve(test_descriptors);
-            })
-        })
+                        {
+                            id:test_descriptor.ID,
+                            name:test_descriptor.NAME,
+                            procedureDescription:test_descriptor.PROCEDUREDESCRIPTION,
+                            idSKU:test_descriptor.IDSKU
+                        }
+                    ));
+                    resolve(test_descriptors);
+                }
+            });
+        });
     }
     
     get_test_descriptor_by_ID_DB(id) {
@@ -88,27 +92,23 @@ class TestDescriptorDAO {
                 
                 if(err) {
                     reject(503);
-                }
-                    
-                result[0]['COUNT(*)'] > 0 ? exist=1 : exist
-
-                if(exist) {
-                    const sql = 'INSERT INTO TEST_DESCRIPTOR(NAME, PROCEDUREDESCRIPTION, IDSKU) VALUES (?,?,?)';
-                    this.#db.run(sql, [data.name, data.procedureDescription, data.idSKU], (err) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        resolve(true);
-                    });
                 } else {
-                    reject(404);
+                    result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+
+                    if(exist) {
+                        const sql = 'INSERT INTO TEST_DESCRIPTOR(NAME, PROCEDUREDESCRIPTION, IDSKU) VALUES (?,?,?)';
+                        this.#db.run(sql, [data.name, data.procedureDescription, data.idSKU], (err) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(true);
+                            }
+                        });
+                    } else {
+                        reject(404);
+                    }
                 }
-                
-                
-           
-            })
-            
-            
+            });  
         });
     }
     
@@ -123,35 +123,32 @@ class TestDescriptorDAO {
             this.#db.all(check_tdId, [id], (err, result) => {
                 if(err) {
                     reject(503);
-                }
-                    
-                result[0]['COUNT(*)'] > 0 ? exist+=1 : exist
-
-                this.#db.all(check_idSKU, [body.newIdSKU], (err, result) => {
-
-                    if(err) {
-                        reject(503);
-                    }
-                        
+                } else {
                     result[0]['COUNT(*)'] > 0 ? exist+=1 : exist
 
-                    if(exist === 2) {
-                        const sql = 'UPDATE TEST_DESCRIPTOR SET NAME=?,PROCEDUREDESCRIPTION=?, IDSKU=? WHERE ID=?';
-                        this.#db.run(sql, [body.newName, body.newProcedureDescription, body.newIdSKU, id], (err) => {
-                                if (err) {
-                                    reject(503);
-                                } else {
-                                    resolve(true);
-                                }
-                            });
-                    } else {
-                        reject(404);
-                    }
-                })
+                    this.#db.all(check_idSKU, [body.newIdSKU], (err, result) => {
 
-                
-            
-            })
+                        if(err) {
+                            reject(503);
+                        } else {
+                            result[0]['COUNT(*)'] > 0 ? exist+=1 : exist
+
+                            if(exist === 2) {
+                                const sql = 'UPDATE TEST_DESCRIPTOR SET NAME=?,PROCEDUREDESCRIPTION=?, IDSKU=? WHERE ID=?';
+                                this.#db.run(sql, [body.newName, body.newProcedureDescription, body.newIdSKU, id], (err) => {
+                                        if (err) {
+                                            reject(503);
+                                        } else {
+                                            resolve(true);
+                                        }
+                                    });
+                            } else {
+                                reject(404);
+                            }
+                        }
+                    });
+                }
+            });
         });
     }
     
@@ -160,13 +157,12 @@ class TestDescriptorDAO {
         return new Promise((resolve, reject) => {
             const sql = 'DELETE FROM TEST_DESCRIPTOR WHERE ID=?;';
             this.#db.run(sql, [id], (err) => {
-                    if (err) {
-                        reject(503);
-                    } else {
-                        resolve(true);
-                    }
-                });
-    
+                if (err) {
+                    reject(503);
+                } else {
+                    resolve(true);
+                }
+            });
         });
     }
 }

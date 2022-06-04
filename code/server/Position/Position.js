@@ -35,7 +35,7 @@ class PositionService {
         
         
         this.#dao.getPositions().then((positions) => {            
-            res.status(200).json(positions);
+            return res.status(200).json(positions).end();
         }).catch((error) => res.status(error).json("Error!").end());
     }
 
@@ -55,7 +55,7 @@ class PositionService {
 
         if(positionBodyLength(req.body, "post")) {
             this.#dao.storePosition(req.body).then((position) => {
-                res.status(201).json(position).end();
+                return res.status(201).json(position).end();
             }).catch((error) => res.status(error).json("Error!").end())
         } else {
             res.status(422).json("Validation of request body failed!").end();
@@ -78,10 +78,10 @@ class PositionService {
 
         if(validate(req.body)) {
             this.#dao.put_position_by_ID_DB(req.params.positionID, req.body).then(() => {
-                res.status(200).json("Position updated!").end();
+                return res.status(200).json("Position updated!").end();
             }).catch((error) => res.status(error).json(error).end());
         } else {
-            res.status(422).json("Validation of request body failed!");
+            res.status(422).json("Validation of request body failed!").end();
             return;
         }
 
@@ -104,7 +104,7 @@ class PositionService {
 
         if(req.body.hasOwnProperty("newPositionID") && validatePositionID(req.params.positionID)) {
             this.#dao.put_positionID_by_ID_DB(req.params.positionID, req.body).then(() => {
-                res.status(200).json("PositionID updated!").end();
+                return res.status(200).json("PositionID updated!").end();
             }).catch((error) => res.status(error).json(error).end());
         } else {
             res.status(422).json("Validation of request body failed!").end();
@@ -128,7 +128,7 @@ class PositionService {
 
         if(validatePositionID(req.params.positionID)) {
             this.#dao.delete_position_by_ID_DB(req.params.positionID).then(() => {
-                res.status(204).json(`Position with positionID=${req.params.positionID} has been deleted!`).end();
+                return res.status(204).json(`Position with positionID=${req.params.positionID} has been deleted!`).end();
             }).catch((error) => res.status(error).json(error).end());
         } else {
             res.status(422).json("Validation of requested positionID failed!").end();
@@ -138,7 +138,7 @@ class PositionService {
 
     deleteAllPositions = async(req, res) => {
         this.#dao.delete_all_positions().then(() => {
-            res.status(204).json("Deleted All Positions!").end();
+            return res.status(204).json("Deleted All Positions!").end();
         }).catch((error) => res.status(503).json(error).end());
     }
         

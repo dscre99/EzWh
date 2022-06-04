@@ -171,27 +171,28 @@ class Restock_orderDAO{
                             this.db.all(sql, (err, rows) => {
                                 if (err) {
                                     reject(err);
+                                } else {
+                                    const resOrders = rows.map((r) => (
+                                        {
+                                            id: r.ID,
+                                            issueDate: r.ISSUEDATE,
+                                            state: r.STATE,
+                                            products: products.filter(val=>val.orderid===r.ID).map((d)=>({
+                                                SKUId:d.id,
+                                                description : d.description,
+                                                price: d.price,
+                                                qty: d.quantity
+                                            })),
+                                            supplierId: r.SUPPLIERID,
+                                            transportNote: r.STATE!=='ISSUED'? r.TRANSPORTNOTE:{},
+                                            skuItems: r.state!=='ISSUED'||r.state!=='DELIVERY'? items.filter(key=>key.orderid===r.ID).map((d)=>({
+                                                SKUId: d.SKUId,
+                                                rfid: d.rfid
+                                            })):[]
+                                        }
+                                    ));
+                                    resolve(resOrders);
                                 }
-                                const resOrders = rows.map((r) => (
-                                    {
-                                        id: r.ID,
-                                        issueDate: r.ISSUEDATE,
-                                        state: r.STATE,
-                                        products: products.filter(val=>val.orderid===r.ID).map((d)=>({
-                                            SKUId:d.id,
-                                            description : d.description,
-                                            price: d.price,
-                                            qty: d.quantity
-                                        })),
-                                        supplierId: r.SUPPLIERID,
-                                        transportNote: r.STATE!=='ISSUED'? r.TRANSPORTNOTE:{},
-                                        skuItems: r.state!=='ISSUED'||r.state!=='DELIVERY'? items.filter(key=>key.orderid===r.ID).map((d)=>({
-                                            SKUId: d.SKUId,
-                                            rfid: d.rfid
-                                        })):[]
-                                    }
-                                ));
-                                resolve(resOrders);
                             });
                         }
                     });
@@ -381,9 +382,7 @@ class Restock_orderDAO{
                 }else{
                     resolve(201);
                 }
-            });
-
-            
+            });           
         });
     }
 

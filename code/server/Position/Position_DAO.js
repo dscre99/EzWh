@@ -32,8 +32,9 @@ class PositionDAO {
                 if (err) {
                     console.log('newPositionTable error:', err);
                     reject(500);
+                } else {
+                    resolve(200);
                 }
-                resolve(200);
             });
         });
     }

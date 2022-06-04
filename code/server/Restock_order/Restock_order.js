@@ -124,9 +124,9 @@ async function update_restock_order_state(req, res) {
   
   try{
     let db = await DAO.updateState(req.body,req.params);
-     res.status(200).end();
+     return res.status(200).end();
     }catch (error){
-     res.status(503).json(error).end();
+     return res.status(503).json(error).end();
     }
 }
   

@@ -152,9 +152,7 @@ async function new_user(req, res) {
 async function manager_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let managerData = req.body;
 
@@ -194,9 +192,7 @@ async function manager_sessions(req, res) {
 async function customer_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let customerData = req.body;
 
@@ -236,9 +232,7 @@ async function customer_sessions(req, res) {
 async function supplier_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let supplierData = req.body;
 
@@ -278,9 +272,7 @@ async function supplier_sessions(req, res) {
 async function clerk_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let clerkData = req.body;
 
@@ -320,9 +312,7 @@ async function clerk_sessions(req, res) {
 async function qualityEmployee_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let qualityEmployeeData = req.body;
 
@@ -362,9 +352,7 @@ async function qualityEmployee_sessions(req, res) {
 async function deliveryEmployee_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-        return res.status(422).json({
-        error: 'Empty body request'
-        });
+        return res.status(422).end();
     }
     let deliveryEmployeeData = req.body;
     

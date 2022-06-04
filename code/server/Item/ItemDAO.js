@@ -150,12 +150,10 @@ class ItemDAO {
                       this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
                         if (err) {
                             reject(503);
+                        } else {
+                            resolve(201);
                         }
-                        resolve(201);
                     });
-                
-            
-            
         });
     }
 
