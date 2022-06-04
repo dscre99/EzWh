@@ -17,7 +17,7 @@ function positionBodyLength(body, req_type) {
 
     switch(req_type) {
         case "post":
-            if(Object.keys(body).length !== 8) return 0;
+            if(Object.keys(body).length !== 6) return 0;
             break;
         case "put":
             if(Object.keys(body).length !== 7) return 0;
@@ -53,17 +53,6 @@ function validate(body) {
 
 }
 
-function validateTestDescData(body) {
-    if(Object.keys(body).length !== 3) return 0;
-
-    const {name, procedureDescription, idSKU} = body;
-
-    if(name!==null && procedureDescription!==null && idSKU!==null) return 1;
-
-    return 0;
-
-}
-
 
 
 
@@ -77,6 +66,22 @@ function validatePositionID(positionID) {
     }
 
     return 0;
+}
+
+
+
+
+// TEST_DESCRIPTOR
+
+function validateTestDescData(body) {
+    if(Object.keys(body).length !== 3) return 0;
+
+    const {name, procedureDescription, idSKU} = body;
+
+    if(name!==null && procedureDescription!==null && idSKU!==null) return 1;
+
+    return 0;
+
 }
 
 

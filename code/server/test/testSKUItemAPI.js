@@ -114,13 +114,18 @@ function testGetSKUItemByRfid(rfid, expected, expectedHTTPStatus) {
     it('testing GET /api/skuitems/:rfid', async function () {
         await agent.get('/api/skuitems/' + rfid).then(function (res) {
             res.should.have.status(expectedHTTPStatus);
-            if (expected.length != 0) {
+            if (expected.length > 1 && res.body.length > 1) {
                 for (let i = 0; i < expected.length; i++) {
                     res.body[i].SKUId.should.equal(expected[i].SKUId);
                     res.body[i].Available.should.equal(expected[i].Available);
                     res.body[i].DateOfStock.should.equal(expected[i].DateOfStock);
                 }
+            } else if(expected.length === 1) {
+                res.body.SKUId.should.equal(expected[0].SKUId);
+                    res.body.Available.should.equal(expected[0].Available);
+                    res.body.DateOfStock.should.equal(expected[0].DateOfStock);
             }
+
         });
     });
 }

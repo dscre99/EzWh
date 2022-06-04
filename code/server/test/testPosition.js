@@ -4,7 +4,7 @@ chai.use(chaiHttp);
 chai.should();
 
 const app = require('../server');
-const { isEmpty, validatePositionID, validatePositionData } = require('../utils/utils');
+const { isEmpty, validatePositionID, positionBodyLength } = require('../utils/utils');
 let agent = chai.request.agent(app);
  
 const dao = require('../Position/Position_DAO');
@@ -69,17 +69,17 @@ describe('Test Position A.P.I.s', () => {
 function newPosition(expectedHTTPStatus, position) {
     
     it('POST /api/position', function (done) {
-        if (validatePositionData(position, "post")) {  // TO-DO : call the Body Validation function
+        if (positionBodyLength(position, "post")) {  // TO-DO : call the Body Validation function
             agent.post("/api/position").send(position).then((res) => {
                 res.should.have.status(expectedHTTPStatus);
                 done();
-            })
+            }).catch(err=>done(err))
         } else {
             agent.post('/api/position') // Body is empty or incorrect
                 .then(function (res) {
                     res.should.have.status(expectedHTTPStatus);
                     done();
-                });
+                }).catch(err=>done(err));
         }
 
     });
