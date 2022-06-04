@@ -330,18 +330,18 @@ describe('test InternalOrderDAO.js', () => {
         customerId: 1
     }, 201);
 
-    // create a third internal order
-    testCreateInternalOrder({
-        issueDate: '2022/05/22 17:58',
-        products: [
-            {
-                SKUId: 7,
-                description: 'water bottle',
-                price: 0.17,
-                qty: 20
-            }
-        ],
-        customerId: 1
-    }, 201);
+    // // create a third internal order
+    // testCreateInternalOrder({
+    //     issueDate: '2022/06/04 21:38',
+    //     products: [
+    //         {
+    //             SKUId: 44,
+    //             description: 'glue',
+    //             price: 2.49,
+    //             qty: 20
+    //         }
+    //     ],
+    //     customerId: 1
+    // }, 201);
 
 });
