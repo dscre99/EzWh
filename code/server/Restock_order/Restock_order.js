@@ -102,16 +102,14 @@ async function update_restock_order_state(req, res) {
 
   if (Object.keys(req.body).length === 0 || Object.keys(req.body).length !== 1) {
       return res.status(422).json({ error: 'Unprocessable Entity - Empty/Too much field' }).end();
-  } else{
+  }
 
-    if(!Object.keys(req.body).includes('newState')){
-      return res.status(422).json({ error: 'Unprocessable Entity - Wrong/missing field name' }).end();
-    }
+  if(!Object.keys(req.body).includes('newState')){
+    return res.status(422).json({ error: 'Unprocessable Entity - Wrong/missing field name' }).end();
+  }
 
-    if(requiredState.includes(req.body['newState'])===false){
-      return res.status(422).json({ error: 'Unprocessable Entity - Wrong field value' }).end();
-    }
-    
+  if(requiredState.includes(req.body['newState'])===false){
+    return res.status(422).json({ error: 'Unprocessable Entity - Wrong field value' }).end();
   }
 
   if (!parseInt(req.params['id'])) {
@@ -124,10 +122,10 @@ async function update_restock_order_state(req, res) {
   
   try{
     let db = await DAO.updateState(req.body,req.params);
-     return res.status(200).end();
-    }catch (error){
-     return res.status(503).json(error).end();
-    }
+    return res.status(200).end();
+  }catch (error){
+    return res.status(503).json(error).end();
+  }
 }
   
   
