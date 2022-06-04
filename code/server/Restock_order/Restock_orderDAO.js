@@ -10,9 +10,11 @@ class Restock_orderDAO{
             const sql = 'DROP TABLE IF EXISTS RESTOCK_ORDER';
             this.db.run(sql, (err) => {
                 if (err) {
-                    reject(err);
+                    console.log('dropTableRestockOrder error:', err);
+                    reject(500);
+                } else {
+                    resolve(200);
                 }
-                resolve(200);
             });
         });
     }
@@ -22,9 +24,11 @@ class Restock_orderDAO{
             const sql = 'CREATE TABLE IF NOT EXISTS RESTOCK_ORDER(ID INTEGER PRIMARY KEY AUTOINCREMENT, ISSUEDATE DATETIME, STATE VARCHAR, SUPPLIERID INTEGER REFERENCES SUPPLIER(ID), TRANSPORTNOTE DATE  )';
             this.db.run(sql, (err) => {
                 if (err) {
-                    reject(err);
+                    console.log('newTableRestockOrder error:', err);
+                    reject(500);
+                } else {
+                    resolve(200);
                 }
-                resolve(200);
             });
         });
     }
@@ -35,9 +39,11 @@ class Restock_orderDAO{
                 const sql = 'DROP TABLE IF EXISTS PRODUCTS';
                 this.db.run(sql, (err) => {
                     if (err) {
-                        reject(err);
+                        console.log('dropTableProducts error:', err);
+                        reject(500);
+                    } else {
+                        resolve(200);
                     }
-                    resolve(200);
                 });
             });
         }
@@ -47,9 +53,11 @@ class Restock_orderDAO{
                 const sql = 'CREATE TABLE IF NOT EXISTS PRODUCTS(SKUID INTEGER REFERENCES SKU(ID),ORDERID INTEGER REFERENCES RESTOCK_ORDER(ID), QUANTITY INTEGER, PRICE FLOAT, DESCRIPTION VARCHAR, PRIMARY KEY(SKUID,ORDERID))';
                 this.db.run(sql, (err) => {
                     if (err) {
-                        reject(err);
+                        console.log('newTableProducts error:', err);
+                        reject(500);
+                    } else {
+                        resolve(200);
                     }
-                    resolve(200);
                 });
             });
         }
@@ -60,9 +68,11 @@ class Restock_orderDAO{
                 const sql = 'DROP TABLE IF EXISTS SKUITEM_IN_RESTOCKORDER';
                 this.db.run(sql, (err) => {
                     if (err) {
-                        reject(err);
+                        console.log('dropTableItemlist error:', err);
+                        reject(500);
+                    } else {
+                        resolve(200);
                     }
-                    resolve(200);
                 });
             });
         }
@@ -72,9 +82,11 @@ class Restock_orderDAO{
                 const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM_IN_RESTOCKORDER(RFID VARCHAR REFERENCES SKU_ITEM(RFID),ORDERID INTEGER REFERENCES RESTOCK_ORDER(ID), PRIMARY KEY(RFID,ORDERID))';
                 this.db.run(sql, (err) => {
                     if (err) {
-                        reject(err);
+                        console.log('newTableItemlist error:', err);
+                        reject(500);
+                    } else {
+                        resolve(200);
                     }
-                    resolve(200);
                 });
             });
         }
@@ -86,8 +98,9 @@ class Restock_orderDAO{
             const sql = 'SELECT I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID AND I.ORDERID=?';
              this.db.all(sql, [data.id||data.ID], (err, rows) => {
                 if(err){
-                    reject(err);
-                }
+                    console.log('getItemList error:', err);
+                    reject(500);
+                } else {
                     const products = rows.map((r) => (
                         {
                             SKUId: r.SKUID,
@@ -95,6 +108,7 @@ class Restock_orderDAO{
                         }
                     ));
                     resolve(products);
+                }
             });
         });
     }
@@ -105,18 +119,18 @@ class Restock_orderDAO{
              this.db.all(sql, [data.id,param.rfid], (err, rows) => {
                 if(err){
                     reject(err);
-                }
-                if(rows.length==0){
-                    resolve(undefined);
-                }else{
-                    const products = rows.map((r) => (
-                        {
-                            id:r.ORDERID
-                        }
-                    ));
-                    resolve(products);
-                }
-                
+                } else {
+                    if(rows.length==0){
+                        resolve(undefined);
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ORDERID
+                            }
+                        ));
+                        resolve(products);
+                    }
+                }                
             });
         });
     }
@@ -128,56 +142,60 @@ class Restock_orderDAO{
             this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
+                } else {
+                    products = rows.map((r) => (
+                        {
+                            orderid:r.ORDERID,
+                            id:r.SKUID,
+                            description:r.DESCRIPTION,
+                            price:r.PRICE,
+                            quantity:r.QUANTITY,
+                        }
+                    ));
+
+                    let items = [];
+                    sql = 'SELECT I.ORDERID, I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
+                    this.db.all(sql, (err, rows) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            items = rows.map((r) => (
+                                {
+                                    orderid:r.ORDERID,
+                                    SKUId: r.SKUID,
+                                    rfid: r.RFID
+                                }
+                            ));
+
+                            sql = 'SELECT * FROM RESTOCK_ORDER ';
+                            this.db.all(sql, (err, rows) => {
+                                if (err) {
+                                    reject(err);
+                                }
+                                const resOrders = rows.map((r) => (
+                                    {
+                                        id: r.ID,
+                                        issueDate: r.ISSUEDATE,
+                                        state: r.STATE,
+                                        products: products.filter(val=>val.orderid===r.ID).map((d)=>({
+                                            SKUId:d.id,
+                                            description : d.description,
+                                            price: d.price,
+                                            qty: d.quantity
+                                        })),
+                                        supplierId: r.SUPPLIERID,
+                                        transportNote: r.STATE!=='ISSUED'? r.TRANSPORTNOTE:{},
+                                        skuItems: r.state!=='ISSUED'||r.state!=='DELIVERY'? items.filter(key=>key.orderid===r.ID).map((d)=>({
+                                            SKUId: d.SKUId,
+                                            rfid: d.rfid
+                                        })):[]
+                                    }
+                                ));
+                                resolve(resOrders);
+                            });
+                        }
+                    });
                 }
-                products = rows.map((r) => (
-                    {
-                        orderid:r.ORDERID,
-                        id:r.SKUID,
-                        description:r.DESCRIPTION,
-                        price:r.PRICE,
-                        quantity:r.QUANTITY,
-                    }
-                ));
-            });
-            let items = [];
-            sql = 'SELECT I.ORDERID, I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
-             this.db.all(sql, (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                items = rows.map((r) => (
-                    {
-                        orderid:r.ORDERID,
-                        SKUId: r.SKUID,
-                        rfid: r.RFID
-                    }
-                ));
-            });
-            sql = 'SELECT * FROM RESTOCK_ORDER ';
-            this.db.all(sql, (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                const resOrders = rows.map((r) => (
-                    {
-                        id: r.ID,
-                        issueDate: r.ISSUEDATE,
-                        state: r.STATE,
-                        products: products.filter(val=>val.orderid===r.ID).map((d)=>({
-                            SKUId:d.id,
-                            description : d.description,
-                            price: d.price,
-                            qty: d.quantity
-                        })),
-                        supplierId: r.SUPPLIERID,
-                        transportNote: r.STATE!=='ISSUED'? r.TRANSPORTNOTE:{},
-                        skuItems: r.state!=='ISSUED'||r.state!=='DELIVERY'? items.filter(key=>key.orderid===r.ID).map((d)=>({
-                            SKUId: d.SKUId,
-                            rfid: d.rfid
-                        })):[]
-                    }
-                ));
-                resolve(resOrders);
             });
         });
     }
@@ -189,44 +207,44 @@ class Restock_orderDAO{
              this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
-                }
-                products = rows.map((r) => (
-                    {
-                        orderid:r.ORDERID,
-                        id:r.SKUID,
-                        description:r.DESCRIPTION,
-                        price:r.PRICE,
-                        quantity:r.QUANTITY,
-                    }
-                ));
-            });
-            
+                } else {
+                    products = rows.map((r) => (
+                        {
+                            orderid:r.ORDERID,
+                            id:r.SKUID,
+                            description:r.DESCRIPTION,
+                            price:r.PRICE,
+                            quantity:r.QUANTITY,
+                        }
+                    ));
 
-            sql = 'SELECT * FROM RESTOCK_ORDER WHERE STATE="ISSUED" ';
-             this.db.all(sql, (err, rows) => {
-                if (err) {
-                    reject(err);
+                    sql = 'SELECT * FROM RESTOCK_ORDER WHERE STATE="ISSUED" ';
+                    this.db.all(sql, (err, rows) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            const resOrders = rows.map((r) => (
+                                {
+                                    id: r.ID,
+                                    issueDate: r.ISSUEDATE,
+                                    state: r.STATE,
+                                    products: products.filter(val=>val.orderid===r.ID).map((d)=>({
+                                        SKUId:d.id,
+                                        description : d.description,
+                                        price: d.price,
+                                        qty: d.quantity
+                                    })),
+                                    supplierId: r.SUPPLIERID,
+                                    skuItems: []
+                                }
+                            ));
+                            resolve(resOrders);
+                        }
+                    });
                 }
-                const resOrders = rows.map((r) => (
-                    {
-                        id: r.ID,
-                        issueDate: r.ISSUEDATE,
-                        state: r.STATE,
-                        products: products.filter(val=>val.orderid===r.ID).map((d)=>({
-                            SKUId:d.id,
-                            description : d.description,
-                            price: d.price,
-                            qty: d.quantity
-                        })),
-                        supplierId: r.SUPPLIERID,
-                        skuItems: []
-                    }
-                ));
-                resolve(resOrders);
             });
         });
     }
-
 
     getRestockOrderByID(data) {
         return new Promise( (resolve, reject) => {
@@ -234,63 +252,69 @@ class Restock_orderDAO{
             let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P  ';
              this.db.all(sql, (err, rows) => {
                 if (err) {
-                    reject(err);
-                }
-                products = rows.map((r) => (
-                    {
-                        orderid:r.ORDERID,
-                        id:r.SKUID,
-                        description:r.DESCRIPTION,
-                        price:r.PRICE,
-                        quantity:r.QUANTITY,
-                    }
-                ));
-            });
-            let items = [];
-            sql = 'SELECT I.ORDERID, I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
-             this.db.all(sql, (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                items = rows.map((r) => (
-                    {
-                        orderid:r.ORDERID,
-                        SKUId: r.SKUID,
-                        rfid: r.RFID
-                    }
-                ));
-            });
-
-            sql = 'SELECT * FROM RESTOCK_ORDER WHERE ID= ? ';
-             this.db.all(sql, [data.id], (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                if(rows.length==0){
-                    resolve(undefined);
-                }else{
-                    const resOrder = rows.map((r) => (
+                    console.log('getRestockOrderByID error:', err);
+                    reject(500);
+                } else {
+                    products = rows.map((r) => (
                         {
-                            id: r.ID,
-                            issueDate: r.ISSUEDATE,
-                            state: r.STATE,
-                            products: products.filter(val=>val.orderid===r.ID).map((d)=>({
-                                SKUId:d.id,
-                                description : d.description,
-                                price: d.price,
-                                qty: d.quantity
-                            })),
-                            supplierId: r.SUPPLIERID,
-                            transportNote: r.STATE!=='ISSUED'? r.TRANSPORTNOTE:{},
-                            skuItems: r.state!=='ISSUED'||r.state!=='DELIVERY'? items.filter(key=>key.orderid===r.ID).map((d)=>({
-                                SKUId: d.SKUId,
-                                rfid: d.rfid
-                            })):[]
+                            orderid:r.ORDERID,
+                            id:r.SKUID,
+                            description:r.DESCRIPTION,
+                            price:r.PRICE,
+                            quantity:r.QUANTITY,
                         }
                     ));
-                    resolve(resOrder[0]);
+
+                    let items = [];
+                    sql = 'SELECT I.ORDERID, I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
+                    this.db.all(sql, (err, rows) => {
+                        if (err) {
+                            console.log('getRestockOrderByID error nested:', err);
+                            reject(500);
+                        } else {
+                            items = rows.map((r) => (
+                                {
+                                    orderid:r.ORDERID,
+                                    SKUId: r.SKUID,
+                                    rfid: r.RFID
+                                }
+                            ));
+
+                            sql = 'SELECT * FROM RESTOCK_ORDER WHERE ID= ? ';
+                            this.db.all(sql, [data.id], (err, rows) => {
+                                if (err) {
+                                    console.log('getRestockOrderByID error nested2:', err);
+                                    reject(err);
+                                } else {
+                                    if(rows.length==0){
+                                        resolve(undefined);
+                                    }else{
+                                        const resOrder = rows.map((r) => (
+                                            {
+                                                id: r.ID,
+                                                issueDate: r.ISSUEDATE,
+                                                state: r.STATE,
+                                                products: products.filter(val=>val.orderid===r.ID).map((d)=>({
+                                                    SKUId:d.id,
+                                                    description : d.description,
+                                                    price: d.price,
+                                                    qty: d.quantity
+                                                })),
+                                                supplierId: r.SUPPLIERID,
+                                                transportNote: r.STATE!=='ISSUED'? r.TRANSPORTNOTE:{},
+                                                skuItems: r.state!=='ISSUED'||r.state!=='DELIVERY'? items.filter(key=>key.orderid===r.ID).map((d)=>({
+                                                    SKUId: d.SKUId,
+                                                    rfid: d.rfid
+                                                })):[]
+                                            }
+                                        ));
+                                        resolve(resOrder[0]);
+                                    }
+                                }                                
+                            });
+                        }
+                    });
                 }
-                
             });
         });
     }
@@ -302,45 +326,46 @@ class Restock_orderDAO{
              this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
-                }
-                products = rows.map((r) => (
-                    {
-                        orderid:r.ORDERID,
-                        id:r.SKUID,
-                        description:r.DESCRIPTION,
-                        price:r.PRICE,
-                        quantity:r.QUANTITY,
-                    }
-                ));
-            });
-
-         sql = 'SELECT * FROM RESTOCK_ORDER WHERE ID= ? AND STATE="DELIVERED" ';
-             this.db.all(sql, [data.id], (err, rows) => {
-                if (err) {
-                    reject(err);
-                }
-                if(rows.length==0){
-                    resolve(undefined);
-                }else{
-                    const resOrder = rows.map((r) => (
+                } else {
+                    products = rows.map((r) => (
                         {
-                            id: r.ID,
-                            issueDate: r.ISSUEDATE,
-                            state: r.STATE,
-                            products: products.filter(val=>val.orderid===r.ID).map((d)=>({
-                                SKUId:d.id,
-                                description : d.description,
-                                price: d.price,
-                                qty: d.quantity
-                            })),
-                            supplierId: r.SUPPLIERID,
-                            transportNote: r.TRANSPORTNOTE,
-                            skuItems :[]
+                            orderid:r.ORDERID,
+                            id:r.SKUID,
+                            description:r.DESCRIPTION,
+                            price:r.PRICE,
+                            quantity:r.QUANTITY,
                         }
                     ));
-                    resolve(resOrder[0]);
+
+                    sql = 'SELECT * FROM RESTOCK_ORDER WHERE ID= ? AND STATE="DELIVERED" ';
+                    this.db.all(sql, [data.id], (err, rows) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            if(rows.length==0){
+                                resolve(undefined);
+                            }else{
+                                const resOrder = rows.map((r) => (
+                                    {
+                                        id: r.ID,
+                                        issueDate: r.ISSUEDATE,
+                                        state: r.STATE,
+                                        products: products.filter(val=>val.orderid===r.ID).map((d)=>({
+                                            SKUId:d.id,
+                                            description : d.description,
+                                            price: d.price,
+                                            qty: d.quantity
+                                        })),
+                                        supplierId: r.SUPPLIERID,
+                                        transportNote: r.TRANSPORTNOTE,
+                                        skuItems :[]
+                                    }
+                                ));
+                                resolve(resOrder[0]);
+                            }
+                        }
+                    });
                 }
-                
             });
         });
     }
@@ -386,24 +411,25 @@ class Restock_orderDAO{
             this.db.run(sql, [data.newState, params.id], (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(200);
                 }
-                resolve(200);
             });
         });
     }
 
 
-
     newSKUItemList(data,params) {
-            return new Promise(async (resolve, reject) => {
-                const sql = ' INSERT INTO SKUITEM_IN_RESTOCKORDER (ORDERID,RFID) VALUES (?,?) ';
-                await this.db.run(sql, [params.id, data.rfid], (err) => {
-                    if (err) {
-                        reject(err);
-                    }
+        return new Promise(async (resolve, reject) => {
+            const sql = ' INSERT INTO SKUITEM_IN_RESTOCKORDER (ORDERID,RFID) VALUES (?,?) ';
+            await this.db.run(sql, [params.id, data.rfid], (err) => {
+                if (err) {
+                    reject(err);
+                } else {
                     resolve(200);
-                });
+                }
             });
+        });
     }
 
     addTransportNote(data,params) {
@@ -412,18 +438,20 @@ class Restock_orderDAO{
             this.db.all(sql1,[params.id,data.deliveryDate],(err,rows)=>{
                 if(err){
                     reject(err);
-                }
-                if(rows.length===0){
-                    resolve(422);
-                    return;
-                }else{
-                    const sql = ' UPDATE RESTOCK_ORDER  SET TRANSPORTNOTE= ? WHERE ID=? ';
-                    this.db.run(sql, [data.deliveryDate, params.id], (err) => {
-                        if (err) {
-                            reject(err);
-                        }
-                        resolve(200);
-                    });
+                } else {
+                    if(rows.length===0){
+                        resolve(422);
+                        return;
+                    }else{
+                        const sql = ' UPDATE RESTOCK_ORDER  SET TRANSPORTNOTE= ? WHERE ID=? ';
+                        this.db.run(sql, [data.deliveryDate, params.id], (err) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(200);
+                            }
+                        });
+                    }
                 }
             })
         });
@@ -436,8 +464,9 @@ class Restock_orderDAO{
             this.db.run(sql, [data.id], (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(204);
                 }
-                resolve(204);
             });
         });
     }
