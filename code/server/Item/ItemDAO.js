@@ -43,9 +43,9 @@ class ItemDAO {
                         price:r.PRICE,
                         SKUId:r.SKUID,
                         supplierId:r.SUPPLIERID
-                    }
-                ));
-                resolve(products);
+                    }));
+                    console.log(products);
+                    resolve(products);
                 }
             });
         });

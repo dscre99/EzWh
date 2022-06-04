@@ -2,9 +2,12 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
 chai.should();
-
+const DB = require('../EZWH_db/RunDB');
+const DBinstance = DB.DBinstance;
 const app = require('../server');
 let agent = chai.request.agent(app);
+const SKU = require("../SKU/SKUdao");
+const SKUInstance = new SKU(DBinstance);
 
 function testGETItembyId(id, description, price, skuid, supplierid, expectedHTTPstatus) {
     it('GET/api/items/:id', async function() {
@@ -76,6 +79,15 @@ describe('test Item.js', () => {
 
     before(async () => {
         await agent.delete('/api/clearitemtable');
+        let sku = {
+            description: "a new sku",
+            weight: 100,
+            volume: 50,
+            notes: "first sku",
+            availableQuantity: 50,
+            price: 10.99
+        }
+        let newSku = SKUInstance.newSKU(sku);
     });
 
     testGETItems([],200);
@@ -145,17 +157,18 @@ describe('test Item.js', () => {
         "supplierId" : 1
     },201);
 
-    testGETItems([{"id" : 12,
-    "description" : "a new item",
-    "price" : 10.99,
-    "SKUId" : 1,
-    "supplierId" : 2
+    testGETItems([{
+        "id": 5,
+        "description": "a new item",
+        "price": 10.99,
+        "SKUId": 1,
+        "supplierId": 1
                 },{
-        "id" : 5,
-    "description" : "a new item",
-    "price" : 10.99,
-    "SKUId" : 1,
-    "supplierId" : 1}],200);
+        "id": 12,
+        "description": "a new item",
+        "price": 10.99,
+        "SKUId": 1,
+        "supplierId": 2  }], 200);
     
     testGETItembyId(10,"a new item",10.99,1,2,404);
     testGETItembyId(12,"a new item",10.99,1,2,200);

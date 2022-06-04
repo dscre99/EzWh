@@ -2,7 +2,8 @@ const DB = require('../EZWH_db/RunDB');
 const { isEmpty } = require('../utils/utils');
 const DBInstance = DB.DBinstance;
 const ItemDAO = require('./ItemDAO.js');
-const DAO=new ItemDAO(DBInstance);
+const DAO = new ItemDAO(DBInstance);
+
 
 
 // ITEM
