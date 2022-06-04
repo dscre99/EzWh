@@ -44,7 +44,6 @@ class ItemDAO {
                         SKUId:r.SKUID,
                         supplierId:r.SUPPLIERID
                     }));
-                    console.log(products);
                     resolve(products);
                 }
             });
