@@ -17,7 +17,7 @@ function positionBodyLength(body, req_type) {
 
     switch(req_type) {
         case "post":
-            if(Object.keys(body).length !== 6) return 0;
+            if(Object.keys(body).length !== 8) return 0;
             break;
         case "put":
             if(Object.keys(body).length !== 7) return 0;

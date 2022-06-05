@@ -25,7 +25,9 @@ describe('Test Position A.P.I.s', () => {
         "row":3454,
         "col":100,
         "maxWeight":300,
-        "maxVolume":250
+        "maxVolume":250,
+        "OccupiedWeight": 0,
+        "OccupiedVolume":0
     }
 
     let incorrect_position_data = {
@@ -34,7 +36,9 @@ describe('Test Position A.P.I.s', () => {
         "row":3454,
         "col":100,
         "maxWeight":300,
-        "maxVolume":250
+        "maxVolume":250,
+        "OccupiedWeight": 0,
+        "OccupiedVolume":0
     }
 
     newPosition(201, position);
@@ -48,6 +52,7 @@ describe('Test Position A.P.I.s', () => {
 
     // Testing PUT Requests
     let new_position = {
+        "positionID":"800234543412",
         "AisleID": "8000",
         "Row": "3404",
         "Col": "3212",
@@ -55,8 +60,8 @@ describe('Test Position A.P.I.s', () => {
         "MaxVolume": 700,
         "OccupiedWeight": 100,
         "OccupiedVolume":300
-
     }
+
     modifyPosition(200, "800234543412", new_position);
     modifyPositionID(200, "800234543412", "300234543417");
     modifyPositionID(4040, "3002345431317", "300234543417");
@@ -69,7 +74,7 @@ describe('Test Position A.P.I.s', () => {
 function newPosition(expectedHTTPStatus, position) {
     
     it('POST /api/position', function (done) {
-        if (positionBodyLength(position, "post")) {  // TO-DO : call the Body Validation function
+        if (positionBodyLength(position, "post")) {  
             agent.post("/api/position").send(position).then((res) => {
                 res.should.have.status(expectedHTTPStatus);
                 done();
