@@ -94,7 +94,7 @@ class Restock_orderDAO{
     // GETTERS
 
     getItemList(data){
-        return new Promise( (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const sql = 'SELECT I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID AND I.ORDERID=?';
              this.db.all(sql, [data.id||data.ID], (err, rows) => {
                 if(err){
