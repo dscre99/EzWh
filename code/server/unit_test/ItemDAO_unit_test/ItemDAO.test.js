@@ -2,6 +2,9 @@ const conn = require('../../EZWH_db/RunDB');
 const db = conn.DBinstance;
 const ItemDAO = require ('../../Item/ItemDAO');
 const ItemDAOInstance = new ItemDAO(db);
+const SKUDAO = require('../../SKU/SKUdao');
+const SKUDAOInstance = new SKUDAO(db);
+
 
 
 function testStoreItem(id,description,price,SKUId,supplierId,expectedResult){
@@ -110,6 +113,10 @@ describe('test ItemDAO.js',  () => {
         expect(res).toEqual(200);
         let res1 = await ItemDAOInstance.newTableItem();
         expect(res1).toEqual(200);
+        let res2 = await SKUDAOInstance.dropSKUTable();
+        expect(res2).toEqual(200);
+        let res3 = await SKUDAOInstance.newSKUTable();
+        expect(res3).toEqual(200);
     });
      testGetItems([]); // No items stored 
 
