@@ -151,15 +151,15 @@ class PositionDAO {
                                     } else {
                         
                                         resolve(true);
-                                        // const sql = 'INSERT INTO POSITION(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES (?,?,?,?,?,?,?,?)'
-                                        // this.#db.run(sql, [body.newPositionID, row[0].aisleID, row[0].row, row[0].col, row[0].maxWeight, row[0].maxVolume, row[0].occupiedWeight, row[0].occupiedVolume], (err) => {
-                                        //     if (err) {
-                                        //         console.log('put_positionID_by_ID_DB error nested3:', err);
-                                        //         reject(503);
-                                        //     } else {
-                                        //         resolve(true);
-                                        //     }
-                                        // });
+                                        const sql = 'INSERT INTO POSITION(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES (?,?,?,?,?,?,?,?)'
+                                        this.#db.run(sql, [body.newPositionID, row[0].aisleID, row[0].row, row[0].col, row[0].maxWeight, row[0].maxVolume, row[0].occupiedWeight, row[0].occupiedVolume], (err) => {
+                                            if (err) {
+                                                console.log('put_positionID_by_ID_DB error nested3:', err);
+                                                reject(503);
+                                            } else {
+                                                resolve(true);
+                                            }
+                                        });
                                     }
                                 })
                             }
