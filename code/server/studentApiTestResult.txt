@@ -1,0 +1,353 @@
+Server listening at http://localhost:3001
+
+
+  test InternalOrderAPIreceiver.js
+    GET /api/internalOrders
+      √ GET /api/internalOrders (288ms)
+    GET /api/internalOrdersIssued
+      √ GET /api/internalOrdersIssued (143ms)
+    GET /api/internalOrdersAccepted
+      √ GET /api/internalOrdersAccepted (165ms)
+    GET /api/internalOrders/:id
+      √ GET /api/internalOrders/:id
+    GET /api/internalOrders/:id
+      √ GET /api/internalOrders/:id
+    GET /api/internalOrders/:id
+      √ GET /api/internalOrders/:id (118ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders (257ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders
+      √ GET /api/internalOrders (311ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders (94ms)
+    GET /api/internalOrders/:id
+      √ GET /api/internalOrders/:id (123ms)
+    GET /api/internalOrders/:id
+      √ GET /api/internalOrders/:id (78ms)
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id (45ms)
+    GET /api/internalOrders/:id
+      √ GET /api/internalOrders/:id
+    GET /api/internalOrders/:id
+      √ GET /api/internalOrders/:id
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id (47ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders (74ms)
+    DELETE /api/internalOrders/:id
+      √ DELETE /api/internalOrders/:id
+    DELETE /api/internalOrders/:id
+      √ DELETE /api/internalOrders/:id
+    DELETE /api/internalOrders/:id
+      √ DELETE /api/internalOrders/:id (116ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    GET /api/internalOrders/:id
+      √ GET /api/internalOrders/:id
+
+  test UC9-1 - Internal Order IO accepted
+    GET /api/internalOrders
+      √ GET /api/internalOrders (248ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id (40ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+
+  test UC9-2 - Internal Order IO refused
+    GET /api/internalOrders
+      √ GET /api/internalOrders (315ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id (72ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+
+  test UC9-3 - Internal Order IO cancelled
+    GET /api/internalOrders
+      √ GET /api/internalOrders (105ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id (39ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders
+
+  test UC10-1 - Internal Order IO Completed
+    GET /api/internalOrders
+      √ GET /api/internalOrders (216ms)
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id
+    PUT /api/internalOrders/:id
+      √ PUT /api/internalOrders/:id (76ms)
+    GET /api/internalOrders
+      √ GET /api/internalOrders (162ms)
+
+  test Item.js
+    √ GET/api/items
+    √ POST/api/item (99ms)
+    √ POST/api/item
+    √ POST/api/item
+    √ POST/api/item
+    √ POST/api/item
+    √ POST/api/item
+    √ POST/api/item
+    √ POST/api/item (166ms)
+    √ GET/api/items
+    √ GET/api/items/:id
+    √ GET/api/items/:id
+    √ PUT/api/item/:id (44ms)
+    √ GET/api/items/:id
+    √ PUT/api/item/:id
+    √ PUT/api/item/:id
+    √ PUT/api/item/:id
+    √ PUT/api/item/:id
+    √ PUT/api/item/:id
+    √ PUT/api/item/:id
+    √ DELETE/api/items/:id
+    √ DELETE/api/items/:id
+    √ DELETE/api/items/:id (38ms)
+    √ GET/api/items/:id
+
+  Test Position A.P.I.s
+    √ POST /api/position (84ms)
+    √ POST /api/position
+    √ GET /api/positions
+    √ GET /api/positions
+    √ PUT /api/position/:positionID
+    √ PUT /api/position/:positionID/changeID
+    √ PUT /api/position/:positionID/changeID
+    √ DELETE /api/position/:positionID
+
+  test Restock_order.js
+    √ GET/api/restockOrders
+    √ GET/api/restockOrdersIssued
+    √ GET/api/restockOrders/:id
+    √ GET/api/restockOrders/:id
+    √ GET/api/restockOrders/:id/returnItems
+    √ GET/api/restockOrders/:id/returnItems
+    √ POST/api/restockOrder
+    √ POST/api/restockOrder (84ms)
+    √ GET/api/restockOrders
+    √ GET/api/restockOrdersIssued
+    √ GET/api/restockOrders/:id
+    √ POST/api/restockOrder
+    √ POST/api/restockOrder
+    √ POST/api/restockOrder
+    √ PUT/api/restockOrder/:id/skuItems
+    √ PUT/api/restockOrder/:id (99ms)
+    √ GET/api/restockOrders
+    √ GET/api/restockOrdersIssued
+    √ PUT/api/restockOrder/:id
+    √ PUT/api/restockOrder/:id
+    √ PUT/api/restockOrder/:id
+    √ PUT/api/restockOrder/:id
+    √ PUT/api/restockOrder/:id
+    √ PUT/api/restockOrder/:id
+    √ PUT/api/restockOrder/:id/skuItems
+    √ GET/api/restockOrders (69ms)
+    √ PUT/api/restockOrder/:id/skuItems
+    √ PUT/api/restockOrder/:id/skuItems
+    √ PUT/api/restockOrder/:id/skuItems
+    √ PUT/api/restockOrder/:id/skuItems
+    √ PUT/api/restockOrder/:id/skuItems
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id
+    √ GET/api/restockOrders
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id/transportNote (41ms)
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id/transportNote
+    √ PUT/api/restockOrder/:id/transportNote
+    √ POST/api/restockOrder (73ms)
+    √ GET/api/restockOrders
+    √ GET/api/restockOrders/:id
+    √ GET/api/restockOrdersIssued
+    √ DELETE/api/restockOrder/:id (38ms)
+    √ DELETE/api/restockOrder/:id
+    √ DELETE/api/restockOrder/:id
+
+  test Return_order.js
+    √ GET/api/returnOrders
+    √ GET/api/returnOrders/:id
+    √ POST/api/returnOrder
+    √ POST/api/returnOrder
+    √ POST/api/returnOrder
+    √ POST/api/returnOrder
+    √ POST/api/returnOrder
+    √ POST/api/returnOrder
+    √ POST/api/returnOrder (40ms)
+    √ GET/api/returnOrders (70ms)
+    √ GET/api/returnOrders/:id
+    √ POST/api/returnOrder
+    √ GET/api/returnOrders (70ms)
+    √ DELETE/api/returnOrder/:id
+    √ DELETE/api/returnOrder/:id
+    √ DELETE/api/returnOrder/:id (42ms)
+    √ GET/api/returnOrders/:id
+    √ GET/api/returnOrders/:id
+
+  test sku apis
+    √ testing DELETE /api/clearskutable (217ms)
+    √ testing GET /api/skus
+getSKUbyID reject
+    √ testing GET /api/skus/:id
+newSKU resolve
+    √ testing POST /api/sku (47ms)
+    √ testing POST /api/sku
+modifySKU resolve
+    √ testing PUT /api/sku/:id
+modifySKUPosition reject
+    √ testing PUT /api/sku/:id/position
+modifySKUPosition resolve
+    √ testing PUT /api/sku/:id/position (76ms)
+    √ testing GET /api/skus
+getSKUbyID resolve
+    √ testing GET /api/skus/:id
+deleteSKUbyID resolve
+    √ testing DELETE /api/skus/:id (39ms)
+
+  testing sku item apis
+    √ testing GET /api/skuitems
+12345678901234567890123456789016
+    √ testing POST /api/skuitem (74ms)
+12345678901234567890123456789015
+newSKUItem reject
+    √ testing POST /api/skuitem
+12345678901234567890123456789014
+    √ testing POST /api/skuitem (41ms)
+12345678901234567890123456789114
+    √ testing POST /api/skuitem (47ms)
+    √ testing GET /api/skuitems
+    √ testing GET /api/skuitems/sku/:id
+    √ testing GET /api/skuitems/sku/:id
+    √ testing GET /api/skuitems/:rfid
+    √ testing GET /api/skuitems/:rfid
+    √ testing PUT /api/skuitems/:rfid (41ms)
+    √ testing DELETE /api/skuitems/:rfid
+
+  Test Test Descriptor A.P.I.s
+    √ GET /api/testDescriptors
+    √ POST /api/testDescriptor
+    √ POST /api/testDescriptor
+    √ GET /api/testDescriptors
+    √ POST /api/testDescriptor (43ms)
+    √ PUT /api/testDescriptor/:id (45ms)
+    √ GET /api/testDescriptors
+    √ DELETE /api/testDescriptor/:id (39ms)
+    √ GET /api/testDescriptors
+    √ POST /api/testDescriptor
+    √ GET /api/testDescriptors
+
+  Test Test Result A.P.I.s
+    √ GET /api/skuitems/:rfid/testResults
+    √ POST /api/skuitems/testResult (49ms)
+    √ GET /api/skuitems/:rfid/testResults
+    √ GET /api/skuitems/:rfid/testResults
+    √ PUT /api/skuitems/:rfid/testResult/:id (47ms)
+    √ DELETE /api/skuitems/:rfid/testResult/:id
+    √ DELETE /api/skuitems/:rfid/testResult/:id (49ms)
+    √ GET /api/skuitems/:rfid/testResults
+
+  test UserAPIreceiver.js
+    √ getting hello world!
+    √ GET /api/userinfo
+    √ GET /api/users
+    √ testing POST /api/newuser (45ms)
+    √ GET /api/userinfo
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser (45ms)
+    √ testing POST /api/newuser (45ms)
+    √ testing POST /api/newuser
+    √ GET /api/suppliers
+    √ testing POST /api/newuser (38ms)
+    √ GET /api/suppliers
+    √ testing POST /api/newuser (40ms)
+    √ GET /api/suppliers
+    √ GET /api/users
+    √ testing POST /api/managerSessions
+    √ testing POST /api/managerSessions
+    √ testing POST /api/customerSessions
+    √ testing POST /api/customerSessions
+    √ testing POST /api/supplierSessions
+    √ testing POST /api/supplierSessions
+    √ testing POST /api/clerkSessions
+    √ testing POST /api/clerkSessions
+    √ testing POST /api/qualityEmployeeSessions
+    √ testing POST /api/clerkSessions
+    √ testing POST /api/deliveryEmployeeSessions
+    √ testing POST /api/clerkSessions
+    √ testing POST /api/logout
+    √ testing PUT /api/users/:username (129ms)
+    √ testing PUT /api/users/:username
+    √ testing PUT /api/users/:username (40ms)
+    √ testing PUT /api/users/:username
+    √ testing PUT /api/users/:username
+    √ testing POST /api/newuser (39ms)
+    √ testing DELETE /api/users/:username/:type (44ms)
+
+  test UC4-1 - Create user and define rights
+    √ testing POST /api/newuser (79ms)
+    √ testing POST /api/newuser (123ms)
+    √ GET /api/users
+
+  test UC4-2 - Modify user rights
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser
+    √ GET /api/users
+    √ testing PUT /api/users/:username (40ms)
+    √ GET /api/users
+
+  test UC4-3 - Delete user
+    √ testing POST /api/newuser
+    √ testing POST /api/newuser (49ms)
+    √ GET /api/users
+    √ testing DELETE /api/users/:username/:type (42ms)
+    √ GET /api/users
+
+
+  250 passing (11s)
+
