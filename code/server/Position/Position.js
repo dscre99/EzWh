@@ -103,7 +103,7 @@ class PositionService {
         
 
         if(req.body.hasOwnProperty("newPositionID") && validatePositionID(req.params.positionID)) {
-            this.#dao.put_positionID_by_ID_DB(req.params.positionID, req.body).then(() => {
+            this.#dao.put_positionID_by_ID_DB(req.body, req.params.positionID).then(() => {
                 return res.status(200).json("PositionID updated!").end();
             }).catch((error) => res.status(error).json(error).end());
         } else {

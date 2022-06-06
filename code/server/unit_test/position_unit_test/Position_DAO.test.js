@@ -46,20 +46,11 @@ function test_modify_position(positionID, aisleID, row, col, maxWeight, maxVolum
     });
 }
 
-function test_modify_position_ID(actual_positionID, body, expected) {
+function test_modify_position_ID(new_positionID, actual_positionID, expected) {
     test('Modify Position ID', async () => {
-		let data = {
-			newPositionID: body.positionID,
-			newAisleID: body.aisleID,
-            newRow: body.row,
-            newCol: body.col,
-            newMaxWeight: body.maxWeight,
-            newMaxVolume: body.maxVolume,
-            newOccupiedWeight: body.occupiedWeight,
-			newOccupiedVolume:body.occupiedVolume
-		}
+		
         try {
-            let res = await position_dao.put_positionID_by_ID_DB(actual_positionID, data);
+            let res = await position_dao.put_positionID_by_ID_DB(new_positionID, actual_positionID);
             expect(res).toEqual(expected);
         } catch (err) {
             expect(err).toEqual(expected);
@@ -147,8 +138,9 @@ describe('Test Position', () => {
 	])
 
 
-	test_modify_position_ID("800234545410", {"positionID":"500234545417", "aisleID": "500", "row": 14, "col": 12, "maxWeight": 30, "maxVolume": 10, "occupiedWeight": 3,"occupiedVolume": 5}, true);
-    test_get_positions([
+	test_modify_position_ID({newPositionID:"500234545417"},"800234545410", true);
+    
+	test_get_positions([
 		{
 			"positionID": "800234543412",
 			"aisleID": "8002",

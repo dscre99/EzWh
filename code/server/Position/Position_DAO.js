@@ -114,14 +114,16 @@ class PositionDAO {
         });
     }
     
-    put_positionID_by_ID_DB(positionID, body) {
+    put_positionID_by_ID_DB(body, oldPositionID) {
         return new Promise((resolve, reject) => {
 
             const check_positionID = 'SELECT COUNT(*) FROM POSITION WHERE positionID=?';
             
             let exist = 0;
             
-            this.#db.all(check_positionID, [positionID], (err, result) => {
+            this.#db.all(check_positionID, [oldPositionID], (err, result) => {
+
+               
 
                 if(err) {
                     reject(503);
@@ -133,17 +135,16 @@ class PositionDAO {
                         const get_old_row = 'SELECT * FROM POSITION WHERE positionID=?';
                         
 
-                        this.#db.all(get_old_row, [positionID], (err, row) => {
+                        this.#db.all(get_old_row, [oldPositionID], (err, row) => {
                             if (err) {
                                 reject(503);
                             } else {
                                 const delete_sql = 'DELETE FROM POSITION WHERE positionID=?'
-                                this.#db.run(delete_sql, [positionID], (err) => {
+                                this.#db.run(delete_sql, [oldPositionID], (err) => {
                                     if(err) {
                                         reject(503);
                                     } else {
-                                        // resolve(true);
-                                        const sql = 'INSERT INTO POSITION(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES (?,?,?,?,?,?,?,?)'
+                                        const sql = 'INSERT OR IGNORE INTO POSITION(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume) VALUES (?,?,?,?,?,?,?,?)'
                                         this.#db.run(sql, [body.newPositionID, row[0].aisleID, row[0].row, row[0].col, row[0].maxWeight, row[0].maxVolume, row[0].occupiedWeight, row[0].occupiedVolume], (err) => {
                                             if (err) {
                                                 reject(503);
