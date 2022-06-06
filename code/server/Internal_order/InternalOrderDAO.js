@@ -31,7 +31,6 @@ class InternalOrderDAO {
         
                         } else {
                             resolve(200);
-        
                         }
                     });
                 }
@@ -51,15 +50,24 @@ class InternalOrderDAO {
 
                 } else {
 
+                    // let sql2 = `CREATE TABLE IF NOT EXISTS SKU_IN_INTERNALORDER(
+                    //                 INTERNAL_ORDER_ID INTEGER NOT NULL,
+                    //                 SKU_ID INTEGER NOT NULL,
+                    //                 DESCRIPTION VARCHAR,
+                    //                 PRICE FLOAT,
+                    //                 QTY INTEGER,
+                    //                 PRIMARY KEY (INTERNAL_ORDER_ID, SKU_ID),
+                    //                 FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
+                    //             )`;
                     let sql2 = `CREATE TABLE IF NOT EXISTS SKU_IN_INTERNALORDER(
-                                    INTERNAL_ORDER_ID INTEGER NOT NULL,
-                                    SKU_ID INTEGER NOT NULL,
-                                    DESCRIPTION VARCHAR,
-                                    PRICE FLOAT,
-                                    QTY INTEGER,
-                                    PRIMARY KEY (INTERNAL_ORDER_ID, SKU_ID),
-                                    FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
-                                )`;
+                        INTERNAL_ORDER_ID INTEGER,
+                        SKU_ID INTEGER NOT NULL,
+                        DESCRIPTION VARCHAR,
+                        PRICE FLOAT,
+                        QTY INTEGER,
+                        PRIMARY KEY (INTERNAL_ORDER_ID, SKU_ID),
+                        FOREIGN KEY (INTERNAL_ORDER_ID) REFERENCES INTERNAL_ORDER(ID)
+                    )`;
                     this.db.run(sql2, (err2) => {
                         if(err2){
                             // reports error while querying database
@@ -243,40 +251,39 @@ class InternalOrderDAO {
                         console.log('createInternalOrder() sql.run error:: ', err);
                         reject(503);    // 503 Service Unavailable (generic error)
     
-                    }
-                });
-
-                let sql2 = `SELECT ID FROM INTERNAL_ORDER WHERE (ISSUE_DATE=? AND STATE=? AND CUSTOMER_ID=?)`;
-                this.db.all(sql2, [orderData.issueDate, 'ISSUED', orderData.customerId], (err2, rows2) => {
-                    if(err2){
-                        // reports error while querying database
-                        console.log('createInternalOrder() sql2.all error:: ', err2);
-                        reject(503);    // 503 Service Unavailable (generic error)
-    
                     } else {
-                        let id = rows2.map((r) => (
-                            r.ID
-                        ))[0];
+                        let sql2 = `SELECT ID FROM INTERNAL_ORDER WHERE (ISSUE_DATE=? AND STATE=? AND CUSTOMER_ID=?)`;
+                        this.db.all(sql2, [orderData.issueDate, 'ISSUED', orderData.customerId], (err2, rows2) => {
+                            if(err2){
+                                // reports error while querying database
+                                console.log('createInternalOrder() sql2.all error:: ', err2);
+                                reject(503);    // 503 Service Unavailable (generic error)
+            
+                            } else {
+                                let id = rows2.map((r) => (
+                                    r.ID
+                                ))[0];
 
-                        if(orderData.products.length > 0) {
-                            orderData.products.forEach(p => {
-                                let sql3 = `INSERT INTO SKU_IN_INTERNALORDER (INTERNAL_ORDER_ID, SKU_ID, DESCRIPTION, PRICE, QTY)
-                                            VALUES(?,?,?,?,?)`;
-                                this.db.run(sql3, [id, p.SKUId, p.description, p.price, p.qty], (err3) => {
-                                    if(err3){
-                                        // reports error while querying database
-                                        console.log('createInternalOrder() sql3.all error:: ', err3);
-                                        reject(503);    // 503 Service Unavailable (generic error)
-                    
-                                    } else {
-                                        resolve(201);
-                    
-                                    }
-                                });
-                            });
-                        } else {
-                            resolve(201);
-                        }
+                                if(orderData.products.length > 0) {
+                                    orderData.products.forEach(p => {
+                                        let sql3 = `INSERT INTO SKU_IN_INTERNALORDER (INTERNAL_ORDER_ID, SKU_ID, DESCRIPTION, PRICE, QTY)
+                                                    VALUES(?,?,?,?,?)`;
+                                        this.db.run(sql3, [id, p.SKUId, p.description, p.price, p.qty], (err3) => {
+                                            if(err3){
+                                                // reports error while querying database
+                                                console.log('createInternalOrder() sql3.all error:: ', err3);
+                                                reject(503);    // 503 Service Unavailable (generic error)
+                            
+                                            } else {
+                                                resolve(201);
+                                            }
+                                        });
+                                    });
+                                } else {
+                                    resolve(201);
+                                }
+                            }
+                        });
                     }
                 });
             }
@@ -323,10 +330,10 @@ class InternalOrderDAO {
                                                         VALUES (?,?,?);`;
                                             this.db.run(sql3, [data.id, p.SkuID, p.RFID], (err3) => {
                                                 //console.log('i', i);
-                                                //console.log('tot', data.products.length-1);
+                                                // console.log('tot', data.products.length-1);
                                                 if(err3){
                                                     // reports error while querying database
-                                                    console.log('modifyInternalOrder() sql3.run error:: ', err3);
+                                                   // console.log('modifyInternalOrder() sql3.run error:: ', err3);
                                                     reject(503);    // 503 Service Unavailable (generic error)
                                 
                                                 } else if(i == data.products.length-1) {

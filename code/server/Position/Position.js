@@ -1,4 +1,4 @@
-const { isAllowed, isEmpty, validatePositionBody, validatePositionID, positionBodyLength, validatePositionData } = require("../utils/utils");
+const { isAllowed, isEmpty, validatePositionBody, validatePositionID, positionBodyLength, validatePositionData, checkPositionUpdate, validateData, validate } = require("../utils/utils");
 
 class PositionService {
     
@@ -24,19 +24,19 @@ class PositionService {
     get_positions = async(req,res) => {
         
         if(!isAllowed(this.#loggedUser)) {
-            res.status(401).json("You are not allowed to see the positions!");
+            res.status(401).json("You are not allowed to see the positions!").end();
             return;
         }
 
         if(!isEmpty(req.body)) {
-            res.status(503).json("Body must be empty!");
+            res.status(503).json("Body must be empty!").end();
             return;
         }
         
         
-        this.#dao.getPositions().then((positions) => {
-            res.status(200).json(positions);
-        }).catch((error) => res.status(500).json("Error!"));
+        this.#dao.getPositions().then((positions) => {            
+            return res.status(200).json(positions).end();
+        }).catch((error) => res.status(error).json("Error!").end());
     }
 
 
@@ -44,21 +44,21 @@ class PositionService {
     post_position = async(req, res) => {
 
         if(!isAllowed(this.#loggedUser)) {
-            res.status(401).json("You are not allowed to see the positions!");
+            res.status(401).json("You are not allowed to see the positions!").end();
             return;
         }
 
-        if(isEmpty(req.body)) {
-            res.status(422).json("Body is empty!");
+        if(isEmpty(req.body) ) {
+            res.status(422).json("Body is empty!").end();
             return;
         }
 
         if(positionBodyLength(req.body, "post")) {
             this.#dao.storePosition(req.body).then((position) => {
-                res.status(201).json(position);
-            }).catch((error) => res.status(503).json("Error!"))
+                return res.status(201).json(position).end();
+            }).catch((error) => res.status(error).json("Error!").end())
         } else {
-            res.status(422).json("Validation of request body failed!");
+            res.status(422).json("Validation of request body failed!").end();
             return;
         }
     }
@@ -67,22 +67,21 @@ class PositionService {
     put_position_by_ID = async(req, res) => {
 
         if(!isAllowed(this.#loggedUser)) {
-            res.status(401).json("You are not allowed to see the positions!");
+            res.status(401).json("You are not allowed to see the positions!").end();
             return;
         }
 
         if(isEmpty(req.body)) {
-            res.status(422).json("Body is empty!");
+            res.status(422).json("Body is empty!").end();
             return;
         }
 
-        if(positionBodyLength(req.body, "put") && validatePositionData(req.body, "put")) {
-
+        if(validate(req.body)) {
             this.#dao.put_position_by_ID_DB(req.params.positionID, req.body).then(() => {
-                res.status(200).json("Position updated!");
-            }).catch((error) => res.status(503).json(error));
+                return res.status(200).json("Position updated!").end();
+            }).catch((error) => res.status(error).json(error).end());
         } else {
-            res.status(422).json("Validation of request body failed!");
+            res.status(422).json("Validation of request body failed!").end();
             return;
         }
 
@@ -92,21 +91,23 @@ class PositionService {
     put_positionID_by_ID = async(req, res) => {
 
         if(!isAllowed(this.#loggedUser)) {
-            res.status(401).json("You are not allowed to see the positions!");
+            res.status(401).json("You are not allowed to see the positions!").end();
             return;
         }
 
-        if(!isEmpty(req.body)) {
-            res.status(503).json("Body must be empty!");
+        if(isEmpty(req.body)) {
+            res.status(422).json("Body must not be empty!").end();
             return;
         }
 
-        if(Object.keys(body).length === 1 && validatePositionID(req.body)) {
+        
+
+        if(req.body.hasOwnProperty("newPositionID") && validatePositionID(req.params.positionID)) {
             this.#dao.put_positionID_by_ID_DB(req.params.positionID, req.body).then(() => {
-                res.status(200).json("PositionID updated!");
-            }).catch((error) => res.status(503).json(error));
+                return res.status(200).json("PositionID updated!").end();
+            }).catch((error) => res.status(error).json(error).end());
         } else {
-            res.status(422).json("Validation of request body failed!");
+            res.status(422).json("Validation of request body failed!").end();
             return;
         }
 
@@ -116,29 +117,29 @@ class PositionService {
     delete_position_by_ID = async(req, res) => {
 
         if(!isAllowed(this.#loggedUser)) {
-            res.status(401).json("You are not allowed to see the positions!");
+            res.status(401).json("You are not allowed to see the positions!").end();
             return;
         }
 
         if(!isEmpty(req.body)) {
-            res.status(503).json("Body must be empty!");
+            res.status(503).json("Body must be empty!").end();
             return;
         }
 
-        if(validatePositionID) {
+        if(validatePositionID(req.params.positionID)) {
             this.#dao.delete_position_by_ID_DB(req.params.positionID).then(() => {
-                res.status(204).json(`Position with positionID=${req.params.positionID} has been deleted!`);
-            }).catch((error) => res.status(503).json(error));
+                return res.status(204).json(`Position with positionID=${req.params.positionID} has been deleted!`).end();
+            }).catch((error) => res.status(error).json(error).end());
         } else {
-            res.status(422).json("Validation of requested positionID failed!");
+            res.status(422).json("Validation of requested positionID failed!").end();
             return;
         }
     }
 
     deleteAllPositions = async(req, res) => {
         this.#dao.delete_all_positions().then(() => {
-            res.status(204).json("Deleted All Positions!");
-        }).catch((error) => res.status(503).json(error));
+            return res.status(204).json("Deleted All Positions!").end();
+        }).catch((error) => res.status(503).json(error).end());
     }
         
 }

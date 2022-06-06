@@ -113,13 +113,33 @@ class TestResultDAO {
     
     post_test_result_DB(data) { 
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO TEST_RESULT(RFID, DATE, RESULT, IDTESTDESCRIPTOR) VALUES (?,?,?,?)';
-            this.#db.run(sql, [data.RFID, data.DATE, data.RESULT, data.IDTESTDESCRIPTOR], (err) => {
-                if (err) {
-                    reject(err);
+
+            const check_skuID = 'SELECT COUNT(*) FROM SKU_ITEM WHERE RFID=?';
+            
+            let exist = 0;
+            
+            this.#db.all(check_skuID, [data.rfid], (err, result) => {
+                
+                if(err) {
+                    reject(503);
                 }
-                resolve("Test Result succesfully added to the Database!");
+                    
+                result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+
+                if(exist) {
+                    const sql = 'INSERT INTO TEST_RESULT(RFID, DATE, RESULT, IDTESTDESCRIPTOR) VALUES (?,?,?,?)';
+                this.#db.run(sql, [data.rfid, data.Date, data.Result, data.idTestDescriptor], (err) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve("Test Result succesfully added to the Database!");
+                });
+                } else {
+                    reject(404);
+                }
+
             });
+            
         });
     }
     
@@ -133,7 +153,7 @@ class TestResultDAO {
             this.#db.all(check_rfid, [rfid], (err, result) => {
                 
                 if(err) {
-                    reject(err);
+                    resolve(err);
                 }
                 
                 result[0]['COUNT(*)'] > 0 ? exist=1 : exist
@@ -198,6 +218,8 @@ class TestResultDAO {
         });
     
     }
+
+
     
     
 }

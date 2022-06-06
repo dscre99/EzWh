@@ -8,9 +8,9 @@ const DAO = new Restock_orderDAO(DBInstance);
 async function get_restock_order(req, res) {
   try{
     let orderlist = await DAO.getRestockOrders();
-    res.status(200).json(orderlist).end();
+    return res.status(200).json(orderlist).end();
   }catch(error){
-    res.status(500).json(error).end();
+    return res.status(500).json(error).end();
   }
 }
   
@@ -33,7 +33,7 @@ async function get_restock_order_by_id(req, res) {
   let orderbyid = DAO.getRestockOrderByID(req.params);
   orderbyid.then(
     function(value) { 
-      if (value===undefined) return res.status(404).json({error: 'No restock order associated to id'}).end()
+      if (value===undefined) return res.status(404).json({error: 'No restock order associated to id'}).end();
       return res.status(200).json(value).end(); 
     },
     function(error) { return res.status(error).end(); }
@@ -83,14 +83,14 @@ async function store_restock_order(req, res) {
     if(err===0){
         try{
           
-          req.body.products.forEach(prod=>{
-            let insertproducts = DAO.storeProducts(prod);
-          })
+          req.body.products.forEach(async prod=>{
+            let insertproducts = await DAO.storeProducts(prod);
+          });
           let insert = await DAO.storeRestockOrder(req.body);
 
-          res.status(201).end();
+          return res.status(201).end();
         }catch(error){
-          res.status(503).json(error)
+          return res.status(503).json(error).end();
         }
         
     }
@@ -102,16 +102,14 @@ async function update_restock_order_state(req, res) {
 
   if (Object.keys(req.body).length === 0 || Object.keys(req.body).length !== 1) {
       return res.status(422).json({ error: 'Unprocessable Entity - Empty/Too much field' }).end();
-  } else{
+  }
 
-    if(!Object.keys(req.body).includes('newState')){
-      return res.status(422).json({ error: 'Unprocessable Entity - Wrong/missing field name' }).end();
-    }
+  if(!Object.keys(req.body).includes('newState')){
+    return res.status(422).json({ error: 'Unprocessable Entity - Wrong/missing field name' }).end();
+  }
 
-    if(requiredState.includes(req.body['newState'])===false){
-      return res.status(422).json({ error: 'Unprocessable Entity - Wrong field value' }).end();
-    }
-    
+  if(requiredState.includes(req.body['newState'])===false){
+    return res.status(422).json({ error: 'Unprocessable Entity - Wrong field value' }).end();
   }
 
   if (!parseInt(req.params['id'])) {
@@ -124,10 +122,10 @@ async function update_restock_order_state(req, res) {
   
   try{
     let db = await DAO.updateState(req.body,req.params);
-     res.status(200).end();
-    }catch (error){
-     res.status(503).json(error).end();
-    }
+    return res.status(200).end();
+  }catch (error){
+    return res.status(503).json(error).end();
+  }
 }
   
   
@@ -155,17 +153,17 @@ async function add_skuitems_to_restock_order(req, res) {
   
 
   try{
-    req.body.skuItems.forEach(async item =>{
+    req.body.skuItems.forEach(async item => {
 
       let s = await DAO.checkItemList(req.params,item);
       if (s===undefined){
-        let db = DAO.newSKUItemList(item,req.params);
+        let db = await DAO.newSKUItemList(item,req.params);
       }
 
-    })
-     res.status(200).end();
+    });
+     return res.status(200).end();
     }catch (error){
-     res.status(503).json(error).end();
+     return res.status(503).json(error).end();
     }
 }
   
@@ -205,12 +203,12 @@ async function add_tnote_to_restock_order(req, res) {
   try{
     let db = await DAO.addTransportNote(req.body['transportNote'],req.params);
     if(db===422){
-      res.status(422).end(); // State != Delivery or DeliveryDate is antecedent IssueDate
+      return res.status(422).end(); // State != Delivery or DeliveryDate is antecedent IssueDate
     }else{
-      res.status(200).end();
+      return res.status(200).end();
     }
     }catch (error){
-      res.status(503).json(error).end();
+      return res.status(503).json(error).end();
     }
 }
 
@@ -225,9 +223,9 @@ async function delete_restock_order(req, res) {
   
   try{
     let db = await DAO.deleteRestockOrder(req.params)
-    res.status(204).json().end();
+    return res.status(204).json().end();
   }catch(error){
-    res.status(503).json().end();
+    return res.status(503).json().end();
   }
 }
 
@@ -241,10 +239,10 @@ async function clear_restock_order_table(req,res){
     let new2 = await DAO.newTableProducts();
     let new3 = await DAO.newTableItemlist();
 
-    res.status(200).end();
+    return res.status(200).end();
 
   }catch(err){
-    res.status(500).end();
+    return res.status(500).end();
   }
 }
 

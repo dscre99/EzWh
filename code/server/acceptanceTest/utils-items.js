@@ -111,7 +111,7 @@ function testGetAllItems(agent, size, expCode){
         it('Getting all items', function (done){
             agent.get('/api/items')
             .then(function(res){
-                console.log(res.body);
+                // console.log(res.body);
                 res.should.have.status(expCode);
                 res.body.should.be.a('array');
                 res.body.length.should.be.eql(size);
@@ -132,7 +132,7 @@ function testEditItem(agent, ith, newDescription, newPrice, myexpitem, expCode){
                 assert.equal(res.status, expCode);
                 agent.get('/api/items/'+ith)
                 .then (r => {
-                    console.log(r.body);
+                    // console.log(r.body);
                     assert.equal(r.status,200);
                     r.body.should.be.a('object');
                     r.body.id.should.equal(myexpitem.id);

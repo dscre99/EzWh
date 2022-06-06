@@ -10,9 +10,9 @@ DAO.newTableReturnOrder();
 async function get_return_orders(req, res) {
   try{
     let orderlist = await DAO.getReturnOrders();
-    res.status(200).json(orderlist).end();
+    return res.status(200).json(orderlist).end();
   }catch(error){
-    res.status(500).json(error).end();
+    return res.status(500).json(error).end();
   }
 }
 
@@ -62,9 +62,9 @@ async function store_return_order(req, res) {
             
             let insertitem = DAO.setReturnItem(prod);
           })
-          res.status(201).end();
+          return res.status(201).end();
         }catch(error){
-          res.status(503).json(error)
+          return res.status(503).json(error).end();
         }
         
     }
@@ -81,9 +81,9 @@ async function delete_return_order(req, res) {
 
   try{
     let db = await DAO.deleteReturnOrder(req.params)
-    res.status(204).json().end();
+    return res.status(204).json().end();
   }catch(error){
-    res.status(503).json(error).end();
+    return res.status(503).json(error).end();
   }
 }
 
@@ -95,10 +95,10 @@ async function clear_return_order_table(req,res){
     let new1 = await DAO.newTableReturnOrder();
     let new2 = await DAO.newTableItemReturn();
 
-    res.status(200).end();
+    return res.status(200).end();
 
   }catch(err){
-    res.status(500).end();
+    return res.status(500).end();
   }
 }
 

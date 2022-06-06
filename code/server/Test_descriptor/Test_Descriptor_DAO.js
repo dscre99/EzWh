@@ -16,8 +16,9 @@ class TestDescriptorDAO {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(200);
                 }
-                resolve(200)
             })
         });
     }
@@ -28,8 +29,10 @@ class TestDescriptorDAO {
             this.#db.run(sql, (err) => {
                 if (err) {
                     reject(err);
+                } else {
+                    resolve(200);
                 }
-                resolve(200);
+
             });
         });
     }
@@ -37,40 +40,42 @@ class TestDescriptorDAO {
 
     get_test_descriptors_DB() {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM TEST_DESCRIPTOR;';
+            const sql = 'SELECT * FROM TEST_DESCRIPTOR';
             this.#db.all(sql, [], (err, rows) => {
                 if(err){
-                    reject(err);
+                    reject(503);
+                } else {
+                    const test_descriptors = rows.map((test_descriptor) => (
+
+                        {
+                            id:test_descriptor.ID,
+                            name:test_descriptor.NAME,
+                            procedureDescription:test_descriptor.PROCEDUREDESCRIPTION,
+                            idSKU:test_descriptor.IDSKU
+                        }
+                    ));
+                    resolve(test_descriptors);
                 }
-                const test_descriptors = rows.map((test_descriptor) => (
-                    {
-                        ID:test_descriptor.ID,
-                        NAME:test_descriptor.NAME,
-                        PROCEDUREDESCRIPTION:test_descriptor.PROCEDUREDESCRIPTION,
-                        IDSKU:test_descriptor.IDSKU
-                    }
-                ));
-                resolve(test_descriptors);
             });
         });
     }
     
     get_test_descriptor_by_ID_DB(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM TEST_DESCRIPTOR WHERE id = ?';
+            const sql = 'SELECT * FROM TEST_DESCRIPTOR WHERE ID=?';
             this.#db.all(sql, [id], (err, rows) => {
                     if (err) {
-                        reject(err);
+                        reject(503);
                     } else {
-                        const test_descriptor = rows.map((test_descriptor) => (
+                        const test_descriptors = rows.map((test_descriptor) => (
                             {
-                                ID:test_descriptor.ID,
-                                NAME:test_descriptor.NAME,
-                                PROCEDUREDESCRIPTION:test_descriptor.PROCEDUREDESCRIPTION,
-                                IDSKU:test_descriptor.IDSKU
+                                id:test_descriptor.ID,
+                                name:test_descriptor.NAME,
+                                procedureDescription:test_descriptor.PROCEDUREDESCRIPTION,
+                                idSKU:test_descriptor.IDSKU
                             }
                         ));
-                        test_descriptor.length === 0 ? reject(`Test Descriptor with id=${id} doesn't exist!`) : resolve(test_descriptor);
+                        test_descriptors.length === 0 ? reject(404) : resolve(test_descriptors[0]);
                     }
                 });
         });
@@ -78,42 +83,86 @@ class TestDescriptorDAO {
     
     post_test_descriptor_DB(data) { 
         return new Promise((resolve, reject) => {
-            const sql = 'INSERT INTO TEST_DESCRIPTOR(NAME, PROCEDUREDESCRIPTION, IDSKU) VALUES (?,?,?)';
-            this.#db.run(sql, [data.NAME, data.PROCEDUREDESCRIPTION, data.IDSKU], (err) => {
-                if (err) {
-                    reject(err);
+
+            const check_skuID = 'SELECT COUNT(*) FROM SKU WHERE ID=?';
+            
+            let exist = 0;
+            
+            this.#db.all(check_skuID, [data.idSKU], (err, result) => {
+                
+                if(err) {
+                    reject(503);
+                } else {
+                    result[0]['COUNT(*)'] > 0 ? exist=1 : exist
+
+                    if(exist) {
+                        const sql = 'INSERT INTO TEST_DESCRIPTOR(NAME, PROCEDUREDESCRIPTION, IDSKU) VALUES (?,?,?)';
+                        this.#db.run(sql, [data.name, data.procedureDescription, data.idSKU], (err) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(true);
+                            }
+                        });
+                    } else {
+                        reject(404);
+                    }
                 }
-                resolve(true);
-            });
+            });  
         });
     }
     
     put_test_descriptor_by_ID_DB(id, body) {
         return new Promise((resolve, reject) => {
-            const sql = 'UPDATE TEST_DESCRIPTOR SET name=?,procedureDescription=?, idSKU= ? WHERE id = ?';
-            this.#db.run(sql, [body.NAME, body.PROCEDUREDESCRIPTION, body.IDSKU, id], (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(true);
-                    }
-                });
-    
+
+            const check_tdId = 'SELECT COUNT(*) FROM TEST_DESCRIPTOR WHERE ID=?';
+            const check_idSKU = 'SELECT COUNT(*) FROM SKU WHERE ID=?';
+            
+            let exist = 0;
+            
+            this.#db.all(check_tdId, [id], (err, result) => {
+                if(err) {
+                    reject(503);
+                } else {
+                    result[0]['COUNT(*)'] > 0 ? exist+=1 : exist
+
+                    this.#db.all(check_idSKU, [body.newIdSKU], (err, result) => {
+
+                        if(err) {
+                            reject(503);
+                        } else {
+                            result[0]['COUNT(*)'] > 0 ? exist+=1 : exist
+
+                            if(exist === 2) {
+                                const sql = 'UPDATE TEST_DESCRIPTOR SET NAME=?,PROCEDUREDESCRIPTION=?, IDSKU=? WHERE ID=?';
+                                this.#db.run(sql, [body.newName, body.newProcedureDescription, body.newIdSKU, id], (err) => {
+                                        if (err) {
+                                            reject(503);
+                                        } else {
+                                            resolve(true);
+                                        }
+                                    });
+                            } else {
+                                reject(404);
+                            }
+                        }
+                    });
+                }
+            });
         });
     }
     
     
     delete_test_descriptor_by_ID_DB(id) {
         return new Promise((resolve, reject) => {
-            const sql = 'DELETE FROM TEST_DESCRIPTOR WHERE id=?;';
+            const sql = 'DELETE FROM TEST_DESCRIPTOR WHERE ID=?;';
             this.#db.run(sql, [id], (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(true);
-                    }
-                });
-    
+                if (err) {
+                    reject(503);
+                } else {
+                    resolve(true);
+                }
+            });
         });
     }
 }

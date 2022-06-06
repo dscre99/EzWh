@@ -59,10 +59,10 @@ function test_delete_test_result_with_id_from_rfid(ID, RFID, expected) {
 describe('Test Test Result', () => {
 
     let test_result = {
-		"RFID": "12345678901234567890123456789016",
-        "DATE": "2021/11/28",
-        "RESULT": "true",
-        "IDTESTDESCRIPTOR":12
+		"rfid": "12345678901234567890123456789014",
+        "Date": "2021/11/28",
+        "Result": "true",
+        "idTestDescriptor":12
 	}
 
     beforeAll(async () => {
@@ -76,7 +76,7 @@ describe('Test Test Result', () => {
 
     test_get_test_result("118129282192", "The requested RFID doesn't exist!");
 
-    let another_test_result = {"RFID":"12345678901234567890123456789015", "DATE":"2022/05/23", "RESULT":"false", "IDTESTDESCRIPTOR":13};
+    let another_test_result = {"rfid":"12345678901234567890123456789015", "Date":"2022/05/23", "Result":"false", "idTestDescriptor":13};
 
     test_new_test_result(another_test_result, "Test Result succesfully added to the Database!");
 
@@ -84,28 +84,29 @@ describe('Test Test Result', () => {
         "The requested RFID doesn't exist!"
     )
 
-    test_new_test_result({"RFID":"12345678901234567890123456789014", "DATE":"2022/02/20", "RESULT":"true", "IDTESTDESCRIPTOR":10}, "Test Result succesfully added to the Database!");
-
 
     test_get_test_result("12345678901234567890123456789014", 
-        [{"ID":3, "RFID":"12345678901234567890123456789014", "DATE":"2022/02/20", "RESULT":"true", "IDTESTDESCRIPTOR":10}]
+        [{"ID":1, "RFID":"12345678901234567890123456789014", "DATE":"2021/11/28", "RESULT":"true", "IDTESTDESCRIPTOR":12}]
     )
 
     let new_test_result = {"IDTESTDESCRIPTOR":1, "DATE":"2022/05/24", "RESULT":"true"};
     
-    test_modify_test_result_with_ID_from_RFID(2,"12345678901234567890123456789013", new_test_result, "The requested RFID doesn't exist!");
+    test_modify_test_result_with_ID_from_RFID(1,"12345678901234567890123456789014", new_test_result, "Test Result Updated!");
     test_delete_test_result_with_id_from_rfid(2, "12345678901234567890123456789013", "The requested RFID doesn't exist!");
     test_delete_test_result_with_id_from_rfid(2, "42345678901234567890123456789015", "The requested RFID doesn't exist!");
-    test_delete_test_result_with_id_from_rfid(3, "12345678901234567890123456789014", true);
+    test_delete_test_result_with_id_from_rfid(1, "12345678901234567890123456789014", true);
 
-    test_get_test_result("12345678901234567890123456789014", []);
+    test_get_test_result("12345678901234567890123456789015", [{"ID":2, "RFID":"12345678901234567890123456789015", "DATE":"2022/05/23", "RESULT":"false", "IDTESTDESCRIPTOR":13}]);
 
+    test_get_test_result_with_ID_by_RFID(2, "12345678901234567890123456789015", [{"ID":2, "RFID":"12345678901234567890123456789015", "DATE":"2022/05/23", "RESULT":"false", "IDTESTDESCRIPTOR":13}]);
 
-    test_new_test_result({"RFID":"12345678901234567890123456789014", "DATE":"2021/10/12", "RESULT":"false", "IDTESTDESCRIPTOR":1}, "Test Result succesfully added to the Database!");
+    test_delete_test_result_with_id_from_rfid(2, "12345678901234567890123456789015", true);
 
-    test_get_test_result_with_ID_by_RFID(4, "12345678901234567890123456789014", [{"ID":4, "RFID":"12345678901234567890123456789014", "DATE":"2021/10/12", "RESULT":"false", "IDTESTDESCRIPTOR":1}])    
+    // test_new_test_result({"rfid":"12345678901234567890123456789014", "Date":"2021/10/12", "Result":"false", "IDTESTDESCRIPTOR":1}, "Test Result succesfully added to the Database!");
 
-    test_modify_test_result_with_ID_from_RFID(4, "12345678901234567890123456789014", new_test_result, "Test Result Updated!");
+    // test_get_test_result_with_ID_by_RFID(4, "12345678901234567890123456789014", [{"ID":4, "rfid":"12345678901234567890123456789014", "Date":"2021/10/12", "Result":"false", "IDTESTDESCRIPTOR":1}])    
+
+    // test_modify_test_result_with_ID_from_RFID(4, "12345678901234567890123456789014", new_test_result, "Test Result Updated!");
 
 
 })  
