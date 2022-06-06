@@ -22,8 +22,13 @@ function test_new_test_descriptor(name, procedureDescription, idSKU, expected) {
             idSKU: idSKU
         }
 
-        let res = await test_descriptor_dao.post_test_descriptor_DB(test_descriptor);
-        expect(res).toEqual(expected);
+        try {
+            let res = await test_descriptor_dao.post_test_descriptor_DB(test_descriptor);
+            expect(res).toEqual(expected);
+        } catch(err) {
+            expect(err).toEqual(expected);
+        }
+        
     });
 }
 
@@ -106,6 +111,10 @@ describe('Test Test Descriptor', () => {
     ])
 
     test_delete_test_descriptor(1, true);
+
+    test_get_test_descriptor([]);
+
+    test_new_test_descriptor("Test Descriptor X", "Procedure Description X ...", 6, 404);
 
     test_new_test_descriptor("Test Descriptor 2", "Procedure Description 2 ...", 1, true);
 

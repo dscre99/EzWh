@@ -28,13 +28,13 @@ function test_new_position(positionID, aisleID, row, col, maxWeight, maxVolume, 
 function test_modify_position(positionID, aisleID, row, col, maxWeight, maxVolume, occupiedWeight, occupiedVolume, expected) {
     test('Modify Position', async () => {
         let position = {
-            aisleID: aisleID,
-            row: row,
-            col: col,
-            maxWeight: maxWeight,
-            maxVolume: maxVolume,
-            occupiedWeight: occupiedWeight,
-			occupiedVolume:occupiedVolume
+            newAisleID: aisleID,
+            newRow: row,
+            newCol: col,
+            newMaxWeight: maxWeight,
+            newMaxVolume: maxVolume,
+            newOccupiedWeight: occupiedWeight,
+			newOccupiedVolume:occupiedVolume
         }
         try {
             let res = await position_dao.put_position_by_ID_DB(positionID, position);
@@ -46,10 +46,20 @@ function test_modify_position(positionID, aisleID, row, col, maxWeight, maxVolum
     });
 }
 
-function test_modify_position_ID(actual_positionID, new_positionID, expected) {
+function test_modify_position_ID(actual_positionID, body, expected) {
     test('Modify Position ID', async () => {
+		let data = {
+			newPositionID: body.positionID,
+			newAisleID: body.aisleID,
+            newRow: body.row,
+            newCol: body.col,
+            newMaxWeight: body.maxWeight,
+            newMaxVolume: body.maxVolume,
+            newOccupiedWeight: body.occupiedWeight,
+			newOccupiedVolume:body.occupiedVolume
+		}
         try {
-            let res = await position_dao.put_positionID_by_ID_DB(actual_positionID, new_positionID);
+            let res = await position_dao.put_positionID_by_ID_DB(actual_positionID, data);
             expect(res).toEqual(expected);
         } catch (err) {
             expect(err).toEqual(expected);
@@ -108,8 +118,10 @@ describe('Test Position', () => {
 		}
 	])
 
-	// test_new_position("800234545410", "6000", 2000, 1200, 300, 200, "800234545410");
-	// test_modify_position("800234545410", "500", 14, 12, 30, 10, 3, 5, true);
+
+
+	test_new_position("800234545410", "6000", 2000, 1200, 300, 200, "800234545410");
+	test_modify_position("800234545410", "500", 14, 12, 30, 10, 3, 5, true);
 
 	test_get_positions([
 		{
@@ -122,20 +134,20 @@ describe('Test Position', () => {
 			"occupiedWeight": 0,
 			"occupiedVolume": 0
 		},
-        // {
-        //     "positionID": "800234545410",
-		// 	"aisleID": "500",
-		// 	"row": 14,
-		// 	"col": 12,
-		// 	"maxWeight": 30,
-		// 	"maxVolume": 10,
-		// 	"occupiedWeight": 3,
-		// 	"occupiedVolume": 5  
-        // }
+        {
+            "positionID": "800234545410",
+			"aisleID": "500",
+			"row": 14,
+			"col": 12,
+			"maxWeight": 30,
+			"maxVolume": 10,
+			"occupiedWeight": 3,
+			"occupiedVolume": 5  
+        }
 	])
 
 
-	//test_modify_position_ID("800234545410", {positionID:"500234545417"}, true);
+	test_modify_position_ID("800234545410", {"positionID":"500234545417", "aisleID": "500", "row": 14, "col": 12, "maxWeight": 30, "maxVolume": 10, "occupiedWeight": 3,"occupiedVolume": 5}, true);
     test_get_positions([
 		{
 			"positionID": "800234543412",
@@ -147,18 +159,18 @@ describe('Test Position', () => {
 			"occupiedWeight": 0,
 			"occupiedVolume": 0
 		},
-        // {
-        //     "positionID": "500234545417",
-		// 	"aisleID": "500",
-		// 	"row": 14,
-		// 	"col": 12,
-		// 	"maxWeight": 30,
-		// 	"maxVolume": 10,
-		// 	"occupiedWeight": 3,
-		// 	"occupiedVolume": 5  
-        // }
+        {
+            "positionID": "500234545417",
+			"aisleID": "500",
+			"row": 14,
+			"col": 12,
+			"maxWeight": 30,
+			"maxVolume": 10,
+			"occupiedWeight": 3,
+			"occupiedVolume": 5  
+        }
 	])
-    //test_delete_position("500234545417", true);
+    test_delete_position("500234545417", true);
 
     test_get_positions([
 		{
