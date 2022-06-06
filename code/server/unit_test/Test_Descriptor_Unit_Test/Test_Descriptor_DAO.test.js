@@ -1,5 +1,9 @@
 const TestDescriptorDAO = require('../../Test_descriptor/Test_Descriptor_DAO');
 const test_descriptor_dao = new TestDescriptorDAO();
+const DB = require('../../EZWH_db/RunDB');
+const DBinstance = DB.DBinstance;
+const SKUDao = require('../../SKU/SKUdao');
+const SKUDaoInstance = new SKUDao(DBinstance);
 
 function test_get_test_descriptor(expected) {
     test('Get Test Descriptor', async () => {
@@ -63,12 +67,31 @@ describe('Test Test Descriptor', () => {
         "idSKU": 1
 	}
 
+    let sku = {
+        "description":"a new sku", 
+        "weight":100,
+        "volume":50, 
+        "notes":"first sku", 
+        "price":10.99, 
+        "availableQuantity":50
+
+    }
+
 
     beforeAll(async () => {
+        let dropsku = await SKUDaoInstance.dropSKUTable();
+        expect(dropsku).toEqual(200);
+        let tablesku = await SKUDaoInstance.newSKUTable();
+        expect(tablesku).toEqual(200);
+        
         let drop = await test_descriptor_dao.dropTestDescriptorTable();
         expect(drop).toEqual(200);
         let table = await test_descriptor_dao.newTestDescriptorTable();
         expect(table).toEqual(200);
+        
+        let res_sku = await SKUDaoInstance.newSKU(sku);
+        expect(res_sku).toEqual(201);
+        
         let res = await test_descriptor_dao.post_test_descriptor_DB(test_descriptor);
         expect(res).toEqual(true);
     });
@@ -100,37 +123,5 @@ describe('Test Test Descriptor', () => {
 	test_delete_test_descriptor(2,true);
 
     test_get_test_descriptor([]);
-
-    // test_new_test_descriptor("Test Descriptor 3", "Procedure Description 3 ...", 3, true);
-    // test_new_test_descriptor("Test Descriptor 4", "Procedure Description 4 ...", 4, true);
-    // test_new_test_descriptor("Test Descriptor 5", "Procedure Description 5 ...", 5, true);
-    // test_new_test_descriptor("Test Descriptor 6", "Procedure Description 6 ...", 6, true);
-
-    // test_get_test_descriptor([
-    //     {
-    //         "id": 3,
-    //         "name": "Test Descriptor 3",
-    //         "procedureDescription": "Procedure Description 3 ...",
-    //         "idSKU": 3   
-    //     },
-    //     {
-    //         "id": 4,
-    //         "name": "Test Descriptor 4",
-    //         "procedureDescription": "Procedure Description 4 ...",
-    //         "idSKU": 4   
-    //     },
-    //     {
-    //         "id": 5,
-    //         "name": "Test Descriptor 5",
-    //         "procedureDescription": "Procedure Description 5 ...",
-    //         "idSKU": 5   
-    //     },
-    //     {
-    //         "id": 6,
-    //         "name": "Test Descriptor 6",
-    //         "procedureDescription": "Procedure Description 6 ...",
-    //         "idSKU": 6   
-    //     }
-    // ])
     
 })
