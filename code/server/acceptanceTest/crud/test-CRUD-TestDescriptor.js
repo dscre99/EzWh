@@ -8,6 +8,7 @@ const app = require('../../server');
 var agent = chai.request.agent(app);
 
 const testdescriptors = require('../utils-testdescriptor');
+const users = require('../utils-users');
 const skus = require('../utils-sku');
 const skuitems = require('../utils-skuitems');
 

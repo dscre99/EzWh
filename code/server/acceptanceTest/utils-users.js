@@ -118,6 +118,9 @@ function testGetAllUsers(agent, expCode){
             .then(function(res){
                 res.should.have.status(expCode);
                 res.body.should.be.a('array');
+                for(let i=0; i<res.body.length; i++){
+                    //console.log(res.body[i]);
+                }
                 done();
             }).catch(err=>done(err));
         })
@@ -130,6 +133,7 @@ function testDeleteAllNotManagerUsers(agent){
             agent.get('/api/users')
             .then(function(res){
                 for(let i=0; i<res.body.length; i++){
+                    //console.log(res.body[i].email);
                     agent.delete('/api/users/'+res.body[i].email+'/'+res.body[i].type)
                     .then(function(res2){
                         res2.should.have.status(204);
@@ -151,6 +155,7 @@ function testGetAllSuppliers(agent){
                     idsupp[i] = res.body[i].id;
                 }
                 ids.setIdSuppliers(idsupp);
+                //console.log(res.body);
                 done();
             }).catch(err=>done(err));
         });

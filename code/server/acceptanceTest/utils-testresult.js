@@ -27,9 +27,11 @@ function testPostNewTestResult(agent, mytr, expCode){
         it('FR 3.2.1 -> Add a quality test', function(done){
             let idtds = ids.getIdTestDescriptor();
             let testResult = newTestResult(mytr.rfid, idtds[mytr.idTestDescriptor], mytr.Date, mytr.Result);
+            //console.log(testResult);
             agent.post('/api/skuitems/testResult')
             .send(testResult)
             .then(function(res){
+                console.log(res.body);
                 res.should.have.status(expCode);
                 done();
             }).catch(err=>done(err));
@@ -64,6 +66,7 @@ function testGetTestResultByRFID(agent, expCode, rfid){
                 let all = [];
                 res.should.have.status(expCode);
                 res.body.should.be.a('array');
+                console.log("all tr for rfid", res.body);
                 for(let i=0; i<res.body.length; i++){
                     all[i] = res.body[i].id;
                 }
@@ -92,6 +95,7 @@ function testGetTestResultByRFIDandID(agent, expCode, rfid){
             agent.get('/api/skuitems/'+rfid+'/testResults')
             .then(function(res){
                 let trid = res.body[0].id;
+                //console.log(res.body[0]);
                 agent.get('/api/skuitems/'+rfid+'/testResults/'+trid)
                 .then(function(res2){
                     res2.should.have.status(expCode);
@@ -108,8 +112,10 @@ function testGetTestResultByWrongRFIDandID(agent, expCode, rfid){
             agent.get('/api/skuitems/'+rfid+'/testResults')
             .then(function(res){
                 let alltdids = ids.getIdTestDescriptor();
+                console.log(alltdids);
                 agent.get('/api/skuitems/'+rfid+'/testResult/'+alltdids[0])
                 .then(function(res2){
+                    console.log(res2.body);
                     res2.should.have.status(expCode);
                     done();
                 }).catch(err=>done(err));
@@ -123,10 +129,12 @@ function testEditTestResultByRFIDandID(agent, expCode, rfid){
         it('FR 3.2.2 -> Modify a quality test', function(done){
             agent.get('/api/skuitems/'+validrfid+'/testResults')
             .then(function(res){
+                console.log("this is it", res.body);
                 let trid = res.body[0].id;
                 agent.put('/api/skuitems/'+rfid+'/testResult/'+trid)
                 .send({"newIdTestDescriptor":res.body[0].idTestDescriptor,"newDate":"2022/01/01","newResult":false})
                 .then(function(res2){
+                    console.log("I'm heeeeereeee", res2.body);
                     res2.should.have.status(expCode);
                     done();
                 }).catch(err=>done(err));
@@ -158,6 +166,7 @@ function testDeleteTestResultByRFIDandID(agent, expCode, rfid){
             agent.get('/api/skuitems/'+rfid+'/testResults')
             .then(function(res){
                 let trid = res.body[0].id;
+                //console.log(res.body);
                 agent.delete('/api/skuitems/'+rfid+'/testResult/'+trid)
                 .then(function(res2){
                     res2.should.have.status(expCode);
@@ -175,6 +184,7 @@ function testDeleteAllTestResultByRFID(agent, expCode, rfid){
             .then(function(res){
                 res.should.have.status(expCode);
                 res.body.should.be.a('array');
+                console.log("delete all", res.body);
                 for(let i=0; i<res.body.length; i++){
                     agent.delete('/api/skuitems/'+rfid+'/testResult/'+res.body[i].id)
                     .then(function(res2){

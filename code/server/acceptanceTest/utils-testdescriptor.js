@@ -59,6 +59,7 @@ function testPostNewTestDescriptor(agent, mytd, expCode){
             else {
                 testdescriptor = newTestDescriptor(mytd.name, mytd.procedureDescription, id[mytd.idSKU]);
             }
+            //console.log(testdescriptor);
             agent.post('/api/testDescriptor')
             .send(testdescriptor)
             .then(res2 => {
@@ -86,7 +87,8 @@ function testPostEmptyBodyTestDescriptor(agent, expCode){
 function testGetAllTestDescriptors(agent, size, mytd, expCode){
     describe('get /api/testDescriptors', function(){
         it('Getting All TestDescriptors', function(done){
-            agent.get('/api/testDescriptors').then(function(res){
+            agent.get('/api/testDescriptors')
+            .then(function(res){
                 res.should.have.status(expCode);
                 res.body.length.should.be.equal(size);
                 res.body.should.be.a('array');

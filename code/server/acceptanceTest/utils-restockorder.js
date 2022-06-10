@@ -184,7 +184,7 @@ function testEditRestockOrderSkuItems(agent, addskuitems, expCode){
             let thisskuitems = addskuitems;
             thisskuitems[0].SKUId = idsku[thisskuitems[0].SKUId];
             thisskuitems[1].SKUId = idsku[thisskuitems[1].SKUId];
-            // console.log(thisskuitems);
+            console.log(thisskuitems);
             agent.get('/api/restockOrders')
             .then(function(res){
                 idsearch = res.body[0].id;
@@ -249,7 +249,7 @@ function testEditRestockOrderTransportNote(agent, expCode){
             agent.get('/api/restockOrders')
             .then(function(res){
                 idsearch = res.body[0].id;
-                // console.log(idsearch);
+                console.log(idsearch);
                 agent.put('/api/restockOrder/'+idsearch+'/transportNote')
                 .send({"transportNote":{"deliveryDate":"2023/12/29 03:00"}})
                 .then(function(res3){
