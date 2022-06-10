@@ -2,6 +2,9 @@ const conn = require('../../EZWH_db/RunDB');
 const db = conn.DBinstance;
 const ItemDAO = require ('../../Item/ItemDAO');
 const ItemDAOInstance = new ItemDAO(db);
+const SKUDAO = require('../../SKU/SKUdao');
+const SKUDAOInstance = new SKUDAO(db);
+
 
 
 function testStoreItem(id,description,price,SKUId,supplierId,expectedResult){
@@ -103,6 +106,18 @@ function testDeleteItem(id,expectedResult){
     })
 }
 
+function testGetSKUID(id,expectedResult){
+    test('testGetSKUByID', async () =>{
+        try{
+            let res = await ItemDAOInstance.getSKUID({id:id});
+            expect(res).toEqual(expectedResult);
+        }catch(err){
+            expect(err).toEqual(expectedResult);
+        }
+    })
+}
+
+
 describe('test ItemDAO.js',  () => {
 
     beforeAll(async () => {
@@ -110,10 +125,13 @@ describe('test ItemDAO.js',  () => {
         expect(res).toEqual(200);
         let res1 = await ItemDAOInstance.newTableItem();
         expect(res1).toEqual(200);
+        let res2 = await SKUDAOInstance.dropSKUTable();
+        expect(res2).toEqual(200);
+        let res3 = await SKUDAOInstance.newSKUTable();
+        expect(res3).toEqual(200);
     });
      testGetItems([]); // No items stored 
 
-     testStoreItem(1, 'New item', 10.99, 2, 1, 404); // Not stored
      testStoreItem(2, 'New item', 10.99, 1, 1, 201); // SKUId Exists 
      testStoreItem(2, 'New item', 10.99, 1, 1, 503); // ItemID already exists  
 
@@ -122,6 +140,8 @@ describe('test ItemDAO.js',  () => {
 
      testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});
      
+
+     testGetSKUID(1,undefined);
 
      testGetSKUIDbyItemID(1,1,{id:2});
      testGetSKUIDbyItemID(5,5,undefined); //No item with SKUID=5 and ID = 5

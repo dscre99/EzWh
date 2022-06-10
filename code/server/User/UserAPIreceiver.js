@@ -10,15 +10,15 @@ async function clear_user_table(req, res) {
     let clearUserTablePromise = UserDAOinstance.clearUserTable();
     await clearUserTablePromise.then(
         function(value) {
-            console.log('clearUserTable resolve');
+           // console.log('clearUserTable resolve');
             return res.status(200).end();
         },
         function(error){
-            console.log('clearUserTable reject');
+          //  console.log('clearUserTable reject');
             return res.status(error).end();
         }
     ).catch(err => function(err) {
-        console.log('clearUserTable error', err);
+      //  console.log('clearUserTable error', err);
         return res.status(500).end();
     });
 }
@@ -29,15 +29,15 @@ async function get_user(req, res) {
     let getUserPromise = UserDAOinstance.getUser();
     await getUserPromise.then(
     function(value) {
-        console.log('getUser resolve');
+      //  console.log('getUser resolve');
         return res.status(200).json(value).end();
     },
     function(error) {
-        console.log('getUser reject: ', error);
+       // console.log('getUser reject: ', error);
         return res.status(error).end();
     }
     ).catch(err => function(err) {
-    console.log('getUser error: ', err);
+  //  console.log('getUser error: ', err);
     return res.status(500).end();
     });
 }
@@ -48,15 +48,15 @@ async function get_suppliers(req, res) {
     let getSuppliersPromise = UserDAOinstance.getSuppliers();
     await getSuppliersPromise.then(
       function(value) {
-        console.log('getSuppliers resolve');
+       // console.log('getSuppliers resolve');
         return res.status(200).json(value).end();
       },
       function(error) {
-        console.log('getSuppliers reject: ', error);
+      //  console.log('getSuppliers reject: ', error);
         return res.status(error).end();
       }
     ).catch(err => function(err){
-      console.log('getUser error: ', err);
+     // console.log('getUser error: ', err);
       return res.status(500).end();
     });
 }
@@ -67,15 +67,15 @@ async function get_users(req, res) {
     let getUsersPromise = UserDAOinstance.getUsers();
     await getUsersPromise.then(
         function(value) {
-        console.log('getUsers resolve');
+      //  console.log('getUsers resolve');
         return res.status(200).json(value).end();
         },
         function(error) {
-        console.log('getUsers reject');
+      //  console.log('getUsers reject');
         return res.status(error).end();
         }
     ).catch(err => function(err) {
-        console.log('getUsers error', err);
+      //  console.log('getUsers error', err);
         return res.status(500).end();
     });
 }
@@ -96,7 +96,7 @@ async function new_user(req, res) {
   
     // checks passed number of fields is the required one
     if (Object.keys(userData).length != requiredKeys.length) {
-        console.log('not enough fields');
+      //  console.log('not enough fields');
         return res.status(422).end(); // 422 Unprocessable Entity
     } else {
       
@@ -105,25 +105,25 @@ async function new_user(req, res) {
 
             // checks for necessary field presence
             if(!Object.keys(userData).includes(key)){
-                console.log('failed checking fields');
+               // console.log('failed checking fields');
                 return res.status(422).end(); // 422 Unprocessable Entity
             }
 
             // checks for fields not empty
             if(userData[key] == undefined || userData[key] == ''){
                 
-                console.log('empty field', key);
+              //  console.log('empty field', key);
                 return res.status(422).end(); // 422 Unprocessable Entity
             }
 
             // checks for minimum password length (8 chars)
             if(userData['password'].length < 8){
-                console.log('short password');
+               // console.log('short password');
                 return res.status(422).end(); // 422 Unprocessable Entity
             }
         
             if(!userTypes.includes(userData['type'])){
-                console.log('not a user type', userData['type']);
+              //  console.log('not a user type', userData['type']);
                 return res.status(422).end(); // 422 Unprocessable Entity
             }
         }
@@ -131,16 +131,16 @@ async function new_user(req, res) {
         const addUserPromise = UserDAOinstance.newUser(userData);
         await addUserPromise.then(
         function(value) {
-            console.log('addUser resolve');
+          //  console.log('addUser resolve');
             return res.status(value).end();
         },
         function(error) {
-            console.log('addUser reject: ', error);
+           // console.log('addUser reject: ', error);
             return res.status(error).end();
         }
         ).catch( err => function(err) {
-        console.log('addUser catch error', err);
-        console.log(err);
+        //console.log('addUser catch error', err);
+        //console.log(err);
         return res.status(500).end(err);   // 500 Internal Server Error
         });
   
@@ -152,9 +152,7 @@ async function new_user(req, res) {
 async function manager_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let managerData = req.body;
 
@@ -177,15 +175,15 @@ async function manager_sessions(req, res) {
     let managerSessionsPromise = UserDAOinstance.userSession(managerData);
     await managerSessionsPromise.then(
     function(value) {
-        console.log('managerSession resolve');
+       // console.log('managerSession resolve');
         return res.status(200).json(value).end();
     },
     function(error) {
-        console.log('managerSession reject', error);
+       // console.log('managerSession reject', error);
         return res.status(error).end();
     }
     ).catch(err => function(err){
-    console.log('managerSession catch error', err);
+   // console.log('managerSession catch error', err);
     return res.status(500).end();
     });
 }
@@ -194,9 +192,7 @@ async function manager_sessions(req, res) {
 async function customer_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let customerData = req.body;
 
@@ -219,15 +215,15 @@ async function customer_sessions(req, res) {
     let customerSessionsPromise = UserDAOinstance.userSession(customerData);
     await customerSessionsPromise.then(
     function(value) {
-        console.log('customerSession resolve');
+      //  console.log('customerSession resolve');
         return res.status(200).json(value).end();
     },
     function(error) {
-        console.log('customerSession reject');
+       // console.log('customerSession reject');
         return res.status(error).end();
     }
     ).catch(err => function(err){
-    console.log('customerSession catch error', err);
+   // console.log('customerSession catch error', err);
     return res.status(500).end();
     });
 }
@@ -236,9 +232,7 @@ async function customer_sessions(req, res) {
 async function supplier_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let supplierData = req.body;
 
@@ -261,15 +255,15 @@ async function supplier_sessions(req, res) {
     let supplierSessionsPromise = UserDAOinstance.userSession(supplierData);
     await supplierSessionsPromise.then(
     function(value) {
-        console.log('supplierSessions resolve');
+       // console.log('supplierSessions resolve');
         return res.status(200).json(value).end();
     },
     function(error) {
-        console.log('supplierSessions reject');
+       // console.log('supplierSessions reject');
         return res.status(error).end();
     }
     ).catch(err => function(err){
-    console.log('supplierSessions catch error', err);
+   // console.log('supplierSessions catch error', err);
     return res.status(500).end();
     });
 }
@@ -278,9 +272,7 @@ async function supplier_sessions(req, res) {
 async function clerk_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let clerkData = req.body;
 
@@ -303,15 +295,15 @@ async function clerk_sessions(req, res) {
     let clerkSessionsPromise = UserDAOinstance.userSession(clerkData);
     await clerkSessionsPromise.then(
     function(value) {
-        console.log('clerkSessions resolve');
+      //  console.log('clerkSessions resolve');
         return res.status(200).json(value).end();
     },
     function(error) {
-        console.log('clerkSessions reject');
+       // console.log('clerkSessions reject');
         return res.status(error).end();
     }
     ).catch(err => function(err){
-    console.log('clerkSessions catch error', err);
+    //console.log('clerkSessions catch error', err);
     return res.status(500).end();
     });
 }
@@ -320,9 +312,7 @@ async function clerk_sessions(req, res) {
 async function qualityEmployee_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-    return res.status(422).json({
-        error: 'Empty body request'
-    });
+    return res.status(422).end();
     }
     let qualityEmployeeData = req.body;
 
@@ -345,15 +335,15 @@ async function qualityEmployee_sessions(req, res) {
     let qualityEmployeePromise = UserDAOinstance.userSession(qualityEmployeeData);
     await qualityEmployeePromise.then(
     function(value) {
-        console.log('qualityEmployeeSessions resolve');
+       // console.log('qualityEmployeeSessions resolve');
         return res.status(200).json(value).end();
     },
     function(error) {
-        console.log('qualityEmployeeSessions reject');
+       // console.log('qualityEmployeeSessions reject');
         return res.status(error).end();
     }
     ).catch(err => function(err){
-    console.log('qualityEmployeeSessions catch error', err);
+   // console.log('qualityEmployeeSessions catch error', err);
     return res.status(500).end();
     });
 }
@@ -362,9 +352,7 @@ async function qualityEmployee_sessions(req, res) {
 async function deliveryEmployee_sessions(req, res) {
     // check input
     if (Object.keys(req.body).length === 0) {
-        return res.status(422).json({
-        error: 'Empty body request'
-        });
+        return res.status(422).end();
     }
     let deliveryEmployeeData = req.body;
     
@@ -387,11 +375,11 @@ async function deliveryEmployee_sessions(req, res) {
     let deliveryEmployeePromise = UserDAOinstance.userSession(deliveryEmployeeData);
     await deliveryEmployeePromise.then(
         function(value) {
-        console.log('deliveryEmployeeSessions resolve');
+      //  console.log('deliveryEmployeeSessions resolve');
         return res.status(200).json(value).end();
         },
         function(error) {
-        console.log('deliveryEmployeeSessions reject');
+     //   console.log('deliveryEmployeeSessions reject');
         return res.status(error).end();
         }
     ).catch(err => function(err){
@@ -451,15 +439,15 @@ async function modify_user_type(req, res) {
             let putUserPromise = UserDAOinstance.modifyUserType(userData);
             await putUserPromise.then(
             function(value) {
-                console.log('PUTuser resolve');
+                //console.log('PUTuser resolve');
                 return res.status(value).end();
             },
             function(error) {
-                console.log('PUTuser reject');
+              //  console.log('PUTuser reject');
                 return res.status(error).end();
             }
             ).catch(err => function(err){
-            console.log('PUTuser error', err);
+           // console.log('PUTuser error', err);
             return res.status(503).end(); // 503 Service Unavailable (generic error)
             });
         }
@@ -476,14 +464,10 @@ async function delete_user(req, res) {
   
     if(!(typeof userData.username === 'string' && typeof userData.type === 'string') || 
           userData.username == '' || userData.type == '' || userData.type == 'manager' ||
-          userData.type == 'administrator') {
+          userData.type == 'administrator' || !userData['username'].includes('@') ||
+          !userTypes.includes(userData['type'])) {
             valid = false;
-    } else if(!userTypes.includes(userData.type)){
-      // checks for correct user types in request body
-      console.log('WORKING');
-      console.log(userData.type);
-      valid = false;
-    }
+    } 
   
     if(!valid) {
         
@@ -492,15 +476,15 @@ async function delete_user(req, res) {
       let deleteUserPromise = UserDAOinstance.deleteUser(userData);
       await deleteUserPromise.then(
         function(value) {
-          console.log('DELETEuser resolve');
+         // console.log('DELETEuser resolve');
           return res.status(value).end();
         },
         function(error) {
-          console.log('DELETEuser reject');
+       //   console.log('DELETEuser reject');
           return res.status(error).end();
         }
       ).catch(err => function(err) {
-        console.log('DELETEuser error', err);
+     //   console.log('DELETEuser error', err);
         return res.status(503).end(); // 503 Service Unavailable
       });
     }

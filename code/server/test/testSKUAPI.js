@@ -122,7 +122,7 @@ describe('test sku apis', () => {
     testClearskutable();
 
     testGetSKUs([], 200);
-    //testGetSKUByID(10,[], 404);
+    testGetSKUByID(10,[], 404);
 
 
     let exp1 = {
@@ -171,5 +171,5 @@ describe('test sku apis', () => {
     testGetSKUs(exp2, 200);
 
     testGetSKUByID(1, exp2, 200);
-    testDeleteSKU(1, 200);
+    testDeleteSKU(1, 204);
 });

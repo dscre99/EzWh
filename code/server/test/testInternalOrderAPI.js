@@ -9,139 +9,161 @@ chai.use(chaiHttp);
 chai.should();
 
 const app = require('../server');
-const { assert } = require('console');
+// const { assert } = require('console');
 let agent = chai.request.agent(app);
 
 function testGETinternalOrders(resExpected, expectedHTTPstatus) {
-    it('GET /api/internalOrders', async function() {
-        await agent.get('/api/internalOrders').then(function(res) {
-            res.should.have.status(expectedHTTPstatus);
-            res.body.length.should.equal(resExpected.length);
-            if(resExpected.length > 0){
-                for (let i = 0; i < resExpected.length; i++) {
-                    res.body[i].id.should.equal(resExpected[i].id);
-                    res.body[i].issueDate.should.equal(resExpected[i].issueDate);
-                    res.body[i].state.should.equal(resExpected[i].state);
-                    res.body[i].customerId.should.equal(resExpected[i].customerId);
-                    // implement products checking
-                    res.body[i].products.length.should.equal(resExpected[i].products.length);
-                    for (let j = 0; j < resExpected[i].products.length; j++) {
-                        res.body[i].products[j].SKUId.should.equal(resExpected[i].products[j].SKUId);
-                        res.body[i].products[j].description.should.equal(resExpected[i].products[j].description);
-                        res.body[i].products[j].price.should.equal(resExpected[i].products[j].price);
-                        res.body[i].products[j].qty.should.equal(resExpected[i].products[j].qty);
-                        if(resExpected[i].state == 'COMPLETED'){
-                            res.body[i].products[j].RFID.should.equal(resExpected[i].products[j].RFID);
+    describe('GET /api/internalOrders', function(){
+        it('GET /api/internalOrders', function(done) {
+            agent.get('/api/internalOrders')
+            .then(function(res) {
+                res.should.have.status(expectedHTTPstatus);
+                res.body.length.should.equal(resExpected.length);
+                if(resExpected.length > 0){
+                    for (let i = 0; i < resExpected.length; i++) {
+                        res.body[i].id.should.equal(resExpected[i].id);
+                        res.body[i].issueDate.should.equal(resExpected[i].issueDate);
+                        res.body[i].state.should.equal(resExpected[i].state);
+                        res.body[i].customerId.should.equal(resExpected[i].customerId);
+                        // implement products checking
+                        res.body[i].products.length.should.equal(resExpected[i].products.length);
+                        for (let j = 0; j < resExpected[i].products.length; j++) {
+                            res.body[i].products[j].SKUId.should.equal(resExpected[i].products[j].SKUId);
+                            res.body[i].products[j].description.should.equal(resExpected[i].products[j].description);
+                            res.body[i].products[j].price.should.equal(resExpected[i].products[j].price);
+                            res.body[i].products[j].qty.should.equal(resExpected[i].products[j].qty);
+                            if(resExpected[i].state == 'COMPLETED'){
+                                res.body[i].products[j].RFID.should.equal(resExpected[i].products[j].RFID);
+                            }
                         }
                     }
                 }
-            }
+                done();
+            }).catch(err => done());
         });
     });
 }
 
 function testGETinternalOrdersIssued(resExpected, expectedHTTPstatus) {
-    it('GET /api/internalOrdersIssued', async function() {
-        await agent.get('/api/internalOrdersIssued').then(function(res) {
-            res.should.have.status(expectedHTTPstatus);
-            res.body.length.should.equal(resExpected.length);
-            if(resExpected.length > 0){
-                for (let i = 0; i < resExpected.length; i++) {
-                    res.body[i].id.should.equal(resExpected[i].id);
-                    res.body[i].issueDate.should.equal(resExpected[i].issueDate);
-                    res.body[i].state.should.equal(resExpected[i].state);
-                    res.body[i].customerId.should.equal(resExpected[i].customerId);
-                    // implement products checking
-                    res.body[i].products.length.should.equal(resExpected[i].products.length);
-                    for (let j = 0; j < resExpected[i].products.length; j++) {
-                        res.body[i].products[j].SKUId.should.equal(resExpected[i].products[j].SKUId);
-                        res.body[i].products[j].description.should.equal(resExpected[i].products[j].description);
-                        res.body[i].products[j].price.should.equal(resExpected[i].products[j].price);
-                        res.body[i].products[j].qty.should.equal(resExpected[i].products[j].qty);
+    describe('GET /api/internalOrdersIssued', function() {
+        it('GET /api/internalOrdersIssued', function(done) {
+            agent.get('/api/internalOrdersIssued')
+            .then(function(res) {
+                res.should.have.status(expectedHTTPstatus);
+                res.body.length.should.equal(resExpected.length);
+                if(resExpected.length > 0){
+                    for (let i = 0; i < resExpected.length; i++) {
+                        res.body[i].id.should.equal(resExpected[i].id);
+                        res.body[i].issueDate.should.equal(resExpected[i].issueDate);
+                        res.body[i].state.should.equal(resExpected[i].state);
+                        res.body[i].customerId.should.equal(resExpected[i].customerId);
+                        // implement products checking
+                        res.body[i].products.length.should.equal(resExpected[i].products.length);
+                        for (let j = 0; j < resExpected[i].products.length; j++) {
+                            res.body[i].products[j].SKUId.should.equal(resExpected[i].products[j].SKUId);
+                            res.body[i].products[j].description.should.equal(resExpected[i].products[j].description);
+                            res.body[i].products[j].price.should.equal(resExpected[i].products[j].price);
+                            res.body[i].products[j].qty.should.equal(resExpected[i].products[j].qty);
+                        }
                     }
                 }
-            }
+                done();
+            }).catch(err => done(err));
         });
     });
 }
 
 
 function testGETinternalOrdersAccepted(resExpected, expectedHTTPstatus) {
-    it('GET /api/internalOrdersAccepted', async function() {
-        await agent.get('/api/internalOrdersAccepted').then(function(res) {
-            res.should.have.status(expectedHTTPstatus);
-            res.body.length.should.equal(resExpected.length);
-            if(resExpected.length > 0){
-                for (let i = 0; i < resExpected.length; i++) {
-                    res.body[i].id.should.equal(resExpected[i].id);
-                    res.body[i].issueDate.should.equal(resExpected[i].issueDate);
-                    res.body[i].state.should.equal(resExpected[i].state);
-                    res.body[i].customerId.should.equal(resExpected[i].customerId);
-                    // implement products checking
-                    for (let j = 0; j < resExpected[i].products.length; j++) {
-                        res.body[i].products[j].SKUId.should.equal(resExpected[i].products[j].SKUId);
-                        res.body[i].products[j].description.should.equal(resExpected[i].products[j].description);
-                        res.body[i].products[j].price.should.equal(resExpected[i].products[j].price);
-                        res.body[i].products[j].qty.should.equal(resExpected[i].products[j].qty);
+    describe('GET /api/internalOrdersAccepted', function() {
+        it('GET /api/internalOrdersAccepted', function(done) {
+            agent.get('/api/internalOrdersAccepted')
+            .then(function(res) {
+                res.should.have.status(expectedHTTPstatus);
+                res.body.length.should.equal(resExpected.length);
+                if(resExpected.length > 0){
+                    for (let i = 0; i < resExpected.length; i++) {
+                        res.body[i].id.should.equal(resExpected[i].id);
+                        res.body[i].issueDate.should.equal(resExpected[i].issueDate);
+                        res.body[i].state.should.equal(resExpected[i].state);
+                        res.body[i].customerId.should.equal(resExpected[i].customerId);
+                        // implement products checking
+                        for (let j = 0; j < resExpected[i].products.length; j++) {
+                            res.body[i].products[j].SKUId.should.equal(resExpected[i].products[j].SKUId);
+                            res.body[i].products[j].description.should.equal(resExpected[i].products[j].description);
+                            res.body[i].products[j].price.should.equal(resExpected[i].products[j].price);
+                            res.body[i].products[j].qty.should.equal(resExpected[i].products[j].qty);
+                        }
                     }
                 }
-            }
+                done();
+            }).catch(err => done(err));
         });
     });
 }
 
 function testGETinternalOrder(id, resExpected, expectedHTTPstatus) {
-    it('GET /api/internalOrders/:id', async function() {
-        await agent.get('/api/internalOrders/'+id).then(function(res) {
-            res.should.have.status(expectedHTTPstatus);
-            if(expectedHTTPstatus == 200){
-                res.body.id.should.equal(resExpected.id);
-                res.body.issueDate.should.equal(resExpected.issueDate);
-                res.body.state.should.equal(resExpected.state);
-                res.body.customerId.should.equal(resExpected.customerId);
-                res.body.products.length.should.equal(resExpected.products.length);
-                for (let i = 0; i < resExpected.products.length; i++) {
-                    res.body.products[i].SKUId.should.equal(resExpected.products[i].SKUId);
-                    res.body.products[i].description.should.equal(resExpected.products[i].description);
-                    res.body.products[i].price.should.equal(resExpected.products[i].price);
-                    res.body.products[i].qty.should.equal(resExpected.products[i].qty);
-                    if(resExpected.state == 'COMPLETED'){
-                        res.body.products[i].RFID.should.equal(resExpected.products[i].RFID);
+    describe('GET /api/internalOrders/:id', function() {
+        it('GET /api/internalOrders/:id', function(done) {
+            agent.get('/api/internalOrders/'+id)
+            .then(function(res) {
+                res.should.have.status(expectedHTTPstatus);
+                if(expectedHTTPstatus == 200){
+                    res.body.id.should.equal(resExpected.id);
+                    res.body.issueDate.should.equal(resExpected.issueDate);
+                    res.body.state.should.equal(resExpected.state);
+                    res.body.customerId.should.equal(resExpected.customerId);
+                    res.body.products.length.should.equal(resExpected.products.length);
+                    for (let i = 0; i < resExpected.products.length; i++) {
+                        res.body.products[i].SKUId.should.equal(resExpected.products[i].SKUId);
+                        res.body.products[i].description.should.equal(resExpected.products[i].description);
+                        res.body.products[i].price.should.equal(resExpected.products[i].price);
+                        res.body.products[i].qty.should.equal(resExpected.products[i].qty);
+                        if(resExpected.state == 'COMPLETED'){
+                            res.body.products[i].RFID.should.equal(resExpected.products[i].RFID);
+                        }
                     }
                 }
-            }
+                done();
+            }).catch(err => done(err));
         });
     });
 }
 
 function testPOSTinternalOrder(orderData, expectedHTTPstatus) {
-    it('GET /api/internalOrders', async function() {
-        await agent.post('/api/internalOrders')
-                    .send(orderData)
-                    .then(function(res) {
-            res.should.have.status(expectedHTTPstatus);
-            
+    describe('GET /api/internalOrders', function() {
+        it('GET /api/internalOrders', function(done) {
+            agent.post('/api/internalOrders')
+            .send(orderData)
+            .then(function(res) {
+                res.should.have.status(expectedHTTPstatus);
+                done();
+            }).catch(err => done(err));
         });
     });
 }
 
 function testPUTinternalOrder(id, orderData, expectedHTTPstatus) {
-    it('PUT /api/internalOrders/:id', async function() {
-        await agent.put('/api/internalOrders/'+id)
-                    .send(orderData)
-                    .then(function(res) {
-            res.should.have.status(expectedHTTPstatus);
-            
+    describe('PUT /api/internalOrders/:id', function() {
+        it('PUT /api/internalOrders/:id', function(done) {
+            agent.put('/api/internalOrders/'+id)
+            .send(orderData)
+            .then(function(res) {
+                res.should.have.status(expectedHTTPstatus);
+                done();
+            }).catch(err => done(err));
         });
     });
 }
 
 function testDELETEinternalOrder(id, expectedHTTPstatus) {
-    it('DELETE /api/internalOrders/:id', async function() {
-        await agent.delete('/api/internalOrders/'+id)
-                    .then(function(res) {
-            res.should.have.status(expectedHTTPstatus);
-            
+    describe('DELETE /api/internalOrders/:id', function() {
+        it('DELETE /api/internalOrders/:id', function(done) {
+            agent.delete('/api/internalOrders/'+id)
+            .then(function(res) {
+                res.should.have.status(expectedHTTPstatus);
+                done();
+            }).catch(err => done(err));
         });
     });
 }

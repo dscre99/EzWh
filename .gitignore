@@ -4,7 +4,8 @@
 *code/server/node_modules/
 *code/client/node_modules/
 *code/server/EZWH_db/EZWH_db.db
-code/server/EZWH_db/EZWH_DB_TEST.db
+*code/server/EZWH_db/EZWH_DB_TEST.db
 *node_modules/
 code/server/EZWH_db/*.sql
 code/server/*.sh
+*code/server/mochawesome-report/*

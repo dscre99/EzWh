@@ -12,15 +12,15 @@ async function get_internal_orders(req, res) {
     let getInternalOrderPromise = InternalOrderDAOinstance.getInternalOrders();
     await getInternalOrderPromise.then(
         function(value) {
-            console.log('getInternalOrders resolve');
+            // console.log('getInternalOrders resolve');
             return res.status(200).json(value).end();
         },
         function(error) {
-            console.log('getInternalOrders reject');
+            // console.log('getInternalOrders reject');
             return res.status(error).end();
         }
     ).catch(err => function(err) {
-        console.log('getInternalOrders error', err);
+        // console.log('getInternalOrders error', err);
         return res.status(500).end();   // 500 Internal Server Error
     });
 }
@@ -31,7 +31,7 @@ async function get_issued_orders(req, res) {
     let getInternalOrderPromise = InternalOrderDAOinstance.getInternalOrders();
     await getInternalOrderPromise.then(
         function(value) {
-            console.log('getInternalOrders resolve');
+            // console.log('getInternalOrders resolve');
             let issuedOrders = [];
             for (let i = 0; i < value.length; i++) {
                 if(value[i].state == 'ISSUED'){
@@ -43,11 +43,11 @@ async function get_issued_orders(req, res) {
             return res.status(200).json(issuedOrders).end();
         },
         function(error) {
-            console.log('getInternalOrders reject');
+            // console.log('getInternalOrders reject');
             return res.status(error).end();
         }
     ).catch(err => function(err) {
-        console.log('getInternalOrders error', err);
+        // console.log('getInternalOrders error', err);
         return res.status(500).end();   // 500 Internal Server Error
     });
 }
@@ -58,7 +58,7 @@ async function get_accepted_orders(req, res) {
     let getInternalOrderPromise = InternalOrderDAOinstance.getInternalOrders();
     await getInternalOrderPromise.then(
         function(value) {
-            console.log('getInternalOrders resolve');
+            // console.log('getInternalOrders resolve');
             let acceptedOrders = [];
             for (let i = 0; i < value.length; i++) {
                 if(value[i].state == 'ACCEPTED'){
@@ -70,11 +70,11 @@ async function get_accepted_orders(req, res) {
             return res.status(200).json(acceptedOrders).end();
         },
         function(error) {
-            console.log('getInternalOrders reject');
+            // console.log('getInternalOrders reject');
             return res.status(error).end();
         }
     ).catch(err => function(err) {
-        console.log('getInternalOrders error', err);
+        // console.log('getInternalOrders error', err);
         return res.status(500).end();   // 500 Internal Server Error
     });
 }
@@ -86,7 +86,7 @@ async function get_internal_order_by_id(req, res) {
         let getInternalOrderPromise = InternalOrderDAOinstance.getInternalOrders(req.params);
         await getInternalOrderPromise.then(
             function(value) {
-                console.log('getInternalOrders resolve');
+                // console.log('getInternalOrders resolve');
                 let order = undefined;
                 for (let i = 0; i < value.length; i++) {
                     if(value[i].id == req.params.id){
@@ -102,11 +102,11 @@ async function get_internal_order_by_id(req, res) {
                 }
             },
             function(error) {
-                console.log('getInternalOrders reject');
+                // console.log('getInternalOrders reject');
                 return res.status(error).end();
             }
         ).catch(err => function(err) {
-            console.log('getInternalOrders error', err);
+            // console.log('getInternalOrders error', err);
             return res.status(500).end();   // 500 Internal Server Error
         });
     } else {
@@ -140,15 +140,15 @@ async function create_internal_order(req, res) {
     let createInternalOrderPromise = InternalOrderDAOinstance.createInternalOrder(req.body);
     await createInternalOrderPromise.then(
         function(value) {
-            console.log('createInternalOrder resolve');
+            // console.log('createInternalOrder resolve');
             return res.status(201).end();
         },
         function(error) {
-            console.log('createInternalOrder reject');
+            // console.log('createInternalOrder reject');
             return res.status(error).end();
         }
     ).catch(err => function(err) {
-        console.log('createInternalOrder error', err);
+        // console.log('createInternalOrder error', err);
         return res.status(500).end();   // 500 Internal Server Error
     });
 }
@@ -180,15 +180,15 @@ async function modify_internal_order_state(req, res) {
     let modifyInternalOrderStatePromise = InternalOrderDAOinstance.modifyInternalOrderState(req.body);
     await modifyInternalOrderStatePromise.then(
         function(value) {
-            console.log('modifyInternalOrderStatus resolve');
+            // console.log('modifyInternalOrderStatus resolve');
             return res.status(200).end();
         },
         function(error) {
-            console.log('modifyInternalOrderStatus reject', error);
+            // console.log('modifyInternalOrderStatus reject', error);
             return res.status(error).end();
         }
     ).catch(err => function(err) {
-        console.log('modifyInternalOrderStatus error', err);
+        // console.log('modifyInternalOrderStatus error', err);
         return res.status(503).end();   // 503 Service Unavailable
     });
 }
@@ -201,15 +201,15 @@ async function delete_internal_order(req, res) {
         let deleteInternalOrderPromise = InternalOrderDAOinstance.deleteInternalOrder(req.params.id);
         await deleteInternalOrderPromise.then(
             function(value) {
-                console.log('deleteInternalOrder resolve');
+                // console.log('deleteInternalOrder resolve');
                 return res.status(204).end();
             },
             function(error) {
-                console.log('deleteInternalOrder reject');
+                // console.log('deleteInternalOrder reject');
                 return res.status(error).end();
             }
         ).catch(err => function(err) {
-            console.log('deleteInternalOrder error', err);
+            // console.log('deleteInternalOrder error', err);
             return res.status(500).end();   // 500 Internal Server Error
         });
 

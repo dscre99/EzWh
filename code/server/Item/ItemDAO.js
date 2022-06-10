@@ -19,7 +19,7 @@ class ItemDAO {
 
     newTableItem() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS ITEM(ID INTEGER, DESCRIPTION VARCHAR, PRICE REAL, SKUID INTEGER REFERENCES SKUS(ID), SUPPLIERID INTEGER REFERENCES USER(ID), PRIMARY KEY(ID,SUPPLIERID,SKUID) )';
+            const sql = 'CREATE TABLE IF NOT EXISTS ITEM(ID INTEGER, DESCRIPTION VARCHAR, PRICE REAL, SKUID INTEGER REFERENCES SKUS(ID), SUPPLIERID INTEGER REFERENCES USER(ID), PRIMARY KEY(ID) )';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(500);
@@ -43,9 +43,8 @@ class ItemDAO {
                         price:r.PRICE,
                         SKUId:r.SKUID,
                         supplierId:r.SUPPLIERID
-                    }
-                ));
-                resolve(products);
+                    }));
+                    resolve(products);
                 }
             });
         });
@@ -99,6 +98,28 @@ class ItemDAO {
         });
     }
 
+    getSKUID(data){
+        return new Promise((resolve, reject) => {
+            const sql = 'SELECT ID FROM SKU WHERE ID=? ';
+            this.db.all(sql, [data.SKUId], (err, rows) => {
+                if(err){
+                    reject(err);
+                }else{
+                    if(rows.length===0){
+                        resolve(undefined);
+                    }else{
+                        const products = rows.map((r) => (
+                            {
+                                id:r.ID,
+                            }
+                        ));
+                        resolve(products[0]);
+                    }
+                }
+            });
+        });
+    }
+
     getItembyIdSupp(data){
         return new Promise((resolve, reject) => {
             const sql = 'SELECT ID FROM ITEM WHERE ID=? AND SUPPLIERID=? ';
@@ -128,12 +149,10 @@ class ItemDAO {
                       this.db.run(sql, [data.id,data.description,data.price,data.SKUId,data.supplierId], (err) => {
                         if (err) {
                             reject(503);
+                        } else {
+                            resolve(201);
                         }
-                        resolve(201);
                     });
-                
-            
-            
         });
     }
 

@@ -111,13 +111,13 @@ describe('test SKU Item dao', () => {
 
     let skuitems = [
         {
-            "rfid": "12345678901234567890123456789015",
+            "RFID": "12345678901234567890123456789015",
             "SKUId": 1,
             "Available": 0,
             "DateOfStock": "2021/11/29 12:30"
         },
         {
-        "rfid": "12345678901234567890123456789014",
+        "RFID": "12345678901234567890123456789014",
         "SKUId": 1,
         "Available": 1,
         "DateOfStock": "2021/11/29 12:31"
@@ -125,7 +125,7 @@ describe('test SKU Item dao', () => {
     ]
 
     let skuitem = [{
-        "rfid": "12345678901234567890123456789014",
+        "RFID": "12345678901234567890123456789014",
         "SKUId": 1,
         "Available": 1,
         "DateOfStock": "2021/11/29 12:31"
@@ -133,7 +133,7 @@ describe('test SKU Item dao', () => {
 
     testGetSKUItemsBySKUId(1, skuitem);
     testGetSKUItems(skuitems);
-    testGetSKUItemsByRfid("12345678901234567890123456789014", skuitem);
+    testGetSKUItemsByRfid("12345678901234567890123456789014", skuitem[0]);
     
     testDeleteSKUItemByRfid("12345678901234567890123456789015", 204);
     

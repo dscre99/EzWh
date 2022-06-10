@@ -1,5 +1,9 @@
 const TestDescriptorDAO = require('../../Test_descriptor/Test_Descriptor_DAO');
 const test_descriptor_dao = new TestDescriptorDAO();
+const DB = require('../../EZWH_db/RunDB');
+const DBinstance = DB.DBinstance;
+const SKUDao = require('../../SKU/SKUdao');
+const SKUDaoInstance = new SKUDao(DBinstance);
 
 function test_get_test_descriptor(expected) {
     test('Get Test Descriptor', async () => {
@@ -10,14 +14,21 @@ function test_get_test_descriptor(expected) {
 
 function test_new_test_descriptor(name, procedureDescription, idSKU, expected) {
     test('New Test Descriptor', async () => {
+        
+        
         let test_descriptor = {
-            NAME: name,
-            PROCEDUREDESCRIPTION: procedureDescription,
-            IDSKU: idSKU
+            name: name,
+            procedureDescription: procedureDescription,
+            idSKU: idSKU
         }
 
-        let res = await test_descriptor_dao.post_test_descriptor_DB(test_descriptor);
-        expect(res).toEqual(expected);
+        try {
+            let res = await test_descriptor_dao.post_test_descriptor_DB(test_descriptor);
+            expect(res).toEqual(expected);
+        } catch(err) {
+            expect(err).toEqual(expected);
+        }
+        
     });
 }
 
@@ -56,79 +67,70 @@ function test_delete_test_descriptor(ID, expected) {
 describe('Test Test Descriptor', () => {
 
     let test_descriptor = {
-		"NAME": "Test Descriptor 1",
-        "PROCEDUREDESCRIPTION": "Procedure Description 1 ...",
-        "IDSKU": 1
+		"name": "Test Descriptor 1",
+        "procedureDescription": "Procedure Description 1 ...",
+        "idSKU": 1
 	}
+
+    let sku = {
+        "description":"a new sku", 
+        "weight":100,
+        "volume":50, 
+        "notes":"first sku", 
+        "price":10.99, 
+        "availableQuantity":50
+
+    }
 
 
     beforeAll(async () => {
+        let dropsku = await SKUDaoInstance.dropSKUTable();
+        expect(dropsku).toEqual(200);
+        let tablesku = await SKUDaoInstance.newSKUTable();
+        expect(tablesku).toEqual(200);
+        
         let drop = await test_descriptor_dao.dropTestDescriptorTable();
         expect(drop).toEqual(200);
         let table = await test_descriptor_dao.newTestDescriptorTable();
         expect(table).toEqual(200);
+        
+        let res_sku = await SKUDaoInstance.newSKU(sku);
+        expect(res_sku).toEqual(201);
+        
         let res = await test_descriptor_dao.post_test_descriptor_DB(test_descriptor);
         expect(res).toEqual(true);
     });
 
     test_get_test_descriptor([
         {
-            "ID": 1,
-            "NAME": "Test Descriptor 1",
-            "PROCEDUREDESCRIPTION": "Procedure Description 1 ...",
-            "IDSKU": 1
+            "id": 1,
+            "name": "Test Descriptor 1",
+            "procedureDescription": "Procedure Description 1 ...",
+            "idSKU": 1
         }
     ])
 
     test_delete_test_descriptor(1, true);
 
-    test_new_test_descriptor("Test Descriptor 2", "Procedure Description 2 ...", 2, true);
+    test_get_test_descriptor([]);
+
+    test_new_test_descriptor("Test Descriptor X", "Procedure Description X ...", 6, 404);
+
+    test_new_test_descriptor("Test Descriptor 2", "Procedure Description 2 ...", 1, true);
 
     test_get_test_descriptor([
         {
-            "ID": 2,
-            "NAME": "Test Descriptor 2",
-            "PROCEDUREDESCRIPTION": "Procedure Description 2 ...",
-            "IDSKU": 2 
+            "id": 2,
+            "name": "Test Descriptor 2",
+            "procedureDescription": "Procedure Description 2 ...",
+            "idSKU": 1 
         }
     ])
 
-    test_get_test_descriptor_by_ID(2, [{"ID": 2, "NAME": "Test Descriptor 2", "PROCEDUREDESCRIPTION": "Procedure Description 2 ...","IDSKU": 2 }]);
-    test_modify_test_descriptor(1, {"NAME": "Test Descriptor 1 updated", "PROCEDUREDESCRIPTION":"Procedure Description 1 updated ...", "IDSKU":1}, true);
+    test_get_test_descriptor_by_ID(2, {"id": 2, "name": "Test Descriptor 2", "procedureDescription": "Procedure Description 2 ...","idSKU": 1 });
+    test_modify_test_descriptor(1, {"name": "Test Descriptor 1 updated", "procedureDescription":"Procedure Description 1 updated ...", "idSKU":1}, 404);
 	test_delete_test_descriptor(2,true);
 
     test_get_test_descriptor([]);
-
-    test_new_test_descriptor("Test Descriptor 3", "Procedure Description 3 ...", 3, true);
-    test_new_test_descriptor("Test Descriptor 4", "Procedure Description 4 ...", 4, true);
-    test_new_test_descriptor("Test Descriptor 5", "Procedure Description 5 ...", 5, true);
-    test_new_test_descriptor("Test Descriptor 6", "Procedure Description 6 ...", 6, true);
-
-    test_get_test_descriptor([
-        {
-            "ID": 3,
-            "NAME": "Test Descriptor 3",
-            "PROCEDUREDESCRIPTION": "Procedure Description 3 ...",
-            "IDSKU": 3   
-        },
-        {
-            "ID": 4,
-            "NAME": "Test Descriptor 4",
-            "PROCEDUREDESCRIPTION": "Procedure Description 4 ...",
-            "IDSKU": 4   
-        },
-        {
-            "ID": 5,
-            "NAME": "Test Descriptor 5",
-            "PROCEDUREDESCRIPTION": "Procedure Description 5 ...",
-            "IDSKU": 5   
-        },
-        {
-            "ID": 6,
-            "NAME": "Test Descriptor 6",
-            "PROCEDUREDESCRIPTION": "Procedure Description 6 ...",
-            "IDSKU": 6   
-        }
-    ])
     
 })
