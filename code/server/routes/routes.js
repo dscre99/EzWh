@@ -117,10 +117,10 @@ router.delete('/internalOrders/:id', delete_internal_order); //DELETE /api/inter
 
 // ITEM routes
 router.get('/items', get_items);    //GET /api/items
-router.get('/items/:id', get_item_by_id);    //GET /api/items/:id
+router.get('/items/:id/:supplierId', get_item_by_id);    //GET /api/items/:id
 router.post('/item', store_item);    //POST /api/item
-router.put('/item/:id', update_item);   //PUT /api/item/:id
-router.delete('/items/:id', delete_item);    // DELETE /api/items/:id
+router.put('/item/:id/:supplierId', update_item);   //PUT /api/item/:id
+router.delete('/items/:id/:supplierId', delete_item);    // DELETE /api/items/:id
 router.delete('/clearitemtable',clear_item_table);
 
 /***********************************************************************/

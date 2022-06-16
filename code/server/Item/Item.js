@@ -19,10 +19,10 @@ async function get_items(req, res) {
   });
 }
 
-//GET /api/items/:id
+//GET /api/items/:id/:supplierId
 async function get_item_by_id(req, res) {
 
-  if(Number.parseInt(req.params.id) >= 0){
+  if(Number.parseInt(req.params.id) >= 0&& Number.parseInt(req.params.supplierId)>=0){
 
   let itembyid = DAO.getItemByID(req.params);
   itembyid.then(
@@ -77,7 +77,7 @@ async function store_item(req, res) {
 }
 
 
-//PUT /api/item/:id
+//PUT /api/item/:id/:supplierId
 async function update_item(req,res) {
   const requiredKeys = ['newDescription','newPrice'];
   
@@ -115,7 +115,7 @@ async function update_item(req,res) {
   }
 }
 
-// DELETE /api/items/:id
+// DELETE /api/items/:id/:supplierId
 async function delete_item(req, res) {
   // Validation if ID
   

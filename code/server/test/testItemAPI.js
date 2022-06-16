@@ -10,8 +10,8 @@ const SKU = require("../SKU/SKUdao");
 const SKUInstance = new SKU(DBinstance);
 
 function testGETItembyId(id, description, price, skuid, supplierid, expectedHTTPstatus) {
-    it('GET/api/items/:id', async function() {
-        await agent.get('/api/items/'+id).then(function(res) {
+    it('GET/api/items/:id/:supplierId', async function() {
+        await agent.get('/api/items/'+id+'/'+supplierid).then(function(res) {
             res.should.have.status(expectedHTTPstatus);
             if(res.status == 200) {
                 res.body.id.should.equal(id);
@@ -36,7 +36,6 @@ function testGETItems(expectedData, expectedHTTPstatus) {
                                 res.body[i].price.should.equal(expectedData[i].price);
                                 res.body[i].SKUId.should.equal(expectedData[i].SKUId);
                                 res.body[i].supplierId.should.equal(expectedData[i].supplierId);
-
                             }
                         } else {
                             res.body.length.should.equal(expectedData.length);
@@ -56,9 +55,9 @@ function testPOSTItem(expectedData, expectedHTTPStatus) {
     });
 }
 
-function testPUTItem(id,expectedData, expectedHTTPStatus) {
-    it('PUT/api/item/:id', async function() {
-        await agent.put('/api/item/'+id)
+function testPUTItem(id,supplierId,expectedData, expectedHTTPStatus) {
+    it('PUT/api/item/:id/:supplierId', async function() {
+        await agent.put('/api/item/'+id+'/'+supplierId)
             .send(expectedData)
             .then(function(res) {
                 res.should.have.status(expectedHTTPStatus);
@@ -66,9 +65,9 @@ function testPUTItem(id,expectedData, expectedHTTPStatus) {
     });
 }
 
-function testDELETEItem(id,expectedHTTPStatus) {
+function testDELETEItem(id,supplierId,expectedHTTPStatus) {
     it('DELETE/api/items/:id', async function() {
-        await agent.delete('/api/items/'+id)
+        await agent.delete('/api/items/'+id+'/'+supplierId)
                     .then(function(res) {
                         res.should.have.status(expectedHTTPStatus);
                     })
@@ -89,9 +88,17 @@ describe('test Item.js', () => {
         }
         let newSku = SKUInstance.newSKU(sku);
     });
-
+     
     testGETItems([],200);
-
+    //OK
+    testPOSTItem({
+        "id" : 5,
+        "description" : "a new item",
+        "price" : 10.99,
+        "SKUId" : 1,
+        "supplierId" : 1
+    },201);
+    
     //OK
     testPOSTItem({
         "id" : 12,
@@ -148,15 +155,6 @@ describe('test Item.js', () => {
         "supplierId" : 2
     },422);
 
-    //OK
-    testPOSTItem({
-        "id" : 5,
-        "description" : "a new item",
-        "price" : 10.99,
-        "SKUId" : 1,
-        "supplierId" : 1
-    },201);
-
     testGETItems([{
         "id": 5,
         "description": "a new item",
@@ -173,24 +171,24 @@ describe('test Item.js', () => {
     testGETItembyId(10,"a new item",10.99,1,2,404);
     testGETItembyId(12,"a new item",10.99,1,2,200);
 
-    testPUTItem(12,{newDescription:"a new description",newPrice:9.99},200);
+    testPUTItem(12,2,{newDescription:"a new description",newPrice:9.99},200);
     testGETItembyId(12,"a new description",9.99,1,2,200);
     
     //more value
-    testPUTItem(12,{newDescription:"a new description",newPrice:9.99,ANOTHERVALUE:5},422);
+    testPUTItem(12,2,{newDescription:"a new description",newPrice:9.99,ANOTHERVALUE:5},422);
     // missing value
-    testPUTItem(12,{newDescription:"a new description"},422);
+    testPUTItem(12,2,{newDescription:"a new description"},422);
     // wrong value name
-    testPUTItem(12,{WRONGNAME:"a new description",newPrice:9.99},422);
+    testPUTItem(12,2,{WRONGNAME:"a new description",newPrice:9.99},422);
     // missing value field
-    testPUTItem(12,{newDescription:"",newPrice:9.99},422);
-    testPUTItem(12,{newDescription:undefined,newPrice:9.99},422);
+    testPUTItem(12,2,{newDescription:"",newPrice:9.99},422);
+    testPUTItem(12,2,{newDescription:undefined,newPrice:9.99},422);
     // wrong id 
-    testPUTItem(120,{newDescription:"a new description",newPrice:9.99},404);
+    testPUTItem(120,2,{newDescription:"a new description",newPrice:9.99},404);
     
-    testDELETEItem(120,422);
-    testDELETEItem('120',422);
-    testDELETEItem(5,204);
+    testDELETEItem(120,1,422);
+    testDELETEItem('120',1,422);
+    testDELETEItem(5,1,204);
 
     testGETItembyId(5,'','','','',404);
 
