@@ -1,8 +1,8 @@
 # Unit Testing Report
 
-Date: 25/05/2022
+Date: 20/06/2022
 
-Version: 1.0
+Version: 1.1
 
 # Contents
 
@@ -1193,37 +1193,9 @@ No boundaries for boolean values
 
 ### Code coverage report
 
-<img src="./UnitTestCoverage_images/UserDAO_unit_test_coverage.png" alt="Context Diagram">
+<img src="./UnitTestCoverage_images/unit_test_coverage.jpg" alt="Context Diagram">
 
 Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
-
-
-<img src="./UnitTestCoverage_images/InternalOrderDAO_unit_test_coverage.png" alt="Context Diagram">
-
-Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
-
-
-<img src="./UnitTestCoverage_images/ReturnOrderDAO_unit_test_coverage.png" alt="Context Diagram">
-
-Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
-
-<img src="./UnitTestCoverage_images/RestockOrderDAO_unit_test_coverage.png" alt="Context Diagram">
-Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase. Although all functions have been called more times, the % Funct fails to reach 100%.
-
-
-<img src="./UnitTestCoverage_images/ItemDAO_unit_test_coverage.png" alt="Context Diagram">
-
-Note: uncovered branches refer to SQL queries errors, since queries are defined statucally in the code they should not raise exceptions. This branches have been defined for development purposes and therefore are not supposed to fail during testing phase.
-
-<img src="./UnitTestCoverage_images/PositionDAO_unit_test_coverage.png" alt="Context Diagram">
-
-<img src="./UnitTestCoverage_images/TestDescriptorDAO_unit_test_coverage.png" alt="Context Diagram">
-
-<img src="./UnitTestCoverage_images/TestResultDAO_unit_test_coverage.png" alt="Context Diagram">
-
-<img src="./UnitTestCoverage_images/SKUDao_unit_test_coverage.png" alt="Context Diagram">
-
-<img src="./UnitTestCoverage_images/SKUItemDAO_unit_test_coverage.png" alt="Context Diagram">
 
 
 ### Loop coverage analysis
