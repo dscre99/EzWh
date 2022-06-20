@@ -626,6 +626,7 @@ For this reason, the associated criteria and predicates in black box testing are
 
  - data.id is composed by digits only
  - data.id exists in DB or not 
+ - couple data.id and data.supplierId already exists in DB or not 
 
 **Predicates for method *getItemByID(data)*:**
 
@@ -633,6 +634,7 @@ For this reason, the associated criteria and predicates in black box testing are
 | -------- | --------- |
 |       data.id is digits only       |    True, False       |
 |       data.id exists               |    True, False         |
+| couple data.supplierId and data.id exits in DB        | True, False        |
 
 
 **Boundaries**:
@@ -643,11 +645,12 @@ No boundaries for boolean predicates.
 **Combination of predicates**:
 
 
-|  data.id is digits only  | data.id exists | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-|T|T|Valid| Method expects to return the Item specified by the ID |     testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});|
-|T|F|Invalid| Method expects to return empty object {}  |testGetItemById(3,{});|
-|F||Invalid| Method expects to return an empty object {} |testGetItemById('A',{}); |
+|  data.id is digits only  | data.id exists| couple data.supplierID and data.ID exists | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|
+|T|T|T|Valid| Method expects to return the Item specified by the ID |     testGetItemById(2,2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});|
+|T|T|F|Invalid| Specified couple id,SupplierId doesn't exists |   testGetItemById(2,1,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});|
+|T|F||Invalid| Method expects to return empty object {}  |testGetItemById(3,2,{});|
+|F|||Invalid| Method expects to return an empty object {} |testGetItemById('A',2,{}); |
 
 
 ### **Class *ItemDAO* - method *storeItem(data)***
@@ -656,6 +659,7 @@ No boundaries for boolean predicates.
 **Criteria for method *storeItem(data)*:**
  - data.id already exist in DB
  - no missing fields in data object 
+ - couple data.id and data.supplierId doesn't exsits in DB
 
 
 
@@ -666,7 +670,7 @@ No boundaries for boolean predicates.
 | -------- | --------- |
 |     data.id already exist in DB     |      True, False     |
 |     data.SKUId exists in SKU table    |   True, False        |
-
+| couple data.supplierId and data.id exits in DB or not      | True, False        |
 
 
 **Boundaries**:
@@ -678,11 +682,12 @@ No boundaries for boolean predicates.
 **Combination of predicates**:
 
 
-| data.id already exist in DB | data.SKUId exists in SKU table  | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|-------|
-|F|T|Valid| Method expects to return 201, SKUId=1 exists in DB | testStoreItem(2, 'New item', 10.99, 1, 1, 201); |
-|F|F|Invalid| Method returns 404 because SKUId specified doesn't exist | testStoreItem(1, 'New item', 10.99, 2, 1, 404); |
-|T||Invalid| Method returns 503 because ItemID is already stored |testStoreItem(2, 'New item', 10.99, 1, 1, 503);|
+| data.id already exist in DB | data.SKUId exists in SKU table | couple data.supplierId and data.id exists  | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|-------|
+|F|T|F|Valid| Method expects to return 201, SKUId=1 exists in DB | testStoreItem(2, 'New item', 10.99, 1, 1, 201); |
+|F|T|T|Invalid| Couple supplierId and ID already existts | testStoreItem(2, 'New item', 10.99, 1, 2, 201); |
+|F|F|F|Invalid| Method returns 404 because SKUId specified doesn't exist | testStoreItem(1, 'New item', 10.99, 2, 1, 404); |
+|T|||Invalid| Method returns 503 because ItemID is already stored |testStoreItem(2, 'New item', 10.99, 1, 1, 503);|
 
 ### **Class *ItemDAO* - method *updateItem(data,params)***
 
@@ -691,6 +696,7 @@ No boundaries for boolean predicates.
 **Criteria for method *updateItem(data,params)*:**
 	
 - params.id already exist in DB
+- couple params.supplierId and params.id already exists in DB
 
 
 
@@ -701,6 +707,8 @@ No boundaries for boolean predicates.
 | Criteria | Predicate |
 | -------- | --------- |
 |   params.id already exist in DB       |      True, False      |
+|   couple params.id and params.supplierId exist in DB     |      True, False      |
+
 
 
 
@@ -713,10 +721,11 @@ No boundaries for boolean predicates.
 **Combination of predicates**:
 
 
-| params.id already exist in DB  | Valid / Invalid | Description of the test case | Jest test case |
-|-------|-------|-------|-------|
-|T|Valid| Method expects to return 200 |testUpdateItem(2,'New description',9.99,200);|
-| F | Invalid | Check on ID is performed by another function, so this function will always receive a valid ID. | 
+| params.id already exist in DB  | couple params.id and params.supplierId exist in DB | Valid / Invalid | Description of the test case | Jest test case |
+|-------|-------|-------|-------|-------|
+|T|T|Valid| Method expects to return 200 |testUpdateItem(2,2,'New description',9.99,200);|
+|T|F|Invalid| Couple ID and supplierId doesn't exists in DB |testUpdateItem(2,1,'New description',9.99,200);|
+|F|-| Invalid | Check on ID is performed by another function, so this function will always receive a valid ID. | 
 
 ## **Class *Restock_orderDAO***
 ### **Class *Restock_orderDAO* - method *getRestockOrderByID(data)***
@@ -742,7 +751,7 @@ No boundaries for boolean predicates.
 
 | data.id already exists in DB| Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-|T|Valid| Method expects to return the restock order given| testGetRestockOrderByID(1,{ id:1, issueDate: "2021/11/29 09:33", state: "ISSUED", products: [{ SKUId:1 description: "New PC", price: 1.99, qty: 30},{ SKUId:2, description: "New Pen", price: 10.99, qty: 15  }],supplierId: 1,transportNote: {},skuItems:[] });|
+|T|Valid| Method expects to return the restock order given| testGetRestockOrderByID(1,{ id:1, issueDate: "2021/11/29 09:33", state: "ISSUED", products: [{ SKUId:1,itemId:10,description: "New PC", price: 1.99, qty: 30},{ SKUId:2, itemId:18, description: "New Pen", price: 10.99, qty: 15  }],supplierId: 1,transportNote: {},skuItems:[] });|
 |F|Invalid| Method expects to return undefined|    testGetRestockOrderByID(1,undefined);|
 
 ### **Class *Restock_orderDAO* - method *addTransportNote(data,params)***
@@ -799,8 +808,9 @@ No boundaries for boolean predicates.
 
 | data.id exists or not | Valid / Invalid | Description of the test case | Jest test case |
 |-------|-------|-------|-------|
-|T|Valid|Method must return the return order specified, including the list of products given|    testGetReturnOrderById(1,[{id: 1,products:  [{RFID: "12345678901234567890123456789015",SKUId: 1,description: "New Item",price: 10.99},{RFID: "12325678901534567790123456789015",SKUId: 2,description: "New Item",price: 10.99 }],restockOrderId: 2,returnDate: "2021/11/29 09:33" }]);|
+|T|Valid|Method must return the return order specified, including the list of products given|    testGetReturnOrderById(1,[{id: 1,products:  [{RFID: "12345678901234567890123456789015",SKUId: 1,description: "New Item",itemId: 10,price: 10.99},{RFID: "12325678901534567790123456789015",SKUId: 2,description: "New Item",itemId: 18,price: 10.99 }],restockOrderId: 2,returnDate: "2021/11/29 09:33" }]);|
 |F|Invalid|Method must return 404 if the specified ID doesn't exist|    testGetReturnOrderById(1,404);|
+
 
  ### **Class *Return_orderDAO* - method *deleteReturnOrder(data)***
 
