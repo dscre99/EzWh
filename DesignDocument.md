@@ -26,6 +26,7 @@ Version: 1.8
 | 1.7 | Updated Sequence Diagrams for Scenario 1-1, 1-2, 1-3 |
 | 1.8 | Updated Sequence Diagrams for Scenario 2-1, 3-1, 4-1, 4-3, 5-1-1, 6-1, 7-1, 9-1, 9-2, and 9-3 |
 | 1.9 | Updated Sequence Diagrams for Scenario 10-1, 11-1, 11-2, 12-1, 12-2, 12-3|
+| 1.10 | Removed Sequence Diagrams for Scenario 3-1 due to change1 |
 
 
 # Contents
@@ -150,8 +151,8 @@ EZWH is a client server application composed of one executable generating one si
 <!-- ## Sequence diagram of Scenario 2.5 (Scenario ID: Scenario 2-5)
 <img src="./SequenceDiagram/scenario2_5.png"> -->
 
-## Sequence diagram of Scenario 3.1 (Scenario ID: Scenario 3-1)
-<img src="./SequenceDiagram/scenario3_1.png">
+<!-- ## Sequence diagram of Scenario 3.1 (Scenario ID: Scenario 3-1)
+<img src="./SequenceDiagram/scenario3_1.png"> -->
 
 <!-- ## Sequence diagram of Scenario 3.2 (Scenario ID: Scenario 3-2)
 <img src="./SequenceDiagram/scenario3_2.png"> -->

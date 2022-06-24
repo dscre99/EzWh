@@ -27,7 +27,7 @@ function testStoreItem(id,description,price,SKUId,supplierId,expectedResult){
     });
 }
 
-function testUpdateItem(id,description,price,expectedResult){
+function testUpdateItem(id,supplierId,description,price,expectedResult){
 
     test('testUpdateItem', async ()=>{
         let item = {
@@ -35,7 +35,7 @@ function testUpdateItem(id,description,price,expectedResult){
             newPrice:price,
         }
         try{
-            let res= await ItemDAOInstance.updateItem(item,{id:id});
+            let res= await ItemDAOInstance.updateItem(item,{id:id, supplierId:supplierId});
             expect(res).toStrictEqual(expectedResult);
         }catch(err){
             expect(err).toStrictEqual(expectedResult);
@@ -43,11 +43,11 @@ function testUpdateItem(id,description,price,expectedResult){
     });
 }
 
-function testGetItemById(id,expectedRes){
+function testGetItemById(id,supplierId,expectedRes){ //NEW! ADDED supplierId
 
     test('testGetItemById', async () =>{
         try{
-            let res = await ItemDAOInstance.getItemByID({id:id});
+            let res = await ItemDAOInstance.getItemByID({id:id,supplierId:supplierId}); //NEW! ADDED supplierId
             expect(res).toStrictEqual(expectedRes);
         }catch(err){
             expect(err).toEqual(err);
@@ -95,10 +95,10 @@ function testGetItems(resExpected){
     
 }
 
-function testDeleteItem(id,expectedResult){
+function testDeleteItem(id,supplierId,expectedResult){
     test('testDeleteItem', async () =>{
         try{
-            let res = await ItemDAOInstance.deleteItem({id:id});
+            let res = await ItemDAOInstance.deleteItem({id:id,supplierId:supplierId});
             expect(res).toEqual(expectedResult);
         }catch(err){
             expect(err).toEqual(expectedResult);
@@ -135,10 +135,13 @@ describe('test ItemDAO.js',  () => {
      testStoreItem(2, 'New item', 10.99, 1, 1, 201); // SKUId Exists 
      testStoreItem(2, 'New item', 10.99, 1, 1, 503); // ItemID already exists  
 
-     testGetItemById(3,undefined); // No item with id = 3
-     testGetItemById('A',undefined); // No item with id= A
+     testGetItemById(3,1,undefined); // No item with id = 3
+     testGetItemById('A',1,undefined); // No item with id= A
+     testGetItemById(2,2,undefined); // NEW! No item with ID=2 for supplier with ID=2
+     testGetItemById(3,1,undefined); // NEW! No item with ID=3 for supplier with ID=1 
 
-     testGetItemById(2,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});
+
+     testGetItemById(2,1,{id:2,description:'New item',price:10.99, SKUId:1,supplierId:1});
      
 
      testGetSKUID(1,undefined);
@@ -154,10 +157,13 @@ describe('test ItemDAO.js',  () => {
      testGetItems([{id:2,description:'New item',price:10.99,SKUId:1,supplierId:1}]);
      testStoreItem(3, 'New item', 10.99, 1, 1, 201);  
 
-     testUpdateItem(2,'New description',9.99,200);
-     testGetItems([{id:2,description:'New description',price:9.99,SKUId:1,supplierId:1},{id:3,description:'New item',price:10.99,SKUId:1,supplierId:1}]);
+     testUpdateItem(2,2,'New description',9.99,undefined); //NEW! There is no Item with ID=2 for supplier with ID=2
+     testUpdateItem(2,1,'New description',9.99,200); 
 
-     testDeleteItem(2,204);
+     testGetItems([{id:2,description:'New description',price:9.99,SKUId:1,supplierId:1},{id:3,description:'New item',price:10.99,SKUId:1,supplierId:1}]);
+     
+     testDeleteItem(2,2,undefined); // NEW! No Item with ID=2 coupled with supplierId=2
+     testDeleteItem(2,1,204);
      
 });
 

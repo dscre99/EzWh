@@ -50,7 +50,7 @@ class Restock_orderDAO{
     
         newTableProducts() {
             return new Promise((resolve, reject)  => {
-                const sql = 'CREATE TABLE IF NOT EXISTS PRODUCTS(SKUID INTEGER REFERENCES SKU(ID),ORDERID INTEGER REFERENCES RESTOCK_ORDER(ID), QUANTITY INTEGER, PRICE FLOAT, DESCRIPTION VARCHAR, PRIMARY KEY(SKUID,ORDERID))';
+                const sql = 'CREATE TABLE IF NOT EXISTS PRODUCTS(SKUID INTEGER REFERENCES SKU(ID),ITEMID INTEGER REFERENCES ITEM(ID),ORDERID INTEGER REFERENCES RESTOCK_ORDER(ID), QUANTITY INTEGER, PRICE FLOAT, DESCRIPTION VARCHAR, PRIMARY KEY(SKUID,ORDERID))';
                 this.db.run(sql, (err) => {
                     if (err) {
                         console.log('newTableProducts error:', err);
@@ -79,7 +79,7 @@ class Restock_orderDAO{
     
         newTableItemlist() {
             return new Promise((resolve, reject)  => {
-                const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM_IN_RESTOCKORDER(RFID VARCHAR REFERENCES SKU_ITEM(RFID),ORDERID INTEGER REFERENCES RESTOCK_ORDER(ID), PRIMARY KEY(RFID,ORDERID))';
+                const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM_IN_RESTOCKORDER(ITEMID INTEGER REFERENCES ITEM(ID), RFID VARCHAR REFERENCES SKU_ITEM(RFID),ORDERID INTEGER REFERENCES RESTOCK_ORDER(ID), PRIMARY KEY(RFID,ORDERID))';
                 this.db.run(sql, (err) => {
                     if (err) {
                         console.log('newTableItemlist error:', err);
@@ -95,7 +95,7 @@ class Restock_orderDAO{
 
     getItemList(data){
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID AND I.ORDERID=?';
+            const sql = 'SELECT I.RFID, S.SKUID, I.ITEMID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID AND I.ORDERID=?';
              this.db.all(sql, [data.id||data.ID], (err, rows) => {
                 if(err){
                     console.log('getItemList error:', err);
@@ -104,6 +104,7 @@ class Restock_orderDAO{
                     const products = rows.map((r) => (
                         {
                             SKUId: r.SKUID,
+                            itemId: r.ITEMID,
                             rfid: r.RFID
                         }
                     ));
@@ -138,7 +139,7 @@ class Restock_orderDAO{
     getRestockOrders() {
         return new Promise( (resolve, reject) =>  {
             let products =[];
-            let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P';
+            let sql = 'SELECT P.ORDERID, P.ITEMID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P';
             this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
@@ -146,6 +147,7 @@ class Restock_orderDAO{
                     products = rows.map((r) => (
                         {
                             orderid:r.ORDERID,
+                            itemId: r.ITEMID,
                             id:r.SKUID,
                             description:r.DESCRIPTION,
                             price:r.PRICE,
@@ -154,7 +156,7 @@ class Restock_orderDAO{
                     ));
 
                     let items = [];
-                    sql = 'SELECT I.ORDERID, I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
+                    sql = 'SELECT I.ORDERID, I.RFID,I.ITEMID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
                     this.db.all(sql, (err, rows) => {
                         if (err) {
                             reject(err);
@@ -162,6 +164,7 @@ class Restock_orderDAO{
                             items = rows.map((r) => (
                                 {
                                     orderid:r.ORDERID,
+                                    itemId: r.ITEMID,
                                     SKUId: r.SKUID,
                                     rfid: r.RFID
                                 }
@@ -179,6 +182,7 @@ class Restock_orderDAO{
                                             state: r.STATE,
                                             products: products.filter(val=>val.orderid===r.ID).map((d)=>({
                                                 SKUId:d.id,
+                                                itemId:d.itemId,
                                                 description : d.description,
                                                 price: d.price,
                                                 qty: d.quantity
@@ -187,6 +191,7 @@ class Restock_orderDAO{
                                             transportNote: r.STATE!=='ISSUED'? r.TRANSPORTNOTE:{},
                                             skuItems: r.state!=='ISSUED'||r.state!=='DELIVERY'? items.filter(key=>key.orderid===r.ID).map((d)=>({
                                                 SKUId: d.SKUId,
+                                                itemId: d.itemId,
                                                 rfid: d.rfid
                                             })):[]
                                         }
@@ -204,7 +209,7 @@ class Restock_orderDAO{
     getRestockOrdersIssued() {
         return new Promise( (resolve, reject) => {
             let products =[];
-            let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P';
+            let sql = 'SELECT P.ORDERID, P.ITEMID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P';
              this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
@@ -212,6 +217,7 @@ class Restock_orderDAO{
                     products = rows.map((r) => (
                         {
                             orderid:r.ORDERID,
+                            itemId: r.ITEMID,
                             id:r.SKUID,
                             description:r.DESCRIPTION,
                             price:r.PRICE,
@@ -231,6 +237,7 @@ class Restock_orderDAO{
                                     state: r.STATE,
                                     products: products.filter(val=>val.orderid===r.ID).map((d)=>({
                                         SKUId:d.id,
+                                        itemId: d.itemId,
                                         description : d.description,
                                         price: d.price,
                                         qty: d.quantity
@@ -250,7 +257,7 @@ class Restock_orderDAO{
     getRestockOrderByID(data) {
         return new Promise( (resolve, reject) => {
             let products =[];
-            let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P  ';
+            let sql = 'SELECT P.ORDERID, P.ITEMID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P  ';
              this.db.all(sql, (err, rows) => {
                 if (err) {
                     console.log('getRestockOrderByID error:', err);
@@ -259,6 +266,7 @@ class Restock_orderDAO{
                     products = rows.map((r) => (
                         {
                             orderid:r.ORDERID,
+                            itemId: r.ITEMID,
                             id:r.SKUID,
                             description:r.DESCRIPTION,
                             price:r.PRICE,
@@ -267,7 +275,7 @@ class Restock_orderDAO{
                     ));
 
                     let items = [];
-                    sql = 'SELECT I.ORDERID, I.RFID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
+                    sql = 'SELECT I.ORDERID, I.RFID,I.ITEMID, S.SKUID FROM SKUITEM_IN_RESTOCKORDER I JOIN SKU_ITEM S WHERE I.RFID=S.RFID';
                     this.db.all(sql, (err, rows) => {
                         if (err) {
                             console.log('getRestockOrderByID error nested:', err);
@@ -276,6 +284,7 @@ class Restock_orderDAO{
                             items = rows.map((r) => (
                                 {
                                     orderid:r.ORDERID,
+                                    itemId: r.ITEMID,
                                     SKUId: r.SKUID,
                                     rfid: r.RFID
                                 }
@@ -297,6 +306,7 @@ class Restock_orderDAO{
                                                 state: r.STATE,
                                                 products: products.filter(val=>val.orderid===r.ID).map((d)=>({
                                                     SKUId:d.id,
+                                                    itemId:d.itemId,
                                                     description : d.description,
                                                     price: d.price,
                                                     qty: d.quantity
@@ -305,6 +315,7 @@ class Restock_orderDAO{
                                                 transportNote: r.STATE!=='ISSUED'? r.TRANSPORTNOTE:{},
                                                 skuItems: r.state!=='ISSUED'||r.state!=='DELIVERY'? items.filter(key=>key.orderid===r.ID).map((d)=>({
                                                     SKUId: d.SKUId,
+                                                    itemId: d.itemId,
                                                     rfid: d.rfid
                                                 })):[]
                                             }
@@ -323,7 +334,7 @@ class Restock_orderDAO{
     getRestockOrderDeliveredByID(data) {
         return new Promise( (resolve, reject) => {
             let products =[];
-            let sql = 'SELECT P.ORDERID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P ';
+            let sql = 'SELECT P.ORDERID, P.ITEMID, P.SKUID, P.DESCRIPTION, P.PRICE, P.QUANTITY FROM PRODUCTS P ';
              this.db.all(sql, (err, rows) => {
                 if (err) {
                     reject(err);
@@ -331,6 +342,7 @@ class Restock_orderDAO{
                     products = rows.map((r) => (
                         {
                             orderid:r.ORDERID,
+                            itemId: r.ITEMID,
                             id:r.SKUID,
                             description:r.DESCRIPTION,
                             price:r.PRICE,
@@ -353,6 +365,7 @@ class Restock_orderDAO{
                                         state: r.STATE,
                                         products: products.filter(val=>val.orderid===r.ID).map((d)=>({
                                             SKUId:d.id,
+                                            itemId:d.itemId,
                                             description : d.description,
                                             price: d.price,
                                             qty: d.quantity
@@ -390,8 +403,8 @@ class Restock_orderDAO{
     storeProducts(data){
         
         return new Promise( async (resolve, reject) => {
-            const sql = 'INSERT INTO PRODUCTS(SKUID, ORDERID, QUANTITY,PRICE,DESCRIPTION) VALUES (?, (SELECT ID FROM RESTOCK_ORDER ORDER BY ID DESC LIMIT 1),?,?,?)';
-            await this.db.run(sql, [data.SKUId, data.qty, data.price, data.description], (err) => {
+            const sql = 'INSERT INTO PRODUCTS(SKUID, ORDERID, ITEMID, QUANTITY,PRICE,DESCRIPTION) VALUES (?, (SELECT ID FROM RESTOCK_ORDER ORDER BY ID DESC LIMIT 1),?,?,?,?)';
+            await this.db.run(sql, [data.SKUId, data.itemId,data.qty, data.price, data.description], (err) => {
                 if (err) {
                     reject(err);
                 }else{
@@ -420,8 +433,8 @@ class Restock_orderDAO{
 
     newSKUItemList(data,params) {
         return new Promise(async (resolve, reject) => {
-            const sql = ' INSERT INTO SKUITEM_IN_RESTOCKORDER (ORDERID,RFID) VALUES (?,?) ';
-            await this.db.run(sql, [params.id, data.rfid], (err) => {
+            const sql = ' INSERT INTO SKUITEM_IN_RESTOCKORDER (ITEMID,ORDERID,RFID) VALUES (?,?,?) ';
+            await this.db.run(sql, [data.itemId,params.id, data.rfid], (err) => {
                 if (err) {
                     reject(err);
                 } else {

@@ -55,11 +55,12 @@ function testStoreReturnOrder(returnDate,restockOrderId,expectedResult){
     });
 }
 
-function testSetReturnItem(rfid,description,price,SKUId,expectedResult){
+function testSetReturnItem(rfid,itemId,description,price,SKUId,expectedResult){
 
     test('testSetReturnItem', async ()=>{
         let item = {
             RFID:rfid,
+            itemId: itemId, //NEW! 
             description:description,
             price:price,
             SKUId:SKUId
@@ -107,8 +108,8 @@ describe('test Return_orderDAO.js', ()=>{
     testGetReturnOrderById(1,{id:1, returnDate: "2021/11/29 09:33", products:[],restockOrderId:2});
 
 
-    testSetReturnItem("12345678901234567890123456789015","New Item",10.99,1,201);
-    testSetReturnItem("12325678901534567790123456789015","New Item",10.99,2,201);
+    testSetReturnItem("12345678901234567890123456789015",10,"New Item",10.99,1,201); //NEW! Added ItemID field
+    testSetReturnItem("12325678901534567790123456789015",18,"New Item",10.99,2,201); //NEW! Added ItemID field
 
     
     testGetReturnOrders([{
@@ -118,11 +119,13 @@ describe('test Return_orderDAO.js', ()=>{
                     RFID: "12345678901234567890123456789015",
                     SKUId: 1,
                     description: "New Item",
+                    itemId: 10, //NEW
                     price: 10.99
                         },{
                     RFID: "12325678901534567790123456789015",
                     SKUId: 2,
                     description: "New Item",
+                    itemId:18, //NEW
                     price: 10.99 
                         }],
         restockOrderId: 2,
@@ -136,11 +139,13 @@ describe('test Return_orderDAO.js', ()=>{
                     RFID: "12345678901234567890123456789015",
                     SKUId: 1,
                     description: "New Item",
+                    itemId: 10, //NEW
                     price: 10.99
                         },{
                     RFID: "12325678901534567790123456789015",
                     SKUId: 2,
                     description: "New Item",
+                    itemId:18, //NEW
                     price: 10.99 
                         }],
         restockOrderId: 2,
@@ -155,11 +160,13 @@ testGetReturnOrders([{
                 RFID: "12345678901234567890123456789015",
                 SKUId: 1,
                 description: "New Item",
+                itemId:10, //NEW
                 price: 10.99
                     },{
                 RFID: "12325678901534567790123456789015",
                 SKUId: 2,
                 description: "New Item",
+                itemId:18, //NEW
                 price: 10.99 
                     }],
     restockOrderId: 2,

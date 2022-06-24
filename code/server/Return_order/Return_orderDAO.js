@@ -48,7 +48,7 @@ class Return_orderDAO{
 
     newTableItemReturn() {
         return new Promise((resolve, reject)  => {
-            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM_IN_RETURNORDER(RFID VARCHAR REFERENCES SKU_ITEM(RFID),RETURNORDERID INTEGER REFERENCES RETURN_ORDER(ID), DESCRIPTION VARCHAR, PRICE DOUBLE,SKUID INTEGER, PRIMARY KEY(RFID,RETURNORDERID) )';
+            const sql = 'CREATE TABLE IF NOT EXISTS SKUITEM_IN_RETURNORDER(RFID VARCHAR REFERENCES SKU_ITEM(RFID),ITEMID INTEGER REFERENCES ITEM(ID),RETURNORDERID INTEGER REFERENCES RETURN_ORDER(ID), DESCRIPTION VARCHAR, PRICE DOUBLE,SKUID INTEGER, PRIMARY KEY(RFID,RETURNORDERID) )';
             this.db.run(sql, (err) => {
                 if (err) {
                     reject(err);
@@ -63,7 +63,7 @@ class Return_orderDAO{
         return new Promise((resolve, reject) => {
             
             let products =[];
-            let sql = 'SELECT RETURNORDERID, DESCRIPTION, SKUID, PRICE, RFID FROM SKUITEM_IN_RETURNORDER';
+            let sql = 'SELECT RETURNORDERID,ITEMID, DESCRIPTION, SKUID, PRICE, RFID FROM SKUITEM_IN_RETURNORDER';
             this.db.all(sql,(err, rows) => {
                 if (err) {
                     reject(err);
@@ -71,6 +71,7 @@ class Return_orderDAO{
                     products = rows.map((r) => (
                         {
                             returnorderid: r.RETURNORDERID,
+                            itemId: r.ITEMID,
                             description: r.DESCRIPTION,
                             skuid:r.SKUID,
                             price:r.PRICE,
@@ -89,6 +90,7 @@ class Return_orderDAO{
                                     returnDate: r.RETURNDATE,
                                     products: products.filter(key=>key.returnorderid===r.ID).map((d)=>({
                                         SKUId:d.skuid,
+                                        itemId: d.itemId,
                                         description : d.description,
                                         price: d.price,
                                         RFID: d.rfid
@@ -130,7 +132,7 @@ class Return_orderDAO{
     getReturnOrderbyId(data) {
         return new Promise((resolve, reject) => {
             let products =[];
-            let sql = 'SELECT RETURNORDERID, DESCRIPTION, SKUID, PRICE, RFID FROM SKUITEM_IN_RETURNORDER';
+            let sql = 'SELECT RETURNORDERID, ITEMID, DESCRIPTION, SKUID, PRICE, RFID FROM SKUITEM_IN_RETURNORDER';
             this.db.all(sql,(err, rows) => {
                 if (err) {
                     reject(err);
@@ -138,6 +140,7 @@ class Return_orderDAO{
                     products = rows.map((r) => (
                         {
                             returnorderid: r.RETURNORDERID,
+                            itemId: r.ITEMID,
                             description: r.DESCRIPTION,
                             skuid:r.SKUID,
                             price:r.PRICE,
@@ -159,6 +162,7 @@ class Return_orderDAO{
                                         returnDate: r.RETURNDATE,
                                         products: products.filter(key=>key.returnorderid===r.ID).map((d)=>({
                                             SKUId:d.skuid,
+                                            itemId: d.itemId,
                                             description : d.description,
                                             price: d.price,
                                             RFID: d.rfid
@@ -192,8 +196,8 @@ class Return_orderDAO{
 
     setReturnItem(data) {
         return new Promise(async (resolve, reject) => {
-            const sql = 'INSERT INTO SKUITEM_IN_RETURNORDER(RFID,RETURNORDERID,DESCRIPTION,PRICE,SKUID) VALUES(?, (SELECT ID FROM RETURN_ORDER ORDER BY ID DESC LIMIT 1) ,?,?,?)';
-            await this.db.run(sql, [data.RFID,data.description,data.price,data.SKUId], (err) => {
+            const sql = 'INSERT INTO SKUITEM_IN_RETURNORDER(RFID,ITEMID,RETURNORDERID,DESCRIPTION,PRICE,SKUID) VALUES(?, ?, (SELECT ID FROM RETURN_ORDER ORDER BY ID DESC LIMIT 1) ,?,?,?)';
+            await this.db.run(sql, [data.RFID,data.itemId,data.description,data.price,data.SKUId], (err) => {
                 if (err) {
                     reject(err);
                 }else{

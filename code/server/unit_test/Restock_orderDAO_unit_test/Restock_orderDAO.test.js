@@ -91,11 +91,12 @@ function testStoreRestockOrder(issueDate,supplierId,expectedResult){
     });
 }
 
-function testStoreProducts(SKUId,qty,price,description,expectedResult){
+function testStoreProducts(SKUId,itemId,qty,price,description,expectedResult){
 
     test('testStoreProducts', async ()=>{
         let product = {
             SKUId:SKUId,
+            itemId: itemId,
             qty:qty,
             price:price,
             description:description
@@ -121,11 +122,11 @@ function testUpdateState(id,newState,expectedResult){
     });
 }
 
-function testNewSKUItemList(id,rfid,expectedResult){
+function testNewSKUItemList(id,rfid,itemId,expectedResult){
 
     test('testNewSKUItemList', async ()=>{
         try{
-            let res= await RestockOrderDAOInstance.newSKUItemList({rfid:rfid},{id:id});
+            let res= await RestockOrderDAOInstance.newSKUItemList({rfid:rfid,itemId:itemId},{id:id});
             expect(res).toStrictEqual(expectedResult);
         }catch(err){
             expect(err).toStrictEqual(expectedResult);
@@ -182,8 +183,8 @@ describe('test Restock_orderDAO.js', ()=>{
     
 
     testStoreRestockOrder("2021/11/29 09:33",1,201);
-    testStoreProducts(1,30,1.99,'New PC',201);
-    testStoreProducts(2,15,10.99,'New Pen',201);
+    testStoreProducts(1,10,30,1.99,'New PC',201); //NEW! Added itemId
+    testStoreProducts(2,18,15,10.99,'New Pen',201); //NEW! Added itemId
 
     testGetItemList(1,[]);
     testCheckItemList(1,1,undefined);
@@ -200,11 +201,13 @@ describe('test Restock_orderDAO.js', ()=>{
         products: [{
             SKUId:1,
             description: "New PC",
+            itemId:10,
             price: 1.99,
             qty: 30
         },{
             SKUId:2,
             description: "New Pen",
+            itemId:18,
             price: 10.99,
             qty: 15 
         }],
@@ -220,11 +223,13 @@ describe('test Restock_orderDAO.js', ()=>{
         products: [{
             SKUId:1,
             description: "New PC",
+            itemId:10,
             price: 1.99,
             qty: 30
         },{
             SKUId:2,
             description: "New Pen",
+            itemId:18,
             price: 10.99,
             qty: 15 
         }],
@@ -238,11 +243,13 @@ describe('test Restock_orderDAO.js', ()=>{
         state: "ISSUED",
         products: [{
             SKUId:1,
+            itemId:10,
             description: "New PC",
             price: 1.99,
             qty: 30
         },{
             SKUId:2,
+            itemId:18,
             description: "New Pen",
             price: 10.99,
             qty: 15 
@@ -254,8 +261,8 @@ describe('test Restock_orderDAO.js', ()=>{
 
 
     testStoreRestockOrder("2022/05/21 09:33",1,201);
-    testStoreProducts(1,30,1.99,'New PC',201);
-    testStoreProducts(2,15,10.99,'New Pen',201);
+    testStoreProducts(1,10,30,1.99,'New PC',201); //NEW! Added itemId
+    testStoreProducts(2,18,15,10.99,'New Pen',201);//NEW! Added itemId
 
 
     testGetRestockOrders([{
@@ -265,11 +272,13 @@ describe('test Restock_orderDAO.js', ()=>{
         products: [{
             SKUId:1,
             description: "New PC",
+            itemId:10,
             price: 1.99,
             qty: 30
         },{
             SKUId:2,
             description: "New Pen",
+            itemId:18,
             price: 10.99,
             qty: 15 
         }],
@@ -283,11 +292,13 @@ describe('test Restock_orderDAO.js', ()=>{
         products: [{
             SKUId:1,
             description: "New PC",
+            itemId:10,
             price: 1.99,
             qty: 30
         },{
             SKUId:2,
             description: "New Pen",
+            itemId:18,
             price: 10.99,
             qty: 15 
         }],
@@ -303,11 +314,13 @@ describe('test Restock_orderDAO.js', ()=>{
         products: [{
             SKUId:1,
             description: "New PC",
+            itemId:10,
             price: 1.99,
             qty: 30
         },{
             SKUId:2,
             description: "New Pen",
+            itemId:18,
             price: 10.99,
             qty: 15 
         }],
@@ -320,11 +333,13 @@ describe('test Restock_orderDAO.js', ()=>{
         products: [{
             SKUId:1,
             description: "New PC",
+            itemId:10,
             price: 1.99,
             qty: 30
         },{
             SKUId:2,
             description: "New Pen",
+            itemId:18,
             price: 10.99,
             qty: 15 
         }],
@@ -341,11 +356,13 @@ describe('test Restock_orderDAO.js', ()=>{
         products: [{
             SKUId:1,
             description: "New PC",
+            itemId:10,
             price: 1.99,
             qty: 30
         },{
             SKUId:2,
             description: "New Pen",
+            itemId:18,
             price: 10.99,
             qty: 15 
         }],
@@ -354,20 +371,25 @@ describe('test Restock_orderDAO.js', ()=>{
         skuItems:[]
     });
 
-    testNewSKUItemList(2,"12345678901234567890123456789015",200);
+    testNewSKUItemList(2,"12345678901234567890123456789015",10,200); //NEW ! Added ItemId
 
     testGetItemList(2,[{
         SKUId: 1,
+        itemId:10,
         rfid: "12345678901234567890123456789015"
     }]);
 
-    testNewSKUItemList(2,"12345678901234567890123456789014",200);
+    
+
+    testNewSKUItemList(2,"12345678901234567890123456789014",10,200); //NEW ! Added ItemId
 
     testGetItemList(2,[{
         SKUId: 1,
+        itemId:10,
         rfid: "12345678901234567890123456789015"
     },{
         SKUId: 1,
+        itemId:10,
         rfid: "12345678901234567890123456789014"
     }]);
 
